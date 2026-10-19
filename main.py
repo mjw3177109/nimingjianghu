@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""逆命江湖 Pygame Demo · 新游戏→青石镇→山路→山洞→命痕→返回青石镇。"""
+"""逆命江湖 Q版 Pygame Demo · 新游戏→青石镇→山路→山洞→命痕→返回青石镇。"""
 import json
 import random
 import subprocess
@@ -33,8 +33,21 @@ def main():
     fontpath=next((p for p in [r'C:\Windows\Fonts\msyh.ttc',r'C:\Windows\Fonts\simhei.ttf','/usr/share/fonts/truetype/wqy/wqy-microhei.ttc','/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc'] if Path(p).exists()),None)
     def font(size):return pygame.font.Font(fontpath,size) if fontpath else pygame.font.Font(None,size)
     f=font(12); fbig=font(17)
-    images={k:pygame.image.load(str(ROOT/'assets/maps'/p)).convert() for k,p in [('town','S001_town.png'),('road','S004_road.png'),('cave','S005_cave.png')]}
-    sprites={k:pygame.image.load(str(ROOT/'assets/sprites'/f'{k}.png')).convert_alpha() for k in ['player','innkeeper','healer','oldman','bandit']}
+    def load_art(folder, stem, size, alpha=False):
+        # Q版SVG优先；SDL_image未编译SVG支持时可用cairosvg转换。
+        q=ROOT/'assets'/folder/(stem+'_q.svg')
+        try:
+            picture=pygame.image.load(str(q))
+        except (pygame.error, FileNotFoundError, ValueError):
+            try:
+                import io, cairosvg
+                picture=pygame.image.load(io.BytesIO(cairosvg.svg2png(url=str(q))), 'png')
+            except (ImportError, OSError, ValueError, RuntimeError, pygame.error):
+                picture=pygame.image.load(str(ROOT/'assets'/folder/(stem+'.png')))
+        picture=pygame.transform.smoothscale(picture,size)
+        return picture.convert_alpha() if alpha else picture.convert()
+    images={k:load_art('maps',stem,(640,360)) for k,stem in [('town','S001_town'),('road','S004_road'),('cave','S005_cave')]}
+    sprites={k:load_art('sprites',k,(30,45),alpha=True) for k in ['player','innkeeper','healer','oldman','bandit']}
     scene='town';pos=(17,10); route=[];pending=None;quest=0;hp=100;mp=50;potions=2;destiny=0;coins=10;manual=False;trace=False;bandit_alive=True;lines=[];dialogue_cb=None;battle=None;note='鼠标点击地面移动，点击人物或出口互动。';journal='这里是我记忆中的江湖吗？'
     def walls(x,y):
         if x<0 or y<0 or x>31 or y>17:return True
@@ -168,12 +181,12 @@ def main():
             x,y=ex['x']*T,ex['y']*T;pygame.draw.rect(canvas,(235,207,124),(x+3,y+2,15,18),2)
         for npc in m.get('npcs',[]):
             sp={'innkeeper':'innkeeper','healer':'healer','oldman':'oldman'}[npc['id']]
-            canvas.blit(sprites[sp],(npc['x']*T,npc['y']*T-13));txt(npc['name'],npc['x']*T-12,npc['y']*T-28)
+            canvas.blit(sprites[sp],(npc['x']*T-5,npc['y']*T-28));txt(npc['name'],npc['x']*T-12,npc['y']*T-28)
         for en in m.get('enemies',[]):
-            if bandit_alive:canvas.blit(sprites['bandit'],(en['x']*T,en['y']*T-13));txt(en['name'],en['x']*T-10,en['y']*T-27)
+            if bandit_alive:canvas.blit(sprites['bandit'],(en['x']*T-5,en['y']*T-28));txt(en['name'],en['x']*T-10,en['y']*T-27)
         for obj in m.get('objects',[]):
             x,y=obj['x']*T,obj['y']*T;pygame.draw.rect(canvas,(125,190,197) if obj['id']=='trace' else (214,182,124),(x+3,y+3,14,12));txt(obj['name'],x-15,y-17)
-        canvas.blit(sprites['player'],(pos[0]*T,pos[1]*T-13))
+        canvas.blit(sprites['player'],(pos[0]*T-5,pos[1]*T-28))
         pygame.draw.rect(canvas,(15,23,26),(0,315,640,45));txt('地点：'+m['name']+' | 气血 %d/100 内力 %d/50  银两 %d 逆命 %d'%(hp,mp,coins,destiny),12,320)
         phases=['和韩掌柜交谈','击败山贼','前往山洞','寻找秘籍并调查石台','返回青石镇','第一章已完成']
         txt('任务：'+phases[min(quest,5)],12,338)
