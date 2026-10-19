@@ -33,17 +33,26 @@ def main():
     fontpath=next((p for p in [r'C:\Windows\Fonts\msyh.ttc',r'C:\Windows\Fonts\simhei.ttf','/usr/share/fonts/truetype/wqy/wqy-microhei.ttc','/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc'] if Path(p).exists()),None)
     def font(size):return pygame.font.Font(fontpath,size) if fontpath else pygame.font.Font(None,size)
     f=font(12); fbig=font(17)
-    def load_art(folder, stem, size, alpha=False):
-        # Q版SVG优先；SDL_image未编译SVG支持时可用cairosvg转换。
-        q=ROOT/'assets'/folder/(stem+'_q.svg')
-        try:
-            picture=pygame.image.load(str(q))
-        except (pygame.error, FileNotFoundError, ValueError):
+    def load_art(folder,stem,size,alpha=False):
+        # 与网页版共用正式手绘 Q 版 WebP 场景；人物沿用同一套 PNG
+        directory=ROOT/'assets'/folder
+        painted=directory/(stem+'.webp')
+        png=directory/(stem+'.png')
+        q=directory/(stem+'_q.svg')
+        if painted.exists():
+            from PIL import Image
+            im=Image.open(painted).convert('RGBA')
+            picture=pygame.image.fromstring(im.tobytes(),im.size,'RGBA')
+        elif png.exists():
+            picture=pygame.image.load(str(png))
+        elif q.exists():
             try:
-                import io, cairosvg
-                picture=pygame.image.load(io.BytesIO(cairosvg.svg2png(url=str(q))), 'png')
-            except (ImportError, OSError, ValueError, RuntimeError, pygame.error):
-                picture=pygame.image.load(str(ROOT/'assets'/folder/(stem+'.png')))
+                picture=pygame.image.load(str(q))
+            except (pygame.error,ValueError):
+                import io,cairosvg
+                picture=pygame.image.load(io.BytesIO(cairosvg.svg2png(url=str(q))),'png')
+        else:
+            raise FileNotFoundError(f'缺少正式资源: {folder}/{stem}')
         picture=pygame.transform.smoothscale(picture,size)
         return picture.convert_alpha() if alpha else picture.convert()
     images={k:load_art('maps',stem,(640,360)) for k,stem in [('town','S001_town'),('road','S004_road'),('cave','S005_cave')]}
