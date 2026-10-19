@@ -1,0 +1,188 @@
+{
+  "project": "逆命江湖",
+  "phase": "P2_HOME_REBUILD",
+  "version": "1.0",
+  "anchor_roles": [
+    {
+      "id": "A",
+      "role": "character_model",
+      "description": "国风水墨精致Q版角色图鉴（第一张）"
+    },
+    {
+      "id": "B",
+      "role": "ingame_hud",
+      "description": "青石镇可玩HUD与角色环境比例（第二张）"
+    },
+    {
+      "id": "C",
+      "role": "homepage",
+      "description": "月夜主角、左侧菜单、右角色卡、三宫格玩法预览（第三张）"
+    }
+  ],
+  "asset_status": "NOT_GENERATED_IN_P2_PLAN",
+  "production_rule": "正式角色使用官方母版派生；画面不包含烧录的菜单文案",
+  "assets": [
+    {
+      "id": "HOME_BG_001",
+      "path": "assets/home/home_moonlit_town.webp",
+      "format": "webp",
+      "suggested_size": [
+        1920,
+        1080
+      ],
+      "alpha": false,
+      "role": "主视觉月夜城镇/山峦/灯火背景，不包含任何角色、按钮和文字",
+      "required": true
+    },
+    {
+      "id": "HOME_CHAR_001",
+      "path": "assets/home/CHAR001_hero.png",
+      "format": "png",
+      "suggested_size": [
+        1000,
+        1400
+      ],
+      "alpha": true,
+      "role": "沈砚精致Q版主视觉全身/近全身立绘，基于官方母版，仅人物透明层",
+      "required": true
+    },
+    {
+      "id": "HOME_LOGO_001",
+      "path": "assets/home/title_logo.png",
+      "format": "png",
+      "suggested_size": [
+        720,
+        260
+      ],
+      "alpha": true,
+      "role": "逆命江湖书法logo，要求中文人工逐字校验；如不合格改用网页字体渲染",
+      "required": false
+    },
+    {
+      "id": "HOME_FRAME_001",
+      "path": "assets/home/nav_frame.png",
+      "format": "png",
+      "suggested_size": [
+        500,
+        1100
+      ],
+      "alpha": true,
+      "role": "左侧主导航国风纹理边框，不烧录文字",
+      "required": true
+    },
+    {
+      "id": "HOME_FRAME_002",
+      "path": "assets/home/card_frame.png",
+      "format": "png",
+      "suggested_size": [
+        460,
+        260
+      ],
+      "alpha": true,
+      "role": "右侧角色卡边框，不烧录文字",
+      "required": true
+    },
+    {
+      "id": "HOME_CARD_001",
+      "path": "assets/home/cards/CHAR001.png",
+      "format": "png",
+      "suggested_size": [
+        500,
+        300
+      ],
+      "alpha": true,
+      "role": "沈砚半身头像，与官方母版一致",
+      "required": true
+    },
+    {
+      "id": "HOME_CARD_002",
+      "path": "assets/home/cards/NPC005.png",
+      "format": "png",
+      "suggested_size": [
+        500,
+        300
+      ],
+      "alpha": true,
+      "role": "苏晚晴半身头像，与官方母版一致",
+      "required": true
+    },
+    {
+      "id": "HOME_CARD_003",
+      "path": "assets/home/cards/NPC001.png",
+      "format": "png",
+      "suggested_size": [
+        500,
+        300
+      ],
+      "alpha": true,
+      "role": "韩掌柜半身头像，与官方母版一致",
+      "required": true
+    },
+    {
+      "id": "HOME_CARD_004",
+      "path": "assets/home/cards/BOSS001.png",
+      "format": "png",
+      "suggested_size": [
+        500,
+        300
+      ],
+      "alpha": true,
+      "role": "廖半身头像，与官方母版一致",
+      "required": true
+    },
+    {
+      "id": "HOME_PREVIEW_001",
+      "path": "assets/home/previews/town.png",
+      "format": "png",
+      "suggested_size": [
+        640,
+        360
+      ],
+      "alpha": false,
+      "role": "来自已实现青石镇实机的真实截图",
+      "required": true,
+      "source": "capture_actual_game"
+    },
+    {
+      "id": "HOME_PREVIEW_002",
+      "path": "assets/home/previews/battle.png",
+      "format": "png",
+      "suggested_size": [
+        640,
+        360
+      ],
+      "alpha": false,
+      "role": "来自已实现山路战斗实机的真实截图",
+      "required": true,
+      "source": "capture_actual_game"
+    },
+    {
+      "id": "HOME_PREVIEW_003",
+      "path": "assets/home/previews/cave.png",
+      "format": "png",
+      "suggested_size": [
+        640,
+        360
+      ],
+      "alpha": false,
+      "role": "来自已实现山洞实机的真实截图",
+      "required": true,
+      "source": "capture_actual_game"
+    }
+  ],
+  "canonical_names": {
+    "CHAR001": "沈砚",
+    "BOSS001": "廖",
+    "NPC001": "韩掌柜",
+    "NPC005": "苏晚晴",
+    "NPC003": "顾青岚"
+  },
+  "requirements": {
+    "no_full_static_homepage_image": true,
+    "interactive_html_buttons": true,
+    "deferred_game_boot": true,
+    "preserve_game_save": true,
+    "save_key_migration_from": "nimingjianghu_chibi_v02",
+    "run_game_smoke_test": true
+  }
+}
