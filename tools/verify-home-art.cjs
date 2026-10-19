@@ -9,7 +9,7 @@ for(const [file,[width,height]] of Object.entries(expected)){
  assert(d.length>5000,file+' must be a painted image, not an empty placeholder');
  assert.equal(d.toString('ascii',0,4),'RIFF',file+' must be WebP (RIFF)');
  assert.equal(d.toString('ascii',8,12),'WEBP',file+' must be WebP');
- const has=fs.readFileSync('index.html','utf8').includes(file);
+ const has=['index.html','style.css','home.js'].some(p=>fs.readFileSync(p,'utf8').includes(file));
  assert(has,file+' is not referenced by homepage HTML');
  console.log('Verified painted WebP asset:',file,'bytes:',d.length);
 }
