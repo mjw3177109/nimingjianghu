@@ -4,7 +4,7 @@ const $=id=>document.getElementById(id); const CELL=20, W=32,H=18;
 const spriteKeys={innkeeper:'innkeeper',healer:'healer',oldman:'oldman',bandit:'bandit'};
 let state={map:'town',pos:{x:17,y:10},route:[],moving:null,pending:null,quest:0,banditAlive:true,manual:false,trace:false,visitedCave:false,destiny:0,day:1,hp:100,maxHp:100,mp:50,maxMp:50,lv:1,exp:0,coins:10,potions:2,skills:['基础剑法'],flags:{},journal:['一个陌生的江湖。这里的一切似曾相识。']};
 let dialogue=null,battle=null,frame=0,last=performance.now(),moveAcc=0,focusHover=null,transitionLock=false;
-const imgs={}; for(const [k,path] of Object.entries({town:'assets/maps/S001_town.svg',road:'assets/maps/S004_road.svg',cave:'assets/maps/S005_cave.svg',player:'assets/sprites/player.png',innkeeper:'assets/sprites/innkeeper.png',healer:'assets/sprites/healer.png',oldman:'assets/sprites/oldman.png',bandit:'assets/sprites/bandit.png'})){let im=new Image();im.src=path;imgs[k]=im;}
+const imgs={}; for(const [k,path] of Object.entries({town:'assets/maps/S001_town.png',road:'assets/maps/S004_road.png',cave:'assets/maps/S005_cave.png',player:'assets/sprites/player.png',innkeeper:'assets/sprites/innkeeper.png',healer:'assets/sprites/healer.png',oldman:'assets/sprites/oldman.png',bandit:'assets/sprites/bandit.png'})){let im=new Image();im.src=path;imgs[k]=im;}
 function posEq(a,b){return a.x===b.x&&a.y===b.y}
 function inBounds(x,y){return x>=0&&y>=0&&x<W&&y<H}
 function blocked(x,y){if(!inBounds(x,y))return true;let m=world.maps[state.map]; for(let [x1,y1,x2,y2] of m.walls)if(x>=x1&&x<=x2&&y>=y1&&y<=y2)return true;return false}
