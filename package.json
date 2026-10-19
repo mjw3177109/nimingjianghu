@@ -1,0 +1,13 @@
+{
+  "name": "nimingjianghu-web-demo",
+  "private": true,
+  "version": "0.3.0",
+  "description": "逆命江湖浏览器试玩版",
+  "scripts": {
+    "build": "node --check game.js && node --check home.js && node --check world-data.js && node tests/game_contract.cjs && node tools/build-web.cjs",
+    "test": "node tests/game_contract.cjs"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
