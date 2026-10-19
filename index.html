@@ -1,9 +1,49 @@
-<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>逆命江湖 · 青石镇篇</title><link rel="stylesheet" href="style.css"></head><body>
-<div class="shell"><header><div class="brand"><span class="seal">逆</span><div><strong>逆命江湖</strong><small>Q版武侠 RPG · 第一章 · 青石镇篇</small></div></div><div class="head-actions"><span class="pill">Q版江湖 · v0.2</span><button id="restart">重新开始</button></div></header>
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>逆命江湖 · 首页 · P2 预览</title><link rel="stylesheet" href="style.css"></head><body>
+
+<main id="homeScreen" class="nm-home" aria-label="逆命江湖游戏首页">
+  <div class="nm-home-bg" aria-hidden="true"><div class="nm-stars"></div><div class="nm-moon"></div><div class="nm-mountain nm-far"></div><div class="nm-mountain nm-near"></div><div class="nm-townlights"></div><div class="nm-sakura"></div></div>
+  <section class="nm-top">
+    <nav class="nm-nav" aria-label="主菜单">
+      <div class="nm-logo">逆命江湖<small><span>DEMO</span> 一命入局 · 万象逆行</small></div>
+      <button class="nm-button nm-primary" id="nmStart">▶ &nbsp; 开始游戏</button>
+      <button class="nm-button" id="nmContinue" disabled>▣ &nbsp; 继续游戏</button>
+      <button class="nm-button" data-home-panel="settings">⚙ &nbsp; 游戏设置</button>
+      <button class="nm-button" data-home-panel="codex">▤ &nbsp; 角色图鉴</button>
+      <button class="nm-button" data-home-panel="recap">▥ &nbsp; 剧情回顾</button>
+      <button class="nm-button" data-home-panel="about">◉ &nbsp; 关于本作</button>
+      <p class="nm-save-hint" id="nmSaveHint">正在检查江湖存档…</p>
+    </nav>
+    <div class="nm-hero" aria-label="沈砚：逆天改命，再入江湖">
+      <div class="nm-brushline"></div>
+      <div class="nm-hero-image"><img src="assets/sprites/player_q.svg" alt="沈砚，穿越而来的江湖少年" /></div>
+      <div class="nm-hero-copy"><h1>逆天改命<br><em>再入江湖</em></h1><p>这一次，你不再是旁观者。</p></div>
+      <div class="nm-hero-caption">沈砚 · 逆命之人 <span>初入青石镇</span></div>
+    </div>
+    <aside class="nm-cards" aria-label="江湖人物">
+      <h2>江湖人物 <span>群侠初识</span></h2>
+      <button class="nm-card" data-character="CHAR001"><img src="assets/sprites/player_q.svg" alt=""><span><b>沈砚</b><small>穿越而来的少年</small></span></button>
+      <button class="nm-card" data-character="NPC005"><img src="assets/sprites/healer_q.svg" alt=""><span><b>苏晚晴</b><small>青石镇药师</small></span></button>
+      <button class="nm-card" data-character="NPC001"><img src="assets/sprites/innkeeper_q.svg" alt=""><span><b>韩掌柜</b><small>笑看江湖的掌柜</small></span></button>
+      <button class="nm-card nm-mystery" data-character="BOSS001"><span class="nm-shadow">廖</span><span><b>廖</b><small>幕后的观命之人</small></span></button>
+    </aside>
+  </section>
+  <section class="nm-previews" aria-label="游戏玩法预览">
+    <button class="nm-preview" data-preview="town"><img src="assets/maps/S001_town_q.svg" alt="青石镇可玩场景"><span><b>青石镇 · 初入江湖</b><small>对话、寻路与江湖奇遇</small></span></button>
+    <button class="nm-preview" data-preview="battle"><img src="assets/maps/S004_road_q.svg" alt="城外山路战斗背景"><span><b>城外山路 · 单人鏖战</b><small>基础剑法与破风一剑</small></span></button>
+    <button class="nm-preview" data-preview="cave"><img src="assets/maps/S005_cave_q.svg" alt="废弃山洞可玩场景"><span><b>废弃山洞 · 命痕初现</b><small>寻得秘籍，窥见棋局</small></span></button>
+  </section>
+  <footer class="nm-features"><span>◇ &nbsp;江湖探索</span><span>▤ &nbsp;原创剧情</span><span>✧ &nbsp;武学修习</span><span>⚔ &nbsp;孤身战斗</span><span>❖ &nbsp;国风 Q 版</span></footer>
+  <div class="nm-home-notice">画面为 P2 界面开发预览，美术立绘与地图仍待按三张正式母图替换。</div>
+</main>
+<section id="nmHomePanel" class="nm-home-panel" hidden role="dialog" aria-modal="true" aria-labelledby="nmPanelTitle">
+  <div class="nm-panel-sheet"><button id="nmPanelClose" class="nm-panel-close" aria-label="关闭">✕</button><h2 id="nmPanelTitle"></h2><div id="nmPanelBody"></div><button class="nm-button nm-panel-return" id="nmPanelBack">返回主菜单</button></div>
+</section>
+<div id="gameScreen" hidden>
+<div class="shell"><header><div class="brand"><span class="seal">逆</span><div><strong>逆命江湖</strong><small>Q版武侠 RPG · 第一章 · 青石镇篇</small></div></div><div class="head-actions"><span class="pill">Q版江湖 · v0.2</span><button id="restart">返回首页</button></div></header>
 <section class="stage"><div class="game-frame"><canvas id="game" width="640" height="360" aria-label="逆命江湖游戏画面"></canvas><div id="location" class="location"></div><div id="hint" class="hint">点击地面移动 · 点击人物交谈 · 点击出口切换地图</div></div>
 <aside class="sidebar"><div class="hero"><div class="portrait"><img src="assets/sprites/player_q.svg" alt="沈砚Q版头像"></div><div><small>穿越者 · 剑客</small><h2>沈砚 <em>Lv.<span id="level">1</span></em></h2></div></div><div class="meter"><label>气血 <span id="hpText">100 / 100</span></label><div class="bar"><i id="hpBar" class="red"></i></div></div><div class="meter"><label>内力 <span id="mpText">50 / 50</span></label><div class="bar"><i id="mpBar" class="blue"></i></div></div><div class="statline"><div>江湖天数 <strong id="day">第 1 天</strong></div><div>逆命值 <strong id="destiny">0</strong></div></div><div class="divider"></div><p class="subheading">当前任务</p><div class="quest" id="quest">正在进入江湖……</div><p class="subheading">江湖手记</p><div class="journal" id="journal">这个世界似乎与记忆中的江湖相似。</div><div class="controls"><button id="inventory">背包 I</button><button id="quests">任务 Q</button><button id="help">玩法说明</button></div><div class="sidebar-foot">刀光照旧事，孤身破命局。</div></aside></section>
-<footer><div><span class="dot"></span><span id="status">游戏加载中…</span></div><div>Q版人物 × 水墨江湖 × 原创交互地图 · 自动存档</div></footer></div>
+<footer><div><span class="dot"></span><span id="status">游戏加载中…</span></div><div>Q版人物 × 水墨江湖 × 原创交互地图 · 自动存档</div></footer></div></div>
 <div id="dialogue" class="modal hidden"><div class="dialogue-box"><div class="dialogue-content"><img id="dialoguePortrait" class="dialogue-portrait" src="assets/sprites/player_q.svg" alt="人物头像"><div class="dialogue-copy"><div id="speaker" class="speaker">旁白</div><div id="dialogueText" class="dialogue-text"></div></div></div><div class="dialogue-actions"><span>点击继续 / Enter / Space</span><button id="nextDialogue">继续 →</button></div></div></div>
 <div id="battle" class="modal hidden"><div class="combat-box"><h2>⚔  江湖交锋 <small id="battleName">山贼</small></h2><div class="combat-actors"><img src="assets/sprites/player_q.svg" alt="沈砚"><span class="versus">⚔</span><img src="assets/sprites/bandit_q.svg" alt="山贼"></div><div class="combat-hp"><div>沈砚 <span id="battlePlayerHp">100</span></div><div>对手 <span id="battleEnemyHp">54</span></div></div><div class="battle-log" id="battleLog">战斗开始。</div><div class="battle-buttons"><button data-action="attack">基础剑法 · 攻击</button><button data-action="skill">破风一剑 · 8内力</button><button data-action="heal">疗伤药 × <span id="potions">2</span></button><button data-action="defend">凝神防御</button></div></div></div>
 <div id="panel" class="modal hidden"><div class="panel-box"><h2 id="panelTitle">背包</h2><div id="panelContent"></div><button id="closePanel">关闭</button></div></div>
-<script src="world-data.js"></script><script src="game.js"></script></body></html>
+<script src="world-data.js"></script><script src="game.js"></script><script src="home.js"></script></body></html>
