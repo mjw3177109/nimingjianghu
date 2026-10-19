@@ -100,3 +100,20 @@ body:has(.nm-home:not([hidden])){background:#111921;overflow-x:hidden}
 @media(max-width:1060px){.nm-top{grid-template-columns:minmax(210px,27fr) minmax(350px,73fr)}.nm-cards{grid-column:1/-1;flex-direction:row;flex-wrap:wrap;justify-content:center;padding:8px 0}.nm-cards h2{width:100%}.nm-card{width:calc(25% - 9px);min-width:175px}.nm-hero-copy{max-width:50%}}
 @media(max-width:720px){.nm-home{padding:10px 9px}.nm-top{display:flex;flex-direction:column}.nm-nav{order:2;padding:15px;gap:8px}.nm-hero{order:1;min-height:300px}.nm-hero-image{height:100%;width:58%}.nm-hero-copy{max-width:53%;padding-right:3%;padding-bottom:5%}.nm-hero-copy h1{font-size:28px}.nm-logo{font-size:31px;margin-bottom:9px}.nm-cards{order:3}.nm-card{width:calc(50% - 6px);min-width:0}.nm-preview{min-height:130px}.nm-previews{gap:4px}.nm-preview span{padding:20px 6px 8px}.nm-preview b{font-size:11px}.nm-preview small{font-size:9px}.nm-features{flex-wrap:wrap;gap:14px;justify-content:center}.nm-codex-grid{grid-template-columns:1fr}}
 @media(prefers-reduced-motion:reduce){.nm-button,.nm-card,.nm-preview img{transition:none!important}}
+
+/* P2 绘制资产接入：人物绘卷与 Q 版头像图集，菜单文字和交互仍由 DOM 实时渲染 */
+.nm-hero-image{left:-3%;width:72%;height:100%;bottom:-1%;overflow:hidden}
+.nm-hero-image:before{display:none}
+.nm-hero-image img{width:100%;height:100%;object-fit:cover;object-position:47% center;max-width:none;filter:drop-shadow(0 0 18px #171c27aa);mask-image:linear-gradient(90deg,transparent 0%,#000 7%,#000 88%,transparent 100%);-webkit-mask-image:linear-gradient(90deg,transparent 0%,#000 7%,#000 88%,transparent 100%)}
+.nm-hero-copy{max-width:46%;padding-right:3%;z-index:4;background:linear-gradient(90deg,transparent,#10192640)}
+.nm-card-portrait{flex:0 0 42%;width:42%;height:97px;display:block;background-image:url('assets/home/character_cards_atlas.webp');background-repeat:no-repeat;background-size:100% 400%;background-position:50% 0%;border-radius:6px 0 0 6px}
+.nm-card-portrait-1{background-position:50% 33.333%}
+.nm-card-portrait-2{background-position:50% 66.666%}
+.nm-card-portrait-3{background-position:50% 100%}
+.nm-cards .nm-card{min-height:96px}
+.nm-mystery .nm-card-portrait{opacity:.86;filter:saturate(1.2) contrast(1.1)}
+.nm-codex-art{width:80px;height:80px;flex:none;border-radius:8px;background:url('assets/home/character_cards_atlas.webp') center 0%/100% 400% no-repeat;border:1px solid #dec6a3}
+.nm-codex-art[data-id="NPC005"]{background-position:center 33.333%}
+.nm-codex-art[data-id="NPC001"]{background-position:center 66.666%}
+.nm-codex-art[data-id="BOSS001"]{background-position:center 100%}
+@media(max-width:720px){.nm-hero-image{left:0;width:63%;height:100%}.nm-card-portrait{height:90px}.nm-hero-copy{max-width:50%}}
