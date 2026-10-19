@@ -3,8 +3,10 @@ const world=window.GAME_WORLD, canvas=document.getElementById('game'), ctx=canva
 const $=id=>document.getElementById(id); const CELL=20, W=32,H=18;
 const spriteKeys={innkeeper:'innkeeper',healer:'healer',oldman:'oldman',bandit:'bandit'};
 let state={map:'town',pos:{x:17,y:10},route:[],moving:null,pending:null,quest:0,banditAlive:true,manual:false,trace:false,visitedCave:false,destiny:0,day:1,hp:100,maxHp:100,mp:50,maxMp:50,lv:1,exp:0,coins:10,potions:2,skills:['基础剑法'],flags:{},journal:['一个陌生的江湖。这里的一切似曾相识。']};
+const SAVE_KEY='nimingjianghu_chibi_v02';
+try{const saved=JSON.parse(localStorage.getItem(SAVE_KEY)||'null');if(saved&&saved.version===2&&saved.state&&world.maps[saved.state.map]){state={...state,...saved.state,route:[],pending:null};}}catch(e){console.warn('读取存档失败，将开始新游戏',e)}
 let dialogue=null,battle=null,frame=0,last=performance.now(),moveAcc=0,focusHover=null,transitionLock=false;
-const imgs={}; for(const [k,path] of Object.entries({town:'assets/maps/S001_town.png',road:'assets/maps/S004_road.png',cave:'assets/maps/S005_cave.png',player:'assets/sprites/player.png',innkeeper:'assets/sprites/innkeeper.png',healer:'assets/sprites/healer.png',oldman:'assets/sprites/oldman.png',bandit:'assets/sprites/bandit.png'})){let im=new Image();im.src=path;imgs[k]=im;}
+const imgs={}; for(const [k,path] of Object.entries({town:'assets/maps/S001_town_q.svg',road:'assets/maps/S004_road_q.svg',cave:'assets/maps/S005_cave_q.svg',player:'assets/sprites/player_q.svg',innkeeper:'assets/sprites/innkeeper_q.svg',healer:'assets/sprites/healer_q.svg',oldman:'assets/sprites/oldman_q.svg',bandit:'assets/sprites/bandit_q.svg'})){let im=new Image();im.src=path;imgs[k]=im;}
 function posEq(a,b){return a.x===b.x&&a.y===b.y}
 function inBounds(x,y){return x>=0&&y>=0&&x<W&&y<H}
 function blocked(x,y){if(!inBounds(x,y))return true;let m=world.maps[state.map]; for(let [x1,y1,x2,y2] of m.walls)if(x>=x1&&x<=x2&&y>=y1&&y<=y2)return true;return false}
@@ -15,7 +17,7 @@ function finishPending(){if(!state.pending)return;let p=state.pending;state.pend
 function changeMap(to,spawn){state.map=to;state.pos={x:spawn[0],y:spawn[1]};state.route=[];state.pending=null;state.day=Math.max(1,state.day);if(to==='cave')state.visitedCave=true;notice('进入 '+world.maps[to].name);updateUI()}
 function notice(msg){$('status').textContent=msg; $('hint').textContent=msg;clearTimeout(notice.timer); notice.timer=setTimeout(()=>$('hint').textContent='点击移动 · 点击人物交谈 · 点击出口切换地图',3600)}
 function scripted(lines,done){dialogue={lines,idx:0,done};$('dialogue').classList.remove('hidden');showLine()}
-function showLine(){if(!dialogue)return;let row=dialogue.lines[dialogue.idx];$('speaker').textContent=row[0];$('dialogueText').textContent=row[1]}
+function showLine(){if(!dialogue)return;let row=dialogue.lines[dialogue.idx];$('speaker').textContent=row[0];$('dialogueText').textContent=row[1];const portraits={'沈砚':'player','韩掌柜':'innkeeper','苏晚晴':'healer','顾老':'oldman'};const img=$('dialoguePortrait');if(img){img.src='assets/sprites/'+(portraits[row[0]]||'player')+'_q.svg';img.alt=row[0];}}
 function nextLine(){if(!dialogue)return;dialogue.idx++;if(dialogue.idx<dialogue.lines.length){showLine();return}let d=dialogue;dialogue=null;$('dialogue').classList.add('hidden'); if(d.done)d.done();updateUI()}
 function journal(text){state.journal.unshift(text);state.journal=state.journal.slice(0,10);$('journal').textContent=state.journal[0]}
 function advanceQuest(n,info){state.quest=Math.max(state.quest,n);if(info)journal(info);updateUI()}
@@ -29,7 +31,7 @@ function strike(action){if(!battle)return;let msg='',dmg=0;if(action==='attack')
  let hit=Math.max(1,8+Math.floor(Math.random()*6)-(battle.guard?7:0));state.hp=Math.max(0,state.hp-hit);msg+=' 山贼反击，造成 '+hit+' 点伤害。';battle.guard=false; if(!state.hp){$('battle').classList.add('hidden');battle=null;state.hp=75;state.pos={x:1,y:9};notice('你负伤退回山路起点，气血恢复至75。');scripted([['沈砚','差点送命。还是先恢复再挑战。']],()=>{});}else $('battleLog').textContent=msg;updateUI()}
 function maybeEnding(){if(state.quest>=4&&state.map==='town'&&!state.flags.ended){state.flags.ended=true;scripted(world.dialogue.ending,()=>{state.quest=5;journal('Demo 第一章完成：廖的棋局才刚刚开始。');notice('第一章完成 · 下一阶段敬请期待');updateUI()})}}
 function taskText(){return ["初入青石镇：与客栈掌柜交谈","山贼挡路：前往山路击败山贼","山洞疑云：进入废弃山洞","命痕异变：取得秘籍并调查石台","返乡迷局：返回青石镇","Demo 第一章完成！"][Math.min(state.quest,5)]}
-function updateUI(){$('location').textContent=world.maps[state.map].name;$('quest').textContent=taskText();$('hpText').textContent=`${state.hp} / ${state.maxHp}`;$('hpBar').style.width=state.hp/state.maxHp*100+'%';$('mpText').textContent=`${state.mp} / ${state.maxMp}`;$('mpBar').style.width=state.mp/state.maxMp*100+'%';$('level').textContent=state.lv;$('day').textContent='第 '+state.day+' 天';$('destiny').textContent=state.destiny;$('potions').textContent=state.potions;if(battle){$('battlePlayerHp').textContent=state.hp;$('battleEnemyHp').textContent=battle.hp}}
+function updateUI(){try{localStorage.setItem(SAVE_KEY,JSON.stringify({version:2,state:{...state,route:[],pending:null}}));}catch(e){}$('location').textContent=world.maps[state.map].name;$('quest').textContent=taskText();$('hpText').textContent=`${state.hp} / ${state.maxHp}`;$('hpBar').style.width=state.hp/state.maxHp*100+'%';$('mpText').textContent=`${state.mp} / ${state.maxMp}`;$('mpBar').style.width=state.mp/state.maxMp*100+'%';$('level').textContent=state.lv;$('day').textContent='第 '+state.day+' 天';$('destiny').textContent=state.destiny;$('potions').textContent=state.potions;if(battle){$('battlePlayerHp').textContent=state.hp;$('battleEnemyHp').textContent=battle.hp}}
 function interactClick(gx,gy){if(dialogue){nextLine();return}if(battle)return;let m=world.maps[state.map];for(let npc of m.npcs){if(Math.abs(gx-npc.x)<=1&&Math.abs(gy-npc.y)<=1){travelTo(npc.x,npc.y,{type:'npc',id:npc.id});return}}for(let en of m.enemies||[]){if(state.banditAlive&&Math.abs(gx-en.x)<=1&&Math.abs(gy-en.y)<=1){travelTo(en.x,en.y,{type:'enemy'});return}}for(let ob of m.objects||[]){if(Math.abs(gx-ob.x)<=1&&Math.abs(gy-ob.y)<=1){travelTo(ob.x,ob.y,{type:'object',id:ob.id});return}}for(let ex of m.exits){if(Math.abs(gx-ex.x)<=1&&Math.abs(gy-ex.y)<=1){travelTo(ex.x,ex.y,{type:'exit',to:ex.to,spawn:ex.spawn});return}}
  let path=bfs(state.pos,{x:gx,y:gy});if(path){state.route=path;state.pending=null}else notice('这里有障碍，请点击道路。')}
 function drawLabel(text,x,y){ctx.font='9px sans-serif';let ww=ctx.measureText(text).width+10;ctx.fillStyle='#101716c9';ctx.fillRect(x-ww/2,y-22,ww,15);ctx.fillStyle='#f4e2b1';ctx.fillText(text,x-ww/2+5,y-11)}
@@ -41,9 +43,15 @@ function draw(){ctx.fillStyle='#182427';ctx.fillRect(0,0,640,360);let bg=imgs[st
  for(let en of m.enemies||[]){if(state.banditAlive){drawSprite('bandit',en.x,en.y);drawLabel(en.name+' ⚔',en.x*20+10,en.y*20+12)}}
  drawSprite('player',state.pos.x,state.pos.y);
  if(state.route.length){let a=state.route[state.route.length-1];ctx.strokeStyle='#e6d095aa';ctx.strokeRect(a.x*20+5,a.y*20+5,10,10)}
- ctx.fillStyle='#ffffff0c';for(let y=0;y<360;y+=4)ctx.fillRect(0,y,640,1);
+ ctx.fillStyle='#ffffff0c';for(let y=0;y<360;y+=12)ctx.fillRect(0,y,640,1);
 }
-function drawSprite(k,x,y){let im=imgs[k];let px=x*20,py=y*20-13;ctx.fillStyle='#17221d88';ctx.fillRect(px+4,py+25,13,3);if(im.complete&&im.naturalWidth)ctx.drawImage(im,px,py,20,30);else{ctx.fillStyle=k==='player'?'#dae3bb':'#ba8a65';ctx.fillRect(px+6,py+6,10,21)}}
+function drawSprite(k,x,y){
+const im=imgs[k],px=x*CELL-5,py=y*CELL-31;
+ctx.fillStyle='#2c3d4266';
+ctx.beginPath();ctx.ellipse(x*CELL+10,y*CELL+16,12,4,0,0,Math.PI*2);ctx.fill();
+if(im.complete&&im.naturalWidth){ctx.save();ctx.shadowColor='#151c2199';ctx.shadowBlur=3;ctx.drawImage(im,px,py,30,45);ctx.restore()}
+else{ctx.fillStyle=k==='player'?'#dae3bb':'#ba8a65';ctx.fillRect(px+9,py+16,14,29)}
+}
 function tick(ts){let delta=Math.min((ts-last)/1000,.1);last=ts;if(!dialogue&&!battle){moveAcc+=delta;if(moveAcc>.115&&state.route.length){moveAcc=0;state.pos=state.route.shift();if(!state.route.length){finishPending();maybeEnding()}}}draw();requestAnimationFrame(tick)}
 canvas.addEventListener('click',e=>{let r=canvas.getBoundingClientRect();let gx=Math.floor((e.clientX-r.left)/r.width*640/20),gy=Math.floor((e.clientY-r.top)/r.height*360/20);interactClick(gx,gy)});
 $('nextDialogue').addEventListener('click',nextLine);for(let b of document.querySelectorAll('.battle-buttons button'))b.addEventListener('click',()=>strike(b.dataset.action));
@@ -51,7 +59,9 @@ function openPanel(title,body){$('panelTitle').textContent=title;$('panelContent
 $('inventory').onclick=()=>openPanel('江湖背包',`<p>银两：${state.coins} 两</p><p>疗伤药：${state.potions} 瓶</p><p>武功：${state.skills.join('、')}</p><p>${state.manual?'✓ 已获得《破风一剑》秘籍':'尚未获得秘籍'}</p>`);
 $('quests').onclick=()=>openPanel('江湖任务',`<p>当前主线：<b>${taskText()}</b></p><p>已完成阶段：${state.quest} / 5</p><p>江湖天数：第 ${state.day} 天</p><p>逆命值：${state.destiny}</p>`);
 $('help').onclick=()=>openPanel('操作说明','<p>鼠标点击地面：角色自动寻路。</p><p>点击 NPC：走近自动触发对话。</p><p>点击山贼：进入单人战斗。</p><p>点击闪光物品：拾取或调查。</p><p>点击场景左右出口：切换地图。</p><p>键盘 I 打开背包，Q 查看任务，Enter/Space 继续对话。</p>');
-$('closePanel').onclick=()=>$('panel').classList.add('hidden');$('restart').onclick=()=>{if(confirm('确定重新开始？'))location.reload()};
+$('closePanel').onclick=()=>$('panel').classList.add('hidden');$('restart').onclick=()=>{if(confirm('确定重开？这会清除自动存档。')){try{localStorage.removeItem(SAVE_KEY)}catch(e){}location.reload()}};
 document.addEventListener('keydown',e=>{if(dialogue&&(e.key==='Enter'||e.key===' ')){e.preventDefault();nextLine();return}if(!$('panel').classList.contains('hidden')){if(e.key==='Escape')$('panel').classList.add('hidden');return}if(e.key.toLowerCase()==='i')$('inventory').click();if(e.key.toLowerCase()==='q')$('quests').click()});
-updateUI();notice('欢迎来到青石镇。点击地面移动。');requestAnimationFrame(tick);setTimeout(()=>scripted(world.dialogue.intro,()=>updateUI()),500);
+const returning=state.quest>0||state.trace||!state.banditAlive;
+updateUI();notice(returning?'已恢复自动存档。点击地面移动。':'欢迎来到青石镇。点击地面移动。');requestAnimationFrame(tick);
+if(!returning)setTimeout(()=>scripted(world.dialogue.intro,()=>updateUI()),500);
 })();
