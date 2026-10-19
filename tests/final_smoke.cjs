@@ -13,9 +13,9 @@ const window={GAME_WORLD:null,dispatchEvent(x){(handlers['window:'+x.type]||[]).
 const storage={getItem(k){return memory.get(k)||null},setItem(k,v){memory.set(k,v)},removeItem(k){memory.delete(k)}};
 const context={window,document,localStorage:storage,Image:class{constructor(){this.complete=true;this.naturalWidth=600}set src(v){this._src=v}},Event:class{constructor(type){this.type=type}},console,setTimeout(f){timers.push(f);return timers.length},clearTimeout(){},requestAnimationFrame(f){raf=f;return ++rafId},cancelAnimationFrame(){raf=null},Math,JSON,performance:{now(){return 0}},confirm(){return true}};
 vm.createContext(context);
-for(let f of ['world-data.js','game.js','app.js'])vm.runInContext(fs.readFileSync(path.join(root,f),'utf8'),context);
+for(let f of ['world-data.js','town-tile-data.js','game.js','app.js'])vm.runInContext(fs.readFileSync(path.join(root,f),'utf8'),context);
 assert.equal(raf,null,'Home must not start the game');assert.equal(memory.size,0,'Home must not write save');assert.equal(el('continueButton').disabled,true);
-el('startButton').click();assert.equal(el('gameScreen').hidden,false);assert.equal(el('homeScreen').hidden,true);assert.equal(typeof raf,'function');assert(memory.has('nimingjianghu_final_demo_v1'));
+el('startButton').click();assert.equal(el('gameScreen').hidden,false);assert.equal(el('homeScreen').hidden,true);assert.equal(typeof raf,'function');assert(memory.has('nimingjianghu_tile_v1'));
 timers.shift()();for(let i=0;i<4;i++)el('nextDialogue').click();assert.match(el('quest').textContent,/青石镇/);
 el('restart').click();assert.equal(el('gameScreen').hidden,true);assert.equal(el('homeScreen').hidden,false);assert.equal(raf,null);assert.equal(el('continueButton').disabled,false);
 el('continueButton').click();assert.equal(typeof raf,'function');assert.equal(el('gameScreen').hidden,false);
@@ -25,9 +25,9 @@ console.log('PASS: home, fresh save, start, opening dialogue, return, continue, 
 // Advance through the interactive first-chapter loop without bypassing quest actions.
 function frame(n=1){for(let i=0;i<n;i++){const f=raf;if(f)f((++context._time)*160)}}
 context._time=10;
-function clickTile(x,y){el('game').click.call({});(handlers['game:click']||[]).forEach(f=>f({clientX:x*20+10,clientY:y*20+10}));}
+function clickTile(x,y){let cx=x*20+10,cy=y*20+10;if(st.map==='town'){const cam=context.window.NMFinal.debugCamera();cx=(x+.5)*32-cam.x;cy=(y+.5)*32-cam.y;}(handlers['game:click']||[]).forEach(f=>f({clientX:cx,clientY:cy}));}
 const st=context.window.NMFinal.debugState();
-st.map='town';st.pos={x:10,y:10};clickTile(10,11);frame(15);
+st.map='town';st.pos={x:8,y:9};clickTile(8,10);frame(15);
 assert.equal(el('dialogue').classList.contains('hidden'),false,'Innkeeper interaction must show dialogue');
 for(let i=0;i<3;i++)el('nextDialogue').click();assert.equal(st.quest,1,'Innkeeper unlocks road quest');
 st.map='road';st.pos={x:15,y:9};clickTile(16,9);frame(10);
@@ -40,7 +40,7 @@ for(const fn of timers.splice(0))fn();for(let i=0;i<3;i++)el('nextDialogue').cli
 st.map='cave';st.pos={x:24,y:9};clickTile(25,9);frame(12);assert.equal(st.manual,true);assert(st.skills.includes('破风一剑'));
 st.pos={x:17,y:9};clickTile(17,8);frame(15);assert.equal(st.trace,true);assert.equal(st.destiny,25);assert.equal(st.quest,4);
 for(let i=0;i<4;i++)el('nextDialogue').click();
-st.map='town';st.pos={x:30,y:9};clickTile(29,9);frame(15);
+st.map='town';st.pos={x:14,y:12};clickTile(15,12);frame(15);
 for(let i=0;i<5;i++)el('nextDialogue').click();
 assert.equal(st.quest,5,'Final first-chapter Liao foreshadowing must complete');
 console.log('PASS: cave manual, trace +25, return to town and finish chapter');

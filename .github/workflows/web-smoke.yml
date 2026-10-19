@@ -18,4 +18,5 @@ jobs:
       - run: node --check app.js
       - run: node --check world-data.js
       - run: node tests/final_smoke.cjs
+      - run: node tests/p3a_tiles.cjs
       - run: python -m unittest discover -s tests -p 'test_*.py'

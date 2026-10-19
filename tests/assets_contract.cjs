@@ -32,8 +32,13 @@ for(const [asset] of pictures.filter(([p])=>p.startsWith('assets/home/'))){
  if(![h,css].some(s=>s.includes(asset)))throw Error('Homepage no reference for '+asset);
 }
 for(const [asset] of pictures.filter(([p])=>p.startsWith('assets/maps/'))){
- assert(g.includes(asset),'Game script no reference for '+asset);
+ if(asset.includes('S001_town.webp'))continue;assert(g.includes(asset),'Game script no reference for '+asset);
 }
 assert(h.includes('id="startButton"')&&h.includes('id="continueButton"'),'Home start controls missing');
 assert(h.includes('id="codexScreen"')&&h.includes('id="gameScreen"'),'Gallery/game screens missing');
 console.log('PASS: 22 illustrated asset files and game/home references verified.');
+
+const tile=fs.readFileSync(path.join(root,'data/maps/town/town_tilemap.json'),'utf8');
+assert(tile.includes('town_atlas.svg'),'Modular town atlas missing');
+assert(!g.includes("S001_town.webp"),'Town still loads old full background');
+console.log('PASS: town modular image dependency is active; old full scene not loaded.');

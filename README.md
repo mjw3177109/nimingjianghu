@@ -1,4 +1,8 @@
-# 逆命江湖 · 精致国风Q版 Demo V1.0
+# 逆命江湖 · P3-A Tile 地图实验版
+
+[**P3-A 青石镇 Tile 网页试玩**](https://github.com/mjw3177109/nimingjianghu/tree/feat/playable-demo-v0.1) · **第一章剧情、战斗与存档保留**
+
+注意：**本版本只把青石镇升级为模块化拼图地图**，山路/山洞仍处于旧版场景。当前是 P3-A 第一轮程序绘制图块，最终127块正式Q版美术、四方向角色动画、Windows同步还未全面完成。
 
 **[在线试玩（2026-10-20 更新）](https://nimingjianghu-mrvnwcxqh-bobos-projects-e9f8bfba.vercel.app/)** ｜ [开发分支](https://github.com/mjw3177109/nimingjianghu/tree/feat/playable-demo-v0.1)
 
