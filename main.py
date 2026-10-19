@@ -26,8 +26,12 @@ def main():
     pygame.init()
     data=json.loads((ROOT/'data/world.json').read_text(encoding='utf-8'))
     SCALE=2; SW,SH=640,360;T=20
+    town_tile=json.loads((ROOT/'data/maps/town/town_tilemap.json').read_text(encoding='utf-8'))
+    if town_tile['tile_size']!=32 or town_tile['width']!=40 or town_tile['height']!=24:
+        raise ValueError('P3-A town tilemap schema incompatible')
+    town_t=town_tile['tile_size']
     screen=pygame.display.set_mode((SW*SCALE,SH*SCALE))
-    pygame.display.set_caption('逆命江湖 | 青石镇篇 Demo')
+    pygame.display.set_caption('逆命江湖 | 青石镇 Tile 重构 Demo')
     canvas=pygame.Surface((SW,SH))
     clock=pygame.time.Clock()
     fontpath=next((p for p in [r'C:\Windows\Fonts\msyh.ttc',r'C:\Windows\Fonts\simhei.ttf','/usr/share/fonts/truetype/wqy/wqy-microhei.ttc','/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc'] if Path(p).exists()),None)
@@ -55,10 +59,23 @@ def main():
             raise FileNotFoundError(f'缺少正式资源: {folder}/{stem}')
         picture=pygame.transform.smoothscale(picture,size)
         return picture.convert_alpha() if alpha else picture.convert()
-    images={k:load_art('maps',stem,(640,360)) for k,stem in [('town','S001_town'),('road','S004_road'),('cave','S005_cave')]}
+    images={k:load_art('maps',stem,(640,360)) for k,stem in [('road','S004_road'),('cave','S005_cave')]}
+    atlas_file=ROOT/town_tile['atlas']
+    try:
+        atlas=pygame.image.load(str(atlas_file)).convert_alpha()
+    except (pygame.error,ValueError):
+        try:
+            import io,cairosvg
+            atlas=pygame.image.load(io.BytesIO(cairosvg.svg2png(url=str(atlas_file))), 'town_atlas.png').convert_alpha()
+        except (ImportError,ValueError,OSError,pygame.error) as exc:
+            raise RuntimeError('无法读取青石镇32px Tile Atlas，请安装 cairosvg 或检查SVG文件') from exc
+    atlas_tiles=[atlas.subsurface(pygame.Rect((i%town_tile['atlas_columns'])*32,(i//town_tile['atlas_columns'])*32,32,32)) for i in range(len(town_tile['tile_ids']))]
     sprites={k:load_art('sprites',k,(30,45),alpha=True) for k in ['player','innkeeper','healer','oldman','bandit']}
-    scene='town';pos=(17,10); route=[];pending=None;quest=0;hp=100;mp=50;potions=2;destiny=0;coins=10;manual=False;trace=False;bandit_alive=True;lines=[];dialogue_cb=None;battle=None;note='鼠标点击地面移动，点击人物或出口互动。';journal='这里是我记忆中的江湖吗？'
+    scene='town';pos=tuple(town_tile['spawn']);route=[];pending=None;quest=0;hp=100;mp=50;potions=2;destiny=0;coins=10;manual=False;trace=False;bandit_alive=True;lines=[];dialogue_cb=None;battle=None;note='鼠标点击地面移动，点击人物或出口互动。';journal='这里是我记忆中的江湖吗？'
     def walls(x,y):
+        if scene=='town':
+            if x<0 or y<0 or x>=town_tile['width'] or y>=town_tile['height']:return True
+            return town_tile['collision'][y*town_tile['width']+x]==1
         if x<0 or y<0 or x>31 or y>17:return True
         return any(a<=x<=c and b<=y<=d for a,b,c,d in data['maps'][scene]['walls'])
     def find_path(start,dest):
@@ -77,7 +94,7 @@ def main():
     def move_to(x,y,action=None):
         nonlocal route,pending,note
         candidates=[]
-        for dx,dy in ((0,0),(1,0),(-1,0),(0,1),(0,-1)):
+        for dx,dy in (((1,0),(-1,0),(0,1),(0,-1)) if scene=='town' and action and action[0]=='npc' else ((0,0),(1,0),(-1,0),(0,1),(0,-1))):
             t=x+dx,y+dy;p=find_path(pos,t)
             if p is not None:candidates.append((len(p),p,t))
         if candidates:
@@ -92,7 +109,7 @@ def main():
         quest=max(quest,n);journal=note=text
     def change_map(to,spawn):
         nonlocal scene,pos,route,pending,note
-        scene=to;pos=tuple(spawn);route=[];pending=None;note='进入 '+data['maps'][to]['name']
+        scene=to;pos=(38,12) if to=='town' else tuple(spawn);route=[];pending=None;note='进入 '+data['maps'][to]['name']
     def talk(id):
         nonlocal potions,note
         if id=='healer' and potions<2:potions+=1;note='苏晚晴赠送一瓶疗伤药'
@@ -160,6 +177,42 @@ def main():
         if lines:lines.pop(0)
         if not lines and dialogue_cb:
             cb=dialogue_cb;dialogue_cb=None;cb()
+
+    def town_camera():
+        return (max(0,min(int((pos[0]+.5)*32-SW/2),town_tile['width']*32-SW)),
+                max(0,min(int((pos[1]+.5)*32-SH/2),town_tile['height']*32-SH)))
+    def paint_town():
+        ox,oy=town_camera()
+        canvas.fill((82,115,102))
+        minx,maxx=max(0,ox//32),min(39,(ox+SW)//32+1)
+        miny,maxy=max(0,oy//32),min(23,(oy+SH)//32+1)
+        def layer(name):
+            grid=town_tile['layers'][name]
+            for yy in range(miny,maxy+1):
+                for xx in range(minx,maxx+1):
+                    index=grid[yy*40+xx]
+                    if index>=0:canvas.blit(atlas_tiles[index],(xx*32-ox,yy*32-oy))
+        layer('ground');layer('water');layer('building');layer('deco_low')
+        # Chinese shop labels are runtime UI, not random AI text baked into tiles
+        for name,xx,yy in [('客栈',7,8),('药铺',30,8)]:
+            sx,sy=xx*32-ox,yy*32-oy
+            if -75<sx<650 and -20<sy<370:txt(name,sx,sy)
+        everyone=[(n['x'],n['y'],n['name'],{'innkeeper':'innkeeper','healer':'healer','oldman':'oldman'}[n['id']]) for n in data['maps']['town']['npcs']]
+        everyone.append((pos[0],pos[1],'','player'))
+        for xx,yy,name,sprite in sorted(everyone,key=lambda a:(a[1],a[0])):
+            px=int((xx+.5)*32-ox);py=int((yy+1)*32-oy)
+            if not (-50<px<690 and -80<py<430):continue
+            pygame.draw.ellipse(canvas,(45,62,55),(px-14,py-7,28,7))
+            image=pygame.transform.scale(sprites[sprite],(44,59))
+            canvas.blit(image,(px-22,py-58))
+            if name:txt(name,px-20,py-67)
+        layer('front')
+        exx=int((39+.5)*32-ox);exy=int((12+.5)*32-oy)
+        if 0<exx<SW:txt('出镇 →',exx-45,exy-20)
+        if route:
+            x,y=route[-1]
+            pygame.draw.rect(canvas,(240,205,131),(x*32-ox+5,y*32-oy+5,22,22),2)
+
     running=True;lastmove=0
     say(data['dialogue']['intro'])
     while running:
@@ -178,24 +231,30 @@ def main():
                         if 90<=x<=550:
                             i=(0 if y<245 else 2)+(0 if x<330 else 1)
                             act(['attack','skill','heal','defend'][i])
-                elif y<315:click(x//20,y//20)
+                elif y<315:
+                    if scene=='town':
+                        ox,oy=town_camera();click((x+ox)//32,(y+oy)//32)
+                    else:click(x//20,y//20)
         if not lines and not battle and route:
             lastmove+=dt
             if lastmove>.12:
                 lastmove=0;pos=route.pop(0)
                 if not route:run_pending()
-        canvas.blit(images[scene],(0,0))
+        if scene=='town':paint_town()
+        else:
+            canvas.blit(images[scene],(0,0))
+            m=data['maps'][scene]
+            for ex in m['exits']:
+                x,y=ex['x']*T,ex['y']*T;pygame.draw.rect(canvas,(235,207,124),(x+3,y+2,15,18),2)
+            for npc in m.get('npcs',[]):
+                sp={'innkeeper':'innkeeper','healer':'healer','oldman':'oldman'}[npc['id']]
+                canvas.blit(sprites[sp],(npc['x']*T-5,npc['y']*T-28));txt(npc['name'],npc['x']*T-12,npc['y']*T-28)
+            for en in m.get('enemies',[]):
+                if bandit_alive:canvas.blit(sprites['bandit'],(en['x']*T-5,en['y']*T-28));txt(en['name'],en['x']*T-10,en['y']*T-27)
+            for obj in m.get('objects',[]):
+                x,y=obj['x']*T,obj['y']*T;pygame.draw.rect(canvas,(125,190,197) if obj['id']=='trace' else (214,182,124),(x+3,y+3,14,12));txt(obj['name'],x-15,y-17)
+            canvas.blit(sprites['player'],(pos[0]*T-5,pos[1]*T-28))
         m=data['maps'][scene]
-        for ex in m['exits']:
-            x,y=ex['x']*T,ex['y']*T;pygame.draw.rect(canvas,(235,207,124),(x+3,y+2,15,18),2)
-        for npc in m.get('npcs',[]):
-            sp={'innkeeper':'innkeeper','healer':'healer','oldman':'oldman'}[npc['id']]
-            canvas.blit(sprites[sp],(npc['x']*T-5,npc['y']*T-28));txt(npc['name'],npc['x']*T-12,npc['y']*T-28)
-        for en in m.get('enemies',[]):
-            if bandit_alive:canvas.blit(sprites['bandit'],(en['x']*T-5,en['y']*T-28));txt(en['name'],en['x']*T-10,en['y']*T-27)
-        for obj in m.get('objects',[]):
-            x,y=obj['x']*T,obj['y']*T;pygame.draw.rect(canvas,(125,190,197) if obj['id']=='trace' else (214,182,124),(x+3,y+3,14,12));txt(obj['name'],x-15,y-17)
-        canvas.blit(sprites['player'],(pos[0]*T-5,pos[1]*T-28))
         pygame.draw.rect(canvas,(15,23,26),(0,315,640,45));txt('地点：'+m['name']+' | 气血 %d/100 内力 %d/50  银两 %d 逆命 %d'%(hp,mp,coins,destiny),12,320)
         phases=['和韩掌柜交谈','击败山贼','前往山洞','寻找秘籍并调查石台','返回青石镇','第一章已完成']
         txt('任务：'+phases[min(quest,5)],12,338)

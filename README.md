@@ -47,3 +47,8 @@ Vercel 构建会执行以上检查。网页端包含存档、导航与角色图�
 - 角色图鉴、青石镇、山路战斗、废弃山洞和第一章尾声均在此版本交付。
 - **已知限制**：参考图裁切场景含静态背景人物；浏览器真实交互人物是单独渲染的精灵。Windows 版和浏览器版 UI 不完全一致。
 - 自动测试覆盖剧情关键事件，但不等于全部真实浏览器/Windows设备人工验收。
+
+## P3-A Windows Pygame 同步（同一份地图数据）
+`main.py` 现在与浏览器共同读取 `data/maps/town/town_tilemap.json` 和 `assets/tilesets/town/town_atlas.svg`：青石镇32px地图、NPC、桥梁、碰撞和镜头位置同步，山路/山洞暂保留旧版。
+如你的SDL/Pygame无法加载SVG，请补装 `python -m pip install cairosvg` 后重试；不能加载时会报错，不会静默退回旧版整张地图。
+Windows 4090真机运行尚未人工验收，打包不声称已在用户设备测试通过。
