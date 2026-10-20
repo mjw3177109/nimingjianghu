@@ -74,3 +74,11 @@ python tools/pack_sprite_sheets.py --character CHAR001 --input qwen_4dir/CHAR001
 在Windows项目目录先运行 `node tools/p3e-hd-atlas.cjs` 再运行 `python main.py`，两端均可显示新图块。
 
 P3-F角色母版生成与验收：`assets/characters/masters/production_manifest.json`（7个角色的高清、无文字任务），`python tools/validate_character_masters.py`（只检查真实文件，不会自动批准或替换小头像）。
+
+## P3-G · 人物美术验收工作台
+
+- 网页主菜单新增「人物美术验收」，打开 `/art-review.html`。
+- 7名角色档案、稳定版 vs 候选版同角度同帧对比，4方向×4帧浏览、动画逐帧播放，自动显示来源分辨率，未提交时显示空候选，不会伪造审核成功。
+- 读取 `production_manifest.json`、`sprite_manifest.json` 与浏览器 `sprite_registry.js`，严格区分稳定旧素材、低清动作候选、高清候选和用户已审核的正式资源。
+- `tools/p3g_art_pipeline.py` 可把真正的 1024×1536+ 透明高清全身 PNG 导入母版候选，裁出不经过放大的高分辨率头像；也能检查 16张独立高分辨率行走帧、合成 384×512 HD Sprite Sheet 与审阅图。命令与边界见 `docs/P3G_ART_PRODUCTION.md`。
+- 所有资产导入操作仅创建候选文件和审核报告，绝不自动变更线上角色/Sprite 或批准美术；只有人工确定正确的独立视角与衣服后才能进入推广发布。

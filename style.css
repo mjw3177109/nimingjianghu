@@ -20,3 +20,6 @@
 
 /* Native two-times backing store: crisp map tiles without CSS blur; native portraits remain smoothly sampled. */
 .play-frame canvas{image-rendering:pixelated}
+
+/* P3-G: real navigation control to the isolated art QA page. */
+a.home-btn{text-decoration:none;color:var(--text);display:flex;align-items:center}.art-review-entry{border-color:#b08c61;background:linear-gradient(120deg,#3a3540,#263444)}

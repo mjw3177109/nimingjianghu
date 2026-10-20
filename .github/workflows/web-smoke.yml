@@ -27,4 +27,6 @@ jobs:
       - run: node tests/p3e_hd_art.cjs
       - run: node --check structure-data.js
       - run: node tests/p3f_structures.cjs
+      - run: node --check art-review.js
+      - run: node tests/p3g_art.cjs
       - run: python -m unittest discover -s tests -p 'test_*.py'
