@@ -64,3 +64,11 @@ python tools/pack_sprite_sheets.py --character CHAR001 --input qwen_4dir/CHAR001
 - 黄色寻路框只在目标格完全进入640×360的逻辑可视区域时绘制，绝不画到视口外。
 - 提供响应式手机/平板排版；不改第一章任务、战斗、剧情、存档 schema 或碰撞地图。
 - 后续仍应使用新生成的独立高清人物/场景正式母图；此次不虚报旧头像已变成真正高清绘画，也不以软件放大冒充原生画质。
+
+## P3-E：原生64px矢量图块精修
+
+加入`tools/p3e-hd-atlas.cjs`，会以36/30/30种图块的语义名为依据，**重新绘制独立64×64矢量材质**，并生成三张图集`assets/tilesets/{town,road,cave}/*_atlas_hd64.svg`。并非把32px PNG拉大。浏览器和首页预览优先用新图集，保留回退到原32px atlas；碰撞、NPC、存档均不变。Windows如未先运行生成脚本会自动使用旧32px图集。
+
+游戏内逻辑地图仍为32px格子，高清资源作为64px源图绘制在32px世界单元中。大屏显示继续使用2x物理画布，但不能等同于全游戏原生4K美术。
+
+在Windows项目目录先运行 `node tools/p3e-hd-atlas.cjs` 再运行 `python main.py`，两端均可显示新图块。

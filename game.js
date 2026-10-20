@@ -5,7 +5,12 @@ const $=id=>document.getElementById(id); const CELL=20, W=32,H=18;
 const tileMaps={town:window.NM_TOWN_TILEMAP,road:window.NM_ROAD_TILEMAP,cave:window.NM_CAVE_TILEMAP};
 for(const [id,map] of Object.entries(tileMaps)){if(!map||map.tile_size!==32||!Array.isArray(map.collision)||map.collision.length!==map.width*map.height)throw Error('P3 tilemap missing: '+id);}
 const tileAtlases={};
-for(const [id,map] of Object.entries(tileMaps)){const image=new Image();image.src=map.atlas;tileAtlases[id]=image;}
+for(const [id,map] of Object.entries(tileMaps)){
+  const image=new Image();
+  image.onerror=()=>{image.onerror=null;image.src=map.atlas;};
+  image.src=map.atlas.replace(/\.svg$/, '_hd64.svg');
+  tileAtlases[id]=image;
+}
 function currentTilemap(){return tileMaps[state.map]}
 function townCamera(){const map=currentTilemap(),player=visualPlayer(),px=(player.x+.5)*32,py=(player.y+.5)*32;return {x:Math.round(Math.max(0,Math.min(px-320,map.width*32-640))),y:Math.round(Math.max(0,Math.min(py-180,map.height*32-360)))}}
 function canvasPoint(e){const r=canvas.getBoundingClientRect();return {x:(e.clientX-r.left)/r.width*640,y:(e.clientY-r.top)/r.height*360}}
@@ -84,7 +89,8 @@ function drawTileTown(){
  const map=currentTilemap(),atlas=tileAtlases[state.map],cam=townCamera(),sz=32;ctx.fillStyle=state.map==='cave'?'#252f34':'#546b60';ctx.fillRect(0,0,640,360);
  const x0=Math.max(0,Math.floor(cam.x/sz)),y0=Math.max(0,Math.floor(cam.y/sz));
  const x1=Math.min(map.width-1,Math.ceil((cam.x+640)/sz)),y1=Math.min(map.height-1,Math.ceil((cam.y+360)/sz));
- const paint=layer=>{const cells=map.layers[layer];if(!cells||!atlas.complete||!atlas.naturalWidth)return;for(let y=y0;y<=y1;y++)for(let x=x0;x<=x1;x++){const i=cells[y*map.width+x];if(i<0)continue;ctx.drawImage(atlas,(i%map.atlas_columns)*32,Math.floor(i/map.atlas_columns)*32,32,32,x*32-cam.x,y*32-cam.y,32,32)}};
+ const sourceTile=atlas&&atlas.naturalWidth?atlas.naturalWidth/map.atlas_columns:32;
+ const paint=layer=>{const cells=map.layers[layer];if(!cells||!atlas.complete||!atlas.naturalWidth)return;for(let y=y0;y<=y1;y++)for(let x=x0;x<=x1;x++){const i=cells[y*map.width+x];if(i<0)continue;ctx.drawImage(atlas,(i%map.atlas_columns)*sourceTile,Math.floor(i/map.atlas_columns)*sourceTile,sourceTile,sourceTile,x*32-cam.x,y*32-cam.y,32,32)}};
  paint('ground');paint('water');paint('terrain');paint('building');paint('deco_low');
  function label(text,x,y){const px=(x+.5)*32-cam.x,py=y*32-cam.y;if(px>-80&&px<720&&py>-80&&py<430)drawLabel(text,px,py)}
  if(state.map==='town'){label('客栈',7,8);label('药铺',30,8)}
@@ -102,7 +108,7 @@ function drawTileTown(){
  }
  if(state.map==='cave'){
   for(const obj of world.maps.cave.objects||[]){
-   if(obj.id==='manual'&&state.manual){const image=atlas,x=obj.x*32-cam.x,y=obj.y*32-cam.y;if(image.complete&&image.naturalWidth)ctx.drawImage(image,(13%map.atlas_columns)*32,Math.floor(13/map.atlas_columns)*32,32,32,x,y,32,32);}
+   if(obj.id==='manual'&&state.manual){const image=atlas,x=obj.x*32-cam.x,y=obj.y*32-cam.y;if(image.complete&&image.naturalWidth)ctx.drawImage(image,(13%map.atlas_columns)*sourceTile,Math.floor(13/map.atlas_columns)*sourceTile,sourceTile,sourceTile,x,y,32,32);}
    if(obj.id==='trace'&&state.trace){ctx.fillStyle='#acc4b888';ctx.beginPath();ctx.ellipse((obj.x+.5)*32-cam.x,(obj.y+.5)*32-cam.y,10,5,0,0,Math.PI*2);ctx.fill();}
    label(obj.name,obj.x,obj.y);
   }

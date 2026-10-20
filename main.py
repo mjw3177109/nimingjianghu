@@ -63,7 +63,8 @@ def main():
         return picture.convert_alpha() if alpha else picture.convert()
     atlases={}
     for key,m in tilemaps.items():
-        atlas_file=ROOT/m['atlas']
+        atlas_file=ROOT/m['atlas'].replace('.svg','_hd64.svg')
+        if not atlas_file.exists():atlas_file=ROOT/m['atlas']
         try:
             atlas=pygame.image.load(str(atlas_file)).convert_alpha()
         except (pygame.error,ValueError):
@@ -72,7 +73,13 @@ def main():
                 atlas=pygame.image.load(io.BytesIO(cairosvg.svg2png(url=str(atlas_file))),key+'_atlas.png').convert_alpha()
             except (ImportError,ValueError,OSError,pygame.error) as exc:
                 raise RuntimeError(f'无法加载 {key} Tile Atlas：请安装 cairosvg 或检查图块 SVG') from exc
-        atlases[key]=[atlas.subsurface(pygame.Rect((i%m['atlas_columns'])*32,(i//m['atlas_columns'])*32,32,32)) for i in range(len(m['tile_ids']))]
+        source_px=atlas.get_width()//m['atlas_columns']
+        if source_px not in (32,64):raise ValueError(f'{key} source tile must be 32 or 64 pixels')
+        atlases[key]=[pygame.transform.smoothscale(atlas.subsurface(
+            pygame.Rect((i%m['atlas_columns'])*source_px,(i//m['atlas_columns'])*source_px,source_px,source_px)),(32,32))
+            if source_px>32 else atlas.subsurface(
+            pygame.Rect((i%m['atlas_columns'])*32,(i//m['atlas_columns'])*32,32,32))
+            for i in range(len(m['tile_ids']))]
     sprites={k:load_art('sprites',k,(42,58),alpha=True) for k in ['player','innkeeper','healer','oldman','bandit']}
     # Four directions × four animation frames; image source stays linked to approved Q-style sprites.
     sprite_manifest=json.loads((ROOT/'assets/characters/scene_sprites/sprite_manifest.json').read_text(encoding='utf-8'))
