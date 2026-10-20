@@ -13,7 +13,7 @@ const window={GAME_WORLD:null,dispatchEvent(x){(handlers['window:'+x.type]||[]).
 const storage={getItem(k){return memory.get(k)||null},setItem(k,v){memory.set(k,v)},removeItem(k){memory.delete(k)}};
 const context={window,document,localStorage:storage,Image:class{constructor(){this.complete=true;this.naturalWidth=600}set src(v){this._src=v}},Event:class{constructor(type){this.type=type}},console,setTimeout(f){timers.push(f);return timers.length},clearTimeout(){},requestAnimationFrame(f){raf=f;return ++rafId},cancelAnimationFrame(){raf=null},Math,JSON,performance:{now(){return 0}},confirm(){return true}};
 vm.createContext(context);
-for(let f of ['world-data.js','town-tile-data.js','road-tile-data.js','cave-tile-data.js','game.js','app.js'])vm.runInContext(fs.readFileSync(path.join(root,f),'utf8'),context);
+for(let f of ['world-data.js','town-tile-data.js','road-tile-data.js','cave-tile-data.js','structure-data.js','game.js','app.js'])vm.runInContext(fs.readFileSync(path.join(root,f),'utf8'),context);
 assert.equal(raf,null,'Home must not start the game');
 assert.equal(typeof context.window.NMFinal.debugAnimation,'function','P3-C animation debug API exists');assert.equal(memory.size,0,'Home must not write save');assert.equal(el('continueButton').disabled,true);
 el('startButton').click();assert.equal(el('gameScreen').hidden,false);assert.equal(el('homeScreen').hidden,true);assert.equal(typeof raf,'function');assert(memory.has('nimingjianghu_tile_v2'));
