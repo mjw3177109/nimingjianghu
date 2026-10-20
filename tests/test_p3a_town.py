@@ -42,7 +42,7 @@ class P3ATownTests(unittest.TestCase):
         py=(ROOT/'main.py').read_text(encoding='utf-8')
         js=(ROOT/'game.js').read_text(encoding='utf-8')
         self.assertIn('town_tilemap.json',py)
-        self.assertIn('townAtlas',js)
+        self.assertIn('tileAtlases',js)
         self.assertNotIn("('town','S001_town')",py)
         self.assertNotIn('S001_town.webp',js)
         compile(py,str(ROOT/'main.py'),'exec')

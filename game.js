@@ -1,31 +1,37 @@
 (()=>{'use strict';
 const world=window.GAME_WORLD, canvas=document.getElementById('game'), ctx=canvas.getContext('2d'); ctx.imageSmoothingEnabled=false;
 const $=id=>document.getElementById(id); const CELL=20, W=32,H=18;
-const townData=window.NM_TOWN_TILEMAP;
-if(!townData||townData.width!==40||townData.tile_size!==32)throw Error('P3-A town Tile data missing or malformed');
-const camera={x:0,y:0};const townAtlas=new Image();townAtlas.src=townData.atlas;
-function townCamera(){const px=(state.pos.x+.5)*32,py=(state.pos.y+.5)*32;return {x:Math.round(Math.max(0,Math.min(px-320,townData.width*32-640))),y:Math.round(Math.max(0,Math.min(py-180,townData.height*32-360)))}}
-function canvasPoint(e){const r=canvas.getBoundingClientRect();const sx=(e.clientX-r.left)/r.width*640,sy=(e.clientY-r.top)/r.height*360;return {x:sx,y:sy}}
-function townTileFromScreen(sx,sy){const cam=townCamera();return {x:Math.floor((sx+cam.x)/32),y:Math.floor((sy+cam.y)/32)}}
+// Shared 32px modular maps. Never draw baked scene images in gameplay.
+const tileMaps={town:window.NM_TOWN_TILEMAP,road:window.NM_ROAD_TILEMAP,cave:window.NM_CAVE_TILEMAP};
+for(const [id,map] of Object.entries(tileMaps)){if(!map||map.tile_size!==32||!Array.isArray(map.collision)||map.collision.length!==map.width*map.height)throw Error('P3 tilemap missing: '+id);}
+const tileAtlases={};
+for(const [id,map] of Object.entries(tileMaps)){const image=new Image();image.src=map.atlas;tileAtlases[id]=image;}
+function currentTilemap(){return tileMaps[state.map]}
+function townCamera(){const map=currentTilemap(),px=(state.pos.x+.5)*32,py=(state.pos.y+.5)*32;return {x:Math.round(Math.max(0,Math.min(px-320,map.width*32-640))),y:Math.round(Math.max(0,Math.min(py-180,map.height*32-360)))}}
+function canvasPoint(e){const r=canvas.getBoundingClientRect();return {x:(e.clientX-r.left)/r.width*640,y:(e.clientY-r.top)/r.height*360}}
+function townTileFromScreen(sx,sy){const c=townCamera();return {x:Math.floor((sx+c.x)/32),y:Math.floor((sy+c.y)/32)}}
 
 const spriteKeys={innkeeper:'innkeeper',healer:'healer',oldman:'oldman',bandit:'bandit'};
-let state={map:'town',pos:{x:14,y:12},tileSchema:1,route:[],moving:null,pending:null,quest:0,banditAlive:true,manual:false,trace:false,visitedCave:false,destiny:0,day:1,hp:100,maxHp:100,mp:50,maxMp:50,lv:1,exp:0,coins:10,potions:2,skills:['基础剑法'],flags:{},journal:['一个陌生的江湖。这里的一切似曾相识。']};
+let state={map:'town',pos:{x:14,y:12},tileSchema:2,route:[],moving:null,pending:null,quest:0,banditAlive:true,manual:false,trace:false,visitedCave:false,destiny:0,day:1,hp:100,maxHp:100,mp:50,maxMp:50,lv:1,exp:0,coins:10,potions:2,skills:['基础剑法'],flags:{},journal:['一个陌生的江湖。这里的一切似曾相识。']};
 const freshState=JSON.parse(JSON.stringify(state));
 let dialogue=null,battle=null,frame=0,last=performance.now(),moveAcc=0,focusHover=null,transitionLock=false;
 let running=false,raf=0,epoch=0;
-const SAVE_KEY='nimingjianghu_tile_v1',OLD_KEYS=['nimingjianghu_final_demo_v1','nimingjianghu_save_v3','nimingjianghu_chibi_v02'];
-function readSaved(){for(const key of [SAVE_KEY,...OLD_KEYS]){try{const v=JSON.parse(localStorage.getItem(key)||'null');if(v&&v.state&&world.maps[v.state.map]&&typeof v.state.quest==='number'&&typeof v.state.hp==='number'){const st={...v.state,route:[],moving:null,pending:null};if(key!==SAVE_KEY&&st.map==='town'){st.pos={x:14,y:12};st.tileSchema=1;}return st;}}catch(e){console.warn('存档不可读：',key)}}return null}
-function saveGame(){if(!running)return;try{localStorage.setItem(SAVE_KEY,JSON.stringify({version:2,state:{...state,tileSchema:1,route:[],moving:null,pending:null}}));window.dispatchEvent(new Event('nm-save-updated'));}catch(e){console.warn('无法存档',e)}}
+const SAVE_KEY='nimingjianghu_tile_v2',OLD_KEYS=['nimingjianghu_tile_v1','nimingjianghu_final_demo_v1','nimingjianghu_save_v3','nimingjianghu_chibi_v02'];
+function readSaved(){for(const key of [SAVE_KEY,...OLD_KEYS]){try{const v=JSON.parse(localStorage.getItem(key)||'null');if(v&&v.state&&world.maps[v.state.map]&&typeof v.state.quest==='number'&&typeof v.state.hp==='number'){const st={...v.state,route:[],moving:null,pending:null};if(st.tileSchema!==2){if(st.map==='town'){if(key!=='nimingjianghu_tile_v1')st.pos={x:14,y:12};}
+else st.pos={x:tileMaps[st.map].spawn[0],y:tileMaps[st.map].spawn[1]};st.tileSchema=2;}
+if(!st.pos||tileMaps[st.map].collision[st.pos.y*tileMaps[st.map].width+st.pos.x]!==0)st.pos={x:tileMaps[st.map].spawn[0],y:tileMaps[st.map].spawn[1]};
+return st;}}catch(e){console.warn('存档不可读：',key)}}return null}
+function saveGame(){if(!running)return;try{localStorage.setItem(SAVE_KEY,JSON.stringify({version:3,state:{...state,tileSchema:2,route:[],moving:null,pending:null}}));window.dispatchEvent(new Event('nm-save-updated'));}catch(e){console.warn('无法存档',e)}}
 function stop(){running=false;epoch++;if(raf){cancelAnimationFrame(raf);raf=0}dialogue=null;battle=null;for(const id of ['dialogue','battle','panel'])$(id).classList.add('hidden')}
 function launch(saved){stop();state=saved?{...JSON.parse(JSON.stringify(freshState)),...saved,route:[],pending:null}:JSON.parse(JSON.stringify(freshState));running=true;last=performance.now();moveAcc=0;updateUI();raf=requestAnimationFrame(tick);if(!saved){const id=epoch;setTimeout(()=>{if(running&&epoch===id)scripted(world.dialogue.intro,()=>updateUI())},500)}else notice('已恢复江湖存档。');return true;}
 
-const imgs={}; for(const [k,path] of Object.entries({road:'assets/maps/S004_road.webp',cave:'assets/maps/S005_cave.webp',player:'assets/sprites/player.png',innkeeper:'assets/sprites/innkeeper.png',healer:'assets/sprites/healer.png',oldman:'assets/sprites/oldman.png',bandit:'assets/sprites/bandit.png'})){let im=new Image();im.src=path;imgs[k]=im;}
+const imgs={}; for(const [k,path] of Object.entries({player:'assets/sprites/player.png',innkeeper:'assets/sprites/innkeeper.png',healer:'assets/sprites/healer.png',oldman:'assets/sprites/oldman.png',bandit:'assets/sprites/bandit.png'})){let im=new Image();im.src=path;imgs[k]=im;}
 function posEq(a,b){return a.x===b.x&&a.y===b.y}
-function inBounds(x,y){const m=state.map==='town'?townData:world.maps[state.map];return x>=0&&y>=0&&x<(m.width||W)&&y<(m.height||H)}
-function blocked(x,y){if(!inBounds(x,y))return true;if(state.map==='town')return townData.collision[y*townData.width+x]===1;let m=world.maps[state.map];for(let [x1,y1,x2,y2] of m.walls)if(x>=x1&&x<=x2&&y>=y1&&y<=y2)return true;return false}
+function inBounds(x,y){const m=currentTilemap();return x>=0&&y>=0&&x<m.width&&y<m.height}
+function blocked(x,y){if(!inBounds(x,y))return true;const m=currentTilemap();return m.collision[y*m.width+x]===1}
 function bfs(from,to){if(blocked(to.x,to.y))return null;let q=[from],seen=new Set([from.x+','+from.y]),prev={};while(q.length){let a=q.shift(),key=a.x+','+a.y;if(posEq(a,to)){let r=[],cur=key;while(cur!==from.x+','+from.y){let [xx,yy]=cur.split(',').map(Number);r.push({x:xx,y:yy});cur=prev[cur]}return r.reverse()}for(let [dx,dy] of [[1,0],[-1,0],[0,1],[0,-1]]){let nx=a.x+dx,ny=a.y+dy,k=nx+','+ny;if(blocked(nx,ny)||seen.has(k))continue;seen.add(k);prev[k]=key;q.push({x:nx,y:ny})}}return null}
 function nearestReach(target,avoidCenter=false){let p=[],m={x:target.x,y:target.y}; for(let [dx,dy] of (avoidCenter?[[1,0],[-1,0],[0,1],[0,-1]]:[[0,0],[1,0],[-1,0],[0,1],[0,-1]])){let t={x:m.x+dx,y:m.y+dy};let r=bfs(state.pos,t);if(r)p.push({r,t})}p.sort((a,b)=>a.r.length-b.r.length);return p[0]||null}
-function travelTo(x,y,act){let n=nearestReach({x,y},state.map==='town'&&act&&act.type==='npc');if(!n){notice('这里暂时无法抵达');return}state.route=n.r;state.pending=act?{...act,t:n.t}:null; if(!n.r.length&&state.pending)finishPending()}
+function travelTo(x,y,act){let n=nearestReach({x,y},act&&['npc','object'].includes(act.type));if(!n){notice('这里暂时无法抵达');return}state.route=n.r;state.pending=act?{...act,t:n.t}:null; if(!n.r.length&&state.pending)finishPending()}
 function finishPending(){if(!state.pending)return;let p=state.pending;state.pending=null; if(p.type==='npc')talk(p.id);else if(p.type==='enemy')startBattle();else if(p.type==='object')objectClick(p.id);else if(p.type==='exit')changeMap(p.to,p.spawn);else if(p.type==='hotspot')notice(p.id==='inn_door'?'客栈里传来阵阵饭香，韩掌柜正在门口。':'药铺里弥漫着药香，苏晚晴可以为你指路。')}
 function changeMap(to,spawn){state.map=to;state.pos=to==='town'?{x:38,y:12}:{x:spawn[0],y:spawn[1]};state.route=[];state.pending=null;state.day=Math.max(1,state.day);if(to==='cave')state.visitedCave=true;notice('进入 '+world.maps[to].name);updateUI()}
 function notice(msg){$('status').textContent=msg; $('hint').textContent=msg;clearTimeout(notice.timer); notice.timer=setTimeout(()=>$('hint').textContent='点击移动 · 点击人物交谈 · 点击出口切换地图',3600)}
@@ -51,38 +57,39 @@ function drawLabel(text,x,y){ctx.font='9px sans-serif';let ww=ctx.measureText(te
 function glow(x,y,col){ctx.fillStyle=col;ctx.fillRect(x*CELL+7,y*CELL+14,7,3);ctx.fillRect(x*CELL+9,y*CELL+12,3,7)}
 
 function drawTileTown(){
- const c=townCamera();camera.x=c.x;camera.y=c.y;ctx.fillStyle='#556e66';ctx.fillRect(0,0,640,360);
- const tx=Math.max(0,Math.floor(c.x/32)),ty=Math.max(0,Math.floor(c.y/32)),toX=Math.min(39,Math.ceil((c.x+640)/32)),toY=Math.min(23,Math.ceil((c.y+360)/32));
- const paint=(layer)=>{const cells=townData.layers[layer];if(!townAtlas.complete||!townAtlas.naturalWidth)return;for(let y=ty;y<=toY;y++)for(let x=tx;x<=toX;x++){const index=cells[y*40+x];if(index<0)continue;const sx=(index%townData.atlas_columns)*32,sy=Math.floor(index/townData.atlas_columns)*32;ctx.drawImage(townAtlas,sx,sy,32,32,x*32-c.x,y*32-c.y,32,32)}};
- paint('ground');paint('water');paint('building');paint('deco_low');
- // Authoritative text is drawn by the game font, never hallucinated or burnt into a tile.
- const labelAt=(name,x,y)=>{const sx=(x+.5)*32-c.x,sy=y*32-c.y;if(sx>=-70&&sx<=710&&sy>=-50&&sy<=410)drawLabel(name,sx,sy)};
- labelAt('客栈',7,8);labelAt('药铺',30,8);
- let actors=world.maps.town.npcs.map(n=>({sprite:n.icon==='shop'?'innkeeper':n.icon==='heal'?'healer':'oldman',x:n.x,y:n.y,name:n.name,npc:n.id}));
- actors.push({sprite:'player',x:state.pos.x,y:state.pos.y,name:'',player:true});
+ const map=currentTilemap(),atlas=tileAtlases[state.map],cam=townCamera(),sz=32;ctx.fillStyle=state.map==='cave'?'#252f34':'#546b60';ctx.fillRect(0,0,640,360);
+ const x0=Math.max(0,Math.floor(cam.x/sz)),y0=Math.max(0,Math.floor(cam.y/sz));
+ const x1=Math.min(map.width-1,Math.ceil((cam.x+640)/sz)),y1=Math.min(map.height-1,Math.ceil((cam.y+360)/sz));
+ const paint=layer=>{const cells=map.layers[layer];if(!cells||!atlas.complete||!atlas.naturalWidth)return;for(let y=y0;y<=y1;y++)for(let x=x0;x<=x1;x++){const i=cells[y*map.width+x];if(i<0)continue;ctx.drawImage(atlas,(i%map.atlas_columns)*32,Math.floor(i/map.atlas_columns)*32,32,32,x*32-cam.x,y*32-cam.y,32,32)}};
+ paint('ground');paint('water');paint('terrain');paint('building');paint('deco_low');
+ function label(text,x,y){const px=(x+.5)*32-cam.x,py=y*32-cam.y;if(px>-80&&px<720&&py>-80&&py<430)drawLabel(text,px,py)}
+ if(state.map==='town'){label('客栈',7,8);label('药铺',30,8)}
+ const actors=[];
+ for(const npc of world.maps[state.map].npcs||[])actors.push({x:npc.x,y:npc.y,sprite:npc.icon==='shop'?'innkeeper':npc.icon==='heal'?'healer':'oldman',name:npc.name,id:npc.id});
+ if(state.map==='road'&&state.banditAlive)for(const enemy of world.maps.road.enemies||[])actors.push({x:enemy.x,y:enemy.y,sprite:'bandit',name:enemy.name+' ⚔'});
+ actors.push({x:state.pos.x,y:state.pos.y,sprite:'player',name:''});
  actors.sort((a,b)=>a.y-b.y||a.x-b.x);
- for(const a of actors){const px=(a.x+.5)*32-c.x,py=(a.y+1)*32-c.y;if(px<-50||px>690||py<-70||py>425)continue;const im=imgs[a.sprite];const motion=a.player&&state.route.length?Math.sin(frame/3)*1.6:0;
- ctx.fillStyle='#243d3985';ctx.beginPath();ctx.ellipse(px,py-1,15,5,0,0,Math.PI*2);ctx.fill();
- if(im&&im.complete&&im.naturalWidth)ctx.drawImage(im,px-23,py-61+motion,46,60);else{ctx.fillStyle='#eed3ae';ctx.fillRect(px-8,py-29,16,28)}
- if(a.name)drawLabel(a.name,px,py-45);if(a.npc==='innkeeper'&&state.quest===0)drawLabel('!',px,py-66);
+ for(const actor of actors){const px=(actor.x+.5)*32-cam.x,py=(actor.y+1)*32-cam.y;if(px<-45||px>685||py<-70||py>430)continue;
+ const image=imgs[actor.sprite];ctx.fillStyle='#16272988';ctx.beginPath();ctx.ellipse(px,py-3,13,4,0,0,Math.PI*2);ctx.fill();
+ if(image&&image.complete&&image.naturalWidth){ctx.drawImage(image,px-21,py-58,42,58)}else{ctx.fillStyle='#d8bfa2';ctx.fillRect(px-10,py-33,20,31)}
+ if(actor.name)label(actor.name,actor.x,actor.y-0.6);
+ if(actor.id==='innkeeper'&&state.quest===0)label('!',actor.x,actor.y-1.4);
+ }
+ if(state.map==='cave'){
+  for(const obj of world.maps.cave.objects||[]){
+   if(obj.id==='manual'&&state.manual){const image=atlas,x=obj.x*32-cam.x,y=obj.y*32-cam.y;if(image.complete&&image.naturalWidth)ctx.drawImage(image,(13%map.atlas_columns)*32,Math.floor(13/map.atlas_columns)*32,32,32,x,y,32,32);}
+   if(obj.id==='trace'&&state.trace){ctx.fillStyle='#acc4b888';ctx.beginPath();ctx.ellipse((obj.x+.5)*32-cam.x,(obj.y+.5)*32-cam.y,10,5,0,0,Math.PI*2);ctx.fill();}
+   label(obj.name,obj.x,obj.y);
+  }
  }
  paint('front');
- const ex=world.maps.town.exits[0];const exx=(ex.x+.5)*32-c.x,exy=(ex.y+.5)*32-c.y;if(exx>-30&&exx<670)drawLabel('出镇 →',exx,exy-5);
- if(state.route.length){const p=state.route[state.route.length-1],sx=p.x*32-c.x,sy=p.y*32-c.y;ctx.strokeStyle='#f9d08d';ctx.lineWidth=2;ctx.strokeRect(sx+5,sy+5,22,22)}
- ctx.fillStyle='#ffffff08';for(let y=0;y<360;y+=6)ctx.fillRect(0,y,640,1);
+ for(const ex of world.maps[state.map].exits){const exx=(ex.x+.5)*32-cam.x;if(exx>-70&&exx<710)label(ex.label,ex.x,ex.y-0.15)}
+ if(state.route.length){const q=state.route[state.route.length-1];ctx.strokeStyle='#eed393';ctx.lineWidth=2;ctx.strokeRect(q.x*32-cam.x+5,q.y*32-cam.y+5,22,22);}
 }
-function draw(){if(state.map==='town'){drawTileTown();return;}ctx.fillStyle='#182427';ctx.fillRect(0,0,640,360);let bg=imgs[state.map];if(bg.complete&&bg.naturalWidth)ctx.drawImage(bg,0,0,640,360);else{ctx.fillStyle='#61715c';ctx.fillRect(0,0,640,360)}let m=world.maps[state.map];
- for(let ex of m.exits){let xx=ex.x*20+10,yy=ex.y*20+10;ctx.strokeStyle='#ffdb86';ctx.lineWidth=2;ctx.strokeRect(xx-8,yy-10,17,20);drawLabel(ex.label,Math.max(55,Math.min(585,xx)),yy-3)}
- for(let o of m.objects||[]){let xx=o.x*20+10,yy=o.y*20+8;ctx.fillStyle=o.id==='trace'?'#79b7c6':'#e7c688';ctx.fillRect(xx-7,yy-6,15,11);ctx.fillStyle='#263136';ctx.fillRect(xx-4,yy-4,9,6);glow(o.x,o.y,'#a7dbd5');drawLabel(o.name,xx,yy-2)}
- for(let npc of m.npcs){drawSprite(npc.icon==='shop'?'innkeeper':npc.icon==='heal'?'healer':'oldman',npc.x,npc.y);drawLabel(npc.name,npc.x*20+10,npc.y*20+12);if(npc.id==='innkeeper'&&state.quest===0)glow(npc.x,npc.y,'#e9cd67')}
- for(let en of m.enemies||[]){if(state.banditAlive){drawSprite('bandit',en.x,en.y);drawLabel(en.name+' ⚔',en.x*20+10,en.y*20+12)}}
- drawSprite('player',state.pos.x,state.pos.y);
- if(state.route.length){let a=state.route[state.route.length-1];ctx.strokeStyle='#e6d095aa';ctx.strokeRect(a.x*20+5,a.y*20+5,10,10)}
- ctx.fillStyle='#ffffff0c';for(let y=0;y<360;y+=4)ctx.fillRect(0,y,640,1);
-}
+function draw(){drawTileTown()}
 function drawSprite(k,x,y){const im=imgs[k];const px=x*20-9,py=y*20-42;ctx.fillStyle='#0a131c66';ctx.beginPath();ctx.ellipse(x*20+10,y*20+17,13,5,0,0,Math.PI*2);ctx.fill();if(im.complete&&im.naturalWidth){ctx.save();ctx.shadowColor='#161b2199';ctx.shadowBlur=2;ctx.drawImage(im,px,py,38,61);ctx.restore()}else{ctx.fillStyle='#dec79e';ctx.fillRect(px+7,py+13,24,47)}}
 function tick(ts){if(!running){raf=0;return}frame++;let delta=Math.min((ts-last)/1000,.1);last=ts;if(!dialogue&&!battle){moveAcc+=delta;if(moveAcc>.115&&state.route.length){moveAcc=0;state.pos=state.route.shift();if(!state.route.length){finishPending();maybeEnding()}}}draw();raf=requestAnimationFrame(tick)}
-canvas.addEventListener('click',e=>{if(!running)return;let r=canvas.getBoundingClientRect();const p=canvasPoint(e);const target=state.map==='town'?townTileFromScreen(p.x,p.y):{x:Math.floor(p.x/20),y:Math.floor(p.y/20)};interactClick(target.x,target.y)});
+canvas.addEventListener('click',e=>{if(!running)return;let r=canvas.getBoundingClientRect();const p=canvasPoint(e);const target=townTileFromScreen(p.x,p.y);interactClick(target.x,target.y)});
 $('nextDialogue').addEventListener('click',nextLine);for(let b of document.querySelectorAll('.battle-buttons button'))b.addEventListener('click',()=>strike(b.dataset.action));
 function openPanel(title,body){$('panelTitle').textContent=title;$('panelContent').innerHTML=body;$('panel').classList.remove('hidden')}
 $('inventory').onclick=()=>openPanel('江湖背包',`<p>银两：${state.coins} 两</p><p>疗伤药：${state.potions} 瓶</p><p>武功：${state.skills.join('、')}</p><p>${state.manual?'✓ 已获得《破风一剑》秘籍':'尚未获得秘籍'}</p>`);
@@ -90,5 +97,5 @@ $('quests').onclick=()=>openPanel('江湖任务',`<p>当前主线：<b>${taskTex
 $('help').onclick=()=>openPanel('操作说明','<p>鼠标点击地面：角色自动寻路。</p><p>点击 NPC：走近自动触发对话。</p><p>点击山贼：进入单人战斗。</p><p>点击闪光物品：拾取或调查。</p><p>点击场景左右出口：切换地图。</p><p>键盘 I 打开背包，Q 查看任务，Enter/Space 继续对话。</p>');
 $('closePanel').onclick=()=>$('panel').classList.add('hidden');$('restart').onclick=()=>window.NMFinal.returnHome();
 document.addEventListener('keydown',e=>{if(!running)return;if(dialogue&&(e.key==='Enter'||e.key===' ')){e.preventDefault();nextLine();return}if(!$('panel').classList.contains('hidden')){if(e.key==='Escape')$('panel').classList.add('hidden');return}if(e.key.toLowerCase()==='i')$('inventory').click();if(e.key.toLowerCase()==='q')$('quests').click()});
-window.NMFinal={startNew(){if(running)return false;launch(null);return true},continueGame(){if(running)return false;const save=readSaved();if(!save)return false;launch(save);return true},hasSave(){return !!readSaved()},saveInfo(){const s=readSaved();return s?{day:s.day,map:s.map,quest:s.quest}:null},returnHome(){if(running){saveGame();stop()}$('gameScreen').hidden=true;$('homeScreen').hidden=false;window.dispatchEvent(new Event('nm-return-home'));return true},getJournal(){const s=readSaved();return s?s.journal||[]:[]},isRunning(){return running},debugState(){return state},debugCamera(){return townCamera()},debugTilemap(){return townData}};
+window.NMFinal={startNew(){if(running)return false;launch(null);return true},continueGame(){if(running)return false;const save=readSaved();if(!save)return false;launch(save);return true},hasSave(){return !!readSaved()},saveInfo(){const s=readSaved();return s?{day:s.day,map:s.map,quest:s.quest}:null},returnHome(){if(running){saveGame();stop()}$('gameScreen').hidden=true;$('homeScreen').hidden=false;window.dispatchEvent(new Event('nm-return-home'));return true},getJournal(){const s=readSaved();return s?s.journal||[]:[]},isRunning(){return running},debugState(){return state},debugCamera(){return townCamera()},debugTilemap(){return currentTilemap()},debugMaps(){return tileMaps}};
 })();

@@ -1,6 +1,6 @@
 {
   "title": "逆命江湖",
-  "version": "0.3.1-p3a",
+  "version": "0.4.0-p3b",
   "logical_width": 640,
   "logical_height": 360,
   "tile_size": 20,
@@ -57,25 +57,25 @@
     "road": {
       "id": "S004",
       "name": "青石镇外·山路",
-      "art": "assets/maps/S004_road.svg",
+      "art": "assets/tilesets/road/road_atlas.svg",
       "spawn": [
         1,
-        9
+        10
       ],
       "exits": [
         {
           "x": 0,
-          "y": 9,
+          "y": 10,
           "to": "town",
           "spawn": [
-            30,
-            9
+            38,
+            12
           ],
           "label": "返回青石镇"
         },
         {
-          "x": 31,
-          "y": 9,
+          "x": 35,
+          "y": 10,
           "to": "cave",
           "spawn": [
             2,
@@ -89,8 +89,8 @@
         {
           "id": "bandit",
           "name": "山贼",
-          "x": 16,
-          "y": 9,
+          "x": 18,
+          "y": 10,
           "hp": 54,
           "attack": 10,
           "defense": 3,
@@ -98,37 +98,16 @@
           "coins": 22
         }
       ],
-      "walls": [
-        [
-          0,
-          0,
-          31,
-          5
-        ],
-        [
-          0,
-          13,
-          31,
-          17
-        ],
-        [
-          5,
-          6,
-          8,
-          7
-        ],
-        [
-          19,
-          11,
-          22,
-          12
-        ]
-      ]
+      "walls": [],
+      "tilemap": "data/maps/road/road_tilemap.json",
+      "tile_size": 32,
+      "width": 36,
+      "height": 20
     },
     "cave": {
       "id": "S005",
       "name": "废弃山洞",
-      "art": "assets/maps/S005_cave.svg",
+      "art": "assets/tilesets/cave/cave_atlas.svg",
       "spawn": [
         2,
         10
@@ -139,8 +118,8 @@
           "y": 10,
           "to": "road",
           "spawn": [
-            30,
-            9
+            33,
+            10
           ],
           "label": "返回山路"
         }
@@ -150,62 +129,23 @@
         {
           "id": "manual",
           "name": "残页秘籍",
-          "x": 25,
-          "y": 9,
+          "x": 23,
+          "y": 10,
           "icon": "scroll"
         },
         {
           "id": "trace",
           "name": "命痕石台",
-          "x": 17,
+          "x": 16,
           "y": 8,
           "icon": "stone"
         }
       ],
-      "walls": [
-        [
-          0,
-          0,
-          31,
-          3
-        ],
-        [
-          0,
-          15,
-          31,
-          17
-        ],
-        [
-          0,
-          4,
-          2,
-          8
-        ],
-        [
-          0,
-          12,
-          2,
-          14
-        ],
-        [
-          29,
-          4,
-          31,
-          14
-        ],
-        [
-          10,
-          5,
-          12,
-          6
-        ],
-        [
-          21,
-          12,
-          23,
-          14
-        ]
-      ]
+      "walls": [],
+      "tilemap": "data/maps/cave/cave_tilemap.json",
+      "tile_size": 32,
+      "width": 30,
+      "height": 20
     }
   },
   "dialogue": {
