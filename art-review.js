@@ -58,9 +58,12 @@ async function showPerson(person){
  const record=masterManifest?.tasks?.find(x=>x.id===person.id);
  const entry=spriteManifest?.entries?.find(x=>x.id===person.id);
  const officiallyApproved=record?.master_approved===true&&record?.portrait_approved===true&&entry?.direction_status==='user_approved_independently_painted';
- $('masterStatus').textContent=officiallyApproved?'人工已审核':'未审核 · 不可发布';
+ const liveTrial=entry?.direction_status==='gameplay_trial_pending_user_art_review';
+ $('masterStatus').textContent=officiallyApproved?'人工已审核':liveTrial?'已接入试玩 · 等你最终评审':'未审核 · 不可发布';
  $('masterStatus').style.borderColor=officiallyApproved?'#76be91':'#aa795f';
- $('stableCaption').textContent=entry?'当前游戏使用的方向图集；'+(entry.direction_status==='user_approved_independently_painted'?'方向素材标为已审核。':'侧面、背面仍为过渡派生稿。'):'尚无可玩 Sprite；显示已有角色头像供核对。';
+ $('stableCaption').textContent=entry?(entry.direction_status==='gameplay_trial_pending_user_art_review'?
+ '【本次已经进入游戏试玩】新生成的四方向16帧，每个动作按整身图片绘制；供你实际走动后最终评审。':
+ '当前游戏使用的方向图集；'+(entry.direction_status==='user_approved_independently_painted'?'方向素材标为已审核。':'侧面、背面仍为过渡派生稿。')):'尚无可玩 Sprite；显示已有角色头像供核对。';
  $('candidateCaption').textContent='加载候选中；图片不会被自动发布。';
  const version=window.NM_SPRITE_REGISTRY||{};
  const results=await Promise.all([loadImage(version[person.key]||null),loadCandidate(person)]);
@@ -72,7 +75,7 @@ async function showPerson(person){
  }else{
   $('candidateCaption').textContent='已找到高清 Sprite 候选；仍需确认真实独立四方向、服饰与母版一致，未经审核不能发布。';
  }
- $('reviewStatus').textContent=person.id+'：'+(officiallyApproved?'已审核':'未审核');
+ $('reviewStatus').textContent=person.id+'：'+(officiallyApproved?'已审核':liveTrial?'已进入试玩，待最终评审':'未审核');
  render();
 }
 function tick(ts){

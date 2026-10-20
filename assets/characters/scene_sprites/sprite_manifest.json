@@ -24,10 +24,18 @@
       "id": "CHAR001",
       "name": "沈砚",
       "key": "player",
-      "sheet": "assets/characters/scene_sprites/player_4dir.svg",
-      "source_master": "assets/sprites/player.png",
-      "direction_status": "needs_painted_direction_masters",
-      "animation_status": "runtime_4dir_walk_proxy"
+      "sheet": "assets/characters/scene_sprites/player_4dir.png",
+      "source_master": "user_generated_1086x1448_four_direction_sheet",
+      "direction_status": "gameplay_trial_pending_user_art_review",
+      "animation_status": "genuinely_drawn_16_frames_no_split_proxy",
+      "frame_width": 96,
+      "frame_height": 128,
+      "source_sheet_dimensions": [
+        1086,
+        1448
+      ],
+      "source_sha256": "459a92dcb368c6b91ad5b6ddc00fe06325b27f357af4f8ff53ebf78195e7b4c4",
+      "asset_sha256": "be0f8405b3e9e551a6521f563af75d204b945ffbbbe48b2bcc77828e8d78660c"
     },
     {
       "id": "NPC001",

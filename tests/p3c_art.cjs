@@ -6,14 +6,25 @@ assert.equal(m.frame_width,48);assert.equal(m.frame_height,64);assert.equal(m.co
 assert.deepEqual(m.directions,['down','left','right','up']);
 assert.equal(m.entries.length,5);assert.equal(m.status,'derived_preproduction_not_approved_4dir');
 for(const e of m.entries){
- const svg=fs.readFileSync(path.join(root,e.sheet),'utf8');
- assert(svg.includes('width="192" height="256"'),e.key+' size invalid');
- assert(svg.includes('data:image/png;base64,'),e.key+' missing original PNG reference');
- assert.equal((svg.match(/data:image\/png;base64,/g)||[]).length,1,e.key+' should embed source once');
- assert.equal((svg.match(/<use href="#source"\/>/g)||[]).length,32,e.key+' 4 dirs * 4frames * upper/lower clips must exist');
- assert(svg.includes('id="upper"')&&svg.includes('id="lower"'),e.key+' lacks distinct walk-layer transforms');
- assert(!svg.includes('href="http'),e.key+' depends on external resource');
+ const asset=fs.readFileSync(path.join(root,e.sheet));
+ if(e.sheet.endsWith('.png')){
+  assert.equal(asset.toString('hex',0,8),'89504e470d0a1a0a',e.key+' PNG header');
+  assert.equal(asset.readUInt32BE(16),384,e.key+' high-resolution sprite width');
+  assert.equal(asset.readUInt32BE(20),512,e.key+' high-resolution sprite height');
+  assert.equal(e.frame_width,96);assert.equal(e.frame_height,128);
+  assert.equal(e.direction_status,'gameplay_trial_pending_user_art_review');
+  assert(asset.length>30000,e.key+' sprite seems too small');
+ } else {
+  const svg=asset.toString('utf8');
+  assert(svg.includes('width="192" height="256"'),e.key+' size invalid');
+  assert(svg.includes('data:image/png;base64,'),e.key+' missing original PNG reference');
+  assert.equal(svg.split('data:image/png;base64,').length-1,1,e.key+' should embed source once');
+  assert.equal(svg.split('<use href="#source"/>').length-1,32,e.key+' 4 dirs * 4frames * upper/lower clips must exist');
+  assert(svg.includes('id="upper"')&&svg.includes('id="lower"'),e.key+' lacks dynamic layers');
+  assert(!svg.includes('href="http'),e.key+' external dependency');
+ }
 }
+
 for(const s of ['town','road','cave']){
  const map=JSON.parse(fs.readFileSync(path.join(root,'data/maps',s,s+'_tilemap.json'),'utf8'));
  const svg=fs.readFileSync(path.join(root,map.atlas),'utf8');

@@ -31,4 +31,5 @@ jobs:
       - run: node tests/p3g_art.cjs
       - run: node tests/p3h_prompt_pack.cjs
       - run: node tests/p3i_sprite_integrity.cjs
+      - run: node tests/p3j_game_sprite.cjs
       - run: python -m unittest discover -s tests -p 'test_*.py'

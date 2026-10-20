@@ -118,14 +118,18 @@ def main():
     for entry in sprite_manifest['entries']:
         key=entry['key'];src=ROOT/entry['sheet']
         # Genuine, manually approved, 96x128+ per-frame PNG sheets only.
-        if key not in sprites or entry.get('direction_status')!='user_approved_independently_painted' or src.suffix.lower()!='.png':
+        if key not in sprites or entry.get('direction_status') not in ('user_approved_independently_painted','gameplay_trial_pending_user_art_review') or src.suffix.lower()!='.png':
             continue
         if not src.is_file():continue
+        if entry.get('direction_status')=='gameplay_trial_pending_user_art_review' and key!='player':
+            continue
         sheet=pygame.image.load(str(src)).convert_alpha()
         if sheet.get_width()<384 or sheet.get_height()<512 or sheet.get_width()%4 or sheet.get_height()%4:
             print(f'[P3-I] Rejecting low-res or malformed sprite sheet: {src}')
             continue
         fw,fh=sheet.get_width()//4,sheet.get_height()//4
+        if entry.get('direction_status')=='gameplay_trial_pending_user_art_review':
+            print('[P3-J] 沈砚16帧已进入试玩版，尚待用户美术验收')
         animated_sprites[key]=[[pygame.transform.smoothscale(sheet.subsurface(
             pygame.Rect(col*fw,row*fh,fw,fh)),(56,102))
             for col in range(4)] for row in range(4)]

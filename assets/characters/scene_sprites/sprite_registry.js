@@ -1,5 +1,5 @@
 window.NM_SPRITE_REGISTRY = {
-  "player": "assets/characters/scene_sprites/player_4dir.svg",
+  "player": "assets/characters/scene_sprites/player_4dir.png",
   "innkeeper": "assets/characters/scene_sprites/innkeeper_4dir.svg",
   "healer": "assets/characters/scene_sprites/healer_4dir.svg",
   "oldman": "assets/characters/scene_sprites/oldman_4dir.svg",

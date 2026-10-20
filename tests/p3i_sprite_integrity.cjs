@@ -20,7 +20,8 @@ assert(game.includes('ctx.imageSmoothingEnabled=true'),'Chibi art should not be 
 assert(game.includes("renderMode:'seamless_whole_body'"));
 assert(py.includes("full=pygame.image.load(str(ROOT/'assets/sprites'/(key+'.png'))).convert_alpha()"));
 assert(py.includes("sprite_manifest=json.loads("));
-assert(py.includes("entry.get('direction_status')!='user_approved_independently_painted'"));
+assert(py.includes("'user_approved_independently_painted'"),'Keep approval gate');
+assert(py.includes("'gameplay_trial_pending_user_art_review'"),'Pygame should show Shenyan trial frame');
 assert(py.includes("sheet.get_width()<384 or sheet.get_height()<512"),'Pygame must block low resolution frames');
 assert(py.includes('art=sprites[sp]  # Render ONE intact full-body PNG'));
 assert(!py.includes("NIMING_PREVIEW_SHENYAN16"),'Retire broken Pygame preview');
