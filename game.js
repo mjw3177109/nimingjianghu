@@ -7,15 +7,20 @@ for(const [id,map] of Object.entries(tileMaps)){if(!map||map.tile_size!==32||!Ar
 const tileAtlases={};
 for(const [id,map] of Object.entries(tileMaps)){const image=new Image();image.src=map.atlas;tileAtlases[id]=image;}
 function currentTilemap(){return tileMaps[state.map]}
-function townCamera(){const map=currentTilemap(),px=(state.pos.x+.5)*32,py=(state.pos.y+.5)*32;return {x:Math.round(Math.max(0,Math.min(px-320,map.width*32-640))),y:Math.round(Math.max(0,Math.min(py-180,map.height*32-360)))}}
+function townCamera(){const map=currentTilemap(),player=visualPlayer(),px=(player.x+.5)*32,py=(player.y+.5)*32;return {x:Math.round(Math.max(0,Math.min(px-320,map.width*32-640))),y:Math.round(Math.max(0,Math.min(py-180,map.height*32-360)))}}
 function canvasPoint(e){const r=canvas.getBoundingClientRect();return {x:(e.clientX-r.left)/r.width*640,y:(e.clientY-r.top)/r.height*360}}
 function townTileFromScreen(sx,sy){const c=townCamera();return {x:Math.floor((sx+c.x)/32),y:Math.floor((sy+c.y)/32)}}
 
 const spriteKeys={innkeeper:'innkeeper',healer:'healer',oldman:'oldman',bandit:'bandit'};
-let state={map:'town',pos:{x:14,y:12},tileSchema:2,route:[],moving:null,pending:null,quest:0,banditAlive:true,manual:false,trace:false,visitedCave:false,destiny:0,day:1,hp:100,maxHp:100,mp:50,maxMp:50,lv:1,exp:0,coins:10,potions:2,skills:['基础剑法'],flags:{},journal:['一个陌生的江湖。这里的一切似曾相识。']};
+let state={map:'town',pos:{x:14,y:12},tileSchema:2,facing:'down',route:[],moving:null,pending:null,quest:0,banditAlive:true,manual:false,trace:false,visitedCave:false,destiny:0,day:1,hp:100,maxHp:100,mp:50,maxMp:50,lv:1,exp:0,coins:10,potions:2,skills:['基础剑法'],flags:{},journal:['一个陌生的江湖。这里的一切似曾相识。']};
 const freshState=JSON.parse(JSON.stringify(state));
 let dialogue=null,battle=null,frame=0,last=performance.now(),moveAcc=0,focusHover=null,transitionLock=false;
 let running=false,raf=0,epoch=0;
+const WALK_TIME=.115;
+let motion=null;
+const faceOrder={down:0,left:1,right:2,up:3};
+function visualPlayer(){if(!motion)return state.pos;const t=Math.max(0,Math.min(1,motion.progress));return {x:motion.from.x+(motion.to.x-motion.from.x)*t,y:motion.from.y+(motion.to.y-motion.from.y)*t}}
+function facingForMove(from,to){if(to.x>from.x)return 'right';if(to.x<from.x)return 'left';if(to.y>from.y)return 'down';return 'up';}
 const SAVE_KEY='nimingjianghu_tile_v2',OLD_KEYS=['nimingjianghu_tile_v1','nimingjianghu_final_demo_v1','nimingjianghu_save_v3','nimingjianghu_chibi_v02'];
 function readSaved(){for(const key of [SAVE_KEY,...OLD_KEYS]){try{const v=JSON.parse(localStorage.getItem(key)||'null');if(v&&v.state&&world.maps[v.state.map]&&typeof v.state.quest==='number'&&typeof v.state.hp==='number'){const st={...v.state,route:[],moving:null,pending:null};if(st.tileSchema!==2){if(st.map==='town'){if(key!=='nimingjianghu_tile_v1')st.pos={x:14,y:12};}
 else st.pos={x:tileMaps[st.map].spawn[0],y:tileMaps[st.map].spawn[1]};st.tileSchema=2;}
@@ -23,9 +28,23 @@ if(!st.pos||tileMaps[st.map].collision[st.pos.y*tileMaps[st.map].width+st.pos.x]
 return st;}}catch(e){console.warn('存档不可读：',key)}}return null}
 function saveGame(){if(!running)return;try{localStorage.setItem(SAVE_KEY,JSON.stringify({version:3,state:{...state,tileSchema:2,route:[],moving:null,pending:null}}));window.dispatchEvent(new Event('nm-save-updated'));}catch(e){console.warn('无法存档',e)}}
 function stop(){running=false;epoch++;if(raf){cancelAnimationFrame(raf);raf=0}dialogue=null;battle=null;for(const id of ['dialogue','battle','panel'])$(id).classList.add('hidden')}
-function launch(saved){stop();state=saved?{...JSON.parse(JSON.stringify(freshState)),...saved,route:[],pending:null}:JSON.parse(JSON.stringify(freshState));running=true;last=performance.now();moveAcc=0;updateUI();raf=requestAnimationFrame(tick);if(!saved){const id=epoch;setTimeout(()=>{if(running&&epoch===id)scripted(world.dialogue.intro,()=>updateUI())},500)}else notice('已恢复江湖存档。');return true;}
+function launch(saved){stop();motion=null;state=saved?{...JSON.parse(JSON.stringify(freshState)),...saved,route:[],pending:null}:JSON.parse(JSON.stringify(freshState));running=true;last=performance.now();moveAcc=0;updateUI();raf=requestAnimationFrame(tick);if(!saved){const id=epoch;setTimeout(()=>{if(running&&epoch===id)scripted(world.dialogue.intro,()=>updateUI())},500)}else notice('已恢复江湖存档。');return true;}
 
-const imgs={}; for(const [k,path] of Object.entries({player:'assets/sprites/player.png',innkeeper:'assets/sprites/innkeeper.png',healer:'assets/sprites/healer.png',oldman:'assets/sprites/oldman.png',bandit:'assets/sprites/bandit.png'})){let im=new Image();im.src=path;imgs[k]=im;}
+const imgs={},animatedSheets={};
+for(const [k,path] of Object.entries({player:'assets/sprites/player.png',innkeeper:'assets/sprites/innkeeper.png',healer:'assets/sprites/healer.png',oldman:'assets/sprites/oldman.png',bandit:'assets/sprites/bandit.png'})){
+  const im=new Image();im.src=path;imgs[k]=im;
+  const sheet=new Image();sheet.src='assets/characters/scene_sprites/'+k+'_4dir.svg';animatedSheets[k]=sheet;
+}
+function drawActorSprite(key,feetX,feetY,facing,moving=false){
+ const sheet=animatedSheets[key],dir=faceOrder[facing]??0;
+ const beat=moving?1+Math.floor(frame/4)%3:0;
+ if(sheet&&sheet.complete&&sheet.naturalWidth>=192){
+   ctx.drawImage(sheet,beat*48,dir*64,48,64,feetX-24,feetY-63,48,64);
+ }else{
+   const image=imgs[key];if(image&&image.complete&&image.naturalWidth)ctx.drawImage(image,feetX-21,feetY-58+(moving?Math.sin(frame/2):0),42,58);
+   else{ctx.fillStyle='#dfc9ad';ctx.fillRect(feetX-10,feetY-35,20,32)}
+ }
+}
 function posEq(a,b){return a.x===b.x&&a.y===b.y}
 function inBounds(x,y){const m=currentTilemap();return x>=0&&y>=0&&x<m.width&&y<m.height}
 function blocked(x,y){if(!inBounds(x,y))return true;const m=currentTilemap();return m.collision[y*m.width+x]===1}
@@ -33,7 +52,7 @@ function bfs(from,to){if(blocked(to.x,to.y))return null;let q=[from],seen=new Se
 function nearestReach(target,avoidCenter=false){let p=[],m={x:target.x,y:target.y}; for(let [dx,dy] of (avoidCenter?[[1,0],[-1,0],[0,1],[0,-1]]:[[0,0],[1,0],[-1,0],[0,1],[0,-1]])){let t={x:m.x+dx,y:m.y+dy};let r=bfs(state.pos,t);if(r)p.push({r,t})}p.sort((a,b)=>a.r.length-b.r.length);return p[0]||null}
 function travelTo(x,y,act){let n=nearestReach({x,y},act&&['npc','object'].includes(act.type));if(!n){notice('这里暂时无法抵达');return}state.route=n.r;state.pending=act?{...act,t:n.t}:null; if(!n.r.length&&state.pending)finishPending()}
 function finishPending(){if(!state.pending)return;let p=state.pending;state.pending=null; if(p.type==='npc')talk(p.id);else if(p.type==='enemy')startBattle();else if(p.type==='object')objectClick(p.id);else if(p.type==='exit')changeMap(p.to,p.spawn);else if(p.type==='hotspot')notice(p.id==='inn_door'?'客栈里传来阵阵饭香，韩掌柜正在门口。':'药铺里弥漫着药香，苏晚晴可以为你指路。')}
-function changeMap(to,spawn){state.map=to;state.pos=to==='town'?{x:38,y:12}:{x:spawn[0],y:spawn[1]};state.route=[];state.pending=null;state.day=Math.max(1,state.day);if(to==='cave')state.visitedCave=true;notice('进入 '+world.maps[to].name);updateUI()}
+function changeMap(to,spawn){state.map=to;state.pos=to==='town'?{x:38,y:12}:{x:spawn[0],y:spawn[1]};state.route=[];motion=null;state.pending=null;state.day=Math.max(1,state.day);if(to==='cave')state.visitedCave=true;notice('进入 '+world.maps[to].name);updateUI()}
 function notice(msg){$('status').textContent=msg; $('hint').textContent=msg;clearTimeout(notice.timer); notice.timer=setTimeout(()=>$('hint').textContent='点击移动 · 点击人物交谈 · 点击出口切换地图',3600)}
 function scripted(lines,done){dialogue={lines,idx:0,done};$('dialogue').classList.remove('hidden');showLine()}
 function showLine(){if(!dialogue)return;let row=dialogue.lines[dialogue.idx];$('speaker').textContent=row[0];$('dialogueText').textContent=row[1];const names={'沈砚':'CHAR001','廖':'BOSS001','韩掌柜':'NPC001','顾老':'NPC002','苏晚晴':'NPC005','顾青岚':'NPC003','？？？':'BOSS001'};$('dialoguePortrait').src='assets/portraits/'+(names[row[0]]||'CHAR001')+'_avatar.webp'}
@@ -67,11 +86,12 @@ function drawTileTown(){
  const actors=[];
  for(const npc of world.maps[state.map].npcs||[])actors.push({x:npc.x,y:npc.y,sprite:npc.icon==='shop'?'innkeeper':npc.icon==='heal'?'healer':'oldman',name:npc.name,id:npc.id});
  if(state.map==='road'&&state.banditAlive)for(const enemy of world.maps.road.enemies||[])actors.push({x:enemy.x,y:enemy.y,sprite:'bandit',name:enemy.name+' ⚔'});
- actors.push({x:state.pos.x,y:state.pos.y,sprite:'player',name:''});
+ const showPos=visualPlayer();actors.push({x:showPos.x,y:showPos.y,sprite:'player',name:'',facing:state.facing||'down',moving:!!motion&&motion.progress<1});
  actors.sort((a,b)=>a.y-b.y||a.x-b.x);
  for(const actor of actors){const px=(actor.x+.5)*32-cam.x,py=(actor.y+1)*32-cam.y;if(px<-45||px>685||py<-70||py>430)continue;
- const image=imgs[actor.sprite];ctx.fillStyle='#16272988';ctx.beginPath();ctx.ellipse(px,py-3,13,4,0,0,Math.PI*2);ctx.fill();
- if(image&&image.complete&&image.naturalWidth){ctx.drawImage(image,px-21,py-58,42,58)}else{ctx.fillStyle='#d8bfa2';ctx.fillRect(px-10,py-33,20,31)}
+ ctx.fillStyle='#16272988';ctx.beginPath();ctx.ellipse(px,py-3,13,4,0,0,Math.PI*2);ctx.fill();
+ const facing=actor.facing||(actor.sprite==='healer'?'left':actor.sprite==='bandit'?'left':'down');
+ drawActorSprite(actor.sprite,px,py,facing,actor.moving||false);
  if(actor.name)label(actor.name,actor.x,actor.y-0.6);
  if(actor.id==='innkeeper'&&state.quest===0)label('!',actor.x,actor.y-1.4);
  }
@@ -88,7 +108,12 @@ function drawTileTown(){
 }
 function draw(){drawTileTown()}
 function drawSprite(k,x,y){const im=imgs[k];const px=x*20-9,py=y*20-42;ctx.fillStyle='#0a131c66';ctx.beginPath();ctx.ellipse(x*20+10,y*20+17,13,5,0,0,Math.PI*2);ctx.fill();if(im.complete&&im.naturalWidth){ctx.save();ctx.shadowColor='#161b2199';ctx.shadowBlur=2;ctx.drawImage(im,px,py,38,61);ctx.restore()}else{ctx.fillStyle='#dec79e';ctx.fillRect(px+7,py+13,24,47)}}
-function tick(ts){if(!running){raf=0;return}frame++;let delta=Math.min((ts-last)/1000,.1);last=ts;if(!dialogue&&!battle){moveAcc+=delta;if(moveAcc>.115&&state.route.length){moveAcc=0;state.pos=state.route.shift();if(!state.route.length){finishPending();maybeEnding()}}}draw();raf=requestAnimationFrame(tick)}
+function tick(ts){if(!running){raf=0;return}frame++;
+ let delta=Math.min((ts-last)/1000,.1);last=ts;
+ if(!dialogue&&!battle){if(motion){motion.progress=Math.min(1,motion.progress+delta/WALK_TIME);if(motion.progress>=1)motion=null;}
+ moveAcc+=delta;
+ if(moveAcc>WALK_TIME&&state.route.length){moveAcc=0;const from={...state.pos},to=state.route.shift();state.facing=facingForMove(from,to);state.pos=to;motion={from,to,progress:0};if(!state.route.length){finishPending();maybeEnding()}}}
+ draw();raf=requestAnimationFrame(tick)}
 canvas.addEventListener('click',e=>{if(!running)return;let r=canvas.getBoundingClientRect();const p=canvasPoint(e);const target=townTileFromScreen(p.x,p.y);interactClick(target.x,target.y)});
 $('nextDialogue').addEventListener('click',nextLine);for(let b of document.querySelectorAll('.battle-buttons button'))b.addEventListener('click',()=>strike(b.dataset.action));
 function openPanel(title,body){$('panelTitle').textContent=title;$('panelContent').innerHTML=body;$('panel').classList.remove('hidden')}
@@ -97,5 +122,5 @@ $('quests').onclick=()=>openPanel('江湖任务',`<p>当前主线：<b>${taskTex
 $('help').onclick=()=>openPanel('操作说明','<p>鼠标点击地面：角色自动寻路。</p><p>点击 NPC：走近自动触发对话。</p><p>点击山贼：进入单人战斗。</p><p>点击闪光物品：拾取或调查。</p><p>点击场景左右出口：切换地图。</p><p>键盘 I 打开背包，Q 查看任务，Enter/Space 继续对话。</p>');
 $('closePanel').onclick=()=>$('panel').classList.add('hidden');$('restart').onclick=()=>window.NMFinal.returnHome();
 document.addEventListener('keydown',e=>{if(!running)return;if(dialogue&&(e.key==='Enter'||e.key===' ')){e.preventDefault();nextLine();return}if(!$('panel').classList.contains('hidden')){if(e.key==='Escape')$('panel').classList.add('hidden');return}if(e.key.toLowerCase()==='i')$('inventory').click();if(e.key.toLowerCase()==='q')$('quests').click()});
-window.NMFinal={startNew(){if(running)return false;launch(null);return true},continueGame(){if(running)return false;const save=readSaved();if(!save)return false;launch(save);return true},hasSave(){return !!readSaved()},saveInfo(){const s=readSaved();return s?{day:s.day,map:s.map,quest:s.quest}:null},returnHome(){if(running){saveGame();stop()}$('gameScreen').hidden=true;$('homeScreen').hidden=false;window.dispatchEvent(new Event('nm-return-home'));return true},getJournal(){const s=readSaved();return s?s.journal||[]:[]},isRunning(){return running},debugState(){return state},debugCamera(){return townCamera()},debugTilemap(){return currentTilemap()},debugMaps(){return tileMaps}};
+window.NMFinal={startNew(){if(running)return false;launch(null);return true},continueGame(){if(running)return false;const save=readSaved();if(!save)return false;launch(save);return true},hasSave(){return !!readSaved()},saveInfo(){const s=readSaved();return s?{day:s.day,map:s.map,quest:s.quest}:null},returnHome(){if(running){saveGame();stop()}$('gameScreen').hidden=true;$('homeScreen').hidden=false;window.dispatchEvent(new Event('nm-return-home'));return true},getJournal(){const s=readSaved();return s?s.journal||[]:[]},isRunning(){return running},debugState(){return state},debugCamera(){return townCamera()},debugTilemap(){return currentTilemap()},debugMaps(){return tileMaps},debugAnimation(){return {facing:state.facing||'down',motion:motion?{...motion}:null,keys:Object.keys(animatedSheets)}}};
 })();

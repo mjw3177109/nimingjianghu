@@ -20,4 +20,5 @@ jobs:
       - run: node tests/final_smoke.cjs
       - run: node tests/p3a_tiles.cjs
       - run: node tests/p3b_tiles.cjs
+      - run: node tests/p3c_art.cjs
       - run: python -m unittest discover -s tests -p 'test_*.py'

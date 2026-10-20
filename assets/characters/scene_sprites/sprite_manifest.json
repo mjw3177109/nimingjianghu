@@ -1,0 +1,81 @@
+{
+  "schema_version": 1,
+  "frame_width": 48,
+  "frame_height": 64,
+  "columns": 4,
+  "rows": 4,
+  "directions": [
+    "down",
+    "left",
+    "right",
+    "up"
+  ],
+  "frame_order": [
+    "idle",
+    "walk_left",
+    "walk_center",
+    "walk_right"
+  ],
+  "fps": 8,
+  "origin": "feet_center",
+  "status": "derived_preproduction_not_approved_4dir",
+  "entries": [
+    {
+      "id": "CHAR001",
+      "name": "沈砚",
+      "key": "player",
+      "sheet": "assets/characters/scene_sprites/player_4dir.svg",
+      "source_master": "assets/sprites/player.png",
+      "direction_status": "needs_painted_direction_masters",
+      "animation_status": "runtime_4dir_walk_proxy"
+    },
+    {
+      "id": "NPC001",
+      "name": "韩掌柜",
+      "key": "innkeeper",
+      "sheet": "assets/characters/scene_sprites/innkeeper_4dir.svg",
+      "source_master": "assets/sprites/innkeeper.png",
+      "direction_status": "needs_painted_direction_masters",
+      "animation_status": "runtime_4dir_walk_proxy"
+    },
+    {
+      "id": "NPC005",
+      "name": "苏晚晴",
+      "key": "healer",
+      "sheet": "assets/characters/scene_sprites/healer_4dir.svg",
+      "source_master": "assets/sprites/healer.png",
+      "direction_status": "needs_painted_direction_masters",
+      "animation_status": "runtime_4dir_walk_proxy"
+    },
+    {
+      "id": "NPC002",
+      "name": "顾老",
+      "key": "oldman",
+      "sheet": "assets/characters/scene_sprites/oldman_4dir.svg",
+      "source_master": "assets/sprites/oldman.png",
+      "direction_status": "needs_painted_direction_masters",
+      "animation_status": "runtime_4dir_walk_proxy"
+    },
+    {
+      "id": "EN001",
+      "name": "山贼",
+      "key": "bandit",
+      "sheet": "assets/characters/scene_sprites/bandit_4dir.svg",
+      "source_master": "assets/sprites/bandit.png",
+      "direction_status": "needs_painted_direction_masters",
+      "animation_status": "runtime_4dir_walk_proxy"
+    }
+  ],
+  "pending": [
+    {
+      "id": "NPC003",
+      "name": "顾青岚",
+      "reason": "没有正式场景Sprite母版；需基于第一张角色图鉴独立绘制四方向"
+    },
+    {
+      "id": "BOSS001",
+      "name": "廖",
+      "reason": "尚未进入第一章实机场景，需要正式四方向母版"
+    }
+  ]
+}
