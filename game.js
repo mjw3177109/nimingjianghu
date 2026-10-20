@@ -54,25 +54,47 @@ function saveGame(){if(!running)return;try{localStorage.setItem(SAVE_KEY,JSON.st
 function stop(){running=false;epoch++;if(raf){cancelAnimationFrame(raf);raf=0}dialogue=null;battle=null;for(const id of ['dialogue','battle','panel'])$(id).classList.add('hidden')}
 function launch(saved){stop();motion=null;state=saved?{...JSON.parse(JSON.stringify(freshState)),...saved,route:[],pending:null}:JSON.parse(JSON.stringify(freshState));running=true;last=performance.now();moveAcc=0;updateUI();raf=requestAnimationFrame(tick);if(!saved){const id=epoch;setTimeout(()=>{if(running&&epoch===id)scripted(world.dialogue.intro,()=>updateUI())},500)}else notice('已恢复江湖存档。');return true;}
 
+// P3-I: seamless full-body renderer. Legacy split-body SVG sheets are kept
+// for comparison in the art review studio but are NEVER used in gameplay.
 const imgs={},animatedSheets={};
-for(const [k,path] of Object.entries({player:'assets/sprites/player.png',innkeeper:'assets/sprites/innkeeper.png',healer:'assets/sprites/healer.png',oldman:'assets/sprites/oldman.png',bandit:'assets/sprites/bandit.png'})){
-  const im=new Image();im.src=path;imgs[k]=im;
-  const sheet=new Image();
-  const preview=!!(window.location&&/(?:\\?|&)shenyan=16(?:&|$)/.test(window.location.search||''));
-  sheet.src=(preview&&k==='player')?'assets/characters/scene_sprites/candidates/player_4dir_preview.png':
-    ((window.NM_SPRITE_REGISTRY&&window.NM_SPRITE_REGISTRY[k])||'assets/characters/scene_sprites/'+k+'_4dir.svg');
-  animatedSheets[k]=sheet;
+const characters={player:'assets/sprites/player.png',innkeeper:'assets/sprites/innkeeper.png',
+ healer:'assets/sprites/healer.png',oldman:'assets/sprites/oldman.png',bandit:'assets/sprites/bandit.png'};
+const spritePolicy={minimumFrameWidth:96,minimumFrameHeight:128,previewDisabled:true};
+for(const [k,path] of Object.entries(characters)){
+ const full=new Image();full.src=path;imgs[k]=full;
+ const candidate=(window.NM_SPRITE_REGISTRY||{})[k]||'';
+ // A genuine approved HD sheet must be a separate PNG; reject ALL legacy
+ // SVG proxy sheets and the old 24x32 screenshot-derived ?shenyan=16 sheet.
+ if(/_4dir\.png$/i.test(candidate)){
+  const sheet=new Image();sheet.src=candidate;animatedSheets[k]=sheet;
+ }
+}
+function spriteDrawSize(key,image){
+ const targetHeight=key==='bandit'?80:key==='player'?100:96;
+ const iw=image&&image.naturalWidth||60,ih=image&&image.naturalHeight||110;
+ const width=Math.min(key==='bandit'?84:73,Math.round(targetHeight*iw/ih));
+ const height=Math.round(width*ih/iw);
+ return {width,height};
 }
 function drawActorSprite(key,feetX,feetY,facing,moving=false){
  const sheet=animatedSheets[key],dir=faceOrder[facing]??0;
- const beat=moving?1+Math.floor(frame/4)%3:0;
- if(sheet&&sheet.complete&&sheet.naturalWidth>=96){
-   const fw=sheet.naturalWidth/4,fh=(sheet.naturalHeight||fw*16/3)/4;
-   ctx.drawImage(sheet,beat*fw,dir*fh,fw,fh,feetX-24,feetY-63,48,64);
+ const beat=moving?1+Math.floor(frame/6)%3:0;
+ ctx.save();
+ ctx.imageSmoothingEnabled=true; // Q-painted characters keep antialiased lines; tiles remain crisp.
+ if(sheet&&sheet.complete&&sheet.naturalWidth>=384&&sheet.naturalHeight>=512){
+  const fw=sheet.naturalWidth/4,fh=sheet.naturalHeight/4;
+  // The frame is always a single continuous rectangle, never upper/lower clips.
+  ctx.drawImage(sheet,beat*fw,dir*fh,fw,fh,Math.round(feetX-28),Math.round(feetY-101),56,102);
  }else{
-   const image=imgs[key];if(image&&image.complete&&image.naturalWidth)ctx.drawImage(image,feetX-21,feetY-58+(moving?Math.sin(frame/2):0),42,58);
-   else{ctx.fillStyle='#dfc9ad';ctx.fillRect(feetX-10,feetY-35,20,32)}
+  const image=imgs[key];
+  if(image&&image.complete&&image.naturalWidth){
+   const {width,height}=spriteDrawSize(key,image);
+   // Translate the ENTIRE sprite a fraction of a pixel: no torso/leg seams.
+   const bob=moving&&Math.floor(frame/9)%2?-1:0;
+   ctx.drawImage(image,Math.round(feetX-width/2),Math.round(feetY-height+1+bob),width,height);
+  }else{ctx.fillStyle='#dfc9ad';ctx.fillRect(feetX-10,feetY-57,20,55)}
  }
+ ctx.restore();
 }
 function posEq(a,b){return a.x===b.x&&a.y===b.y}
 function inBounds(x,y){const m=currentTilemap();return x>=0&&y>=0&&x<m.width&&y<m.height}
@@ -123,8 +145,9 @@ function drawTileTown(){
  ctx.fillStyle='#16272988';ctx.beginPath();ctx.ellipse(px,py-3,13,4,0,0,Math.PI*2);ctx.fill();
  const facing=actor.facing||(actor.sprite==='healer'?'left':actor.sprite==='bandit'?'left':'down');
  drawActorSprite(actor.sprite,px,py,facing,actor.moving||false);
- if(actor.name)label(actor.name,actor.x,actor.y-0.6);
- if(actor.id==='innkeeper'&&state.quest===0)label('!',actor.x,actor.y-1.4);
+ const displayHeight=actor.sprite==='bandit'?80:actor.sprite==='player'?100:96;
+ if(actor.name)label(actor.name,actor.x,actor.y-(displayHeight-24)/32);
+ if(actor.id==='innkeeper'&&state.quest===0)label('!',actor.x,actor.y-(displayHeight+4)/32);
  }
  if(state.map==='cave'){
   for(const obj of world.maps.cave.objects||[]){
@@ -163,5 +186,5 @@ $('quests').onclick=()=>openPanel('江湖任务',`<p>当前主线：<b>${taskTex
 $('help').onclick=()=>openPanel('操作说明','<p>鼠标点击地面：角色自动寻路。</p><p>点击 NPC：走近自动触发对话。</p><p>点击山贼：进入单人战斗。</p><p>点击闪光物品：拾取或调查。</p><p>点击场景左右出口：切换地图。</p><p>键盘 I 打开背包，Q 查看任务，Enter/Space 继续对话。</p>');
 $('closePanel').onclick=()=>$('panel').classList.add('hidden');$('restart').onclick=()=>window.NMFinal.returnHome();
 document.addEventListener('keydown',e=>{if(!running)return;if(dialogue&&(e.key==='Enter'||e.key===' ')){e.preventDefault();nextLine();return}if(!$('panel').classList.contains('hidden')){if(e.key==='Escape')$('panel').classList.add('hidden');return}if(e.key.toLowerCase()==='i')$('inventory').click();if(e.key.toLowerCase()==='q')$('quests').click()});
-window.NMFinal={startNew(){if(running)return false;launch(null);return true},continueGame(){if(running)return false;const save=readSaved();if(!save)return false;launch(save);return true},hasSave(){return !!readSaved()},saveInfo(){const s=readSaved();return s?{day:s.day,map:s.map,quest:s.quest}:null},returnHome(){if(running){saveGame();stop()}$('gameScreen').hidden=true;$('homeScreen').hidden=false;window.dispatchEvent(new Event('nm-return-home'));return true},getJournal(){const s=readSaved();return s?s.journal||[]:[]},isRunning(){return running},debugState(){return state},debugCamera(){return townCamera()},debugTilemap(){return currentTilemap()},debugMaps(){return tileMaps},debugStructures(){return structData},debugAnimation(){return {facing:state.facing||'down',motion:motion?{...motion}:null,keys:Object.keys(animatedSheets),preview:!!(window.location&&/(?:\\?|&)shenyan=16(?:&|$)/.test(window.location.search||''))}}};
+window.NMFinal={startNew(){if(running)return false;launch(null);return true},continueGame(){if(running)return false;const save=readSaved();if(!save)return false;launch(save);return true},hasSave(){return !!readSaved()},saveInfo(){const s=readSaved();return s?{day:s.day,map:s.map,quest:s.quest}:null},returnHome(){if(running){saveGame();stop()}$('gameScreen').hidden=true;$('homeScreen').hidden=false;window.dispatchEvent(new Event('nm-return-home'));return true},getJournal(){const s=readSaved();return s?s.journal||[]:[]},isRunning(){return running},debugState(){return state},debugCamera(){return townCamera()},debugTilemap(){return currentTilemap()},debugMaps(){return tileMaps},debugStructures(){return structData},debugAnimation(){return {facing:state.facing||'down',motion:motion?{...motion}:null,keys:Object.keys(imgs),renderMode:'seamless_whole_body',legacyPreviewDisabled:true}}};
 })();

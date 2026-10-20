@@ -33,7 +33,7 @@ def main():
         if m['tile_size']!=32 or len(m['collision'])!=m['width']*m['height']:raise ValueError(f'P3 tilemap schema incompatible: {key}')
     T=32
     screen=pygame.display.set_mode((SW*SCALE,SH*SCALE))
-    pygame.display.set_caption('逆命江湖 | P3-C 国风Tile细节与四方向逐帧动画')
+    pygame.display.set_caption('逆命江湖 | P3-I 无拼接裂缝整身高清角色显示')
     canvas=pygame.Surface((SW,SH))
     clock=pygame.time.Clock()
     fontpath=next((p for p in [r'C:\Windows\Fonts\msyh.ttc',r'C:\Windows\Fonts\simhei.ttf','/usr/share/fonts/truetype/wqy/wqy-microhei.ttc','/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc'] if Path(p).exists()),None)
@@ -104,30 +104,31 @@ def main():
             dest=pygame.Rect(int(obj['x']*32-ox),int(obj['y']*32-oy),obj['w']*32,obj['h']*32)
             if not dest.colliderect(pygame.Rect(0,0,SW,SH)):continue
             canvas.blit(pygame.transform.smoothscale(img,dest.size),dest)
-    sprites={k:load_art('sprites',k,(42,58),alpha=True) for k in ['player','innkeeper','healer','oldman','bandit']}
-    # Four directions × four animation frames; image source stays linked to approved Q-style sprites.
+    # P3-I: never use the previous upper/lower-body SVG animation proxies in gameplay.
+    # Preserve the actual full-body PNG in near-native resolution; no torso/legs clipping.
+    sprites={}
+    for key in ['player','innkeeper','healer','oldman','bandit']:
+        full=pygame.image.load(str(ROOT/'assets/sprites'/(key+'.png'))).convert_alpha()
+        target_height=80 if key=='bandit' else 100 if key=='player' else 96
+        width=min(84 if key=='bandit' else 73,max(1,round(full.get_width()*target_height/full.get_height())))
+        height=round(width*full.get_height()/full.get_width())
+        sprites[key]=pygame.transform.smoothscale(full,(width,height))
     sprite_manifest=json.loads((ROOT/'assets/characters/scene_sprites/sprite_manifest.json').read_text(encoding='utf-8'))
-    sprite_paths={entry['key']:entry['sheet'] for entry in sprite_manifest['entries']}
     animated_sprites={}
-    for key in sprites:
-        sheet_file=ROOT/sprite_paths.get(key,'')
-        if key=='player' and os.environ.get('NIMING_PREVIEW_SHENYAN16')=='1':
-            sheet_file=ROOT/'assets/characters/scene_sprites/candidates/player_4dir_preview.png'
-        if not sheet_file.is_file():continue
-        try:
-            if sheet_file.suffix.lower()=='.png':
-                sheet=pygame.image.load(str(sheet_file)).convert_alpha()
-            else:
-                import io,cairosvg
-                png=cairosvg.svg2png(url=str(sheet_file))
-                sheet=pygame.image.load(io.BytesIO(png),key+'_4dir.png').convert_alpha()
-            if sheet.get_size() not in ((192,256),(96,128)):raise ValueError('Invalid direction atlas dimensions')
-            framew,frameh=sheet.get_width()//4,sheet.get_height()//4
-            animated_sprites[key]=[[pygame.transform.scale(sheet.subsurface(
-                pygame.Rect(col*framew,row*frameh,framew,frameh)),(48,64))
-                for col in range(4)] for row in range(4)]
-        except (ImportError,ValueError,OSError,pygame.error) as exc:
-            print(f'[P3-C] 动画图集无法解码，保留原有角色静态 PNG: {key}: {exc}')
+    for entry in sprite_manifest['entries']:
+        key=entry['key'];src=ROOT/entry['sheet']
+        # Genuine, manually approved, 96x128+ per-frame PNG sheets only.
+        if key not in sprites or entry.get('direction_status')!='user_approved_independently_painted' or src.suffix.lower()!='.png':
+            continue
+        if not src.is_file():continue
+        sheet=pygame.image.load(str(src)).convert_alpha()
+        if sheet.get_width()<384 or sheet.get_height()<512 or sheet.get_width()%4 or sheet.get_height()%4:
+            print(f'[P3-I] Rejecting low-res or malformed sprite sheet: {src}')
+            continue
+        fw,fh=sheet.get_width()//4,sheet.get_height()//4
+        animated_sprites[key]=[[pygame.transform.smoothscale(sheet.subsurface(
+            pygame.Rect(col*fw,row*fh,fw,fh)),(56,102))
+            for col in range(4)] for row in range(4)]
     scene='town';pos=tuple(tilemaps['town']['spawn']);facing='down';motion=None;route=[];pending=None;quest=0;hp=100;mp=50;potions=2;destiny=0;coins=10;manual=False;trace=False;bandit_alive=True;lines=[];dialogue_cb=None;battle=None;note='鼠标点击地面移动，点击人物或出口互动。';journal='这里是我记忆中的江湖吗？'
     def walls(x,y):
         m=tilemaps[scene]
@@ -273,9 +274,12 @@ def main():
             active=(sp=='player' and (bool(route) or motion is not None))
             tick=(pygame.time.get_ticks()//115)%3
             frame_idx=1+tick if active else 0
-            if sp in animated_sprites:canvas.blit(animated_sprites[sp][direction][frame_idx],(px-24,py-63))
-            else:canvas.blit(sprites[sp],(px-21,py-58))
-            if name:txt(name,px-22,py-73)
+            if sp in animated_sprites:
+                art=animated_sprites[sp][direction][frame_idx]
+            else:
+                art=sprites[sp]  # Render ONE intact full-body PNG, no torso/leg split
+            canvas.blit(art,(px-art.get_width()//2,py-art.get_height()+1))
+            if name:txt(name,px-22,py-art.get_height()-18)
         if scene=='cave':
             for ob in data['maps']['cave'].get('objects',[]):
                 px,py=ob['x']*32-ox,ob['y']*32-oy

@@ -30,4 +30,5 @@ jobs:
       - run: node --check art-review.js
       - run: node tests/p3g_art.cjs
       - run: node tests/p3h_prompt_pack.cjs
+      - run: node tests/p3i_sprite_integrity.cjs
       - run: python -m unittest discover -s tests -p 'test_*.py'
