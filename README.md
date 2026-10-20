@@ -82,3 +82,9 @@ P3-F角色母版生成与验收：`assets/characters/masters/production_manifest
 - 读取 `production_manifest.json`、`sprite_manifest.json` 与浏览器 `sprite_registry.js`，严格区分稳定旧素材、低清动作候选、高清候选和用户已审核的正式资源。
 - `tools/p3g_art_pipeline.py` 可把真正的 1024×1536+ 透明高清全身 PNG 导入母版候选，裁出不经过放大的高分辨率头像；也能检查 16张独立高分辨率行走帧、合成 384×512 HD Sprite Sheet 与审阅图。命令与边界见 `docs/P3G_ART_PRODUCTION.md`。
 - 所有资产导入操作仅创建候选文件和审核报告，绝不自动变更线上角色/Sprite 或批准美术；只有人工确定正确的独立视角与衣服后才能进入推广发布。
+
+## P3-H · 单图高清人物生产门禁
+
+新增 `tools/p3h_export_character_jobs.py`：先为角色导出单张全身母版任务，再由用户人工验收母版；只有显式提供 `--reviewed-master` 且图像尺寸/透明度合格时，才会导出四方向×四动作共16份独立生成提示词。任务默认使用高清母版而不是低清头像作为方向参考。此脚本只导出任务，不生成图、不批准美术、不改正式资源。
+
+完整步骤见 `docs/P3H_CHARACTER_PIPELINE.md`。
