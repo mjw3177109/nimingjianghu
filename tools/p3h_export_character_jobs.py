@@ -69,7 +69,7 @@ def master_package(char_id,outdir):
       "output_file":f"assets/characters/masters/candidates/{char_id}_fullbody_candidate.png",
       "target_size":[1536,2048],"minimum_source_size":[1024,1536],
       "format":"RGBA PNG with real alpha transparency",
-      "identity_reference":task["portrait"],
+      "identity_reference":f"assets/portraits/{char_id}_avatar.webp",
       "style_reference":STYLE_REF,
       "workflow":"Qwen2.1 image generation or image-edit workflow; one output image per task",
       "prompt":prompt,"negative_prompt":NEGATIVE,
