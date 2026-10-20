@@ -72,3 +72,5 @@ python tools/pack_sprite_sheets.py --character CHAR001 --input qwen_4dir/CHAR001
 游戏内逻辑地图仍为32px格子，高清资源作为64px源图绘制在32px世界单元中。大屏显示继续使用2x物理画布，但不能等同于全游戏原生4K美术。
 
 在Windows项目目录先运行 `node tools/p3e-hd-atlas.cjs` 再运行 `python main.py`，两端均可显示新图块。
+
+P3-F角色母版生成与验收：`assets/characters/masters/production_manifest.json`（7个角色的高清、无文字任务），`python tools/validate_character_masters.py`（只检查真实文件，不会自动批准或替换小头像）。

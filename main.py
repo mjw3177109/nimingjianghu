@@ -80,6 +80,30 @@ def main():
             if source_px>32 else atlas.subsurface(
             pygame.Rect((i%m['atlas_columns'])*32,(i//m['atlas_columns'])*32,32,32))
             for i in range(len(m['tile_ids']))]
+    structures=json.loads((ROOT/'data/structures.json').read_text(encoding='utf-8'))
+    structure_images={}
+    for places in (structures['town'],structures['road'],structures['cave']):
+        for obj in places:
+            name=obj['image']
+            if name in structure_images:continue
+            asset=ROOT/name
+            if not asset.exists():raise FileNotFoundError(f'P3-F architecture SVG missing: {asset}')
+            try:
+                import io,cairosvg
+                binary=cairosvg.svg2png(url=str(asset))
+                rendered=pygame.image.load(io.BytesIO(binary),'architecture.png').convert_alpha()
+                structure_images[name]=rendered
+            except (ImportError,OSError,ValueError,pygame.error) as exc:
+                print(f'[P3-F] 结构组件未能解码 {name}：请安装 cairosvg，保留下方Tile。原因：{exc}')
+                structure_images[name]=None
+    def structure_layer(layer,scene,ox,oy):
+        for obj in structures[scene]:
+            if obj['layer']!=layer:continue
+            img=structure_images.get(obj['image'])
+            if img is None:continue
+            dest=pygame.Rect(int(obj['x']*32-ox),int(obj['y']*32-oy),obj['w']*32,obj['h']*32)
+            if not dest.colliderect(pygame.Rect(0,0,SW,SH)):continue
+            canvas.blit(pygame.transform.smoothscale(img,dest.size),dest)
     sprites={k:load_art('sprites',k,(42,58),alpha=True) for k in ['player','innkeeper','healer','oldman','bandit']}
     # Four directions × four animation frames; image source stays linked to approved Q-style sprites.
     sprite_manifest=json.loads((ROOT/'assets/characters/scene_sprites/sprite_manifest.json').read_text(encoding='utf-8'))
@@ -231,7 +255,7 @@ def main():
                 for xx in range(x0,x1+1):
                     index=grid[yy*tw+xx]
                     if index>=0:canvas.blit(tiles[index],(xx*32-ox,yy*32-oy))
-        layer('ground');layer('water');layer('terrain');layer('building');layer('deco_low')
+        layer('ground');layer('water');layer('terrain');layer('building');layer('deco_low');structure_layer('base',scene,ox,oy)
         if scene=='town':
             for name,xx,yy in [('客栈',7,8),('药铺',30,8)]:
                 sx,sy=xx*32-ox,yy*32-oy
@@ -258,7 +282,7 @@ def main():
                 if ob['id']=='manual' and manual:canvas.blit(tiles[13],(px,py))
                 if ob['id']=='trace' and trace:pygame.draw.ellipse(canvas,(111,163,155),(px+7,py+12,18,8))
                 if -75<px<670 and -75<py<415:txt(ob['name'],px-12,py-15)
-        layer('front')
+        layer('front');structure_layer('front',scene,ox,oy)
         for ex in data['maps'][scene]['exits']:
             px,py=int((ex['x']+.5)*32-ox),int((ex['y']+.5)*32-oy)
             if -60<px<670 and -60<py<420:txt(ex['label'],px-22,py-24)

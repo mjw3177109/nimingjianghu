@@ -25,4 +25,6 @@ jobs:
       - run: node tests/p3d_home.cjs
       - run: node tools/p3e-hd-atlas.cjs
       - run: node tests/p3e_hd_art.cjs
+      - run: node --check structure-data.js
+      - run: node tests/p3f_structures.cjs
       - run: python -m unittest discover -s tests -p 'test_*.py'

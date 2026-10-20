@@ -4,6 +4,11 @@
  */
 const maps={town:window.NM_TOWN_TILEMAP,road:window.NM_ROAD_TILEMAP,cave:window.NM_CAVE_TILEMAP};
 const centers={town:[19,12],road:[18,10],cave:[17,10]};
+const structureData=window.NM_STRUCTURE_DATA||{town:[],road:[],cave:[]};
+const structureImages={};
+for(const layerList of Object.values({town:structureData.town,road:structureData.road,cave:structureData.cave})){
+ for(const obj of layerList){if(structureImages[obj.image])continue;const img=new Image();img.src=obj.image;structureImages[obj.image]=img;}
+}
 for(const canvas of document.querySelectorAll('[data-scene-canvas]')){
  const key=canvas.dataset.sceneCanvas,map=maps[key];if(!map)continue;
  const ctx=canvas.getContext('2d');if(!ctx)continue;
@@ -23,9 +28,21 @@ for(const canvas of document.querySelectorAll('[data-scene-canvas]')){
     ctx.drawImage(atlas,(id%map.atlas_columns)*sourceTile,Math.floor(id/map.atlas_columns)*sourceTile,sourceTile,sourceTile,xx*32,yy*32-8,32,32);
    }
   }
+  // Render independent multi-tile structure instances; still no baked scene bitmap.
+  for(const obj of structureData[key]||[]){
+   const image=structureImages[obj.image];
+   if(!image||!image.complete||!image.naturalWidth)continue;
+   const dx=(obj.x-originX)*32,dy=(obj.y-originY)*32-8;
+   const dw=obj.w*32,dh=obj.h*32;
+   if(dx<640&&dy<240&&dx+dw>0&&dy+dh>0)ctx.drawImage(image,dx,dy,dw,dh);
+  }
   // Hard-coded high-contrast light/shadow overlay intentionally contains no content text.
   ctx.fillStyle='#121b2655';ctx.fillRect(0,0,640,12);
  };
  atlas.src=map.atlas.replace(/\.svg$/, '_hd64.svg');
+ for(const obj of structureData[key]||[]){
+   const img=structureImages[obj.image];
+   if(img&&!img.naturalWidth)img.onload=()=>{if(atlas.complete&&atlas.naturalWidth&&atlas.onload)atlas.onload();};
+ }
 }
 })();

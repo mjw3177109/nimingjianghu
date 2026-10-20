@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="192" height="192" viewBox="0 0 96 96"><defs><linearGradient id="roof" x2="0" y2="1"><stop stop-color="#8499a6"/><stop offset=".38" stop-color="#425a70"/><stop offset="1" stop-color="#23384a"/></linearGradient><linearGradient id="plaster" x2="0" y2="1"><stop stop-color="#f6e7c7"/><stop offset="1" stop-color="#bd9f7c"/></linearGradient><linearGradient id="wood" x2="0" y2="1"><stop stop-color="#b5885b"/><stop offset="1" stop-color="#644432"/></linearGradient><radialGradient id="glow"><stop stop-color="#ffe5a0" stop-opacity=".9"/><stop offset="1" stop-color="#f4a15b" stop-opacity="0"/></radialGradient></defs><ellipse cx="48" cy="86" rx="38" ry="10" fill="#141f23" opacity=".44"/>
+<path d="M13 66L25 32H69L82 66L77 87H18Z" fill="#697777" stroke="#35494b" stroke-width="3"/>
+<path d="M23 63L35 21H60L72 63" fill="#9fa8a0" stroke="#34494b" stroke-width="4"/>
+<path d="M33 24L48 4L63 24Z" fill="#6d9a94" stroke="#bfe2c8" stroke-width="3"/>
+<path d="M48 13L56 24L48 37L40 24Z" fill="#c3f6df" stroke="#6eae9c" stroke-width="2"/>
+<path d="M26 70H70M21 80H75" stroke="#cfccaf" stroke-width="2"/>
+<circle cx="48" cy="49" r="10" fill="#4c7d7b" stroke="#b6dfd0" stroke-width="2"/>
+<path d="M45 45l6 4l-6 4M31 49h8M57 49h8" stroke="#e0f8db" fill="none" stroke-width="2"/></svg>

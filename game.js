@@ -11,6 +11,25 @@ for(const [id,map] of Object.entries(tileMaps)){
   image.src=map.atlas.replace(/\.svg$/, '_hd64.svg');
   tileAtlases[id]=image;
 }
+const structData=window.NM_STRUCTURE_DATA;
+if(!structData||!structData.town||!structData.road||!structData.cave)throw Error('P3-F modular structures manifest unavailable');
+const structureImages={};
+for(const list of Object.values({town:structData.town,road:structData.road,cave:structData.cave})){
+ for(const part of list){
+  if(structureImages[part.image])continue;
+  const img=new Image();img.src=part.image;structureImages[part.image]=img;
+ }
+}
+function paintStructureLayer(scene,layer,cam){
+ const list=structData[scene]||[];
+ for(const obj of list){
+  if(obj.layer!==layer)continue;
+  const sx=obj.x*32-cam.x,sy=obj.y*32-cam.y,w=obj.w*32,h=obj.h*32;
+  if(sx>=640||sy>=360||sx+w<=0||sy+h<=0)continue;
+  const img=structureImages[obj.image];
+  if(img&&img.complete&&img.naturalWidth)ctx.drawImage(img,Math.round(sx),Math.round(sy),w,h);
+ }
+}
 function currentTilemap(){return tileMaps[state.map]}
 function townCamera(){const map=currentTilemap(),player=visualPlayer(),px=(player.x+.5)*32,py=(player.y+.5)*32;return {x:Math.round(Math.max(0,Math.min(px-320,map.width*32-640))),y:Math.round(Math.max(0,Math.min(py-180,map.height*32-360)))}}
 function canvasPoint(e){const r=canvas.getBoundingClientRect();return {x:(e.clientX-r.left)/r.width*640,y:(e.clientY-r.top)/r.height*360}}
@@ -92,6 +111,7 @@ function drawTileTown(){
  const sourceTile=atlas&&atlas.naturalWidth?atlas.naturalWidth/map.atlas_columns:32;
  const paint=layer=>{const cells=map.layers[layer];if(!cells||!atlas.complete||!atlas.naturalWidth)return;for(let y=y0;y<=y1;y++)for(let x=x0;x<=x1;x++){const i=cells[y*map.width+x];if(i<0)continue;ctx.drawImage(atlas,(i%map.atlas_columns)*sourceTile,Math.floor(i/map.atlas_columns)*sourceTile,sourceTile,sourceTile,x*32-cam.x,y*32-cam.y,32,32)}};
  paint('ground');paint('water');paint('terrain');paint('building');paint('deco_low');
+ paintStructureLayer(state.map,'base',cam);
  function label(text,x,y){const px=(x+.5)*32-cam.x,py=y*32-cam.y;if(px>-80&&px<720&&py>-80&&py<430)drawLabel(text,px,py)}
  if(state.map==='town'){label('客栈',7,8);label('药铺',30,8)}
  const actors=[];
@@ -113,7 +133,7 @@ function drawTileTown(){
    label(obj.name,obj.x,obj.y);
   }
  }
- paint('front');
+ paint('front');paintStructureLayer(state.map,'front',cam);
  for(const ex of world.maps[state.map].exits){const exx=(ex.x+.5)*32-cam.x;if(exx>-70&&exx<710)label(ex.label,ex.x,ex.y-0.15)}
  // Path destination marker must NEVER paint outside the view or behind the map boundaries.
  if(state.route.length){
@@ -143,5 +163,5 @@ $('quests').onclick=()=>openPanel('江湖任务',`<p>当前主线：<b>${taskTex
 $('help').onclick=()=>openPanel('操作说明','<p>鼠标点击地面：角色自动寻路。</p><p>点击 NPC：走近自动触发对话。</p><p>点击山贼：进入单人战斗。</p><p>点击闪光物品：拾取或调查。</p><p>点击场景左右出口：切换地图。</p><p>键盘 I 打开背包，Q 查看任务，Enter/Space 继续对话。</p>');
 $('closePanel').onclick=()=>$('panel').classList.add('hidden');$('restart').onclick=()=>window.NMFinal.returnHome();
 document.addEventListener('keydown',e=>{if(!running)return;if(dialogue&&(e.key==='Enter'||e.key===' ')){e.preventDefault();nextLine();return}if(!$('panel').classList.contains('hidden')){if(e.key==='Escape')$('panel').classList.add('hidden');return}if(e.key.toLowerCase()==='i')$('inventory').click();if(e.key.toLowerCase()==='q')$('quests').click()});
-window.NMFinal={startNew(){if(running)return false;launch(null);return true},continueGame(){if(running)return false;const save=readSaved();if(!save)return false;launch(save);return true},hasSave(){return !!readSaved()},saveInfo(){const s=readSaved();return s?{day:s.day,map:s.map,quest:s.quest}:null},returnHome(){if(running){saveGame();stop()}$('gameScreen').hidden=true;$('homeScreen').hidden=false;window.dispatchEvent(new Event('nm-return-home'));return true},getJournal(){const s=readSaved();return s?s.journal||[]:[]},isRunning(){return running},debugState(){return state},debugCamera(){return townCamera()},debugTilemap(){return currentTilemap()},debugMaps(){return tileMaps},debugAnimation(){return {facing:state.facing||'down',motion:motion?{...motion}:null,keys:Object.keys(animatedSheets),preview:!!(window.location&&/(?:\\?|&)shenyan=16(?:&|$)/.test(window.location.search||''))}}};
+window.NMFinal={startNew(){if(running)return false;launch(null);return true},continueGame(){if(running)return false;const save=readSaved();if(!save)return false;launch(save);return true},hasSave(){return !!readSaved()},saveInfo(){const s=readSaved();return s?{day:s.day,map:s.map,quest:s.quest}:null},returnHome(){if(running){saveGame();stop()}$('gameScreen').hidden=true;$('homeScreen').hidden=false;window.dispatchEvent(new Event('nm-return-home'));return true},getJournal(){const s=readSaved();return s?s.journal||[]:[]},isRunning(){return running},debugState(){return state},debugCamera(){return townCamera()},debugTilemap(){return currentTilemap()},debugMaps(){return tileMaps},debugStructures(){return structData},debugAnimation(){return {facing:state.facing||'down',motion:motion?{...motion}:null,keys:Object.keys(animatedSheets),preview:!!(window.location&&/(?:\\?|&)shenyan=16(?:&|$)/.test(window.location.search||''))}}};
 })();
