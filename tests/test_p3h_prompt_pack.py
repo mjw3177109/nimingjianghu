@@ -38,4 +38,26 @@ class P3HPromptPackTests(unittest.TestCase):
         self.assertIn("face not visible",p3h.DIRECTION_CN["up"][1])
         self.assertIn("true right profile",p3h.DIRECTION_CN["right"][1])
 
+    def test_frames_export_exactly_sixteen_separate_tasks(self):
+        try:
+            from PIL import Image, ImageDraw
+        except ImportError:
+            self.skipTest("Pillow unavailable in this runner")
+        with tempfile.TemporaryDirectory() as td:
+            master=Path(td)/"reviewed_master.png"
+            image=Image.new("RGBA",(1024,1536),(0,0,0,0))
+            ImageDraw.Draw(image).ellipse((250,100,774,1450),fill=(50,70,90,255))
+            image.save(master)
+            out=Path(td)/"frames"
+            result=p3h.frames_package("CHAR001",master,out)
+            self.assertEqual(result["frames"],16)
+            self.assertTrue(result["never_auto_approve"])
+            manifest=json.loads((out/"frames_jobs.json").read_text(encoding="utf-8"))
+            self.assertEqual(len(manifest["tasks"]),16)
+            self.assertEqual({x["direction"] for x in manifest["tasks"]},{"down","left","right","up"})
+            self.assertEqual({x["pose"] for x in manifest["tasks"]},{"idle","walk1","walk2","walk3"})
+            self.assertTrue(all(x["single_image_only"] for x in manifest["tasks"]))
+            self.assertTrue(all("只生成一张独立角色帧" in x["prompt"] for x in manifest["tasks"]))
+            self.assertTrue((out/"CHAR001_up_idle.md").is_file())
+
 if __name__=="__main__":unittest.main()
