@@ -22,4 +22,5 @@ jobs:
       - run: node tests/p3b_tiles.cjs
       - run: node tests/p3c_art.cjs
       - run: node tests/p3c_shenyan_preview.cjs
+      - run: node tests/p3d_home.cjs
       - run: python -m unittest discover -s tests -p 'test_*.py'

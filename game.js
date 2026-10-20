@@ -1,5 +1,5 @@
 (()=>{'use strict';
-const world=window.GAME_WORLD, canvas=document.getElementById('game'), ctx=canvas.getContext('2d'); ctx.imageSmoothingEnabled=false;
+const world=window.GAME_WORLD, canvas=document.getElementById('game'), ctx=canvas.getContext('2d'); ctx.imageSmoothingEnabled=false;ctx.setTransform(2,0,0,2);
 const $=id=>document.getElementById(id); const CELL=20, W=32,H=18;
 // Shared 32px modular maps. Never draw baked scene images in gameplay.
 const tileMaps={town:window.NM_TOWN_TILEMAP,road:window.NM_ROAD_TILEMAP,cave:window.NM_CAVE_TILEMAP};
@@ -109,7 +109,17 @@ function drawTileTown(){
  }
  paint('front');
  for(const ex of world.maps[state.map].exits){const exx=(ex.x+.5)*32-cam.x;if(exx>-70&&exx<710)label(ex.label,ex.x,ex.y-0.15)}
- if(state.route.length){const q=state.route[state.route.length-1];ctx.strokeStyle='#eed393';ctx.lineWidth=2;ctx.strokeRect(q.x*32-cam.x+5,q.y*32-cam.y+5,22,22);}
+ // Path destination marker must NEVER paint outside the view or behind the map boundaries.
+ if(state.route.length){
+  const q=state.route[state.route.length-1];
+  if(q.x>=0&&q.y>=0&&q.x<map.width&&q.y<map.height){
+   const sx=q.x*32-cam.x,sy=q.y*32-cam.y;
+   if(sx>=0&&sy>=0&&sx+32<=640&&sy+32<=360){
+    ctx.strokeStyle='#f8d49a';ctx.lineWidth=2;
+    ctx.strokeRect(Math.round(sx)+5,Math.round(sy)+5,22,22);
+   }
+  }
+ }
 }
 function draw(){drawTileTown()}
 function drawSprite(k,x,y){const im=imgs[k];const px=x*20-9,py=y*20-42;ctx.fillStyle='#0a131c66';ctx.beginPath();ctx.ellipse(x*20+10,y*20+17,13,5,0,0,Math.PI*2);ctx.fill();if(im.complete&&im.naturalWidth){ctx.save();ctx.shadowColor='#161b2199';ctx.shadowBlur=2;ctx.drawImage(im,px,py,38,61);ctx.restore()}else{ctx.fillStyle='#dec79e';ctx.fillRect(px+7,py+13,24,47)}}

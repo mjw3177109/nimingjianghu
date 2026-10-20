@@ -1,43 +1,63 @@
-<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#131a25"><title>逆命江湖 · Q版国风试玩</title><link rel="stylesheet" href="style.css"></head><body>
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#101925"><title>逆命江湖 · 江湖由你改写</title><link rel="stylesheet" href="style.css"></head><body>
 <main id="homeScreen" class="home-screen" aria-label="逆命江湖首页">
-  <div class="artboard">
-    <div class="hero-panels">
-      <section class="art-panel left-menu" style="--image:url('assets/home/menu_panel.webp')" aria-label="主菜单">
-        <button id="startButton" style="--y:34.8%" class="menu-hotspot" aria-label="开始游戏"><span>开始游戏</span></button>
-        <button id="continueButton" style="--y:46.0%" class="menu-hotspot" aria-label="继续游戏"><span>继续游戏</span></button>
-        <button data-page="settings" style="--y:57.0%" class="menu-hotspot" aria-label="游戏设置"><span>游戏设置</span></button>
-        <button data-page="codex" style="--y:68.0%" class="menu-hotspot" aria-label="角色图鉴"><span>角色图鉴</span></button>
-        <button data-page="recap" style="--y:79.5%" class="menu-hotspot" aria-label="剧情回顾"><span>剧情回顾</span></button>
-        <button data-page="about" style="--y:90.0%" class="menu-hotspot" aria-label="关于本作"><span>关于本作</span></button>
-      </section>
-      <section class="art-panel center-hero" style="--image:url('assets/home/hero_panel.webp')" aria-label="沈砚，逆天改命，再入江湖"></section>
-      <section class="art-panel right-cards" style="--image:url('assets/home/cards_panel.webp')" aria-label="江湖人物">
-        <button data-character="CHAR001" class="character-hotspot" style="--y:0%" aria-label="查看沈砚"></button>
-        <button data-character="NPC005" class="character-hotspot" style="--y:25%" aria-label="查看苏晚晴"></button>
-        <button data-character="NPC001" class="character-hotspot" style="--y:50%" aria-label="查看韩掌柜"></button>
-        <button data-character="BOSS001" class="character-hotspot" style="--y:75%" aria-label="查看廖"></button>
-      </section>
-    </div>
-    <div class="preview-panels">
-      <button class="preview-panel" data-preview="town"><img src="assets/home/preview_town.webp" alt="青石镇玩法预览"></button>
-      <button class="preview-panel" data-preview="road"><img src="assets/home/preview_battle.webp" alt="城外山路战斗预览"></button>
-      <button class="preview-panel" data-preview="cave"><img src="assets/home/preview_cave.webp" alt="废弃山洞探索预览"></button>
-    </div>
-    <img class="feature-strip" src="assets/home/feature_strip.webp" alt="江湖探索、剧情、养成、战斗与国风Q版">
+ <div class="home-shell">
+  <header class="home-brand">
+   <div class="brand-lockup"><span class="brand-seal" aria-hidden="true">命</span><div><h1>逆命江湖</h1><p>国风 Q 版 · 单人武侠 RPG</p></div></div>
+   <div class="edition-label"><span class="sparkle">✦</span> 第一章试玩 <span class="edition-sep">/</span> 青石镇篇</div>
+  </header>
+  <div class="home-layout">
+   <nav class="home-menu" aria-label="游戏主菜单">
+    <div class="menu-heading"><small>踏入江湖</small><strong>侠路由心</strong></div>
+    <button id="startButton" class="home-btn home-btn-primary"><span class="btn-icon">➤</span><span>开始游戏</span></button>
+    <button id="continueButton" class="home-btn"><span class="btn-icon">▣</span><span>继续游戏</span></button>
+    <button data-page="settings" class="home-btn"><span class="btn-icon">⚙</span><span>游戏设置</span></button>
+    <button data-page="codex" class="home-btn"><span class="btn-icon">◈</span><span>角色图鉴</span></button>
+    <button data-page="recap" class="home-btn"><span class="btn-icon">▤</span><span>剧情回顾</span></button>
+    <button data-page="about" class="home-btn"><span class="btn-icon">ⓘ</span><span>关于本作</span></button>
+    <p class="menu-footnote">命运不曾写尽，江湖仍待你行。</p>
+   </nav>
+   <section class="home-hero" aria-label="月夜江湖宣传主视觉">
+    <div class="home-hero-scene" role="img" aria-label="满月下的青石镇，樱花、山峦与古风灯火"></div>
+    <div class="hero-ink"></div>
+    <div class="hero-message"><small>一纸命轨 · 千重江湖</small><h2>逆天改命<br>再入江湖</h2><p>这一次，你不再是旁观者。</p><div class="hero-motto">命由己定，剑问苍穹</div></div>
+    <div class="hero-roundel"><img src="assets/portraits/CHAR001_avatar.webp" alt="沈砚角色头像" loading="eager"><span>沈砚</span></div>
+    <span class="hero-bloom hero-bloom-one" aria-hidden="true">✿</span><span class="hero-bloom hero-bloom-two" aria-hidden="true">✿</span>
+   </section>
+   <aside class="home-characters" aria-label="江湖人物">
+    <h2>群侠绘卷 <small>人物档案</small></h2>
+    <button class="character-card" data-character="CHAR001"><img src="assets/portraits/CHAR001_avatar.webp" alt=""><span><strong>沈砚</strong><small>逆命之人 · 本作主角</small></span><span class="arrow">›</span></button>
+    <button class="character-card" data-character="NPC005"><img src="assets/portraits/NPC005_avatar.webp" alt=""><span><strong>苏晚晴</strong><small>青石镇药师</small></span><span class="arrow">›</span></button>
+    <button class="character-card" data-character="NPC001"><img src="assets/portraits/NPC001_avatar.webp" alt=""><span><strong>韩掌柜</strong><small>客栈掌柜 · 江湖百事通</small></span><span class="arrow">›</span></button>
+    <button class="character-card" data-character="BOSS001"><img src="assets/portraits/BOSS001_avatar.webp" alt=""><span><strong>廖</strong><small>幕后观命者</small></span><span class="arrow">›</span></button>
+    <div class="characters-footer">欲识其人，点击查看</div>
+   </aside>
   </div>
-  <div class="home-caption" id="saveCaption">欢迎来到江湖 · 点击开始游戏</div>
+  <section class="home-previews" aria-label="可玩地图预览">
+   <h2>江湖初见 <small>全部取自真实 Tile 地图 · 无生成文字</small></h2>
+   <div class="preview-grid">
+    <button class="preview-card" data-preview="town"><canvas data-scene-canvas="town" width="640" height="240" aria-hidden="true"></canvas><span><strong>青石镇</strong><small>古镇初遇 · 水巷灯火</small></span></button>
+    <button class="preview-card" data-preview="road"><canvas data-scene-canvas="road" width="640" height="240" aria-hidden="true"></canvas><span><strong>城外山路</strong><small>孤身迎敌 · 剑破长风</small></span></button>
+    <button class="preview-card" data-preview="cave"><canvas data-scene-canvas="cave" width="640" height="240" aria-hidden="true"></canvas><span><strong>废弃山洞</strong><small>命痕初现 · 秘籍待寻</small></span></button>
+   </div>
+  </section>
+  <footer class="home-footer"><span>✥ 多地图探索</span><span>✥ 单人战斗</span><span>✥ 江湖成长</span><span>✥ 逆命剧情</span><span>✥ 精致国风 Q 版</span></footer>
+ </div>
+ <div class="home-caption" id="saveCaption">欢迎来到江湖 · 点击开始游戏</div>
 </main>
 <section id="codexScreen" class="codex-screen" hidden aria-label="群侠图鉴">
-  <div class="codex-book"><img src="assets/home/characters_gallery_ref.webp" alt="逆命江湖群侠人物绘卷"><div class="codex-overlay">
-    <h1>群侠绘卷</h1><div id="codexInfo">点击人物查看介绍</div>
-    <div class="codex-hotspots">
-      <button data-character="CHAR001" aria-label="沈砚"></button><button data-character="BOSS001" aria-label="廖"></button><button data-character="NPC001" aria-label="韩掌柜"></button><button data-character="NPC002" aria-label="顾老"></button><button data-character="NPC003" aria-label="顾青岚"></button><button data-character="NPC005" aria-label="苏晚晴"></button>
-    </div>
-  </div></div><button class="gold-btn" id="codexBack">返回首页</button>
+ <div class="codex-panel"><div class="codex-header"><span class="eyebrow">人物志 · 群侠绘卷</span><h2>江湖众生，各有命数</h2><p>点击人物查看介绍。人物姓名和描述都是可编辑文字，不会混入图片中的 AI 错字。</p></div>
+ <div class="codex-list">
+  <button class="codex-person" data-character="CHAR001"><img src="assets/portraits/CHAR001_avatar.webp" alt=""><strong>沈砚</strong><span>穿越少年</span></button>
+  <button class="codex-person" data-character="BOSS001"><img src="assets/portraits/BOSS001_avatar.webp" alt=""><strong>廖</strong><span>幕后观命者</span></button>
+  <button class="codex-person" data-character="NPC001"><img src="assets/portraits/NPC001_avatar.webp" alt=""><strong>韩掌柜</strong><span>青石镇客栈掌柜</span></button>
+  <button class="codex-person" data-character="NPC002"><img src="assets/portraits/NPC002_avatar.webp" alt=""><strong>顾老</strong><span>江湖前辈</span></button>
+  <button class="codex-person" data-character="NPC003"><img src="assets/portraits/NPC003_avatar.webp" alt=""><strong>顾青岚</strong><span>年轻剑客</span></button>
+  <button class="codex-person" data-character="NPC005"><img src="assets/portraits/NPC005_avatar.webp" alt=""><strong>苏晚晴</strong><span>青衣药师</span></button>
+ </div><div id="codexInfo" class="codex-info">点击人物卡了解他的江湖故事。</div><button class="gold-btn" id="codexBack">返回首页</button></div>
 </section>
 <section id="gameScreen" class="play-screen" hidden aria-label="游戏中">
   <div class="play-area">
-    <div class="play-frame"><canvas id="game" width="640" height="360" aria-label="逆命江湖地图，可点击地面移动，点击人物交谈"></canvas>
+    <div class="play-frame"><canvas id="game" width="1280" height="720" aria-label="逆命江湖地图，可点击地面移动，点击人物交谈"></canvas>
       <div class="painted-hud">
         <div class="status-box"><img src="assets/portraits/CHAR001_avatar.webp" alt="沈砚"><div class="status-meters"><b>沈砚 <small>Lv.<span id="level">1</span></small></b><div class="gauge hp-gauge"><i id="hpBar"></i></div><div class="gauge mp-gauge"><i id="mpBar"></i></div><span id="hpText">100 / 100</span> <span id="mpText">50 / 50</span></div></div>
         <div class="mission-box"><b>主线 · 江湖记事</b><p id="quest">初入青石镇</p><small id="journal">眼前的江湖似曾相识。</small></div>
@@ -52,4 +72,4 @@
 <div id="battle" class="modal hidden"><div class="combat-box"><h2>⚔ 江湖交锋 <small id="battleName">山贼</small></h2><div class="combat-actors"><img src="assets/sprites/player.png" alt="沈砚"><span>⚔</span><img src="assets/sprites/bandit.png" alt="山贼"></div><div class="combat-hp"><div>沈砚 <span id="battlePlayerHp">100</span></div><div>山贼 <span id="battleEnemyHp">54</span></div></div><div class="battle-log" id="battleLog">战斗开始</div><div class="battle-buttons"><button data-action="attack"><b>⚔</b> 普通攻击</button><button data-action="skill"><b>✦</b> 破风一剑</button><button data-action="heal"><b>✚</b> 疗伤 <span id="potions">2</span></button><button data-action="defend"><b>⛨</b> 防御</button></div></div></div>
 <div id="panel" class="modal hidden"><div class="panel-box"><h2 id="panelTitle">江湖手记</h2><div id="panelContent"></div><button id="closePanel">关闭</button></div></div>
 <div id="menuPanel" class="modal hidden"><div class="panel-box"><h2 id="menuPanelTitle">江湖手记</h2><div id="menuPanelContent"></div><button id="menuPanelClose">返回</button></div></div>
-<script src="world-data.js"></script><script src="town-tile-data.js"></script><script src="road-tile-data.js"></script><script src="cave-tile-data.js"></script><script src="assets/characters/scene_sprites/sprite_registry.js"></script><script src="game.js"></script><script src="app.js"></script></body></html>
+<script src="world-data.js"></script><script src="town-tile-data.js"></script><script src="road-tile-data.js"></script><script src="cave-tile-data.js"></script><script src="assets/characters/scene_sprites/sprite_registry.js"></script><script src="game.js"></script><script src="app.js"></script><script src="home-preview.js"></script></body></html>

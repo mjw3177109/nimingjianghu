@@ -28,9 +28,12 @@ for(const args of pictures)verify(...args);
 const h=fs.readFileSync(path.join(root,'index.html'),'utf8');
 const g=fs.readFileSync(path.join(root,'game.js'),'utf8');
 const css=fs.readFileSync(path.join(root,'style.css'),'utf8');
-for(const [asset] of pictures.filter(([p])=>p.startsWith('assets/home/'))){
- if(![h,css].some(s=>s.includes(asset)))throw Error('Homepage no reference for '+asset);
-}
+// Original low-resolution artwork is intentionally retained for provenance,
+// but can no longer drive the actual homepage UI or its editable Chinese labels.
+const forbidden=['menu_panel.webp','cards_panel.webp','hero_panel.webp','preview_town.webp','preview_battle.webp','preview_cave.webp','feature_strip.webp','characters_gallery_ref.webp'];
+for(const name of forbidden)assert(!h.includes(name)&&!css.includes(name),'Low-res/baked-text panel still used: '+name);
+assert(css.includes('assets/home/moon_town_vector.svg'),'Missing vector moonlit artwork');
+assert(h.includes('data-scene-canvas="town"')&&h.includes('data-scene-canvas="road"')&&h.includes('data-scene-canvas="cave"'),'Live tile thumbnails missing');
 for(const [asset] of pictures.filter(([p])=>p.startsWith('assets/maps/'))){assert(!g.includes(asset),'Gameplay still loads full scene: '+asset);}
 assert(h.includes('id="startButton"')&&h.includes('id="continueButton"'),'Home start controls missing');
 assert(h.includes('id="codexScreen"')&&h.includes('id="gameScreen"'),'Gallery/game screens missing');
