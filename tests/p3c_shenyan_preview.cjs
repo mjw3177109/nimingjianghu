@@ -1,0 +1,16 @@
+'use strict';
+const fs=require('node:fs'),assert=require('node:assert/strict'),path=require('node:path');
+const root=path.resolve(__dirname,'..');
+const file=path.join(root,'assets/characters/scene_sprites/candidates/player_4dir_preview.png');
+const b=fs.readFileSync(file);
+assert.equal(b.toString('hex',0,8),'89504e470d0a1a0a','PNG header');
+assert.equal(b.readUInt32BE(16),96,'Preview must be 4x24');
+assert.equal(b.readUInt32BE(20),128,'Preview must be 4x32');
+assert(b.indexOf(Buffer.from('tRNS'))>=0,'Must have transparent background');
+const game=fs.readFileSync(path.join(root,'game.js'),'utf8');
+const py=fs.readFileSync(path.join(root,'main.py'),'utf8');
+assert(game.includes('shenyan=16')&&game.includes('const fw=sheet.naturalWidth/4'),'Browser preview not wired');
+assert(py.includes('NIMING_PREVIEW_SHENYAN16')&&py.includes('framew,frameh'),'Pygame preview not wired');
+const registry=JSON.parse(fs.readFileSync(path.join(root,'assets/characters/scene_sprites/sprite_registry.js'),'utf8').replace(/^window\.NM_SPRITE_REGISTRY = /,'').trim().replace(/;$/,''));
+assert(registry.player.endsWith('.svg'),'Preview must NOT overwrite stable player sheet');
+console.log('PASS: Shenyan preview PNG 4x4, RGBA transparency, runtime opt-in and default safe');

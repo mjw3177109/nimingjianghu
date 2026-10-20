@@ -33,13 +33,18 @@ function launch(saved){stop();motion=null;state=saved?{...JSON.parse(JSON.string
 const imgs={},animatedSheets={};
 for(const [k,path] of Object.entries({player:'assets/sprites/player.png',innkeeper:'assets/sprites/innkeeper.png',healer:'assets/sprites/healer.png',oldman:'assets/sprites/oldman.png',bandit:'assets/sprites/bandit.png'})){
   const im=new Image();im.src=path;imgs[k]=im;
-  const sheet=new Image();sheet.src=(window.NM_SPRITE_REGISTRY&&window.NM_SPRITE_REGISTRY[k])||'assets/characters/scene_sprites/'+k+'_4dir.svg';animatedSheets[k]=sheet;
+  const sheet=new Image();
+  const preview=!!(window.location&&/(?:\\?|&)shenyan=16(?:&|$)/.test(window.location.search||''));
+  sheet.src=(preview&&k==='player')?'assets/characters/scene_sprites/candidates/player_4dir_preview.png':
+    ((window.NM_SPRITE_REGISTRY&&window.NM_SPRITE_REGISTRY[k])||'assets/characters/scene_sprites/'+k+'_4dir.svg');
+  animatedSheets[k]=sheet;
 }
 function drawActorSprite(key,feetX,feetY,facing,moving=false){
  const sheet=animatedSheets[key],dir=faceOrder[facing]??0;
  const beat=moving?1+Math.floor(frame/4)%3:0;
- if(sheet&&sheet.complete&&sheet.naturalWidth>=192){
-   ctx.drawImage(sheet,beat*48,dir*64,48,64,feetX-24,feetY-63,48,64);
+ if(sheet&&sheet.complete&&sheet.naturalWidth>=96){
+   const fw=sheet.naturalWidth/4,fh=(sheet.naturalHeight||fw*16/3)/4;
+   ctx.drawImage(sheet,beat*fw,dir*fh,fw,fh,feetX-24,feetY-63,48,64);
  }else{
    const image=imgs[key];if(image&&image.complete&&image.naturalWidth)ctx.drawImage(image,feetX-21,feetY-58+(moving?Math.sin(frame/2):0),42,58);
    else{ctx.fillStyle='#dfc9ad';ctx.fillRect(feetX-10,feetY-35,20,32)}
@@ -122,5 +127,5 @@ $('quests').onclick=()=>openPanel('江湖任务',`<p>当前主线：<b>${taskTex
 $('help').onclick=()=>openPanel('操作说明','<p>鼠标点击地面：角色自动寻路。</p><p>点击 NPC：走近自动触发对话。</p><p>点击山贼：进入单人战斗。</p><p>点击闪光物品：拾取或调查。</p><p>点击场景左右出口：切换地图。</p><p>键盘 I 打开背包，Q 查看任务，Enter/Space 继续对话。</p>');
 $('closePanel').onclick=()=>$('panel').classList.add('hidden');$('restart').onclick=()=>window.NMFinal.returnHome();
 document.addEventListener('keydown',e=>{if(!running)return;if(dialogue&&(e.key==='Enter'||e.key===' ')){e.preventDefault();nextLine();return}if(!$('panel').classList.contains('hidden')){if(e.key==='Escape')$('panel').classList.add('hidden');return}if(e.key.toLowerCase()==='i')$('inventory').click();if(e.key.toLowerCase()==='q')$('quests').click()});
-window.NMFinal={startNew(){if(running)return false;launch(null);return true},continueGame(){if(running)return false;const save=readSaved();if(!save)return false;launch(save);return true},hasSave(){return !!readSaved()},saveInfo(){const s=readSaved();return s?{day:s.day,map:s.map,quest:s.quest}:null},returnHome(){if(running){saveGame();stop()}$('gameScreen').hidden=true;$('homeScreen').hidden=false;window.dispatchEvent(new Event('nm-return-home'));return true},getJournal(){const s=readSaved();return s?s.journal||[]:[]},isRunning(){return running},debugState(){return state},debugCamera(){return townCamera()},debugTilemap(){return currentTilemap()},debugMaps(){return tileMaps},debugAnimation(){return {facing:state.facing||'down',motion:motion?{...motion}:null,keys:Object.keys(animatedSheets)}}};
+window.NMFinal={startNew(){if(running)return false;launch(null);return true},continueGame(){if(running)return false;const save=readSaved();if(!save)return false;launch(save);return true},hasSave(){return !!readSaved()},saveInfo(){const s=readSaved();return s?{day:s.day,map:s.map,quest:s.quest}:null},returnHome(){if(running){saveGame();stop()}$('gameScreen').hidden=true;$('homeScreen').hidden=false;window.dispatchEvent(new Event('nm-return-home'));return true},getJournal(){const s=readSaved();return s?s.journal||[]:[]},isRunning(){return running},debugState(){return state},debugCamera(){return townCamera()},debugTilemap(){return currentTilemap()},debugMaps(){return tileMaps},debugAnimation(){return {facing:state.facing||'down',motion:motion?{...motion}:null,keys:Object.keys(animatedSheets),preview:!!(window.location&&/(?:\\?|&)shenyan=16(?:&|$)/.test(window.location.search||''))}}};
 })();

@@ -2,6 +2,7 @@
 """逆命江湖 Q版 Pygame Demo · 新游戏→青石镇→山路→山洞→命痕→返回青石镇。"""
 import json
 import random
+import os
 import subprocess
 import sys
 from collections import deque
@@ -79,6 +80,8 @@ def main():
     animated_sprites={}
     for key in sprites:
         sheet_file=ROOT/sprite_paths.get(key,'')
+        if key=='player' and os.environ.get('NIMING_PREVIEW_SHENYAN16')=='1':
+            sheet_file=ROOT/'assets/characters/scene_sprites/candidates/player_4dir_preview.png'
         if not sheet_file.is_file():continue
         try:
             if sheet_file.suffix.lower()=='.png':
@@ -87,8 +90,10 @@ def main():
                 import io,cairosvg
                 png=cairosvg.svg2png(url=str(sheet_file))
                 sheet=pygame.image.load(io.BytesIO(png),key+'_4dir.png').convert_alpha()
-            if sheet.get_size()!=(192,256):raise ValueError('Invalid direction atlas dimensions')
-            animated_sprites[key]=[[sheet.subsurface(pygame.Rect(col*48,row*64,48,64))
+            if sheet.get_size() not in ((192,256),(96,128)):raise ValueError('Invalid direction atlas dimensions')
+            framew,frameh=sheet.get_width()//4,sheet.get_height()//4
+            animated_sprites[key]=[[pygame.transform.scale(sheet.subsurface(
+                pygame.Rect(col*framew,row*frameh,framew,frameh)),(48,64))
                 for col in range(4)] for row in range(4)]
         except (ImportError,ValueError,OSError,pygame.error) as exc:
             print(f'[P3-C] 动画图集无法解码，保留原有角色静态 PNG: {key}: {exc}')

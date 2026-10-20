@@ -46,3 +46,10 @@ python tools/pack_sprite_sheets.py --character CHAR001 --input qwen_4dir/CHAR001
 ```
 审核通过后自动写入正式`player_4dir.png`、更新浏览器`sprite_registry.js`与Pygame共用的`sprite_manifest.json`；不需要人工改游戏 JS，不会改变地图数据和第一章任务。
 注意：程序自动检验透明背景、16帧存在、动作差异与部分方向重复；**不能自动保证人脸、服装和动作质量符合三张官方参考图，需人工视觉审核。**
+
+## P3-C · 沈砚真实四方向候选预览
+
+- 普通页面：默认使用稳定版角色 Sprite。
+- **预览入口**：在当前 Vercel 项目URL后加 `?shenyan=16`，即临时替换成新绘制四视角候选；可通过相同地图与NPC位置直接比较，互不覆盖存档。
+- Windows：`$env:NIMING_PREVIEW_SHENYAN16="1"; python main.py`。
+- 更高清的16帧48×64透明PNG和192×256图集已作为候选 ZIP 供人工验收；源码信息见 `docs/P3C_SHENYAN_REVIEW.md`。
