@@ -13,6 +13,8 @@ assert(game.includes("if(/_4dir\\.png$/i.test(candidate))"),'Only approved PNG m
 assert(game.includes('sheet.naturalWidth>=384&&sheet.naturalHeight>=512'),'Reject tiny low-res frame sheets');
 assert(!game.includes("src=(preview&&k==='player')"),'Preview query flag must not activate broken images');
 assert(py.includes('full=pygame.image.load(')&&py.includes('sprites[key]=pygame.transform.smoothscale(full'),'Pygame should preserve original full body');
-assert(py.includes("entry.get('direction_status')!='user_approved_independently_painted'"),'Pygame must gate directional images');
+assert(py.includes("'user_approved_independently_painted'"),'Keep final art approval gate');
+assert(py.includes("'gameplay_trial_pending_user_art_review'"),'Allow only high resolution Shenyan game trial');
+assert(py.includes("key!='player'"),'Block unreviewed sprites for all other characters');
 assert(!py.includes('clip_path')&&!py.includes('NIMING_PREVIEW_SHENYAN16'),'Legacy preview must not run in Windows gameplay');
 console.log('PASS P3-I: legacy split body disabled; whole-body sprite active; HD atlas requires 96x128 frames');
