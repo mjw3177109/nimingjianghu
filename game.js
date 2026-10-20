@@ -33,7 +33,7 @@ function launch(saved){stop();motion=null;state=saved?{...JSON.parse(JSON.string
 const imgs={},animatedSheets={};
 for(const [k,path] of Object.entries({player:'assets/sprites/player.png',innkeeper:'assets/sprites/innkeeper.png',healer:'assets/sprites/healer.png',oldman:'assets/sprites/oldman.png',bandit:'assets/sprites/bandit.png'})){
   const im=new Image();im.src=path;imgs[k]=im;
-  const sheet=new Image();sheet.src='assets/characters/scene_sprites/'+k+'_4dir.svg';animatedSheets[k]=sheet;
+  const sheet=new Image();sheet.src=(window.NM_SPRITE_REGISTRY&&window.NM_SPRITE_REGISTRY[k])||'assets/characters/scene_sprites/'+k+'_4dir.svg';animatedSheets[k]=sheet;
 }
 function drawActorSprite(key,feetX,feetY,facing,moving=false){
  const sheet=animatedSheets[key],dir=faceOrder[facing]??0;

@@ -74,14 +74,19 @@ def main():
         atlases[key]=[atlas.subsurface(pygame.Rect((i%m['atlas_columns'])*32,(i//m['atlas_columns'])*32,32,32)) for i in range(len(m['tile_ids']))]
     sprites={k:load_art('sprites',k,(42,58),alpha=True) for k in ['player','innkeeper','healer','oldman','bandit']}
     # Four directions × four animation frames; image source stays linked to approved Q-style sprites.
+    sprite_manifest=json.loads((ROOT/'assets/characters/scene_sprites/sprite_manifest.json').read_text(encoding='utf-8'))
+    sprite_paths={entry['key']:entry['sheet'] for entry in sprite_manifest['entries']}
     animated_sprites={}
     for key in sprites:
-        sheet_file=ROOT/'assets/characters/scene_sprites'/(key+'_4dir.svg')
-        if not sheet_file.exists():continue
+        sheet_file=ROOT/sprite_paths.get(key,'')
+        if not sheet_file.is_file():continue
         try:
-            import io,cairosvg
-            png=cairosvg.svg2png(url=str(sheet_file))
-            sheet=pygame.image.load(io.BytesIO(png),key+'_4dir.png').convert_alpha()
+            if sheet_file.suffix.lower()=='.png':
+                sheet=pygame.image.load(str(sheet_file)).convert_alpha()
+            else:
+                import io,cairosvg
+                png=cairosvg.svg2png(url=str(sheet_file))
+                sheet=pygame.image.load(io.BytesIO(png),key+'_4dir.png').convert_alpha()
             if sheet.get_size()!=(192,256):raise ValueError('Invalid direction atlas dimensions')
             animated_sprites[key]=[[sheet.subsurface(pygame.Rect(col*48,row*64,48,64))
                 for col in range(4)] for row in range(4)]

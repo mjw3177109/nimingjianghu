@@ -28,3 +28,21 @@
 ## P3-C
 
 地图自然材质经过细节加密，五名游戏角色接入四向四帧行走过渡动画，浏览器与 Pygame 平滑跟随；正式真四视角图稿仍需生图替换。见 [P3C 制作记录](docs/P3C_IMPLEMENTATION.md)。
+
+## 正式四方向 Sprite 自动替换（P3-C 扩展）
+
+已新增`assets/characters/scene_sprites/qwen_4dir_jobs.json`：7名角色共112帧任务，当前5名游戏角色80帧可进入生产；顾青岚、廖共32帧必须先补齐正式全身母版，任务保持 blocked 状态，不会拿正面图冒充。
+
+Qwen 将每个人物的16张透明PNG输出到：
+`qwen_4dir/CHAR001/down_idle.png`、`down_walk1.png`、`down_walk2.png`、`down_walk3.png`，再依次为`left/right/up`生成同样4帧。
+
+先以**候选模式**执行（绝不覆盖游戏运行文件）：
+```powershell
+python tools/pack_sprite_sheets.py --character CHAR001 --input qwen_4dir/CHAR001
+```
+检查`assets/characters/scene_sprites/player_4dir_review.png`中真实四视角、16帧动画、服装和脚底高度。审核通过才执行：
+```powershell
+python tools/pack_sprite_sheets.py --character CHAR001 --input qwen_4dir/CHAR001 --approve
+```
+审核通过后自动写入正式`player_4dir.png`、更新浏览器`sprite_registry.js`与Pygame共用的`sprite_manifest.json`；不需要人工改游戏 JS，不会改变地图数据和第一章任务。
+注意：程序自动检验透明背景、16帧存在、动作差异与部分方向重复；**不能自动保证人脸、服装和动作质量符合三张官方参考图，需人工视觉审核。**

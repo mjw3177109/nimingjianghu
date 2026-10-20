@@ -20,6 +20,17 @@ for(const s of ['town','road','cave']){
  assert(svg.includes('id="p3c-clip"'),'Lacks real per-tile natural material detail: '+s);
  assert(svg.includes('P3-C 32px natural-material pixel detail'),s+' missing polish overlay');
 }
+const registry=fs.readFileSync(path.join(root,'assets/characters/scene_sprites/sprite_registry.js'),'utf8');
+const registryData=JSON.parse(registry.trim().replace(/^window\.NM_SPRITE_REGISTRY = /,'').replace(/;$/,''));
+for(const entry of m.entries){assert.equal(registryData[entry.key],entry.sheet,'Registry/manifest drift: '+entry.key)}
+const jobs=JSON.parse(fs.readFileSync(path.join(root,'assets/characters/scene_sprites/qwen_4dir_jobs.json'),'utf8'));
+assert.equal(jobs.tasks.length,112,'Expected 7 characters * 16 frames');
+assert.equal(jobs.tasks.filter(x=>x.status==='ready').length,80,'Expected 5 game characters ready');
+assert.equal(jobs.tasks.filter(x=>x.status.startsWith('blocked')).length,32,'2 characters must wait for fullbody master');
+const index=fs.readFileSync(path.join(root,'index.html'),'utf8');
+assert(index.includes('sprite_registry.js'),'Browser must load replaceable sprite registry');
+const packer=fs.readFileSync(path.join(root,'tools/pack_sprite_sheets.py'),'utf8');
+assert(packer.includes('def normalize(')&&packer.includes('def difference_ratio(')&&packer.includes('--approve'),'Packed production workflow missing');
 const g=fs.readFileSync(path.join(root,'game.js'),'utf8');
 const p=fs.readFileSync(path.join(root,'main.py'),'utf8');
 assert(g.includes('function drawActorSprite'),'Browser runtime missing direction animation');

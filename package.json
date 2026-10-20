@@ -4,7 +4,7 @@
   "version": "0.5.0",
   "description": "逆命江湖三锚点精致国风Q版试玩版",
   "scripts": {
-    "build": "node --check game.js && node --check app.js && node --check world-data.js && node tests/final_smoke.cjs && node tests/p3a_tiles.cjs && node tests/p3b_tiles.cjs && node tests/p3c_art.cjs && node tests/python_contract.cjs && node tests/assets_contract.cjs && node tools/build-web.cjs",
+    "build": "node --check game.js && node --check app.js && node --check world-data.js && node --check assets/characters/scene_sprites/sprite_registry.js && node tests/final_smoke.cjs && node tests/p3a_tiles.cjs && node tests/p3b_tiles.cjs && node tests/p3c_art.cjs && node tests/python_contract.cjs && node tests/assets_contract.cjs && node tools/build-web.cjs",
     "test": "node tests/final_smoke.cjs && node tests/p3a_tiles.cjs && node tests/p3b_tiles.cjs && node tests/p3c_art.cjs && node tests/python_contract.cjs && node tests/assets_contract.cjs"
   },
   "engines": {
