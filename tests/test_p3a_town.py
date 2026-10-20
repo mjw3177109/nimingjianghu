@@ -41,7 +41,7 @@ class P3ATownTests(unittest.TestCase):
     def test_both_clients_refer_to_tile_data(self):
         py=(ROOT/'main.py').read_text(encoding='utf-8')
         js=(ROOT/'game.js').read_text(encoding='utf-8')
-        self.assertIn('town_tilemap.json',py)
+        self.assertIn("for key in ('town','road','cave')",py)
         self.assertIn('tileAtlases',js)
         self.assertNotIn("('town','S001_town')",py)
         self.assertNotIn('S001_town.webp',js)
