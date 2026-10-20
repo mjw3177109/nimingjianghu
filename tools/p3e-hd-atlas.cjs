@@ -75,7 +75,7 @@ function create(scene,map){
 }
 if(require.main===module)for(const name of ['town','road','cave']){
  const f=ROOT+'/data/maps/'+name+'/'+name+'_tilemap.json',map=JSON.parse(fs.readFileSync(f,'utf8'));
- const outfile=ROOT+'/assets/tilesets/'+name+'/'+name+'_hd64.svg';
+ const outfile=ROOT+'/assets/tilesets/'+name+'/'+name+'_atlas_hd64.svg';
  fs.writeFileSync(outfile,create(name,map));
  console.log('Created',outfile,map.tile_ids.length+' unique tiles native 64px');
 }
