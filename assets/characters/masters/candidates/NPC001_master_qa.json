@@ -1,0 +1,25 @@
+{
+  "status": "CANDIDATE_NOT_APPROVED",
+  "character": "NPC001",
+  "name": "韩掌柜",
+  "fullbody_file": "D:\\nimingjianghu\\assets\\characters\\masters\\candidates\\NPC001_fullbody_candidate.png",
+  "portrait_file": "D:\\nimingjianghu\\assets\\characters\\masters\\candidates\\NPC001_portrait_candidate.png",
+  "review_file": "D:\\nimingjianghu\\assets\\characters\\masters\\candidates\\NPC001_review.jpg",
+  "source": {
+    "w": 1024,
+    "h": 1536,
+    "bbox": [
+      113,
+      112,
+      946,
+      1448
+    ],
+    "sha256": "ad607638d5f562a691bc9fc38401510b6dbd581a7c80476f7d3187109ae2a8c5"
+  },
+  "output_sha256": {
+    "fullbody": "146a81c9e0308e530ecd2533be1b4df58d054c2e17f28bbe4506782a6cdb211e",
+    "portrait": "3a4b772b8d08bfa4a81c8448fcfba224f46daf97f85d32122e1b50db7cd53f18",
+    "review": "d830a60ed82be39ba5ba53661f8ef0b34edd6586174cc4c9f733108c2f3ee1b0"
+  },
+  "note": "高清尺寸、透明度等仅为技术检查；角色脸/衣服/透视一致性需要人工审核"
+}

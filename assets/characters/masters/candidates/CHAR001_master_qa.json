@@ -1,0 +1,25 @@
+{
+  "status": "CANDIDATE_NOT_APPROVED",
+  "character": "CHAR001",
+  "name": "沈砚",
+  "fullbody_file": "D:\\nimingjianghu\\assets\\characters\\masters\\candidates\\CHAR001_fullbody_candidate.png",
+  "portrait_file": "D:\\nimingjianghu\\assets\\characters\\masters\\candidates\\CHAR001_portrait_candidate.png",
+  "review_file": "D:\\nimingjianghu\\assets\\characters\\masters\\candidates\\CHAR001_review.jpg",
+  "source": {
+    "w": 1024,
+    "h": 1536,
+    "bbox": [
+      122,
+      30,
+      956,
+      1524
+    ],
+    "sha256": "8f6eb1f7cdc04180e567c02f6dce5c0751fcff3afe322e51d079fae5b7be584a"
+  },
+  "output_sha256": {
+    "fullbody": "7f4e0e10dbf960df888d0b9fd985d8b82c5feee24a4b9437336d7bf4804f5069",
+    "portrait": "9fe7c83e79b76f2a4badc54d68986eeb185610521f913fc147c31be7a6bbf598",
+    "review": "bbc0042c0d8f3915eb739c4071792832380902aa4cf43461f5268e51dbd2b31d"
+  },
+  "note": "高清尺寸、透明度等仅为技术检查；角色脸/衣服/透视一致性需要人工审核"
+}

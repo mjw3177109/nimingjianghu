@@ -12,11 +12,10 @@ async function main(){
  fs.mkdirSync(OUTPUT,{recursive:true});
  const server=process.env.E2E_URL?null:await serveBuild(ROOT,PORT);
  if(server)await serverReady();
- let browser;
+ let browser,page;const errors=[],failed=[];
  try{
   browser=await chromium.launch(launchOptions());
-  const page=await browser.newPage({viewport:{width:1440,height:900}});
-  const errors=[],failed=[];
+  page=await browser.newPage({viewport:{width:1440,height:900}});
   page.on('pageerror',e=>errors.push(e.message));
   page.on('requestfailed',r=>failed.push(r.url()+': '+r.failure()?.errorText));
   page.on('response',r=>{if(r.status()>=400)failed.push(r.status()+' '+r.url())});
@@ -48,7 +47,9 @@ async function main(){
   }
   assert.deepEqual((await state()).pos,initial.pos,'Four directions return to origin');
   // Hold against the north map boundary; keyboard must stop at the last walkable row.
-  await page.keyboard.down('ArrowUp');await delay(2400);await page.keyboard.up('ArrowUp');
+  await page.keyboard.down('ArrowUp');
+  await page.waitForFunction(()=>window.NMFinal.debugState().pos.y===1,undefined,{timeout:12000});
+  await delay(300);await page.keyboard.up('ArrowUp');
   await page.waitForFunction(()=>!window.NMFinal.debugAnimation().motion);
   const bank=await state();assert.equal(bank.pos.y,1,'Keyboard must stop before the solid north boundary');
   await page.keyboard.down('ArrowDown');
@@ -165,8 +166,12 @@ async function main(){
   await capture('mobile-home');
   assert.equal(errors.length,0,'JavaScript exceptions: '+errors.join(' | '));
   assert.equal(failed.length,0,'Failed requests: '+failed.join(' | '));
-  fs.writeFileSync(path.join(OUTPUT,'report.json'),JSON.stringify({url:URL,browser:browser.version(),passed:true,keyboard:true,refreshSave:restored,errors,failed,artApproved:false},null,2));
+  fs.writeFileSync(path.join(OUTPUT,'report.json'),JSON.stringify({url:URL,date:new Date().toISOString(),commit:process.env.E2E_COMMIT||null,browser:browser.version(),passed:true,keyboard:true,refreshSave:restored,errors,failed,artApproved:false},null,2));
   console.log('PASS REAL CHROMIUM E2E: home -> NPC -> road -> bandit battle -> cave manual/trace -> ending -> save/continue; no JS errors');
+ }catch(error){
+  if(page)await page.screenshot({path:path.join(OUTPUT,'failure.png')}).catch(()=>{});
+  fs.writeFileSync(path.join(OUTPUT,'failure.json'),JSON.stringify({url:URL,date:new Date().toISOString(),passed:false,error:error.stack,errors,failed},null,2));
+  throw error;
  }finally{if(browser)await browser.close();if(server)await server.close()}
 }
 main().catch(e=>{console.error('E2E FAIL:',e.stack);process.exitCode=1});

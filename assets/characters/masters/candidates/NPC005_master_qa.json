@@ -1,0 +1,25 @@
+{
+  "status": "CANDIDATE_NOT_APPROVED",
+  "character": "NPC005",
+  "name": "苏晚晴",
+  "fullbody_file": "D:\\nimingjianghu\\assets\\characters\\masters\\candidates\\NPC005_fullbody_candidate.png",
+  "portrait_file": "D:\\nimingjianghu\\assets\\characters\\masters\\candidates\\NPC005_portrait_candidate.png",
+  "review_file": "D:\\nimingjianghu\\assets\\characters\\masters\\candidates\\NPC005_review.jpg",
+  "source": {
+    "w": 1024,
+    "h": 1536,
+    "bbox": [
+      76,
+      35,
+      984,
+      1511
+    ],
+    "sha256": "0b414c41cac73d0cad0fc9a5d6f35f0a907d710025303d69eb66376e915d4bb6"
+  },
+  "output_sha256": {
+    "fullbody": "1f608b44296589dfda4f878e67206445ea85852ddca83dc347495cab38288c83",
+    "portrait": "5b627ff57f3cd8009cf47f2365f11dd3aec0f85d9b7718d8489630ef06d9d98e",
+    "review": "ed255473d4fd03344e7059e2a0af493def56ae4ca1763df7ee3d67e1da69e0a9"
+  },
+  "note": "高清尺寸、透明度等仅为技术检查；角色脸/衣服/透视一致性需要人工审核"
+}

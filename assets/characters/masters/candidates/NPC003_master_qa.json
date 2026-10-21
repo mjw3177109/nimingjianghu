@@ -1,0 +1,25 @@
+{
+  "status": "CANDIDATE_NOT_APPROVED",
+  "character": "NPC003",
+  "name": "顾青岚",
+  "fullbody_file": "D:\\nimingjianghu\\assets\\characters\\masters\\candidates\\NPC003_fullbody_candidate.png",
+  "portrait_file": "D:\\nimingjianghu\\assets\\characters\\masters\\candidates\\NPC003_portrait_candidate.png",
+  "review_file": "D:\\nimingjianghu\\assets\\characters\\masters\\candidates\\NPC003_review.jpg",
+  "source": {
+    "w": 1024,
+    "h": 1536,
+    "bbox": [
+      18,
+      29,
+      1006,
+      1520
+    ],
+    "sha256": "e94c809b42a19fc54b12599b0e8aca46699d2a2be1c0e7f1a5dcc84a58138fc7"
+  },
+  "output_sha256": {
+    "fullbody": "5b64db7e2ce34293a2b07c16eec7768a1f54b52b3c0e3cbb363814173ee0d95c",
+    "portrait": "e76f1c42f54952a8bc4c73c14a98d6df86dc8bc9e39c8b116b156d4714b9a7c4",
+    "review": "195da7b693e22ad23c07496203ea19d9b7a1bfb91bc0939128548418f9fd0a64"
+  },
+  "note": "高清尺寸、透明度等仅为技术检查；角色脸/衣服/透视一致性需要人工审核"
+}

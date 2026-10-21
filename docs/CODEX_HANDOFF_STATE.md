@@ -1,12 +1,24 @@
 # Codex 续接状态
 
-更新时间：2026-10-22 03:47（Asia/Shanghai）。
+更新时间：2026-10-22 04:05（Asia/Shanghai）。
+
+## 最新周期：v1.0.7（优先读取）
+
+- v1.0.6 已提交并推送：`16c7a876bae983bb09fa69744f01cc9de6b9b305`，Vercel READY `dpl_GHp6qGwNskfeEzeeifzUMRpJhxLL`，`https://nimingjianghu-9xbf8gb6q-bobos-projects-e9f8bfba.vercel.app/`。真实线上 Chromium 从首页到结尾、刷新继续、键盘/碰撞/窄屏全部通过，无异常/失败请求，证据在 `qa-online.log`。
+- 随后完成 v1.0.7：七名角色均有1024×1536独立RGBA母版候选、同源1024头像、审核JPG和源/输出SHA256，位于 `assets/characters/masters/candidates/`。七个角色仍全部未人工审核，未制作新的112帧，正式registry和production审批字段未修改。
+- P3-G真实导入复现并修复 Path.thumbnail 崩溃；新增测试验证完整源像素保留、审核图生成、哈希和不自动审批。
+- 美术验收室新增逐角色母版预览、哈希报告链接、官方绘卷对照；`tests/chrome_master_review.cjs` 真实Chromium逐一加载七名候选通过，截图和报告在 `qa/master-review/`。生成说明、提示词、角色描述与哈希见 `docs/ART_MASTER_CANDIDATES_2026-10-22.md`。
+- 图像生成第一轮源尺寸不够，全部拒绝；第二轮廖衣袖碰边，也拒绝，最终独立修订后通过技术检查；拒绝源和生成记录保留在 `qa/art-generation/`，未进入发布资源。
+- v1.0.6 GitHub Actions run `39664913351` 构建通过，但键盘边界测试用固定2.4秒，在较慢Linux渲染下只走到y=2而失败。v1.0.7改为等待真实抵达y=1再保持按键验证，不放松边界要求；失败新增截图/诊断。须确认v1.0.7新CI结果。
+- v1.0.7 `npm test`、`npm run build`：通过；使用带Pillow的bundled Python完整20项全通过，无跳过。真实本地首章E2E重跑通过（`qa-browser-final.log`），七人审核页测试通过（`qa-master-review.log`）。CI新增安装Pillow，保证图像导入测试真实执行。
+- 本文件随v1.0.7提交；新SHA、READY deployment与线上复测将在推送后保存 `qa/release.json` 并在聊天报告给出。当前记录的16c7a87是已验证的上一阶段部署，不能冒充v1.0.7。
+- 下一步：确认最新SHA部署与CI，再请用户逐角色审核七张母版。批准前只可修订候选和其他玩法问题，不得自动批准或进入声称已审核的方向帧任务。还需修复并回归先石台后秘籍的潜在软锁，继续地图/步态人工验收。Pygame窗口未实测（缺pygame/cairosvg）。
 
 ## 仓库与版本
 
 - 本地已切换到 `feat/playable-demo-v0.1`，基线 HEAD `0862afa32bfdeabb9332ce88e31dd05268ab8309`。
 - `origin` 保留 Gitee；新增 `github` 指向 `https://github.com/mjw3177109/nimingjianghu.git`。不要推送 master/main。
-- package.json：1.0.6。本文件随发布提交保存；最终发布 SHA 和部署验收在 `qa/release.json` 及聊天交付报告中补充，续接时必须重新 `git rev-parse HEAD` 与查询远程。
+- package.json：1.0.7。本文件随发布提交保存；最终发布 SHA 和部署验收在 `qa/release.json` 及聊天交付报告中补充，续接时必须重新 `git rev-parse HEAD` 与查询远程。
 - 已配置当前聊天每小时 heartbeat：`逆命江湖每小时开发交付`。无实际进展时保持安静；不得空提交。
 
 ## 已实现
@@ -48,7 +60,7 @@ node tests/chrome_visual_capture.cjs
 
 ## 美术和后续工作
 
-- 已调用内置imagegen，为七名角色分别按官方绘卷生成透明全身母版候选；生成仍在进行，未批准、未注册正式资源。生成结果需导入P3-G后检查实际尺寸/Alpha/哈希。
+- 已调用内置imagegen，为七名角色分别按官方绘卷生成透明全身母版候选；七张最终候选均已通过P3-G技术检查，未批准、未注册正式资源。详见顶部v1.0.7周期记录。
 - 候选必须由用户真实审核。没有批准前不能导出声称已审核的16帧任务或替换运行Sprite；七名角色均需完成，当前美术门禁仍阻断。
 - 下一周期先核对本轮发布SHA、Vercel和线上测试，再处理候选母版审核与方向帧生产；继续地图/遮挡/步态人工复查。
 - 已注意到非标准探索顺序（先石台后秘籍）的潜在任务推进问题，尚未本轮修复；应先复现并补回归。

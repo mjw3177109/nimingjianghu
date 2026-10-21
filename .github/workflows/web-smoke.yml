@@ -40,6 +40,8 @@ jobs:
       - run: node tests/p3h_prompt_pack.cjs
       - run: node tests/p3i_sprite_integrity.cjs
       - run: node tests/p3j_game_sprite.cjs
+      - name: Install image-test dependency
+        run: python -m pip install Pillow
       - run: python -m unittest discover -s tests -p 'test_*.py'
       - run: npm run build
       # Full Playwright E2E covers Start; avoid duplicate flaky --dump-dom Chrome process.
@@ -52,6 +54,8 @@ jobs:
 
       - name: Capture representative map screenshots for manual visual QA
         run: node tests/chrome_visual_capture.cjs
+      - name: Check seven unapproved master candidates in review UI
+        run: node tests/chrome_master_review.cjs
       - name: Upload unapproved visual QA evidence
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2

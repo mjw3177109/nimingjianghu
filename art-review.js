@@ -66,8 +66,16 @@ async function showPerson(person){
  '当前游戏使用的方向图集；'+(entry.direction_status==='user_approved_independently_painted'?'方向素材标为已审核。':'侧面、背面仍为过渡派生稿。')):'尚无可玩 Sprite；显示已有角色头像供核对。';
  $('candidateCaption').textContent='加载候选中；图片不会被自动发布。';
  const version=window.NM_SPRITE_REGISTRY||{};
- const results=await Promise.all([loadImage(version[person.key]||null),loadCandidate(person)]);
+ $('masterCandidate').hidden=true;$('masterCandidateReport').hidden=true;
+ $('masterCandidateCaption').textContent='正在检查独立母版候选……';
+ const results=await Promise.all([loadImage(version[person.key]||null),loadCandidate(person),loadImage('assets/characters/masters/candidates/'+person.id+'_fullbody_candidate.png')]);
  if(me!==token)return;
+ const masterCandidate=results[2];
+ if(masterCandidate){
+  $('masterCandidate').src=masterCandidate.src;$('masterCandidate').hidden=false;
+  $('masterCandidateCaption').textContent=person.id+' · '+masterCandidate.naturalWidth+'×'+masterCandidate.naturalHeight+' 源像素 · 候选，未人工审核，不是16帧Sprite';
+  $('masterCandidateReport').href='assets/characters/masters/candidates/'+person.id+'_master_qa.json';$('masterCandidateReport').hidden=false;
+ }else $('masterCandidateCaption').textContent=person.id+'：尚无通过技术检查的独立母版候选。';
  stable=results[0];candidate=results[1];
  if(!candidate){$('candidateCaption').textContent='尚未提交独立四方向16帧候选，不以镜像或缩放图填充。';}
  else if(candidate.naturalWidth<384){

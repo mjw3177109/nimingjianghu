@@ -72,9 +72,10 @@ def candidate_master(char_id,fullbody,outdir=None):
         portrait_path=out/f"{char_id}_portrait_candidate.png"
         portrait.save(portrait_path,optimize=True)
         review=Image.new("RGB",(1152,760),(21,31,43))
-        master.thumbnail((530,710),Image.Resampling.LANCZOS)
+        preview=image.copy()
+        preview.thumbnail((530,710),Image.Resampling.LANCZOS)
         portrait.thumbnail((530,530),Image.Resampling.LANCZOS)
-        review.paste(master,((540-master.width)//2,(760-master.height)//2),master)
+        review.paste(preview,((540-preview.width)//2,(760-preview.height)//2),preview)
         review.paste(portrait,(550+(550-portrait.width)//2,75),portrait)
         pen=ImageDraw.Draw(review)
         pen.text((40,18),char_id+" master (candidate)",fill=(233,205,152))
@@ -84,6 +85,7 @@ def candidate_master(char_id,fullbody,outdir=None):
     result={"status":"CANDIDATE_NOT_APPROVED","character":char_id,"name":record["name"],
             "fullbody_file":str(master),"portrait_file":str(portrait_path),
             "review_file":str(review_file),"source":item,
+            "output_sha256":{"fullbody":sha256(master),"portrait":sha256(portrait_path),"review":sha256(review_file)},
             "note":"高清尺寸、透明度等仅为技术检查；角色脸/衣服/透视一致性需要人工审核"}
     report=out/f"{char_id}_master_qa.json"
     report.write_text(json.dumps(result,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")

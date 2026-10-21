@@ -1,0 +1,25 @@
+{
+  "status": "CANDIDATE_NOT_APPROVED",
+  "character": "EN001",
+  "name": "山贼",
+  "fullbody_file": "D:\\nimingjianghu\\assets\\characters\\masters\\candidates\\EN001_fullbody_candidate.png",
+  "portrait_file": "D:\\nimingjianghu\\assets\\characters\\masters\\candidates\\EN001_portrait_candidate.png",
+  "review_file": "D:\\nimingjianghu\\assets\\characters\\masters\\candidates\\EN001_review.jpg",
+  "source": {
+    "w": 1024,
+    "h": 1536,
+    "bbox": [
+      27,
+      29,
+      1014,
+      1512
+    ],
+    "sha256": "c267c4b3c844c2fc84ea82e5dbffcb11eb896f651ffecf586548c568fa281bf6"
+  },
+  "output_sha256": {
+    "fullbody": "82f0e0ea159f274a245ba58accdea25fc79c22640a59e4f255a151d3defa890e",
+    "portrait": "1466c1e7bfbc609a11503140739cecf8de16613f50d8082a8d22ec84035f2c2d",
+    "review": "2fcf8eabe32cca59e01b0715a7549c730a3e01036461f96e4addfeef764848b4"
+  },
+  "note": "高清尺寸、透明度等仅为技术检查；角色脸/衣服/透视一致性需要人工审核"
+}
