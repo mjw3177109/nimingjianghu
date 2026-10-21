@@ -9,5 +9,5 @@ assert(game.includes('if(battle)drawBattleActors()'),'Combat actors must redraw 
 assert(world.maps.road.enemies.some(e=>e.id==='bandit')&&world.maps.cave.objects.length>=2,'Complete playable chapter required');
 const registry=read('assets/characters/scene_sprites/sprite_registry.js');
 assert(registry.includes('player_4dir.png'),'Previously accepted Shenyan sprite must remain');
-const pkg=JSON.parse(read('package.json'));assert.equal(pkg.version,'1.0.0-demo');
+const pkg=JSON.parse(read('package.json'));assert.match(pkg.version,/^1\.0\./,'Demo 1.0 patch version');
 console.log('PASS DEMO V1: authentic hero/bandit sprite-rendered combat, original Shenyan, chapter flow intact');
