@@ -110,8 +110,9 @@ function occupiedTile(mapName,x,y,banditAlive=true){
   const f=obj.solid_footprint;
   if(f&&x>=obj.x+f.x&&x<obj.x+f.x+f.w&&y>=obj.y+f.y&&y<obj.y+f.y+f.h)return true;
  }
- for(const npc of scene.npcs||[])if(npc.x===x&&npc.y===y)return true;
- if(banditAlive)for(const enemy of scene.enemies||[])if(enemy.x===x&&enemy.y===y)return true;
+ // Painted actors wider than one tile reserve neighboring cells horizontally.
+ for(const npc of scene.npcs||[])if(Math.abs(npc.x-x)<=1&&npc.y===y)return true;
+ if(banditAlive)for(const enemy of scene.enemies||[])if(Math.abs(enemy.x-x)<=1&&enemy.y===y)return true;
  return false;
 }
 function blocked(x,y){return occupiedTile(state.map,x,y,state.banditAlive)}

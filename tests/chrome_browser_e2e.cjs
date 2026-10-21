@@ -41,7 +41,7 @@ async function main(){
     if(s.pos.x===x&&s.pos.y===y&&!s.route&&!s.motion)return;
     const path=await page.evaluate(({x,y})=>{
      const s=window.NMFinal.debugState(),m=window.NMFinal.debugTilemap(),structures=window.NMFinal.debugStructures()[s.map]||[],seen=new Set([s.pos.x+','+s.pos.y]),prev=new Map(),q=[[s.pos.x,s.pos.y]];
-     const actors=window.GAME_WORLD.maps[s.map];const solid=(a,b)=>a<0||b<0||a>=m.width||b>=m.height||m.collision[b*m.width+a]===1||(actors.npcs||[]).some(o=>o.x===a&&o.y===b)||(s.banditAlive&&(actors.enemies||[]).some(o=>o.x===a&&o.y===b))||structures.some(o=>{const f=o.solid_footprint;return f&&a>=o.x+f.x&&a<o.x+f.x+f.w&&b>=o.y+f.y&&b<o.y+f.y+f.h});
+     const actors=window.GAME_WORLD.maps[s.map];const solid=(a,b)=>a<0||b<0||a>=m.width||b>=m.height||m.collision[b*m.width+a]===1||(actors.npcs||[]).some(o=>Math.abs(o.x-a)<=1&&o.y===b)||(s.banditAlive&&(actors.enemies||[]).some(o=>Math.abs(o.x-a)<=1&&o.y===b))||structures.some(o=>{const f=o.solid_footprint;return f&&a>=o.x+f.x&&a<o.x+f.x+f.w&&b>=o.y+f.y&&b<o.y+f.y+f.h});
      while(q.length){const [a,b]=q.shift();if(a===x&&b===y){let k=x+','+y,r=[];while(k!==s.pos.x+','+s.pos.y){r.unshift(k.split(',').map(Number));k=prev.get(k)}return r}for(const [dx,dy] of [[1,0],[-1,0],[0,1],[0,-1]]){const nx=a+dx,ny=b+dy,k=nx+','+ny;if(!seen.has(k)&&!solid(nx,ny)){seen.add(k);prev.set(k,a+','+b);q.push([nx,ny])}}}
      return null;
     },{x,y});
@@ -66,7 +66,10 @@ async function main(){
   assert.equal((await state()).quest,1,'Innkeeper quest did not start');
   await walkTo(36,12);await clickTile(39,12);
   await page.waitForFunction(()=>window.NMFinal.debugState().map==='road',{timeout:12000});
-  await walkTo(15,10);await clickTile(18,10);
+  await walkTo(15,10);
+  await clickTile(17,10);await delay(250);
+  assert.deepEqual((await state()).pos,{x:15,y:10},'Wide bandit sprite must not overlap player');
+  await clickTile(18,10);
   await page.locator('#battle').waitFor({state:'visible',timeout:10000});
   for(let i=0;i<9;i++){if(Number(await page.locator('#battleEnemyHp').textContent())===0)break;await page.locator('[data-action="attack"]').click();await delay(100)}
   assert.equal(Number(await page.locator('#battleEnemyHp').textContent()),0,'Bandit HP should reach zero exactly once');

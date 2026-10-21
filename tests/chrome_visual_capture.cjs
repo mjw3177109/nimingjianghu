@@ -28,7 +28,7 @@ async function main(){
   const cases=[
    ['town-spawn','town',14,12],['town-innkeeper','town',8,11],
    ['town-bridge','town',20,12],['town-willow-front','town',28,22],
-   ['road-bandit','road',17,10],['cave-altar','cave',16,11],
+   ['road-bandit','road',16,10],['cave-altar','cave',16,11],
    ['cave-chest','cave',22,12]
   ];
   const captures=[];
