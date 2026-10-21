@@ -62,7 +62,9 @@ async function main(){
   }
   await walkTo(10,11);
   await clickTile(8,10);
-  await page.locator('#dialogue').waitFor({state:'visible',timeout:10000});await dialogue();
+  await page.locator('#dialogue').waitFor({state:'visible',timeout:10000});
+  assert.equal((await state()).motion,false,'NPC dialogue must wait for player feet to settle');
+  await dialogue();
   assert.equal((await state()).quest,1,'Innkeeper quest did not start');
   await walkTo(36,12);await clickTile(39,12);
   await page.waitForFunction(()=>window.NMFinal.debugState().map==='road',{timeout:12000});
@@ -71,6 +73,7 @@ async function main(){
   assert.deepEqual((await state()).pos,{x:15,y:10},'Wide bandit sprite must not overlap player');
   await clickTile(18,10);
   await page.locator('#battle').waitFor({state:'visible',timeout:10000});
+  assert.equal((await state()).motion,false,'Battle must not freeze player mid-stride');
   for(let i=0;i<9;i++){if(Number(await page.locator('#battleEnemyHp').textContent())===0)break;await page.locator('[data-action="attack"]').click();await delay(100)}
   assert.equal(Number(await page.locator('#battleEnemyHp').textContent()),0,'Bandit HP should reach zero exactly once');
   await page.locator('#battle').waitFor({state:'hidden',timeout:6000});await dialogue();

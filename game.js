@@ -252,9 +252,23 @@ function draw(){drawTileTown()}
 function drawSprite(k,x,y){const im=imgs[k];const px=x*20-9,py=y*20-42;ctx.fillStyle='#0a131c66';ctx.beginPath();ctx.ellipse(x*20+10,y*20+17,13,5,0,0,Math.PI*2);ctx.fill();if(im.complete&&im.naturalWidth){ctx.save();ctx.shadowColor='#161b2199';ctx.shadowBlur=2;ctx.drawImage(im,px,py,38,61);ctx.restore()}else{ctx.fillStyle='#dec79e';ctx.fillRect(px+7,py+13,24,47)}}
 function tick(ts){if(!running){raf=0;return}frame++;
  let delta=Math.min((ts-last)/1000,.1);last=ts;
- if(!dialogue&&!battle){if(motion){motion.progress=Math.min(1,motion.progress+delta/WALK_TIME);if(motion.progress>=1)motion=null;}
- moveAcc+=delta;
- if(moveAcc>WALK_TIME&&state.route.length){moveAcc=0;const from={...state.pos},to=state.route.shift();state.facing=facingForMove(from,to);state.pos=to;walkStepIndex++;motion={from,to,progress:0};if(!state.route.length){finishPending();maybeEnding()}}}
+ if(!dialogue&&!battle){
+  if(motion){
+   motion.progress=Math.min(1,motion.progress+delta/WALK_TIME);
+   if(motion.progress>=1){
+    motion=null;
+    // Finish the last step before opening dialogue, battle or an exit.
+    if(!state.route.length){finishPending();maybeEnding();}
+   }
+  }
+  moveAcc+=delta;
+  if(!motion&&moveAcc>=WALK_TIME&&state.route.length){
+   moveAcc=0;
+   const from={...state.pos},to=state.route.shift();
+   state.facing=facingForMove(from,to);state.pos=to;walkStepIndex++;
+   motion={from,to,progress:0};
+  }
+ }
  try{draw();if(battle)drawBattleActors()}catch(error){
   console.error('[逆命江湖] 渲染异常',error);running=false;raf=0;
   window.dispatchEvent(new CustomEvent('nm-game-start-failed',{detail:{message:'地图渲染失败：'+String(error&&error.message||error)}}));return;
