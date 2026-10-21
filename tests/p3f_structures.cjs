@@ -26,7 +26,7 @@ const html=fs.readFileSync(path.join(ROOT,'index.html'),'utf8'),
  preview=fs.readFileSync(path.join(ROOT,'home-preview.js'),'utf8'),
  py=fs.readFileSync(path.join(ROOT,'main.py'),'utf8');
 assert(html.includes('structure-data.js'),'Structure data missing on homepage');
-assert(game.includes("paintStructureLayer(state.map,'base',cam)")&&game.includes("paintStructureLayer(state.map,'front',cam)"),'Layer sequencing incorrect');
+assert(game.includes("paintStructureLayer(state.map,'base',cam)")&&game.includes("drawQueue.sort((a,b)=>a.depth-b.depth")&&game.includes("paintStructureObject(obj,cam)"),'Depth-sorted structure occlusion missing');
 assert(preview.includes('structureData[key]'),'Preview structure renderer missing');
 assert(py.includes("structure_layer('base',scene,ox,oy)")&&py.includes("structure_layer('front',scene,ox,oy)"),'Windows drawing missing');
 const code=fs.readFileSync(path.join(ROOT,'structure-data.js'),'utf8').replace(/^window\.NM_STRUCTURE_DATA=/,'').trim().replace(/;$/,'');

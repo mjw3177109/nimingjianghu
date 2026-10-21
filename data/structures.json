@@ -44,7 +44,8 @@
       "y": 11,
       "w": 6,
       "h": 3,
-      "collision_from_map": true
+      "collision_from_map": true,
+      "occlusion_depth": 13
     },
     {
       "id": "willow",
@@ -60,7 +61,8 @@
         "y": 3,
         "w": 2,
         "h": 2
-      }
+      },
+      "occlusion_depth": 22
     }
   ],
   "road": [

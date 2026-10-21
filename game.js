@@ -21,15 +21,14 @@ for(const list of Object.values({town:structData.town,road:structData.road,cave:
   const img=new Image();img.src=part.image;structureImages[part.image]=img;
  }
 }
+function paintStructureObject(obj,cam){
+ const sx=obj.x*32-cam.x,sy=obj.y*32-cam.y,w=obj.w*32,h=obj.h*32;
+ if(sx>=640||sy>=360||sx+w<=0||sy+h<=0)return;
+ const img=structureImages[obj.image];
+ if(img&&img.complete&&img.naturalWidth)ctx.drawImage(img,Math.round(sx),Math.round(sy),w,h);
+}
 function paintStructureLayer(scene,layer,cam){
- const list=structData[scene]||[];
- for(const obj of list){
-  if(obj.layer!==layer)continue;
-  const sx=obj.x*32-cam.x,sy=obj.y*32-cam.y,w=obj.w*32,h=obj.h*32;
-  if(sx>=640||sy>=360||sx+w<=0||sy+h<=0)continue;
-  const img=structureImages[obj.image];
-  if(img&&img.complete&&img.naturalWidth)ctx.drawImage(img,Math.round(sx),Math.round(sy),w,h);
- }
+ for(const obj of structData[scene]||[])if(obj.layer===layer)paintStructureObject(obj,cam);
 }
 function currentTilemap(){return tileMaps[state.map]}
 function townCamera(){const map=currentTilemap(),player=visualPlayer(),px=(player.x+.5)*32,py=(player.y+.5)*32;return {x:Math.round(Math.max(0,Math.min(px-320,map.width*32-640))),y:Math.round(Math.max(0,Math.min(py-180,map.height*32-360)))}}
@@ -181,18 +180,40 @@ function drawTileTown(){
  paintStructureLayer(state.map,'base',cam);
  function label(text,x,y){const px=(x+.5)*32-cam.x,py=y*32-cam.y;if(px>-80&&px<720&&py>-80&&py<430)drawLabel(text,px,py)}
  if(state.map==='town'){label('客栈',7,8);label('药铺',30,8)}
+ // Painter's algorithm: every actor, railing, canopy and front structure has
+ // a world-space foot depth. Do not paint every foreground object over every actor.
  const actors=[];
  for(const npc of world.maps[state.map].npcs||[])actors.push({x:npc.x,y:npc.y,sprite:npc.icon==='shop'?'innkeeper':npc.icon==='heal'?'healer':'oldman',name:npc.name,id:npc.id});
  if(state.map==='road'&&state.banditAlive)for(const enemy of world.maps.road.enemies||[])actors.push({x:enemy.x,y:enemy.y,sprite:'bandit',name:enemy.name+' ⚔'});
  const showPos=visualPlayer();actors.push({x:showPos.x,y:showPos.y,sprite:'player',name:'',facing:state.facing||'down',moving:!!motion&&motion.progress<1});
- actors.sort((a,b)=>a.y-b.y||a.x-b.x);
- for(const actor of actors){const px=(actor.x+.5)*32-cam.x,py=(actor.y+1)*32-cam.y;if(px<-45||px>685||py<-70||py>430)continue;
- ctx.fillStyle='#16272988';ctx.beginPath();ctx.ellipse(px,py-3,13,4,0,0,Math.PI*2);ctx.fill();
- const facing=actor.facing||(actor.sprite==='healer'?'left':actor.sprite==='bandit'?'left':'down');
- drawActorSprite(actor.sprite,px,py,facing,actor.moving||false);
- const displayHeight=72;
- if(actor.name)label(actor.name,actor.x,actor.y-(displayHeight-24)/32);
- if(actor.id==='innkeeper'&&state.quest===0)label('!',actor.x,actor.y-(displayHeight+4)/32);
+ const drawQueue=[];
+ for(const actor of actors)drawQueue.push({depth:actor.y+.5,priority:1,paint(){
+  const px=(actor.x+.5)*32-cam.x,py=(actor.y+1)*32-cam.y;
+  if(px<-45||px>685||py<-70||py>430)return;
+  ctx.fillStyle='#16272988';ctx.beginPath();ctx.ellipse(px,py-3,13,4,0,0,Math.PI*2);ctx.fill();
+  const facing=actor.facing||(actor.sprite==='healer'?'left':actor.sprite==='bandit'?'left':'down');
+  drawActorSprite(actor.sprite,px,py,facing,actor.moving||false);
+ }});
+ // Back bridge rail is behind walkers; front rail is ahead of walkers on
+ // northern bridge tiles, but behind a walker already south of that rail.
+ if(atlas&&atlas.complete&&atlas.naturalWidth&&map.layers.front){
+  for(let y=y0;y<=y1;y++)for(let x=x0;x<=x1;x++){
+   const i=map.layers.front[y*map.width+x];if(i<0)continue;
+   const depth=state.map==='town'&&i===16?y-.5:state.map==='town'&&i===17?y:state.map==='town'&&i===22?22:y+.5;
+   drawQueue.push({depth,priority:2,paint(){
+    ctx.drawImage(atlas,(i%map.atlas_columns)*sourceTile,Math.floor(i/map.atlas_columns)*sourceTile,sourceTile,sourceTile,x*32-cam.x,y*32-cam.y,32,32);
+   }});
+  }
+ }
+ for(const obj of structData[state.map]||[])if(obj.layer==='front'){
+  drawQueue.push({depth:obj.occlusion_depth??obj.y+obj.h-.5,priority:2,paint(){paintStructureObject(obj,cam)}});
+ }
+ drawQueue.sort((a,b)=>a.depth-b.depth||a.priority-b.priority);
+ for(const item of drawQueue)item.paint();
+ // Labels are UI overlays, not world geometry; keep them readable.
+ for(const actor of actors){
+  if(actor.name)label(actor.name,actor.x,actor.y-(72-24)/32);
+  if(actor.id==='innkeeper'&&state.quest===0)label('!',actor.x,actor.y-(72+4)/32);
  }
  if(state.map==='cave'){
   for(const obj of world.maps.cave.objects||[]){
@@ -201,7 +222,6 @@ function drawTileTown(){
    label(obj.name,obj.x,obj.y);
   }
  }
- paint('front');paintStructureLayer(state.map,'front',cam);
  for(const ex of world.maps[state.map].exits){const exx=(ex.x+.5)*32-cam.x;if(exx>-70&&exx<710)label(ex.label,ex.x,ex.y-0.15)}
  // Soft floor-level destination glint; never render a square debug tile.
  if(state.route.length){
