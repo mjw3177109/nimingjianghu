@@ -11,7 +11,25 @@ const pre={town:'青石镇：在水巷与客栈之间寻找线索，拜访韩掌
 function refresh(){const yes=game.hasSave(),el=$('continueButton');el.disabled=!yes;const s=game.saveInfo();$('saveCaption').textContent=s?`江湖有旧梦 · 第${s.day}天 · 已保存进度`:'欢迎来到江湖 · 点击开始游戏';}
 function popup(title,content){$('menuPanelTitle').textContent=title;$('menuPanelContent').innerHTML=content;$('menuPanel').classList.remove('hidden');}
 function closePopup(){$('menuPanel').classList.add('hidden');}
-function start(continueSave){if(continueSave&&!game.hasSave())return;if(!continueSave&&game.hasSave()&&!confirm('开启新江湖将覆盖当前自动存档，确定继续吗？'))return;let ok=continueSave?game.continueGame():game.startNew();if(!ok){popup('没有可用存档','<p>请点击「开始游戏」进入江湖。</p>');return;}$('homeScreen').hidden=true;$('codexScreen').hidden=true;$('gameScreen').hidden=false;}
+function start(continueSave){
+ const home=$('homeScreen'),codex=$('codexScreen'),screen=$('gameScreen');
+ try{
+  if(!game||typeof game.startNew!=='function')throw new Error('游戏核心尚未初始化');
+  if(continueSave&&!game.hasSave()){popup('没有可用存档','<p>请点击「开始游戏」进入江湖。</p>');return}
+  if(!continueSave&&game.hasSave()){
+   try{const previous=localStorage.getItem('nimingjianghu_tile_v2');if(previous)localStorage.setItem('nimingjianghu_save_before_new_demo',previous)}catch(_){}
+  }
+  home.hidden=true;codex.hidden=true;screen.hidden=false;
+  const ok=continueSave?game.continueGame():game.startNew();
+  if(!ok)throw new Error(continueSave?'无法恢复存档':'游戏初始化失败');
+  if(typeof window.scrollTo==='function')window.scrollTo(0,0);
+  window.dispatchEvent(new Event('nm-game-started'));
+ }catch(error){
+  console.error('[逆命江湖] 游戏启动失败',error);
+  screen.hidden=true;codex.hidden=true;home.hidden=false;
+  window.dispatchEvent(new CustomEvent('nm-game-start-failed',{detail:{message:String(error&&error.message||error)}}));
+ }
+}
 function info(id){const a=PEOPLE[id];if(!a)return;const title=`${a[0]} · 江湖人物`,body=`<img style="float:left;width:100px;height:130px;object-fit:contain;margin-right:18px;border:1px solid #b39a72" src="assets/portraits/${id}_avatar.webp" alt="${a[0]}"><p>${a[1]}</p>`;popup(title,body);}
 function page(p){if(p==='codex'){$('homeScreen').hidden=true;$('codexScreen').hidden=false;return;}
 if(p==='settings'){popup('游戏设置','<p>目前支持鼠标点击移动、剧情自动存档、Enter/Space 继续对白，I 打开背包，Q 查看任务。</p><p>音效与复杂图像设置将在正式章节扩展时接入。</p>')}

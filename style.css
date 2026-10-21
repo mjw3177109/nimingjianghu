@@ -26,3 +26,10 @@ a.home-btn{text-decoration:none;color:var(--text);display:flex;align-items:cente
 
 /* Demo V1: Combat previews are actual game sprites, not isolated low-res images. */
 .combat-actors canvas{width:clamp(80px,13vw,128px);height:auto;max-height:160px;object-fit:contain;image-rendering:auto;filter:drop-shadow(0 7px 8px #0009)}
+
+/* Demo 1.0.1 startup-error notice: visible above full-screen dialogue, nonintrusive when healthy. */
+.boot-error{position:fixed;z-index:120;bottom:18px;left:50%;transform:translateX(-50%);width:min(620px,calc(100vw - 24px));padding:16px 20px;border:2px solid #f1bf75;border-radius:10px;color:#ffe9ca;background:#172434;box-shadow:0 16px 55px #000d;text-align:left}
+.boot-error[hidden]{display:none!important}.boot-error strong{font-size:17px}.boot-error p{font-size:13px;line-height:1.6;overflow-wrap:anywhere}
+.boot-error button{background:#3c4b55;color:#ffdfaa;border:1px solid #ccac7c;border-radius:6px;padding:8px 14px;margin-right:8px}
+#skipIntro{background:#45616b;color:#fff0ce;border:1px solid #dfc18d;border-radius:6px;padding:8px 13px;margin-right:10px;font-size:13px}
+#skipIntro:hover{background:#617c84}

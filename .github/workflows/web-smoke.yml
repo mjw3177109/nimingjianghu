@@ -16,6 +16,8 @@ jobs:
           node-version: '22'
       - run: node --check game.js
       - run: node --check app.js
+      - run: node --check boot-guard.js
+      - run: node tests/startup_recovery.cjs
       - run: node --check world-data.js
       - run: node tests/final_smoke.cjs
       - run: node tests/p3a_tiles.cjs

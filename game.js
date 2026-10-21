@@ -107,7 +107,9 @@ function changeMap(to,spawn){state.map=to;state.pos=to==='town'?{x:38,y:12}:{x:s
 function notice(msg){$('status').textContent=msg; $('hint').textContent=msg;clearTimeout(notice.timer); notice.timer=setTimeout(()=>$('hint').textContent='点击移动 · 点击人物交谈 · 点击出口切换地图',3600)}
 function scripted(lines,done){dialogue={lines,idx:0,done};$('dialogue').classList.remove('hidden');showLine()}
 function showLine(){if(!dialogue)return;let row=dialogue.lines[dialogue.idx];$('speaker').textContent=row[0];$('dialogueText').textContent=row[1];const names={'沈砚':'CHAR001','廖':'BOSS001','韩掌柜':'NPC001','顾老':'NPC002','苏晚晴':'NPC005','顾青岚':'NPC003','？？？':'BOSS001'};$('dialoguePortrait').src='assets/portraits/'+(names[row[0]]||'CHAR001')+'_avatar.webp'}
-function nextLine(){if(!dialogue)return;dialogue.idx++;if(dialogue.idx<dialogue.lines.length){showLine();return}let d=dialogue;dialogue=null;$('dialogue').classList.add('hidden'); if(d.done)d.done();updateUI()}
+function finishDialogue(){if(!dialogue)return;const d=dialogue;dialogue=null;$('dialogue').classList.add('hidden');if(d.done)d.done();updateUI()}
+function nextLine(){if(!dialogue)return;dialogue.idx++;if(dialogue.idx<dialogue.lines.length){showLine();return}finishDialogue()}
+function skipIntro(){if(!dialogue||dialogue.lines!==world.dialogue.intro)return;finishDialogue();notice('已进入青石镇：点击道路移动，点击韩掌柜接任务。')}
 function journal(text){state.journal.unshift(text);state.journal=state.journal.slice(0,10);$('journal').textContent=state.journal[0]}
 function advanceQuest(n,info){state.quest=Math.max(state.quest,n);if(info)journal(info);updateUI()}
 function talk(id){if(id==='healer'&&state.potions<2){state.potions++;notice('苏晚晴赠送你一瓶疗伤药')}if(id==='innkeeper'&&state.quest===0){scripted(world.dialogue.innkeeper,()=>advanceQuest(1,'韩掌柜托你解决山路上的山贼。'));return}
@@ -192,9 +194,13 @@ function tick(ts){if(!running){raf=0;return}frame++;
  if(!dialogue&&!battle){if(motion){motion.progress=Math.min(1,motion.progress+delta/WALK_TIME);if(motion.progress>=1)motion=null;}
  moveAcc+=delta;
  if(moveAcc>WALK_TIME&&state.route.length){moveAcc=0;const from={...state.pos},to=state.route.shift();state.facing=facingForMove(from,to);state.pos=to;motion={from,to,progress:0};if(!state.route.length){finishPending();maybeEnding()}}}
- draw();if(battle)drawBattleActors();raf=requestAnimationFrame(tick)}
+ try{draw();if(battle)drawBattleActors()}catch(error){
+  console.error('[逆命江湖] 渲染异常',error);running=false;raf=0;
+  window.dispatchEvent(new CustomEvent('nm-game-start-failed',{detail:{message:'地图渲染失败：'+String(error&&error.message||error)}}));return;
+ }
+ raf=requestAnimationFrame(tick)}
 canvas.addEventListener('click',e=>{if(!running)return;let r=canvas.getBoundingClientRect();const p=canvasPoint(e);const target=townTileFromScreen(p.x,p.y);interactClick(target.x,target.y)});
-$('nextDialogue').addEventListener('click',nextLine);for(let b of document.querySelectorAll('.battle-buttons button'))b.addEventListener('click',()=>strike(b.dataset.action));
+$('nextDialogue').addEventListener('click',nextLine);$('skipIntro').addEventListener('click',skipIntro);for(let b of document.querySelectorAll('.battle-buttons button'))b.addEventListener('click',()=>strike(b.dataset.action));
 function openPanel(title,body){$('panelTitle').textContent=title;$('panelContent').innerHTML=body;$('panel').classList.remove('hidden')}
 $('inventory').onclick=()=>openPanel('江湖背包',`<p>银两：${state.coins} 两</p><p>疗伤药：${state.potions} 瓶</p><p>武功：${state.skills.join('、')}</p><p>${state.manual?'✓ 已获得《破风一剑》秘籍':'尚未获得秘籍'}</p>`);
 $('quests').onclick=()=>openPanel('江湖任务',`<p>当前主线：<b>${taskText()}</b></p><p>已完成阶段：${state.quest} / 5</p><p>江湖天数：第 ${state.day} 天</p><p>逆命值：${state.destiny}</p>`);
