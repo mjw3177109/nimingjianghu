@@ -11,6 +11,7 @@ assert(game.includes('solid_footprint'),'Structure collisions must affect pathfi
 assert(game.includes('gx===npc.x&&gy>=npc.y-2&&gy<=npc.y'),'NPC hit-testing must not capture diagonal ground clicks');
 assert(game.includes('gx===spot.tile[0]&&gy===spot.tile[1]'),'Door hotspots must not capture adjacent walking clicks');
 assert(!game.includes('Math.abs(gx-npc.x)<=1'),'Legacy square NPC hitboxes are forbidden');
+assert(game.includes('const stride=[1,2,3,2]'),'Walking must alternate left/neutral/right/neutral, not jump directly between legs');
 for(const scene of ['town','road','cave']){
  const map=JSON.parse(fs.readFileSync(path.join(root,'data/maps',scene,scene+'_tilemap.json'),'utf8'));
  const coll=(x,y)=>x<0||y<0||x>=map.width||y>=map.height||map.collision[y*map.width+x]===1||(structures[scene]||[]).some(o=>{const f=o.solid_footprint;return f&&x>=o.x+f.x&&x<o.x+f.x+f.w&&y>=o.y+f.y&&y<o.y+f.y+f.h});

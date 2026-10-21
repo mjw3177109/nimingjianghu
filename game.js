@@ -79,7 +79,8 @@ function spriteDrawSize(key,image){
 }
 function drawActorSprite(key,feetX,feetY,facing,moving=false){
  const sheet=animatedSheets[key],dir=faceOrder[facing]??0;
- const beat=moving?1+Math.floor(frame/6)%3:0;
+ const stride=[1,2,3,2]; // alternating left-foot, neutral, right-foot, neutral
+ const beat=moving?stride[Math.floor(frame/5)%stride.length]:0;
  ctx.save();
  ctx.imageSmoothingEnabled=true; // Q-painted characters keep antialiased lines; tiles remain crisp.
  if(sheet&&sheet.complete&&sheet.naturalWidth>=384&&sheet.naturalHeight>=512&&sheet.naturalWidth%4===0&&sheet.naturalHeight%4===0){
