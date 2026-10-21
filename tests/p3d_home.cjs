@@ -16,6 +16,7 @@ assert(sv.includes('width="1920" height="1080"'),'High-res scalable vector backg
 assert(!sv.includes('<text'),'Background must not bake any Chinese text');
 assert(h.includes('id="game" width="1280" height="720"'),'Game canvas must use 2x device pixels');
 assert(g.includes('ctx.setTransform(2,0,0,2,0,0)'),'2x resolution scaling missing');
-assert(g.includes('sx+32<=640&&sy+32<=360'),'Target marker viewport clipping missing');
+assert(g.includes('sx>=0&&sx<640&&sy>=0&&sy<360'),'Target glint viewport clipping missing');
+assert(!g.includes('ctx.strokeRect(Math.round(sx)+5'),'Old debug square marker must not render');
 for(const bad of ['S001_town.webp','S004_road.webp','S005_cave.webp'])assert(!g.includes(bad),'Baked map returned: '+bad);
 console.log('PASS P3D: editable Chinese UI, true scalable background, live tile previews, retina canvas, marker bounds');
