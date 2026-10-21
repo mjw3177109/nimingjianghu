@@ -2,8 +2,9 @@
 const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),vm=require('node:vm');
 const ROOT=path.resolve(__dirname,'..'),read=p=>fs.readFileSync(path.join(ROOT,p),'utf8');
 const html=read('index.html'),app=read('app.js'),game=read('game.js'),guard=read('boot-guard.js');
-assert(html.includes('game.js?v=10102')&&html.includes('app.js?v=10102'),'HTML/JS version must match');
-assert(html.includes('boot-guard.js?v=10102'),'Boot guard must use same revision');
+const revision=html.match(/game\.js\?v=(\d+)/)?.[1];
+assert(revision&&html.includes(`app.js?v=${revision}`),'HTML/JS version must match');
+assert(html.includes(`boot-guard.js?v=${revision}`),'Boot guard must use same revision');
 assert(app.includes('getGame=()=>window.NMFinal'),'Never capture missing core at script-load time');
 assert(app.includes('nm-game-ready'),'A recovered game must re-enable Continue');
 assert(game.includes('window.NM_GAME_BOOT_ERROR=detail'),'Core must report actual init failure');

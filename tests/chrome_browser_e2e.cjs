@@ -69,7 +69,7 @@ async function main(){
            y:r.top+(((10+1)*32-36-cam.y)/360)*r.height};
   });
   await page.mouse.click(actorEdge.x,actorEdge.y);
-  await page.waitForFunction(()=>window.NMFinal.debugState().pending?.type==='npc'||!document.getElementById('dialogue').classList.contains('hidden'),{timeout:2500});
+  await page.waitForFunction(()=>window.NMFinal.debugState().pending?.type==='npc'||!document.getElementById('dialogue').classList.contains('hidden'),undefined,{timeout:2500});
   // Regression: re-click the NPC during the last animated step.
   const midstride=await page.evaluate(()=>new Promise((resolve,reject)=>{
    let attempts=0;
