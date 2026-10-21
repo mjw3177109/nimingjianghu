@@ -114,7 +114,20 @@ function blocked(x,y){
  return false;
 }
 function bfs(from,to){if(blocked(to.x,to.y))return null;let q=[from],seen=new Set([from.x+','+from.y]),prev={};while(q.length){let a=q.shift(),key=a.x+','+a.y;if(posEq(a,to)){let r=[],cur=key;while(cur!==from.x+','+from.y){let [xx,yy]=cur.split(',').map(Number);r.push({x:xx,y:yy});cur=prev[cur]}return r.reverse()}for(let [dx,dy] of [[1,0],[-1,0],[0,1],[0,-1]]){let nx=a.x+dx,ny=a.y+dy,k=nx+','+ny;if(blocked(nx,ny)||seen.has(k))continue;seen.add(k);prev[k]=key;q.push({x:nx,y:ny})}}return null}
-function nearestReach(target,avoidCenter=false){let p=[],m={x:target.x,y:target.y}; for(let [dx,dy] of (avoidCenter?[[1,0],[-1,0],[0,1],[0,-1]]:[[0,0],[1,0],[-1,0],[0,1],[0,-1]])){let t={x:m.x+dx,y:m.y+dy};let r=bfs(state.pos,t);if(r)p.push({r,t})}p.sort((a,b)=>a.r.length-b.r.length);return p[0]||null}
+function nearestReach(target,avoidCenter=false){
+ const candidates=[];
+ // A large altar occupies multiple tiles: reach its edge, not the solid center.
+ const maxRadius=avoidCenter?2:1;
+ for(let radius=avoidCenter?1:0;radius<=maxRadius;radius++){
+  for(let dx=-radius;dx<=radius;dx++)for(let dy=-radius;dy<=radius;dy++){
+   if(Math.abs(dx)+Math.abs(dy)!==radius)continue;
+   const t={x:target.x+dx,y:target.y+dy},r=bfs(state.pos,t);
+   if(r)candidates.push({r,t,radius});
+  }
+ }
+ candidates.sort((a,b)=>a.r.length-b.r.length||a.radius-b.radius);
+ return candidates[0]||null;
+}
 function travelTo(x,y,act){let n=nearestReach({x,y},act&&['npc','object'].includes(act.type));if(!n){notice('这里暂时无法抵达');return}state.route=n.r;state.pending=act?{...act,t:n.t}:null; if(!n.r.length&&state.pending)finishPending()}
 function finishPending(){if(!state.pending)return;let p=state.pending;state.pending=null; if(p.type==='npc')talk(p.id);else if(p.type==='enemy')startBattle();else if(p.type==='object')objectClick(p.id);else if(p.type==='exit')changeMap(p.to,p.spawn);else if(p.type==='hotspot')notice(p.id==='inn_door'?'客栈里传来阵阵饭香，韩掌柜正在门口。':'药铺里弥漫着药香，苏晚晴可以为你指路。')}
 function changeMap(to,spawn){state.map=to;state.pos=to==='town'?{x:38,y:12}:{x:spawn[0],y:spawn[1]};state.route=[];motion=null;state.pending=null;state.day=Math.max(1,state.day);if(to==='cave')state.visitedCave=true;notice('进入 '+world.maps[to].name);updateUI()}
