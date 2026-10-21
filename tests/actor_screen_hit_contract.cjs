@@ -1,6 +1,7 @@
 'use strict';
 const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path');
 const game=fs.readFileSync(path.join(__dirname,'..','game.js'),'utf8');
+assert(game.includes('candidates.sort((a,b)=>a.radius-b.radius||a.r.length-b.r.length);'), 'Actor interaction must prefer adjacent tiles over distant shortcuts');
 assert(game.includes('function pickActorAtScreen(sx,sy)'), 'Actor screen-space hitbox must exist');
 assert(game.includes('const centerX=(a.x+.5)*32-cam.x,feetY=(a.y+1)*32-cam.y;'), 'Hitbox must share the renderer foot anchor');
 assert(game.includes('rise>=5&&rise<=69&&Math.abs(sx-centerX)<=(rise>46?17:22)'), 'Click target must be constrained to visible body');
