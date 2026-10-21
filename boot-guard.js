@@ -1,44 +1,73 @@
 (()=>{'use strict';
-/* Boot diagnostics live outside game.js/app.js and still work when one of those
- * scripts fails to initialize. No telemetry or private save data is sent.
+/* Bootstrap diagnostics and one safe cache-busting retry. No network telemetry.
+ * Preserve the FIRST error instead of replacing it with the old generic alert.
  */
-const byId=id=>document.getElementById(id);
-const overlay=byId('bootError'),message=byId('bootErrorMessage');
-function display(text){
+const $=id=>document.getElementById(id);
+const overlay=$('bootError'),message=$('bootErrorMessage');
+let firstError=null,recovering=false;
+function display(value){
  if(!overlay||!message)return;
- message.textContent=String(text||'无法启动游戏，请刷新重试。').slice(0,450);
+ message.textContent=String(value||'无法启动游戏，请检查脚本资源。').slice(0,650);
  overlay.hidden=false;
 }
 function hide(){if(overlay)overlay.hidden=true}
-const retry=byId('bootRetry'),close=byId('bootClose');
+function record(details){
+ if(firstError)return;
+ const msg=typeof details==='string'?details:String(details&&details.message||details||'未知错误');
+ firstError=msg;
+ window.NM_BOOT_DIAGNOSTIC=msg;
+ display(msg);
+}
+function ready(){return !!(window.NMFinal&&typeof window.NMFinal.startNew==='function')}
+function markReady(){
+ if(!ready())return false;
+ firstError=null;hide();
+ window.dispatchEvent(new Event('nm-game-ready'));
+ return true;
+}
+const retry=$('bootRetry'),close=$('bootClose');
 if(retry)retry.addEventListener('click',()=>window.location.reload());
 if(close)close.addEventListener('click',hide);
 window.addEventListener('nm-game-started',hide);
-window.addEventListener('nm-game-start-failed',event=>{
- display(event.detail&&event.detail.message||'游戏初始化失败，请刷新重试。');
+window.addEventListener('nm-game-start-failed',e=>record('开始游戏失败：'+(e.detail&&e.detail.message||'未知异常')));
+window.addEventListener('nm-game-init-failed',e=>record('游戏核心异常：'+(e.detail&&e.detail.message||'未知异常')+(e.detail&&e.detail.stack?'\n'+e.detail.stack.split('\n').slice(0,2).join('\n'):'')));
+window.addEventListener('error',e=>{
+ if(ready())return;
+ const resource=e&&e.target&&(e.target.src||e.target.href);
+ const where=e&&e.filename?e.filename.split('/').pop()+':'+(e.lineno||'?'):'';
+ record(resource?'资源加载失败：'+resource:'脚本异常：'+(e&&e.message||'未知错误')+(where?'（'+where+'）':''));
+},true);
+window.addEventListener('unhandledrejection',e=>{
+ if(!ready())record('运行异常：'+String(e.reason&&e.reason.message||e.reason||'未知错误'));
 });
-window.addEventListener('error',event=>{
- const msg=event&&event.message||'某个脚本或资源加载失败';
- if(!window.NMFinal||!window.NMFinal.isRunning||window.NMFinal.isRunning()){
-  display('脚本运行异常：'+msg);
- }
-});
-window.addEventListener('unhandledrejection',event=>{
- display('运行时异常：'+String(event.reason&&event.reason.message||event.reason||'未知错误'));
-});
-const start=byId('startButton');
+function recover(){
+ if(ready()||recovering)return;
+ recovering=true;
+ const script=document.createElement('script');
+ script.src='game.js?boot-retry='+encodeURIComponent('20261021-v10102');
+ script.onload=()=>{
+  recovering=false;
+  if(markReady())return;
+  record('重试后游戏核心仍未加载。'+(window.NM_GAME_BOOT_ERROR&&window.NM_GAME_BOOT_ERROR.message||'请查看具体脚本错误。'));
+ };
+ script.onerror=()=>{
+  recovering=false;
+  record('无法读取 game.js，网络或发布资源异常。');
+ };
+ document.body.appendChild(script);
+}
+const start=$('startButton');
 if(start)start.addEventListener('click',()=>{
- // Check after other click listeners execute. Do not disrupt an active game.
- window.setTimeout(()=>{
-  const screen=byId('gameScreen');
-  if(screen&&screen.hidden&&(!window.NMFinal||typeof window.NMFinal.isRunning!=='function')){
-   display('游戏脚本未能加载。请刷新页面后重试，或将此提示截图反馈。');
-  }
- },150);
+ if(!ready()){
+  recover();
+  window.setTimeout(()=>{
+   if(!ready())display(firstError||'游戏核心尚未载入，已尝试重新加载，请刷新后重试。');
+  },500);
+ }
 });
 window.addEventListener('load',()=>{
- if(!window.NMFinal||typeof window.NMFinal.startNew!=='function'){
-  display('游戏核心未成功载入，请刷新重试。如果反复出现，请把此提示截图反馈。');
- }
+ if(markReady())return;
+ // Defer retry until all scripts in the page have had a chance to finish.
+ window.setTimeout(()=>{if(!markReady())recover();},80);
 });
 })();

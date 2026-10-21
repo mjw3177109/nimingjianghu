@@ -74,4 +74,22 @@
 <div id="panel" class="modal hidden"><div class="panel-box"><h2 id="panelTitle">江湖手记</h2><div id="panelContent"></div><button id="closePanel">关闭</button></div></div>
 <div id="menuPanel" class="modal hidden"><div class="panel-box"><h2 id="menuPanelTitle">江湖手记</h2><div id="menuPanelContent"></div><button id="menuPanelClose">返回</button></div></div>
 <div id="bootError" class="boot-error" hidden role="alert" aria-live="assertive"><strong>游戏启动遇到问题</strong><p id="bootErrorMessage">请检查网络或刷新页面。</p><button id="bootRetry" type="button">刷新并重试</button><button id="bootClose" type="button">关闭</button></div>
-<script src="boot-guard.js"></script><script src="world-data.js"></script><script src="town-tile-data.js"></script><script src="road-tile-data.js"></script><script src="cave-tile-data.js"></script><script src="structure-data.js"></script><script src="assets/characters/scene_sprites/sprite_registry.js"></script><script src="game.js"></script><script src="app.js"></script><script src="home-preview.js"></script></body></html>
+<script src="boot-guard.js?v=10102"></script><script src="world-data.js?v=10102"></script><script src="town-tile-data.js?v=10102"></script><script src="road-tile-data.js?v=10102"></script><script src="cave-tile-data.js?v=10102"></script><script src="structure-data.js?v=10102"></script><script src="assets/characters/scene_sprites/sprite_registry.js?v=10102"></script><script src="game.js?v=10102"></script><script src="app.js?v=10102"></script><script src="home-preview.js?v=10102"></script><script>
+/* Only runs when GitHub CI opens /?smoke_start=1 in headless Chromium. */
+if(new URLSearchParams(location.search).has('smoke_start')){
+ window.addEventListener('load',()=>{
+  setTimeout(()=>{
+   const start=document.getElementById('startButton');
+   if(start)start.click();
+   setTimeout(()=>{
+    const ok=Boolean(window.NMFinal&&window.NMFinal.isRunning&&window.NMFinal.isRunning()&&
+      !document.getElementById('gameScreen').hidden&&document.getElementById('homeScreen').hidden);
+    document.documentElement.setAttribute('data-browser-smoke',ok?'PASS':'FAIL');
+    document.documentElement.setAttribute('data-boot-diagnostic',
+      String(window.NM_BOOT_DIAGNOSTIC||window.NM_GAME_BOOT_ERROR?.message||'none').slice(0,240));
+    if(ok&&window.NMFinal.returnHome)window.NMFinal.returnHome();
+   },550);
+  },300);
+ });
+}
+</script></body></html>

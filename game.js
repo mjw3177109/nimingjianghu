@@ -1,4 +1,5 @@
 (()=>{'use strict';
+try {
 const world=window.GAME_WORLD, canvas=document.getElementById('game'), ctx=canvas.getContext('2d'); ctx.imageSmoothingEnabled=false;ctx.setTransform(2,0,0,2);
 const $=id=>document.getElementById(id); const CELL=20, W=32,H=18;
 // Shared 32px modular maps. Never draw baked scene images in gameplay.
@@ -208,4 +209,10 @@ $('help').onclick=()=>openPanel('操作说明','<p>鼠标点击地面：角色�
 $('closePanel').onclick=()=>$('panel').classList.add('hidden');$('restart').onclick=()=>window.NMFinal.returnHome();
 document.addEventListener('keydown',e=>{if(!running)return;if(dialogue&&(e.key==='Enter'||e.key===' ')){e.preventDefault();nextLine();return}if(!$('panel').classList.contains('hidden')){if(e.key==='Escape')$('panel').classList.add('hidden');return}if(e.key.toLowerCase()==='i')$('inventory').click();if(e.key.toLowerCase()==='q')$('quests').click()});
 window.NMFinal={startNew(){if(running)return false;launch(null);return true},continueGame(){if(running)return false;const save=readSaved();if(!save)return false;launch(save);return true},hasSave(){return !!readSaved()},saveInfo(){const s=readSaved();return s?{day:s.day,map:s.map,quest:s.quest}:null},returnHome(){if(running){saveGame();stop()}$('gameScreen').hidden=true;$('homeScreen').hidden=false;window.dispatchEvent(new Event('nm-return-home'));return true},getJournal(){const s=readSaved();return s?s.journal||[]:[]},isRunning(){return running},debugState(){return state},debugCamera(){return townCamera()},debugTilemap(){return currentTilemap()},debugMaps(){return tileMaps},debugStructures(){return structData},debugAnimation(){return {facing:state.facing||'down',motion:motion?{...motion}:null,keys:Object.keys(imgs),renderMode:'seamless_whole_body',source96x128:!!animatedSheets.player,legacyPreviewDisabled:true}}};
+} catch(error){
+ const detail={message:String(error&&error.message||error),stack:String(error&&error.stack||''),stage:'game-core-init'};
+ window.NM_GAME_BOOT_ERROR=detail;
+ console.error('[逆命江湖] 游戏核心初始化失败',error);
+ window.dispatchEvent(new CustomEvent('nm-game-init-failed',{detail}));
+}
 })();

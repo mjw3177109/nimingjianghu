@@ -35,3 +35,6 @@ jobs:
       - run: node tests/p3i_sprite_integrity.cjs
       - run: node tests/p3j_game_sprite.cjs
       - run: python -m unittest discover -s tests -p 'test_*.py'
+      - run: npm run build
+      - name: Open real Chromium and click Start Game
+        run: node tests/chrome_browser_smoke.cjs
