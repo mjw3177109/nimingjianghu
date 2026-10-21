@@ -11,8 +11,8 @@ function display(value){
  overlay.hidden=false;
 }
 function hide(){if(overlay)overlay.hidden=true}
-function record(details){
- if(firstError)return;
+function record(details,priority=false){
+ if(firstError&&!priority)return;
  const msg=typeof details==='string'?details:String(details&&details.message||details||'未知错误');
  firstError=msg;
  window.NM_BOOT_DIAGNOSTIC=msg;
@@ -30,12 +30,13 @@ if(retry)retry.addEventListener('click',()=>window.location.reload());
 if(close)close.addEventListener('click',hide);
 window.addEventListener('nm-game-started',hide);
 window.addEventListener('nm-game-start-failed',e=>record('开始游戏失败：'+(e.detail&&e.detail.message||'未知异常')));
-window.addEventListener('nm-game-init-failed',e=>record('游戏核心异常：'+(e.detail&&e.detail.message||'未知异常')+(e.detail&&e.detail.stack?'\n'+e.detail.stack.split('\n').slice(0,2).join('\n'):'')));
+window.addEventListener('nm-game-init-failed',e=>record('游戏核心异常：'+(e.detail&&e.detail.message||'未知异常')+(e.detail&&e.detail.stack?'\n'+e.detail.stack.split('\n').slice(0,2).join('\n'):''),true));
 window.addEventListener('error',e=>{
  if(ready())return;
  const resource=e&&e.target&&(e.target.src||e.target.href);
+ if(resource&&!/\.js(?:[?#]|$)/i.test(resource))return; // Images are optional; only missing scripts block startup.
  const where=e&&e.filename?e.filename.split('/').pop()+':'+(e.lineno||'?'):'';
- record(resource?'资源加载失败：'+resource:'脚本异常：'+(e&&e.message||'未知错误')+(where?'（'+where+'）':''));
+ record(resource?'游戏脚本加载失败：'+resource:'脚本异常：'+(e&&e.message||'未知错误')+(where?'（'+where+'）':''));
 },true);
 window.addEventListener('unhandledrejection',e=>{
  if(!ready())record('运行异常：'+String(e.reason&&e.reason.message||e.reason||'未知错误'));
