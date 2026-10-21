@@ -41,7 +41,7 @@ const freshState=JSON.parse(JSON.stringify(state));
 let dialogue=null,battle=null,frame=0,last=performance.now(),moveAcc=0,focusHover=null,transitionLock=false;
 let running=false,raf=0,epoch=0;
 const WALK_TIME=.115;
-let motion=null;
+let motion=null,walkStepIndex=0;
 const faceOrder={down:0,left:1,right:2,up:3};
 function visualPlayer(){if(!motion)return state.pos;const t=Math.max(0,Math.min(1,motion.progress));return {x:motion.from.x+(motion.to.x-motion.from.x)*t,y:motion.from.y+(motion.to.y-motion.from.y)*t}}
 function facingForMove(from,to){if(to.x>from.x)return 'right';if(to.x<from.x)return 'left';if(to.y>from.y)return 'down';return 'up';}
@@ -52,7 +52,7 @@ if(!st.pos||tileMaps[st.map].collision[st.pos.y*tileMaps[st.map].width+st.pos.x]
 return st;}}catch(e){console.warn('存档不可读：',key)}}return null}
 function saveGame(){if(!running)return;try{localStorage.setItem(SAVE_KEY,JSON.stringify({version:3,state:{...state,tileSchema:2,route:[],moving:null,pending:null}}));window.dispatchEvent(new Event('nm-save-updated'));}catch(e){console.warn('无法存档',e)}}
 function stop(){running=false;epoch++;if(raf){cancelAnimationFrame(raf);raf=0}dialogue=null;battle=null;for(const id of ['dialogue','battle','panel'])$(id).classList.add('hidden')}
-function launch(saved){stop();motion=null;state=saved?{...JSON.parse(JSON.stringify(freshState)),...saved,route:[],pending:null}:JSON.parse(JSON.stringify(freshState));running=true;last=performance.now();moveAcc=0;updateUI();raf=requestAnimationFrame(tick);if(!saved){const id=epoch;setTimeout(()=>{if(running&&epoch===id)scripted(world.dialogue.intro,()=>updateUI())},500)}else notice('已恢复江湖存档。');return true;}
+function launch(saved){stop();motion=null;walkStepIndex=0;state=saved?{...JSON.parse(JSON.stringify(freshState)),...saved,route:[],pending:null}:JSON.parse(JSON.stringify(freshState));running=true;last=performance.now();moveAcc=0;updateUI();raf=requestAnimationFrame(tick);if(!saved){const id=epoch;setTimeout(()=>{if(running&&epoch===id)scripted(world.dialogue.intro,()=>updateUI())},500)}else notice('已恢复江湖存档。');return true;}
 
 // P3-I: seamless full-body renderer. Legacy split-body SVG sheets are kept
 // for comparison in the art review studio but are NEVER used in gameplay.
@@ -79,7 +79,9 @@ function spriteDrawSize(key,image){
 function drawActorSprite(key,feetX,feetY,facing,moving=false){
  const sheet=animatedSheets[key],dir=faceOrder[facing]??0;
  const stride=[1,2,3,2]; // alternating left-foot, neutral, right-foot, neutral
- const beat=moving?stride[Math.floor(frame/5)%stride.length]:0;
+ // Use the distance walked, not global render-frame time: every tile alternates the lead foot.
+ const halfStep=motion&&motion.progress>=0.5?1:0;
+ const beat=moving?stride[((walkStepIndex-1)*2+halfStep)%stride.length]:0;
  ctx.save();
  ctx.imageSmoothingEnabled=true; // Q-painted characters keep antialiased lines; tiles remain crisp.
  if(sheet&&sheet.complete&&sheet.naturalWidth>=384&&sheet.naturalHeight>=512&&sheet.naturalWidth%4===0&&sheet.naturalHeight%4===0){
@@ -245,7 +247,7 @@ function tick(ts){if(!running){raf=0;return}frame++;
  let delta=Math.min((ts-last)/1000,.1);last=ts;
  if(!dialogue&&!battle){if(motion){motion.progress=Math.min(1,motion.progress+delta/WALK_TIME);if(motion.progress>=1)motion=null;}
  moveAcc+=delta;
- if(moveAcc>WALK_TIME&&state.route.length){moveAcc=0;const from={...state.pos},to=state.route.shift();state.facing=facingForMove(from,to);state.pos=to;motion={from,to,progress:0};if(!state.route.length){finishPending();maybeEnding()}}}
+ if(moveAcc>WALK_TIME&&state.route.length){moveAcc=0;const from={...state.pos},to=state.route.shift();state.facing=facingForMove(from,to);state.pos=to;walkStepIndex++;motion={from,to,progress:0};if(!state.route.length){finishPending();maybeEnding()}}}
  try{draw();if(battle)drawBattleActors()}catch(error){
   console.error('[逆命江湖] 渲染异常',error);running=false;raf=0;
   window.dispatchEvent(new CustomEvent('nm-game-start-failed',{detail:{message:'地图渲染失败：'+String(error&&error.message||error)}}));return;
@@ -259,7 +261,7 @@ $('quests').onclick=()=>openPanel('江湖任务',`<p>当前主线：<b>${taskTex
 $('help').onclick=()=>openPanel('操作说明','<p>鼠标点击地面：角色自动寻路。</p><p>点击 NPC：走近自动触发对话。</p><p>点击山贼：进入单人战斗。</p><p>点击闪光物品：拾取或调查。</p><p>点击场景左右出口：切换地图。</p><p>键盘 I 打开背包，Q 查看任务，Enter/Space 继续对话。</p>');
 $('closePanel').onclick=()=>$('panel').classList.add('hidden');$('restart').onclick=()=>window.NMFinal.returnHome();
 document.addEventListener('keydown',e=>{if(!running)return;if(dialogue&&(e.key==='Enter'||e.key===' ')){e.preventDefault();nextLine();return}if(!$('panel').classList.contains('hidden')){if(e.key==='Escape')$('panel').classList.add('hidden');return}if(e.key.toLowerCase()==='i')$('inventory').click();if(e.key.toLowerCase()==='q')$('quests').click()});
-window.NMFinal={startNew(){if(running)return false;launch(null);return true},continueGame(){if(running)return false;const save=readSaved();if(!save)return false;launch(save);return true},hasSave(){return !!readSaved()},saveInfo(){const s=readSaved();return s?{day:s.day,map:s.map,quest:s.quest}:null},returnHome(){if(running){saveGame();stop()}$('gameScreen').hidden=true;$('homeScreen').hidden=false;window.dispatchEvent(new Event('nm-return-home'));return true},getJournal(){const s=readSaved();return s?s.journal||[]:[]},isRunning(){return running},debugState(){return state},debugCamera(){return townCamera()},debugTilemap(){return currentTilemap()},debugMaps(){return tileMaps},debugStructures(){return structData},debugAnimation(){return {facing:state.facing||'down',motion:motion?{...motion}:null,keys:Object.keys(imgs),renderMode:'seamless_whole_body',source96x128:!!animatedSheets.player,legacyPreviewDisabled:true}}};
+window.NMFinal={startNew(){if(running)return false;launch(null);return true},continueGame(){if(running)return false;const save=readSaved();if(!save)return false;launch(save);return true},hasSave(){return !!readSaved()},saveInfo(){const s=readSaved();return s?{day:s.day,map:s.map,quest:s.quest}:null},returnHome(){if(running){saveGame();stop()}$('gameScreen').hidden=true;$('homeScreen').hidden=false;window.dispatchEvent(new Event('nm-return-home'));return true},getJournal(){const s=readSaved();return s?s.journal||[]:[]},isRunning(){return running},debugState(){return state},debugCamera(){return townCamera()},debugTilemap(){return currentTilemap()},debugMaps(){return tileMaps},debugStructures(){return structData},debugAnimation(){return {facing:state.facing||'down',motion:motion?{...motion}:null,keys:Object.keys(imgs),renderMode:'seamless_whole_body',walkStepIndex,walkFrame:motion?[1,2,3,2][((walkStepIndex-1)*2+(motion.progress>=0.5?1:0))%4]:0,source96x128:!!animatedSheets.player,legacyPreviewDisabled:true}}};
 } catch(error){
  const detail={message:String(error&&error.message||error),stack:String(error&&error.stack||''),stage:'game-core-init'};
  window.NM_GAME_BOOT_ERROR=detail;
