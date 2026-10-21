@@ -45,3 +45,20 @@ st.map='town';st.pos={x:14,y:12};clickTile(15,12);frame(15);
 for(let i=0;i<5;i++)el('nextDialogue').click();
 assert.equal(st.quest,5,'Final first-chapter Liao foreshadowing must complete');
 console.log('PASS: cave manual, trace +25, return to town and finish chapter');
+
+// Exercise real key handlers and animation ticks, including overlay isolation.
+st.pos={x:14,y:12};st.route=[];st.pending=null;
+function key(type,value){for(const fn of handlers['document:'+type]||[])fn({key:value,preventDefault(){}})}
+for(const [value,dx,dy] of [['ArrowLeft',-1,0],['d',1,0],['w',0,-1],['ArrowDown',0,1]]){
+ const before={...st.pos};key('keydown',value);frame(2);key('keyup',value);frame(5);
+ assert.deepEqual(JSON.parse(JSON.stringify(st.pos)),{x:before.x+dx,y:before.y+dy});
+ assert.equal(window.NMFinal.debugAnimation().walkFrame,0,'Released movement settles to idle');
+}
+st.pos={x:14,y:1};key('keydown','ArrowUp');frame(8);key('keyup','ArrowUp');
+assert.equal(st.pos.y,1,'Keyboard cannot leave the map');
+key('keydown','ArrowDown');frame(2);for(const fn of handlers['window:blur']||[])fn({});frame(8);
+const blurred={...st.pos};frame(8);assert.deepEqual(JSON.parse(JSON.stringify(st.pos)),blurred,'Blur clears held input');
+el('quests').onclick();key('keydown','ArrowDown');frame(8);key('keyup','ArrowDown');
+assert.deepEqual(JSON.parse(JSON.stringify(st.pos)),blurred,'Task overlay captures movement');
+el('closePanel').onclick();
+console.log('PASS: keyboard four directions, collision, key release, focus loss and panel isolation');

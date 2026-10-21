@@ -11,6 +11,19 @@ from pathlib import Path
 ROOT=Path(__file__).resolve().parent
 
 
+def blocked_tile(tilemap, structures, actors, x, y):
+    """Same tile/structure/actor footprints as the browser movement rule."""
+    if x < 0 or y < 0 or x >= tilemap['width'] or y >= tilemap['height']:
+        return True
+    if tilemap['collision'][y * tilemap['width'] + x] == 1:
+        return True
+    for obj in structures:
+        f = obj.get('solid_footprint')
+        if f and obj['x'] + f['x'] <= x < obj['x'] + f['x'] + f['w'] and obj['y'] + f['y'] <= y < obj['y'] + f['y'] + f['h']:
+            return True
+    return any(abs(a['x'] - x) <= 1 and a['y'] == y for a in actors)
+
+
 def prepare_assets():
     # Modular P3 gameplay intentionally does not regenerate legacy full-scene images.
     for name in ('town','road','cave'):
@@ -136,8 +149,8 @@ def main():
     scene='town';pos=tuple(tilemaps['town']['spawn']);facing='down';motion=None;route=[];pending=None;quest=0;hp=100;mp=50;potions=2;destiny=0;coins=10;manual=False;trace=False;bandit_alive=True;lines=[];dialogue_cb=None;battle=None;note='鼠标点击地面移动，点击人物或出口互动。';journal='这里是我记忆中的江湖吗？'
     def walls(x,y):
         m=tilemaps[scene]
-        if x<0 or y<0 or x>=m['width'] or y>=m['height']:return True
-        return m['collision'][y*m['width']+x]==1
+        actors=data['maps'][scene].get('npcs',[]) + (data['maps'][scene].get('enemies',[]) if bandit_alive else [])
+        return blocked_tile(m,structures[scene],actors,x,y)
     def find_path(start,dest):
         if walls(*dest):return None
         Q=deque([start]);prev={start:None}
@@ -159,7 +172,7 @@ def main():
             if p is not None:candidates.append((len(p),p,t))
         if candidates:
             _,route,to=min(candidates,key=lambda k:k[0]);pending=(action,to) if action else None
-            if not route:run_pending()
+            if not route and motion is None:run_pending()
         else:note='这里无法到达。'
     def say(rows, callback=None):
         nonlocal lines,dialogue_cb
@@ -322,13 +335,20 @@ def main():
                 a,b,elapsed=motion
                 elapsed+=dt
                 motion=(a,b,elapsed) if elapsed<.12 else None
-            if route:
+                if motion is None and not route:run_pending()
+            if not lines and not battle and motion is None and pygame.key.get_focused():
+                keys=pygame.key.get_pressed()
+                for controls,dx,dy in [((pygame.K_LEFT,pygame.K_a),-1,0),((pygame.K_RIGHT,pygame.K_d),1,0),((pygame.K_UP,pygame.K_w),0,-1),((pygame.K_DOWN,pygame.K_s),0,1)]:
+                    if any(keys[k] for k in controls):
+                        target=(pos[0]+dx,pos[1]+dy)
+                        route=[] if walls(*target) else [target];pending=None
+                        break
+            if route and motion is None and not lines and not battle:
                 lastmove+=dt
                 if lastmove>.12:
                     lastmove=0;previous=pos;pos=route.pop(0)
                     facing=('right' if pos[0]>previous[0] else 'left' if pos[0]<previous[0] else 'down' if pos[1]>previous[1] else 'up')
                     motion=(previous,pos,0.0)
-                    if not route:run_pending()
         paint_tile_world()
         pygame.draw.rect(canvas,(15,23,26),(0,315,640,45));txt('地点：'+m['name']+' | 气血 %d/100 内力 %d/50  银两 %d 逆命 %d'%(hp,mp,coins,destiny),12,320)
         phases=['和韩掌柜交谈','击败山贼','前往山洞','寻找秘籍并调查石台','返回青石镇','第一章已完成']

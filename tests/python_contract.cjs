@@ -1,7 +1,7 @@
 'use strict';
 const cp=require('node:child_process');
 let found=false;
-for(const command of ['python3','python']){
+for(const command of (process.platform==='win32'?['python','python3']:['python3','python'])){
  const proc=cp.spawnSync(command,['-c','import ast, pathlib; ast.parse(pathlib.Path("main.py").read_text(encoding="utf-8")); print("PASS: main.py Python syntax")'],{encoding:'utf8',timeout:10000});
  if(proc.error?.code==='ENOENT')continue;
  found=true;

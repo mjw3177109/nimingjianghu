@@ -4,6 +4,7 @@
 const {chromium}=require('playwright'),assert=require('node:assert/strict');
 const {spawn}=require('node:child_process'),fs=require('node:fs'),path=require('node:path'),http=require('node:http');
 const root=path.resolve(__dirname,'..'),port=4191;
+const {serveBuild,launchOptions}=require('../tools/browser-test-runtime.cjs');
 const url=process.env.E2E_URL||'http://127.0.0.1:'+port+'/';
 const output=path.join(root,'qa/screenshots');
 const CHROME=['/usr/bin/google-chrome','/usr/bin/google-chrome-stable','/usr/bin/chromium'].find(p=>fs.existsSync(p));
@@ -11,11 +12,11 @@ const sleep=ms=>new Promise(resolve=>setTimeout(resolve,ms));
 async function waitServer(){for(let i=0;i<50;i++){try{await new Promise((resolve,reject)=>http.get(url,r=>{r.resume();resolve()}).on('error',reject));return}catch{await sleep(200)}}throw Error('Screenshot server did not start')}
 async function main(){
  fs.mkdirSync(output,{recursive:true});
- const server=process.env.E2E_URL?null:spawn('python3',['-m','http.server',String(port),'--bind','127.0.0.1','--directory',path.join(root,'dist')],{stdio:'ignore'});
+ const server=process.env.E2E_URL?null:await serveBuild(root,port);
  let browser;
  try{
   if(server)await waitServer();
-  browser=await chromium.launch({headless:true,...(CHROME?{executablePath:CHROME}:{}),args:['--no-sandbox','--disable-dev-shm-usage']});
+  browser=await chromium.launch(launchOptions());
   const page=await browser.newPage({viewport:{width:1440,height:900},deviceScaleFactor:1});
   const errors=[];page.on('pageerror',e=>errors.push(e.message));
   await page.goto(url,{waitUntil:'domcontentloaded',timeout:30000});
@@ -80,6 +81,6 @@ async function main(){
   assert.equal(errors.length,0,'Browser exceptions: '+errors.join(' | '));
   fs.writeFileSync(path.join(output,'visual-review-required.json'),JSON.stringify({type:'unapproved_visual_evidence',browser:'Chromium',captures,asset,artApproved:false},null,2));
   console.log('VISUAL_CAPTURE_COMPLETE: '+captures.length+' screenshots. NOT ART APPROVAL.');
- }finally{if(browser)await browser.close();if(server)server.kill('SIGTERM')}
+ }finally{if(browser)await browser.close();if(server)await server.close()}
 }
 main().catch(e=>{console.error('VISUAL_CAPTURE_FAILED',e.stack);process.exitCode=1});

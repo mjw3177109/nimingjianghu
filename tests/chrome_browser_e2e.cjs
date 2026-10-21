@@ -1,21 +1,25 @@
 'use strict';
 // Real Chromium browser journey: mouse clicks and rendered UI, no debugState mutation.
 const {chromium}=require('playwright'),assert=require('node:assert/strict');
-const cp=require('node:child_process'),http=require('node:http'),path=require('node:path');
+const fs=require('node:fs'),http=require('node:http'),path=require('node:path');
 const ROOT=path.resolve(__dirname,'..'),PORT=4189;
+const {serveBuild,launchOptions}=require('../tools/browser-test-runtime.cjs');
 const URL=process.env.E2E_URL||'http://127.0.0.1:'+PORT+'/';
-const CHROME=['/usr/bin/google-chrome','/usr/bin/google-chrome-stable','/usr/bin/chromium'].find(p=>require('node:fs').existsSync(p));
+const OUTPUT=path.join(ROOT,'qa/e2e');
 const delay=ms=>new Promise(resolve=>setTimeout(resolve,ms));
 async function serverReady(){for(let n=0;n<60;n++){try{await new Promise((resolve,reject)=>http.get(URL,res=>{res.resume();resolve()}).on('error',reject));return}catch{await delay(200)}}throw Error('Demo HTTP server did not start')}
 async function main(){
- const server=process.env.E2E_URL?null:cp.spawn('python3',['-m','http.server',String(PORT),'--bind','127.0.0.1','--directory',path.join(ROOT,'dist')],{stdio:'ignore'});
+ fs.mkdirSync(OUTPUT,{recursive:true});
+ const server=process.env.E2E_URL?null:await serveBuild(ROOT,PORT);
  if(server)await serverReady();
- const browser=await chromium.launch({headless:true,...(CHROME?{executablePath:CHROME}:{}),args:['--no-sandbox','--disable-dev-shm-usage']});
+ let browser;
  try{
+  browser=await chromium.launch(launchOptions());
   const page=await browser.newPage({viewport:{width:1440,height:900}});
   const errors=[],failed=[];
   page.on('pageerror',e=>errors.push(e.message));
   page.on('requestfailed',r=>failed.push(r.url()+': '+r.failure()?.errorText));
+  page.on('response',r=>{if(r.status()>=400)failed.push(r.status()+' '+r.url())});
   const response=await page.goto(URL,{waitUntil:'domcontentloaded',timeout:30000});
   assert.equal(response.status(),200);
   await page.locator('#startButton').click();
@@ -30,6 +34,30 @@ async function main(){
    throw Error('Dialogue did not close');
   }
   async function state(){return page.evaluate(()=>{const s=window.NMFinal.debugState();return {map:s.map,pos:{...s.pos},quest:s.quest,route:s.route.length,motion:!!window.NMFinal.debugAnimation().motion,banditAlive:s.banditAlive,manual:s.manual,trace:s.trace}})}
+  async function capture(name){await page.screenshot({path:path.join(OUTPUT,name+'.png')});}
+  const initial=await state();
+  for(const [key,dx,dy] of [['ArrowLeft',-1,0],['ArrowRight',1,0],['ArrowUp',0,-1],['ArrowDown',0,1]]){
+   const before=await state();
+   await page.keyboard.down(key);
+   await page.waitForFunction(({x,y})=>{const p=window.NMFinal.debugState().pos;return p.x===x&&p.y===y},{x:before.pos.x+dx,y:before.pos.y+dy},{timeout:3000});
+   await page.keyboard.up(key);
+   await page.waitForFunction(()=>!window.NMFinal.debugAnimation().motion);
+   const stopped=await state();await delay(300);
+   assert.deepEqual((await state()).pos,stopped.pos,'Released key must stop at settled feet');
+   assert.equal(await page.evaluate(()=>window.NMFinal.debugAnimation().walkFrame),0,'Stopped actor must return to idle');
+  }
+  assert.deepEqual((await state()).pos,initial.pos,'Four directions return to origin');
+  // Hold against the north map boundary; keyboard must stop at the last walkable row.
+  await page.keyboard.down('ArrowUp');await delay(2400);await page.keyboard.up('ArrowUp');
+  await page.waitForFunction(()=>!window.NMFinal.debugAnimation().motion);
+  const bank=await state();assert.equal(bank.pos.y,1,'Keyboard must stop before the solid north boundary');
+  await page.keyboard.down('ArrowDown');
+  await page.waitForFunction(y=>window.NMFinal.debugState().pos.y>y,bank.pos.y);
+  await page.evaluate(()=>window.dispatchEvent(new Event('blur')));
+  await page.keyboard.up('ArrowDown');
+  await page.waitForFunction(()=>!window.NMFinal.debugAnimation().motion);
+  const blurred=await state();await delay(300);assert.deepEqual((await state()).pos,blurred.pos,'Lost focus must not leave movement held');
+  await capture('town-keyboard');
   async function clickTile(x,y){
    const p=await page.evaluate(({x,y})=>{const c=window.NMFinal.debugCamera(),r=document.getElementById('game').getBoundingClientRect();return {x:r.left+((x+.5)*32-c.x)/640*r.width,y:r.top+((y+.5)*32-c.y)/360*r.height}},{x,y});
    assert(p.x>=0&&p.x<1440&&p.y>=0&&p.y<900,'Tile outside browser '+JSON.stringify({x,y,p}));
@@ -94,6 +122,7 @@ async function main(){
   assert.equal((await state()).motion,false,'NPC dialogue must wait for player feet to settle');
   await dialogue();
   assert.equal((await state()).quest,1,'Innkeeper quest did not start');
+  await capture('town-quest');
   await walkTo(36,12);await clickTile(39,12);
   await page.waitForFunction(()=>window.NMFinal.debugState().map==='road',{timeout:12000});
   await walkTo(15,10);
@@ -101,6 +130,8 @@ async function main(){
   assert.deepEqual((await state()).pos,{x:15,y:10},'Wide bandit sprite must not overlap player');
   await clickTile(18,10);
   await page.locator('#battle').waitFor({state:'visible',timeout:10000});
+  await capture('road-battle');
+  const combatPos=(await state()).pos;await page.keyboard.press('ArrowLeft');assert.deepEqual((await state()).pos,combatPos,'Combat must reject movement');
   assert.equal((await state()).motion,false,'Battle must not freeze player mid-stride');
   for(let i=0;i<9;i++){if(Number(await page.locator('#battleEnemyHp').textContent())===0)break;await page.locator('[data-action="attack"]').click();await delay(100)}
   assert.equal(Number(await page.locator('#battleEnemyHp').textContent()),0,'Bandit HP should reach zero exactly once');
@@ -113,18 +144,29 @@ async function main(){
   await walkTo(16,10);await clickTile(16,8);
   await page.waitForFunction(()=>window.NMFinal.debugState().trace,{timeout:10000});await dialogue();
   assert.equal((await state()).quest,4,'Cave mystery did not advance');
+  await capture('cave-trace');
   await walkTo(2,10);await clickTile(0,10);
   await page.waitForFunction(()=>window.NMFinal.debugState().map==='road',{timeout:10000});
   await walkTo(2,10);await clickTile(0,10);
   await page.waitForFunction(()=>window.NMFinal.debugState().map==='town',{timeout:10000});await dialogue();
   assert.equal((await state()).quest,5,'Ending not reached');
+  await capture('ending');
   await page.locator('#restart').click();
   assert(await page.locator('#continueButton').isEnabled(),'Save resume disabled');
   await page.locator('#continueButton').click();
   await page.waitForFunction(()=>window.NMFinal?.isRunning()&&window.NMFinal.debugState().quest===5,{timeout:10000});
+  await page.reload({waitUntil:'domcontentloaded'});
+  await page.locator('#continueButton').click();
+  await page.waitForFunction(()=>window.NMFinal?.isRunning()&&window.NMFinal.debugState().quest===5);
+  const restored=await state();assert(restored.manual&&restored.trace&&!restored.banditAlive,'Refresh must retain chapter items and defeated enemy');
+  await page.locator('#restart').click();
+  await page.setViewportSize({width:390,height:844});
+  assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),'Narrow homepage must not overflow');
+  await capture('mobile-home');
   assert.equal(errors.length,0,'JavaScript exceptions: '+errors.join(' | '));
   assert.equal(failed.length,0,'Failed requests: '+failed.join(' | '));
+  fs.writeFileSync(path.join(OUTPUT,'report.json'),JSON.stringify({url:URL,browser:browser.version(),passed:true,keyboard:true,refreshSave:restored,errors,failed,artApproved:false},null,2));
   console.log('PASS REAL CHROMIUM E2E: home -> NPC -> road -> bandit battle -> cave manual/trace -> ending -> save/continue; no JS errors');
- }finally{await browser.close();if(server)server.kill('SIGTERM')}
+ }finally{if(browser)await browser.close();if(server)await server.close()}
 }
 main().catch(e=>{console.error('E2E FAIL:',e.stack);process.exitCode=1});

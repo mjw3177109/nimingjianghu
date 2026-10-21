@@ -56,6 +56,8 @@ let dialogue=null,battle=null,frame=0,last=performance.now(),moveAcc=0,focusHove
 let running=false,raf=0,epoch=0;
 const WALK_TIME=.115;
 let motion=null,walkStepIndex=0;
+const moveKeys=new Map(),moveDirections={arrowup:[0,-1],w:[0,-1],arrowdown:[0,1],s:[0,1],arrowleft:[-1,0],a:[-1,0],arrowright:[1,0],d:[1,0]};
+function clearMoveKeys(){moveKeys.clear()}
 const faceOrder={down:0,left:1,right:2,up:3};
 function visualPlayer(){if(!motion)return state.pos;const t=Math.max(0,Math.min(1,motion.progress));return {x:motion.from.x+(motion.to.x-motion.from.x)*t,y:motion.from.y+(motion.to.y-motion.from.y)*t}}
 function facingForMove(from,to){if(to.x>from.x)return 'right';if(to.x<from.x)return 'left';if(to.y>from.y)return 'down';return 'up';}
@@ -65,7 +67,7 @@ else st.pos={x:tileMaps[st.map].spawn[0],y:tileMaps[st.map].spawn[1]};st.tileSch
 if(!st.pos||occupiedTile(st.map,st.pos.x,st.pos.y,st.banditAlive!==false))st.pos={x:tileMaps[st.map].spawn[0],y:tileMaps[st.map].spawn[1]};
 return st;}}catch(e){console.warn('存档不可读：',key)}}return null}
 function saveGame(){if(!running)return;try{localStorage.setItem(SAVE_KEY,JSON.stringify({version:3,state:{...state,tileSchema:2,route:[],moving:null,pending:null}}));window.dispatchEvent(new Event('nm-save-updated'));}catch(e){console.warn('无法存档',e)}}
-function stop(){running=false;epoch++;if(raf){cancelAnimationFrame(raf);raf=0}dialogue=null;battle=null;for(const id of ['dialogue','battle','panel'])$(id).classList.add('hidden')}
+function stop(){running=false;clearMoveKeys();epoch++;if(raf){cancelAnimationFrame(raf);raf=0}dialogue=null;battle=null;for(const id of ['dialogue','battle','panel'])$(id).classList.add('hidden')}
 function launch(saved){stop();motion=null;walkStepIndex=0;state=saved?{...JSON.parse(JSON.stringify(freshState)),...saved,route:[],pending:null}:JSON.parse(JSON.stringify(freshState));running=true;last=performance.now();moveAcc=0;updateUI();raf=requestAnimationFrame(tick);if(!saved){const id=epoch;setTimeout(()=>{if(running&&epoch===id)scripted(world.dialogue.intro,()=>updateUI())},500)}else notice('已恢复江湖存档。');return true;}
 
 // P3-I: seamless full-body renderer. Legacy split-body SVG sheets are kept
@@ -149,7 +151,7 @@ function travelTo(x,y,act){let n=nearestReach({x,y},act&&['npc','object'].includ
 function finishPending(){if(!state.pending)return;let p=state.pending;state.pending=null; if(p.type==='npc')talk(p.id);else if(p.type==='enemy')startBattle();else if(p.type==='object')objectClick(p.id);else if(p.type==='exit')changeMap(p.to,p.spawn);else if(p.type==='hotspot')notice(p.id==='inn_door'?'客栈里传来阵阵饭香，韩掌柜正在门口。':'药铺里弥漫着药香，苏晚晴可以为你指路。')}
 function changeMap(to,spawn){state.map=to;const wanted=to==='town'?{x:38,y:12}:{x:spawn[0],y:spawn[1]};state.pos=occupiedTile(to,wanted.x,wanted.y,state.banditAlive)?{x:tileMaps[to].spawn[0],y:tileMaps[to].spawn[1]}:wanted;state.route=[];motion=null;state.pending=null;state.day=Math.max(1,state.day);if(to==='cave')state.visitedCave=true;notice('进入 '+world.maps[to].name);updateUI()}
 function notice(msg){$('status').textContent=msg; $('hint').textContent=msg;clearTimeout(notice.timer); notice.timer=setTimeout(()=>$('hint').textContent='点击移动 · 点击人物交谈 · 点击出口切换地图',3600)}
-function scripted(lines,done){dialogue={lines,idx:0,done};$('dialogue').classList.remove('hidden');showLine()}
+function scripted(lines,done){clearMoveKeys();dialogue={lines,idx:0,done};$('dialogue').classList.remove('hidden');showLine()}
 function showLine(){if(!dialogue)return;let row=dialogue.lines[dialogue.idx];$('speaker').textContent=row[0];$('dialogueText').textContent=row[1];const names={'沈砚':'CHAR001','廖':'BOSS001','韩掌柜':'NPC001','顾老':'NPC002','苏晚晴':'NPC005','顾青岚':'NPC003','？？？':'BOSS001'};$('dialoguePortrait').src='assets/portraits/'+(names[row[0]]||'CHAR001')+'_avatar.webp'}
 function finishDialogue(){if(!dialogue)return;const d=dialogue;dialogue=null;$('dialogue').classList.add('hidden');if(d.done)d.done();updateUI()}
 function nextLine(){if(!dialogue)return;dialogue.idx++;if(dialogue.idx<dialogue.lines.length){showLine();return}finishDialogue()}
@@ -276,6 +278,10 @@ function tick(ts){if(!running){raf=0;return}frame++;
    }
   }
   moveAcc+=delta;
+  if(!motion&&!dialogue&&!battle&&$('panel').classList.contains('hidden')&&moveKeys.size){
+   const [dx,dy]=[...moveKeys.values()].pop(),next={x:state.pos.x+dx,y:state.pos.y+dy};
+   state.route=blocked(next.x,next.y)?[]:[next];state.pending=null;
+  }
   if(!motion&&moveAcc>=WALK_TIME&&state.route.length){
    moveAcc=0;
    const from={...state.pos},to=state.route.shift();
@@ -299,12 +305,22 @@ canvas.addEventListener('click',e=>{
  interactClick(target.x,target.y);
 });
 $('nextDialogue').addEventListener('click',nextLine);$('skipIntro').addEventListener('click',skipIntro);for(let b of document.querySelectorAll('.battle-buttons button'))b.addEventListener('click',()=>strike(b.dataset.action));
-function openPanel(title,body){$('panelTitle').textContent=title;$('panelContent').innerHTML=body;$('panel').classList.remove('hidden')}
+function openPanel(title,body){clearMoveKeys();state.route=[];state.pending=null;$('panelTitle').textContent=title;$('panelContent').innerHTML=body;$('panel').classList.remove('hidden')}
 $('inventory').onclick=()=>openPanel('江湖背包',`<p>银两：${state.coins} 两</p><p>疗伤药：${state.potions} 瓶</p><p>武功：${state.skills.join('、')}</p><p>${state.manual?'✓ 已获得《破风一剑》秘籍':'尚未获得秘籍'}</p>`);
 $('quests').onclick=()=>openPanel('江湖任务',`<p>当前主线：<b>${taskText()}</b></p><p>已完成阶段：${state.quest} / 5</p><p>江湖天数：第 ${state.day} 天</p><p>逆命值：${state.destiny}</p>`);
-$('help').onclick=()=>openPanel('操作说明','<p>鼠标点击地面：角色自动寻路。</p><p>点击 NPC：走近自动触发对话。</p><p>点击山贼：进入单人战斗。</p><p>点击闪光物品：拾取或调查。</p><p>点击场景左右出口：切换地图。</p><p>键盘 I 打开背包，Q 查看任务，Enter/Space 继续对话。</p>');
+$('help').onclick=()=>openPanel('操作说明','<p>鼠标点击地面：角色自动寻路。</p><p>点击 NPC：走近自动触发对话。</p><p>点击山贼：进入单人战斗。</p><p>点击闪光物品：拾取或调查。</p><p>点击场景左右出口：切换地图。</p><p>方向键 / WASD 移动，I 打开背包，Q 查看任务，Enter/Space 继续对话。</p>');
 $('closePanel').onclick=()=>$('panel').classList.add('hidden');$('restart').onclick=()=>window.NMFinal.returnHome();
-document.addEventListener('keydown',e=>{if(!running)return;if(dialogue&&(e.key==='Enter'||e.key===' ')){e.preventDefault();nextLine();return}if(!$('panel').classList.contains('hidden')){if(e.key==='Escape')$('panel').classList.add('hidden');return}if(e.key.toLowerCase()==='i')$('inventory').click();if(e.key.toLowerCase()==='q')$('quests').click()});
+document.addEventListener('keydown',e=>{
+ if(!running||e.ctrlKey||e.altKey||e.metaKey)return;
+ const key=e.key.toLowerCase();
+ if(dialogue){clearMoveKeys();if(key==='enter'||key===' '){e.preventDefault();nextLine()}return}
+ if(battle||!$('panel').classList.contains('hidden')){clearMoveKeys();if(key==='escape')$('panel').classList.add('hidden');return}
+ if(moveDirections[key]){e.preventDefault();moveKeys.set(key,moveDirections[key]);state.route=[];state.pending=null;return}
+ if(key==='i')$('inventory').click();if(key==='q')$('quests').click();
+});
+document.addEventListener('keyup',e=>moveKeys.delete(e.key.toLowerCase()));
+window.addEventListener('blur',clearMoveKeys);
+document.addEventListener('visibilitychange',()=>{if(document.hidden)clearMoveKeys()});
 window.NMFinal={startNew(){if(running)return false;launch(null);return true},continueGame(){if(running)return false;const save=readSaved();if(!save)return false;launch(save);return true},hasSave(){return !!readSaved()},saveInfo(){const s=readSaved();return s?{day:s.day,map:s.map,quest:s.quest}:null},returnHome(){if(running){saveGame();stop()}$('gameScreen').hidden=true;$('homeScreen').hidden=false;window.dispatchEvent(new Event('nm-return-home'));return true},getJournal(){const s=readSaved();return s?s.journal||[]:[]},isRunning(){return running},debugState(){return state},debugCamera(){return townCamera()},debugTilemap(){return currentTilemap()},debugMaps(){return tileMaps},debugStructures(){return structData},debugAnimation(){return {facing:state.facing||'down',motion:motion?{...motion}:null,keys:Object.keys(imgs),renderMode:'seamless_whole_body',walkStepIndex,walkFrame:motion?[1,2,3,2][((walkStepIndex-1)*2+(motion.progress>=0.5?1:0))%4]:0,source96x128:!!animatedSheets.player,legacyPreviewDisabled:true}}};
 } catch(error){
  const detail={message:String(error&&error.message||error),stack:String(error&&error.stack||''),stage:'game-core-init'};
