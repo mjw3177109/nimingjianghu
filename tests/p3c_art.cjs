@@ -41,7 +41,7 @@ assert.equal(jobs.tasks.filter(x=>x.status.startsWith('blocked')).length,32,'2 c
 const index=fs.readFileSync(path.join(root,'index.html'),'utf8');
 assert(index.includes('sprite_registry.js'),'Browser must load replaceable sprite registry');
 const packer=fs.readFileSync(path.join(root,'tools/pack_sprite_sheets.py'),'utf8');
-assert(packer.includes('def normalize(')&&packer.includes('def difference_ratio(')&&packer.includes('--approve'),'Packed production workflow missing');
+assert(packer.includes('pack_frames')&&packer.includes('--review-evidence')&&packer.includes('im.size != (384, 512)'),'Production packer must use reviewed 384x512 P3G pipeline');
 const g=fs.readFileSync(path.join(root,'game.js'),'utf8');
 const p=fs.readFileSync(path.join(root,'main.py'),'utf8');
 assert(g.includes('function drawActorSprite'),'Browser runtime missing direction animation');
