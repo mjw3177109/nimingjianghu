@@ -6,6 +6,7 @@ const {spawn}=require('node:child_process'),fs=require('node:fs'),path=require('
 const root=path.resolve(__dirname,'..'),port=4191;
 const url=process.env.E2E_URL||'http://127.0.0.1:'+port+'/';
 const output=path.join(root,'qa/screenshots');
+const CHROME=['/usr/bin/google-chrome','/usr/bin/google-chrome-stable','/usr/bin/chromium'].find(p=>fs.existsSync(p));
 const sleep=ms=>new Promise(resolve=>setTimeout(resolve,ms));
 async function waitServer(){for(let i=0;i<50;i++){try{await new Promise((resolve,reject)=>http.get(url,r=>{r.resume();resolve()}).on('error',reject));return}catch{await sleep(200)}}throw Error('Screenshot server did not start')}
 async function main(){
@@ -14,7 +15,7 @@ async function main(){
  let browser;
  try{
   if(server)await waitServer();
-  browser=await chromium.launch({headless:true,args:['--no-sandbox','--disable-dev-shm-usage']});
+  browser=await chromium.launch({headless:true,...(CHROME?{executablePath:CHROME}:{}),args:['--no-sandbox','--disable-dev-shm-usage']});
   const page=await browser.newPage({viewport:{width:1440,height:900},deviceScaleFactor:1});
   const errors=[];page.on('pageerror',e=>errors.push(e.message));
   await page.goto(url,{waitUntil:'domcontentloaded',timeout:30000});

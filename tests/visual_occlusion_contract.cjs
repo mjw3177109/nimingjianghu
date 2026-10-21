@@ -15,4 +15,10 @@ assert(!game.includes("paint('front');paintStructureLayer(state.map,'front',cam)
 const idx=(x,y)=>y*town.width+x;
 for(let x=18;x<=21;x++)for(let y=11;y<=13;y++)assert.equal(town.collision[idx(x,y)],0,'Bridge deck must remain traversable');
 for(const obj of s.town.filter(o=>o.layer==='front'))assert(Number.isFinite(obj.occlusion_depth),'Front structure missing depth: '+obj.id);
-console.log('PASS: depth-sorted bridge rails, willow canopy, traversable bridge deck and no blanket foreground');
+for(const [id,depth] of [['altar',10],['chest',11]]){
+ const ob=s.cave.find(o=>o.id===id);
+ assert.equal(ob.layer,'front',id+' must depth-sort with actors instead of always drawing behind them');
+ assert.equal(ob.occlusion_depth,depth,id+' depth must match the solid prop foot');
+ assert(ob.solid_footprint,id+' must retain a solid footprint');
+}
+console.log('PASS: depth-sorted bridge rails, willow canopy, cave props, traversable bridge deck and no blanket foreground');
