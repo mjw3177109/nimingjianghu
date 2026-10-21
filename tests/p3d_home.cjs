@@ -15,7 +15,7 @@ assert(preview.includes('ctx.drawImage(atlas'),'Previews must use real tiles, no
 assert(sv.includes('width="1920" height="1080"'),'High-res scalable vector background missing');
 assert(!sv.includes('<text'),'Background must not bake any Chinese text');
 assert(h.includes('id="game" width="1280" height="720"'),'Game canvas must use 2x device pixels');
-assert(g.includes('ctx.setTransform(2,0,0,2)'),'2x resolution scaling missing');
+assert(g.includes('ctx.setTransform(2,0,0,2,0,0)'),'2x resolution scaling missing');
 assert(g.includes('sx+32<=640&&sy+32<=360'),'Target marker viewport clipping missing');
 for(const bad of ['S001_town.webp','S004_road.webp','S005_cave.webp'])assert(!g.includes(bad),'Baked map returned: '+bad);
 console.log('PASS P3D: editable Chinese UI, true scalable background, live tile previews, retina canvas, marker bounds');

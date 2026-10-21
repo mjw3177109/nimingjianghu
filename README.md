@@ -113,3 +113,6 @@ P3-F角色母版生成与验收：`assets/characters/masters/production_manifest
 
 ## Demo V1.0.2 启动修复
 修复真实浏览器因游戏核心异常无法加载时，菜单JS自身也在刷新存档状态时二次崩溃的问题；`app.js`现在延迟读取 `window.NMFinal`，让开始按钮和错误提示始终可用。`game.js`核心初始化出现任何异常会展示真实信息，`boot-guard.js`记录首个错误不被通用提示覆盖，并尝试一次带版本号的强制重新加载。网页资源全部用同一版本缓存标记，避免HTML与JS跨版本混合。本次不能仅凭构建成功证明所有用户真实浏览器已恢复，增加下一步的自动浏览器测试门禁。
+
+## Demo 1.0.3 Canvas2D 真实浏览器兼容修复
+修复 Canvas2D `setTransform(2,0,0,2)` 错误调用。标准 Canvas API 要求 `setTransform(a,b,c,d,e,f)` 六个参数，或唯一 DOMMatrixInit 对象。旧模拟Canvas没有严格校验参数个数，因此发布构建通过但真实 Chrome 首屏直接抛错；改为 `setTransform(2,0,0,2,0,0)`，并要求自动测试严格验证六个数值。本版本仅在真实浏览器“点击开始游戏、地图出现、人物移动”完成验证后才能宣告试玩可用。

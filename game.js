@@ -1,6 +1,6 @@
 (()=>{'use strict';
 try {
-const world=window.GAME_WORLD, canvas=document.getElementById('game'), ctx=canvas.getContext('2d'); ctx.imageSmoothingEnabled=false;ctx.setTransform(2,0,0,2);
+const world=window.GAME_WORLD, canvas=document.getElementById('game'), ctx=canvas.getContext('2d'); ctx.imageSmoothingEnabled=false;ctx.setTransform(2,0,0,2,0,0);
 const $=id=>document.getElementById(id); const CELL=20, W=32,H=18;
 // Shared 32px modular maps. Never draw baked scene images in gameplay.
 const tileMaps={town:window.NM_TOWN_TILEMAP,road:window.NM_ROAD_TILEMAP,cave:window.NM_CAVE_TILEMAP};
