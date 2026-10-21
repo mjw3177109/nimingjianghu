@@ -197,8 +197,10 @@ def main():
             else:note='已经拿走秘籍。'
         if id=='trace':
             if not trace:
-                trace=True;destiny=25;note='逆命值提升至25';advance(4,'剧情出现了不该存在的命痕。');say([('沈砚','这里不该有这种东西……'),('神秘声音','你终于发现了。')])
+                trace=True;destiny=25;note='逆命值提升至25'
             else:note='石台已经沉寂。'
+        if manual and trace and quest<4:
+            advance(4,'剧情出现了不该存在的命痕。');say([('沈砚','这里不该有这种东西……'),('神秘声音','你终于发现了。')])
     def act(key):
         nonlocal battle,hp,mp,potions,bandit_alive,coins,note
         if not battle:return

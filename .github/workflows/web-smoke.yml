@@ -51,6 +51,11 @@ jobs:
         run: npx playwright install --with-deps chromium
       - name: Real Chromium first-chapter click-through
         run: node tests/chrome_browser_e2e.cjs
+      - name: Real Chromium altar-first journey with mid-investigation reload
+        run: node tests/chrome_browser_e2e.cjs
+        env:
+          E2E_CAVE_ORDER: trace-first
+          E2E_OUTPUT: qa/e2e-trace-first
 
       - name: Capture representative map screenshots for manual visual QA
         run: node tests/chrome_visual_capture.cjs

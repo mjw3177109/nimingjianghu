@@ -5,7 +5,8 @@ const fs=require('node:fs'),http=require('node:http'),path=require('node:path');
 const ROOT=path.resolve(__dirname,'..'),PORT=4189;
 const {serveBuild,launchOptions}=require('../tools/browser-test-runtime.cjs');
 const URL=process.env.E2E_URL||'http://127.0.0.1:'+PORT+'/';
-const OUTPUT=path.join(ROOT,'qa/e2e');
+const OUTPUT=path.resolve(ROOT,process.env.E2E_OUTPUT||'qa/e2e');
+const reverseClues=process.env.E2E_CAVE_ORDER==='trace-first';
 const delay=ms=>new Promise(resolve=>setTimeout(resolve,ms));
 async function serverReady(){for(let n=0;n<60;n++){try{await new Promise((resolve,reject)=>http.get(URL,res=>{res.resume();resolve()}).on('error',reject));return}catch{await delay(200)}}throw Error('Demo HTTP server did not start')}
 async function main(){
@@ -140,10 +141,23 @@ async function main(){
   assert.equal((await state()).quest,2,'Bandit quest did not advance');
   await walkTo(32,10);await clickTile(35,10);
   await page.waitForFunction(()=>window.NMFinal.debugState().map==='cave',{timeout:12000});
-  await walkTo(21,11);await clickTile(23,10);
-  await page.waitForFunction(()=>window.NMFinal.debugState().manual,{timeout:10000});
-  await walkTo(16,10);await clickTile(16,8);
-  await page.waitForFunction(()=>window.NMFinal.debugState().trace,{timeout:10000});await dialogue();
+  if(reverseClues){
+   await walkTo(16,10);await clickTile(16,8);
+   await page.waitForFunction(()=>window.NMFinal.debugState().trace);
+   assert.equal((await state()).manual,false);assert.equal((await state()).quest,2);
+   // A refresh between clues must retain the first inspection without unlocking the ending.
+   await page.reload({waitUntil:'domcontentloaded'});await page.locator('#continueButton').click();
+   await page.waitForFunction(()=>window.NMFinal.isRunning()&&window.NMFinal.debugState().trace);
+   assert.equal((await state()).quest,2);
+   await walkTo(21,11);await clickTile(23,10);
+   await page.waitForFunction(()=>window.NMFinal.debugState().manual&&window.NMFinal.debugState().quest===4);
+  }else{
+   await walkTo(21,11);await clickTile(23,10);
+   await page.waitForFunction(()=>window.NMFinal.debugState().manual,{timeout:10000});
+   await walkTo(16,10);await clickTile(16,8);
+   await page.waitForFunction(()=>window.NMFinal.debugState().trace,{timeout:10000});
+  }
+  await dialogue();
   assert.equal((await state()).quest,4,'Cave mystery did not advance');
   await capture('cave-trace');
   await walkTo(2,10);await clickTile(0,10);
@@ -166,7 +180,7 @@ async function main(){
   await capture('mobile-home');
   assert.equal(errors.length,0,'JavaScript exceptions: '+errors.join(' | '));
   assert.equal(failed.length,0,'Failed requests: '+failed.join(' | '));
-  fs.writeFileSync(path.join(OUTPUT,'report.json'),JSON.stringify({url:URL,date:new Date().toISOString(),commit:process.env.E2E_COMMIT||null,browser:browser.version(),passed:true,keyboard:true,refreshSave:restored,errors,failed,artApproved:false},null,2));
+  fs.writeFileSync(path.join(OUTPUT,'report.json'),JSON.stringify({url:URL,date:new Date().toISOString(),commit:process.env.E2E_COMMIT||null,caveOrder:reverseClues?'trace-first':'manual-first',browser:browser.version(),passed:true,keyboard:true,refreshSave:restored,errors,failed,artApproved:false},null,2));
   console.log('PASS REAL CHROMIUM E2E: home -> NPC -> road -> bandit battle -> cave manual/trace -> ending -> save/continue; no JS errors');
  }catch(error){
   if(page)await page.screenshot({path:path.join(OUTPUT,'failure.png')}).catch(()=>{});

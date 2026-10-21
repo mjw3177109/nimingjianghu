@@ -62,3 +62,18 @@ el('quests').onclick();key('keydown','ArrowDown');frame(8);key('keyup','ArrowDow
 assert.deepEqual(JSON.parse(JSON.stringify(st.pos)),blurred,'Task overlay captures movement');
 el('closePanel').onclick();
 console.log('PASS: keyboard four directions, collision, key release, focus loss and panel isolation');
+
+// Exploration order must not strand a save after the altar has already been read.
+st.map='cave';st.pos={x:16,y:10};st.quest=2;st.manual=false;st.trace=false;st.destiny=0;st.skills=['基础剑法'];st.flags={};
+clickTile(16,8);frame(30);assert.equal(st.trace,true);assert.equal(st.quest,2,'Altar alone cannot finish the investigation');
+st.pos={x:21,y:11};clickTile(23,10);frame(30);
+assert.equal(st.manual,true);assert.equal(st.quest,4,'Altar first, manual second must unlock return to town');
+for(let i=0;i<4;i++)el('nextDialogue').click();
+const clueCoins=st.coins;clickTile(23,10);frame(30);
+assert.equal(st.coins,clueCoins,'Repeated inspection must not duplicate rewards');
+assert.equal(st.skills.filter(s=>s==='破风一剑').length,1);
+// Recover the exact quest=3 / both clues save produced by the old bug.
+st.quest=3;el('restart').click();el('continueButton').click();
+assert.equal(window.NMFinal.debugState().quest,4,'Continue must repair already stranded saves without losing clues');
+assert(window.NMFinal.debugState().manual&&window.NMFinal.debugState().trace);
+console.log('PASS: reverse clue order, idempotent rewards and stranded-save recovery');

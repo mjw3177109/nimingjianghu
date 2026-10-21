@@ -68,7 +68,7 @@ if(!st.pos||occupiedTile(st.map,st.pos.x,st.pos.y,st.banditAlive!==false))st.pos
 return st;}}catch(e){console.warn('存档不可读：',key)}}return null}
 function saveGame(){if(!running)return;try{localStorage.setItem(SAVE_KEY,JSON.stringify({version:3,state:{...state,tileSchema:2,route:[],moving:null,pending:null}}));window.dispatchEvent(new Event('nm-save-updated'));}catch(e){console.warn('无法存档',e)}}
 function stop(){running=false;clearMoveKeys();epoch++;if(raf){cancelAnimationFrame(raf);raf=0}dialogue=null;battle=null;for(const id of ['dialogue','battle','panel'])$(id).classList.add('hidden')}
-function launch(saved){stop();motion=null;walkStepIndex=0;state=saved?{...JSON.parse(JSON.stringify(freshState)),...saved,route:[],pending:null}:JSON.parse(JSON.stringify(freshState));running=true;last=performance.now();moveAcc=0;updateUI();raf=requestAnimationFrame(tick);if(!saved){const id=epoch;setTimeout(()=>{if(running&&epoch===id)scripted(world.dialogue.intro,()=>updateUI())},500)}else notice('已恢复江湖存档。');return true;}
+function launch(saved){stop();motion=null;walkStepIndex=0;state=saved?{...JSON.parse(JSON.stringify(freshState)),...saved,route:[],pending:null}:JSON.parse(JSON.stringify(freshState));running=true;last=performance.now();moveAcc=0;updateUI();raf=requestAnimationFrame(tick);if(!saved){const id=epoch;setTimeout(()=>{if(running&&epoch===id)scripted(world.dialogue.intro,()=>updateUI())},500)}else{notice('已恢复江湖存档。');finishCaveInvestigation()}return true;}
 
 // P3-I: seamless full-body renderer. Legacy split-body SVG sheets are kept
 // for comparison in the art review studio but are NEVER used in gameplay.
@@ -161,8 +161,23 @@ function advanceQuest(n,info){state.quest=Math.max(state.quest,n);if(info)journa
 function talk(id){if(id==='healer'&&state.potions<2){state.potions++;notice('苏晚晴赠送你一瓶疗伤药')}if(id==='innkeeper'&&state.quest===0){scripted(world.dialogue.innkeeper,()=>advanceQuest(1,'韩掌柜托你解决山路上的山贼。'));return}
  if(id==='oldman'&&state.quest<3){scripted(world.dialogue.oldman,()=>{if(state.quest>=2)advanceQuest(3,'顾老说山洞里可能藏着关键线索。')});return}
  scripted(world.dialogue[id]||[['江湖客','江湖路远，后会有期。']],()=>{})}
-function objectClick(id){if(id==='manual'){if(!state.manual){state.manual=true;state.skills.push('破风一剑');state.coins+=10;notice('获得武功：破风一剑，银两+10');journal('山洞中找到了旧秘籍。上面提到“命轨”的异常。');if(state.quest>=2)advanceQuest(3);updateUI()}else notice('秘籍已取走');return}
- if(id==='trace'){if(!state.trace){state.trace=true;state.destiny=25;notice('命痕石台发生共鸣：逆命值 +25');journal('原本的剧情，被某人有意改写了。');if(state.manual){advanceQuest(4,'命痕碎片透露：有人故意把你带进这个江湖。');scripted([['沈砚','不对……我记得这里从来没有这块石台。'],['？？？','你终于注意到了。'],['沈砚','谁在说话？']],()=>{})}}else notice('石台已经沉寂');return}}
+function finishCaveInvestigation(){
+ if(!state.manual||!state.trace||state.quest>=4)return;
+ advanceQuest(4,'命痕碎片透露：有人故意把你带进这个江湖。');
+ scripted([['沈砚','不对……我记得这里从来没有这块石台。'],['？？？','你终于注意到了。'],['沈砚','谁在说话？']],()=>{});
+}
+function objectClick(id){
+ if(id==='manual'){
+  if(!state.manual){state.manual=true;state.skills.push('破风一剑');state.coins+=10;notice('获得武功：破风一剑，银两+10');journal('山洞中找到了旧秘籍。上面提到“命轨”的异常。');if(state.quest>=2)advanceQuest(3);updateUI()}
+  else notice('秘籍已取走');
+  finishCaveInvestigation();return;
+ }
+ if(id==='trace'){
+  if(!state.trace){state.trace=true;state.destiny=25;notice('命痕石台发生共鸣：逆命值 +25');journal('原本的剧情，被某人有意改写了。');updateUI()}
+  else notice('石台已经沉寂');
+  finishCaveInvestigation();return;
+ }
+}
 function drawBattleActor(canvasId,key,row,pose){
  const battleCanvas=$(canvasId),c=battleCanvas.getContext('2d');if(!c)return;
  c.clearRect(0,0,112,140);c.imageSmoothingEnabled=true;
