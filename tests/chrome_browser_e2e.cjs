@@ -68,7 +68,8 @@ async function main(){
   await page.waitForFunction(()=>window.NMFinal.debugState().map==='road',{timeout:12000});
   await walkTo(15,10);await clickTile(18,10);
   await page.locator('#battle').waitFor({state:'visible',timeout:10000});
-  for(let i=0;i<9&&await page.locator('#battle').isVisible();i++){await page.locator('[data-action="attack"]').click();await delay(140)}
+  for(let i=0;i<9;i++){if(Number(await page.locator('#battleEnemyHp').textContent())===0)break;await page.locator('[data-action="attack"]').click();await delay(100)}
+  assert.equal(Number(await page.locator('#battleEnemyHp').textContent()),0,'Bandit HP should reach zero exactly once');
   await page.locator('#battle').waitFor({state:'hidden',timeout:6000});await dialogue();
   assert.equal((await state()).quest,2,'Bandit quest did not advance');
   await walkTo(32,10);await clickTile(35,10);
