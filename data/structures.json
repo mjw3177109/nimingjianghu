@@ -54,7 +54,13 @@
       "y": 18,
       "w": 4,
       "h": 5,
-      "collision_from_map": true
+      "collision_from_map": true,
+      "solid_footprint": {
+        "x": 1,
+        "y": 3,
+        "w": 2,
+        "h": 2
+      }
     }
   ],
   "road": [
@@ -88,7 +94,13 @@
       "y": 7,
       "w": 3,
       "h": 3,
-      "collision_from_map": true
+      "collision_from_map": true,
+      "solid_footprint": {
+        "x": 0,
+        "y": 1,
+        "w": 3,
+        "h": 2
+      }
     },
     {
       "id": "chest",
@@ -98,7 +110,13 @@
       "y": 9,
       "w": 3,
       "h": 2,
-      "collision_from_map": true
+      "collision_from_map": true,
+      "solid_footprint": {
+        "x": 0,
+        "y": 0,
+        "w": 3,
+        "h": 2
+      }
     }
   ]
 }

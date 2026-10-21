@@ -71,9 +71,9 @@ for(const [k,path] of Object.entries(characters)){
  }
 }
 function spriteDrawSize(key,image){
- const targetHeight=key==='bandit'?80:key==='player'?100:96;
+ const targetHeight=72; // One consistent 32px tile-space scale for all actors.
  const iw=image&&image.naturalWidth||60,ih=image&&image.naturalHeight||110;
- const width=Math.min(key==='bandit'?84:73,Math.round(targetHeight*iw/ih));
+ const width=Math.min(54,Math.round(targetHeight*iw/ih));
  const height=Math.round(width*ih/iw);
  return {width,height};
 }
@@ -85,7 +85,7 @@ function drawActorSprite(key,feetX,feetY,facing,moving=false){
  if(sheet&&sheet.complete&&sheet.naturalWidth>=384&&sheet.naturalHeight>=512&&sheet.naturalWidth%4===0&&sheet.naturalHeight%4===0){
   const fw=sheet.naturalWidth/4,fh=sheet.naturalHeight/4;
   // The frame is always a single continuous rectangle, never upper/lower clips.
-  ctx.drawImage(sheet,beat*fw,dir*fh,fw,fh,Math.round(feetX-28),Math.round(feetY-101),56,102);
+  ctx.drawImage(sheet,beat*fw,dir*fh,fw,fh,Math.round(feetX-27),Math.round(feetY-71),54,72);
  }else{
   const image=imgs[key];
   if(image&&image.complete&&image.naturalWidth){
@@ -99,7 +99,20 @@ function drawActorSprite(key,feetX,feetY,facing,moving=false){
 }
 function posEq(a,b){return a.x===b.x&&a.y===b.y}
 function inBounds(x,y){const m=currentTilemap();return x>=0&&y>=0&&x<m.width&&y<m.height}
-function blocked(x,y){if(!inBounds(x,y))return true;const m=currentTilemap();return m.collision[y*m.width+x]===1}
+function blocked(x,y){
+ if(!inBounds(x,y))return true;
+ const m=currentTilemap();
+ if(m.collision[y*m.width+x]===1)return true;
+ // Structural footprints are explicit tile-space geometry, not sprite bounding boxes.
+ for(const obj of structData[state.map]||[]){
+  const f=obj.solid_footprint;
+  if(f&&x>=obj.x+f.x&&x<obj.x+f.x+f.w&&y>=obj.y+f.y&&y<obj.y+f.y+f.h)return true;
+ }
+ // The pathfinder must not walk the player into an NPC or a live enemy.
+ for(const npc of world.maps[state.map].npcs||[])if(npc.x===x&&npc.y===y)return true;
+ if(state.map==='road'&&state.banditAlive)for(const enemy of world.maps.road.enemies||[])if(enemy.x===x&&enemy.y===y)return true;
+ return false;
+}
 function bfs(from,to){if(blocked(to.x,to.y))return null;let q=[from],seen=new Set([from.x+','+from.y]),prev={};while(q.length){let a=q.shift(),key=a.x+','+a.y;if(posEq(a,to)){let r=[],cur=key;while(cur!==from.x+','+from.y){let [xx,yy]=cur.split(',').map(Number);r.push({x:xx,y:yy});cur=prev[cur]}return r.reverse()}for(let [dx,dy] of [[1,0],[-1,0],[0,1],[0,-1]]){let nx=a.x+dx,ny=a.y+dy,k=nx+','+ny;if(blocked(nx,ny)||seen.has(k))continue;seen.add(k);prev[k]=key;q.push({x:nx,y:ny})}}return null}
 function nearestReach(target,avoidCenter=false){let p=[],m={x:target.x,y:target.y}; for(let [dx,dy] of (avoidCenter?[[1,0],[-1,0],[0,1],[0,-1]]:[[0,0],[1,0],[-1,0],[0,1],[0,-1]])){let t={x:m.x+dx,y:m.y+dy};let r=bfs(state.pos,t);if(r)p.push({r,t})}p.sort((a,b)=>a.r.length-b.r.length);return p[0]||null}
 function travelTo(x,y,act){let n=nearestReach({x,y},act&&['npc','object'].includes(act.type));if(!n){notice('这里暂时无法抵达');return}state.route=n.r;state.pending=act?{...act,t:n.t}:null; if(!n.r.length&&state.pending)finishPending()}
@@ -163,7 +176,7 @@ function drawTileTown(){
  ctx.fillStyle='#16272988';ctx.beginPath();ctx.ellipse(px,py-3,13,4,0,0,Math.PI*2);ctx.fill();
  const facing=actor.facing||(actor.sprite==='healer'?'left':actor.sprite==='bandit'?'left':'down');
  drawActorSprite(actor.sprite,px,py,facing,actor.moving||false);
- const displayHeight=actor.sprite==='bandit'?80:actor.sprite==='player'?100:96;
+ const displayHeight=72;
  if(actor.name)label(actor.name,actor.x,actor.y-(displayHeight-24)/32);
  if(actor.id==='innkeeper'&&state.quest===0)label('!',actor.x,actor.y-(displayHeight+4)/32);
  }
@@ -176,14 +189,18 @@ function drawTileTown(){
  }
  paint('front');paintStructureLayer(state.map,'front',cam);
  for(const ex of world.maps[state.map].exits){const exx=(ex.x+.5)*32-cam.x;if(exx>-70&&exx<710)label(ex.label,ex.x,ex.y-0.15)}
- // Path destination marker must NEVER paint outside the view or behind the map boundaries.
+ // Soft floor-level destination glint; never render a square debug tile.
  if(state.route.length){
   const q=state.route[state.route.length-1];
   if(q.x>=0&&q.y>=0&&q.x<map.width&&q.y<map.height){
-   const sx=q.x*32-cam.x,sy=q.y*32-cam.y;
-   if(sx>=0&&sy>=0&&sx+32<=640&&sy+32<=360){
-    ctx.strokeStyle='#f8d49a';ctx.lineWidth=2;
-    ctx.strokeRect(Math.round(sx)+5,Math.round(sy)+5,22,22);
+   const sx=(q.x+.5)*32-cam.x,sy=(q.y+.85)*32-cam.y;
+   if(sx>=0&&sx<640&&sy>=0&&sy<360){
+    ctx.save();
+    ctx.fillStyle='rgba(255,221,153,.65)';
+    ctx.beginPath();ctx.ellipse(sx,sy,9,3,0,0,Math.PI*2);ctx.fill();
+    ctx.fillStyle='rgba(36,46,51,.75)';
+    ctx.beginPath();ctx.ellipse(sx,sy,5,1.5,0,0,Math.PI*2);ctx.fill();
+    ctx.restore();
    }
   }
  }
