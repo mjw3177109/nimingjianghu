@@ -48,7 +48,7 @@ function facingForMove(from,to){if(to.x>from.x)return 'right';if(to.x<from.x)ret
 const SAVE_KEY='nimingjianghu_tile_v2',OLD_KEYS=['nimingjianghu_tile_v1','nimingjianghu_final_demo_v1','nimingjianghu_save_v3','nimingjianghu_chibi_v02'];
 function readSaved(){for(const key of [SAVE_KEY,...OLD_KEYS]){try{const v=JSON.parse(localStorage.getItem(key)||'null');if(v&&v.state&&world.maps[v.state.map]&&typeof v.state.quest==='number'&&typeof v.state.hp==='number'){const st={...v.state,route:[],moving:null,pending:null};if(st.tileSchema!==2){if(st.map==='town'){if(key!=='nimingjianghu_tile_v1')st.pos={x:14,y:12};}
 else st.pos={x:tileMaps[st.map].spawn[0],y:tileMaps[st.map].spawn[1]};st.tileSchema=2;}
-if(!st.pos||tileMaps[st.map].collision[st.pos.y*tileMaps[st.map].width+st.pos.x]!==0)st.pos={x:tileMaps[st.map].spawn[0],y:tileMaps[st.map].spawn[1]};
+if(!st.pos||occupiedTile(st.map,st.pos.x,st.pos.y,st.banditAlive!==false))st.pos={x:tileMaps[st.map].spawn[0],y:tileMaps[st.map].spawn[1]};
 return st;}}catch(e){console.warn('存档不可读：',key)}}return null}
 function saveGame(){if(!running)return;try{localStorage.setItem(SAVE_KEY,JSON.stringify({version:3,state:{...state,tileSchema:2,route:[],moving:null,pending:null}}));window.dispatchEvent(new Event('nm-save-updated'));}catch(e){console.warn('无法存档',e)}}
 function stop(){running=false;epoch++;if(raf){cancelAnimationFrame(raf);raf=0}dialogue=null;battle=null;for(const id of ['dialogue','battle','panel'])$(id).classList.add('hidden')}
@@ -70,11 +70,11 @@ for(const [k,path] of Object.entries(characters)){
  }
 }
 function spriteDrawSize(key,image){
- const targetHeight=72; // One consistent 32px tile-space scale for all actors.
+ const targetHeight=72; // All actors share a 72px height and tile-bottom feet anchor.
  const iw=image&&image.naturalWidth||60,ih=image&&image.naturalHeight||110;
- const width=Math.min(54,Math.round(targetHeight*iw/ih));
- const height=Math.round(width*ih/iw);
- return {width,height};
+ // Wide enemies need more horizontal room, not a 25% shorter body.
+ const scale=Math.min(targetHeight/ih,76/iw);
+ return {width:Math.round(iw*scale),height:Math.round(ih*scale)};
 }
 function drawActorSprite(key,feetX,feetY,facing,moving=false){
  const sheet=animatedSheets[key],dir=faceOrder[facing]??0;
@@ -101,20 +101,20 @@ function drawActorSprite(key,feetX,feetY,facing,moving=false){
 }
 function posEq(a,b){return a.x===b.x&&a.y===b.y}
 function inBounds(x,y){const m=currentTilemap();return x>=0&&y>=0&&x<m.width&&y<m.height}
-function blocked(x,y){
- if(!inBounds(x,y))return true;
- const m=currentTilemap();
+// One collision rule for pathfinding, saved positions and map-entry spawns.
+function occupiedTile(mapName,x,y,banditAlive=true){
+ const m=tileMaps[mapName],scene=world.maps[mapName];
+ if(!m||!scene||!Number.isInteger(x)||!Number.isInteger(y)||x<0||y<0||x>=m.width||y>=m.height)return true;
  if(m.collision[y*m.width+x]===1)return true;
- // Structural footprints are explicit tile-space geometry, not sprite bounding boxes.
- for(const obj of structData[state.map]||[]){
+ for(const obj of structData[mapName]||[]){
   const f=obj.solid_footprint;
   if(f&&x>=obj.x+f.x&&x<obj.x+f.x+f.w&&y>=obj.y+f.y&&y<obj.y+f.y+f.h)return true;
  }
- // The pathfinder must not walk the player into an NPC or a live enemy.
- for(const npc of world.maps[state.map].npcs||[])if(npc.x===x&&npc.y===y)return true;
- if(state.map==='road'&&state.banditAlive)for(const enemy of world.maps.road.enemies||[])if(enemy.x===x&&enemy.y===y)return true;
+ for(const npc of scene.npcs||[])if(npc.x===x&&npc.y===y)return true;
+ if(banditAlive)for(const enemy of scene.enemies||[])if(enemy.x===x&&enemy.y===y)return true;
  return false;
 }
+function blocked(x,y){return occupiedTile(state.map,x,y,state.banditAlive)}
 function bfs(from,to){if(blocked(to.x,to.y))return null;let q=[from],seen=new Set([from.x+','+from.y]),prev={};while(q.length){let a=q.shift(),key=a.x+','+a.y;if(posEq(a,to)){let r=[],cur=key;while(cur!==from.x+','+from.y){let [xx,yy]=cur.split(',').map(Number);r.push({x:xx,y:yy});cur=prev[cur]}return r.reverse()}for(let [dx,dy] of [[1,0],[-1,0],[0,1],[0,-1]]){let nx=a.x+dx,ny=a.y+dy,k=nx+','+ny;if(blocked(nx,ny)||seen.has(k))continue;seen.add(k);prev[k]=key;q.push({x:nx,y:ny})}}return null}
 function nearestReach(target,avoidCenter=false){
  const candidates=[];
@@ -132,7 +132,7 @@ function nearestReach(target,avoidCenter=false){
 }
 function travelTo(x,y,act){let n=nearestReach({x,y},act&&['npc','object'].includes(act.type));if(!n){notice('这里暂时无法抵达');return}state.route=n.r;state.pending=act?{...act,t:n.t}:null; if(!n.r.length&&state.pending)finishPending()}
 function finishPending(){if(!state.pending)return;let p=state.pending;state.pending=null; if(p.type==='npc')talk(p.id);else if(p.type==='enemy')startBattle();else if(p.type==='object')objectClick(p.id);else if(p.type==='exit')changeMap(p.to,p.spawn);else if(p.type==='hotspot')notice(p.id==='inn_door'?'客栈里传来阵阵饭香，韩掌柜正在门口。':'药铺里弥漫着药香，苏晚晴可以为你指路。')}
-function changeMap(to,spawn){state.map=to;state.pos=to==='town'?{x:38,y:12}:{x:spawn[0],y:spawn[1]};state.route=[];motion=null;state.pending=null;state.day=Math.max(1,state.day);if(to==='cave')state.visitedCave=true;notice('进入 '+world.maps[to].name);updateUI()}
+function changeMap(to,spawn){state.map=to;const wanted=to==='town'?{x:38,y:12}:{x:spawn[0],y:spawn[1]};state.pos=occupiedTile(to,wanted.x,wanted.y,state.banditAlive)?{x:tileMaps[to].spawn[0],y:tileMaps[to].spawn[1]}:wanted;state.route=[];motion=null;state.pending=null;state.day=Math.max(1,state.day);if(to==='cave')state.visitedCave=true;notice('进入 '+world.maps[to].name);updateUI()}
 function notice(msg){$('status').textContent=msg; $('hint').textContent=msg;clearTimeout(notice.timer); notice.timer=setTimeout(()=>$('hint').textContent='点击移动 · 点击人物交谈 · 点击出口切换地图',3600)}
 function scripted(lines,done){dialogue={lines,idx:0,done};$('dialogue').classList.remove('hidden');showLine()}
 function showLine(){if(!dialogue)return;let row=dialogue.lines[dialogue.idx];$('speaker').textContent=row[0];$('dialogueText').textContent=row[1];const names={'沈砚':'CHAR001','廖':'BOSS001','韩掌柜':'NPC001','顾老':'NPC002','苏晚晴':'NPC005','顾青岚':'NPC003','？？？':'BOSS001'};$('dialoguePortrait').src='assets/portraits/'+(names[row[0]]||'CHAR001')+'_avatar.webp'}
@@ -152,9 +152,15 @@ function drawBattleActor(canvasId,key,row,pose){
  const sprite=animatedSheets[key];
  if(sprite&&sprite.complete&&sprite.naturalWidth>=384&&sprite.naturalHeight>=512){
   const fw=sprite.naturalWidth/4,fh=sprite.naturalHeight/4;
-  c.drawImage(sprite,pose*fw,row*fh,fw,fh,20,7,72,124);
+  const h=124,w=Math.min(104,Math.round(h*fw/fh));
+  c.drawImage(sprite,pose*fw,row*fh,fw,fh,Math.round((112-w)/2),140-h-5,w,h);
  }else{
-  const old=imgs[key];if(old&&old.complete&&old.naturalWidth)c.drawImage(old,16,8,80,122);
+  const old=imgs[key];
+  if(old&&old.complete&&old.naturalWidth){
+   const scale=Math.min(124/old.naturalHeight,104/old.naturalWidth);
+   const w=Math.round(old.naturalWidth*scale),h=Math.round(old.naturalHeight*scale);
+   c.drawImage(old,Math.round((112-w)/2),140-h-5,w,h);
+  }
  }
 }
 function drawBattleActors(){
