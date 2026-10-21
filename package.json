@@ -1,7 +1,7 @@
 {
   "name": "nimingjianghu-web-demo",
   "private": true,
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "逆命江湖三锚点精致国风Q版试玩版",
   "scripts": {
     "build": "node tools/p3e-hd-atlas.cjs && node --check game.js && node --check boot-guard.js && node --check art-review.js && node --check app.js && node --check home-preview.js && node --check structure-data.js && node --check world-data.js && node --check assets/characters/scene_sprites/sprite_registry.js && node tests/final_smoke.cjs && node tests/p3a_tiles.cjs && node tests/p3b_tiles.cjs && node tests/p3c_art.cjs && node tests/p3c_shenyan_preview.cjs && node tests/p3d_home.cjs && node tests/p3e_hd_art.cjs && node tests/p3f_structures.cjs && node tests/actor_collision_click_contract.cjs && node tests/actor_screen_hit_contract.cjs && node tests/resume_sprite_scale_contract.cjs && node tests/visual_occlusion_contract.cjs && node tests/stride_timing_contract.cjs && node tests/movement_settle_contract.cjs && node tests/p3g_art.cjs && node tests/p3h_prompt_pack.cjs && node tests/p3i_sprite_integrity.cjs && node tests/p3j_game_sprite.cjs && node tests/sprite_packer_resolution_contract.cjs && node tests/demo_v1.cjs && node tests/startup_recovery.cjs && node tests/startup_browser_contract.cjs && node tests/python_contract.cjs && node tests/assets_contract.cjs && node tools/build-web.cjs",

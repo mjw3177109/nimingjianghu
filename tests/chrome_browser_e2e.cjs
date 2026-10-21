@@ -91,6 +91,22 @@ async function main(){
    throw Error('Could not reach '+x+','+y);
   }
   await walkTo(10,11);
+  // A transparent pixel just above the innkeeper's painted head is inside
+  // his old three-tile interaction column. Rejecting the body hit must not
+  // fall back to that column and silently begin NPC travel.
+  const transparentCorner=await page.evaluate(async()=>{
+   const image=new Image();image.src='assets/sprites/innkeeper.png';await image.decode();
+   const c=document.createElement('canvas');c.width=42;c.height=72;
+   const g=c.getContext('2d');g.drawImage(image,0,0,42,72);
+   const alpha=g.getImageData(35,1,1,1).data[3];
+   const cam=window.NMFinal.debugCamera(),r=document.getElementById('game').getBoundingClientRect();
+   return {alpha,x:r.left+((8.5*32+14-cam.x)/640)*r.width,y:r.top+((11*32-70-cam.y)/360)*r.height};
+  });
+  assert.equal(transparentCorner.alpha,0,'Regression click must hit an actual transparent sprite pixel');
+  const beforeCorner=(await state()).pos;
+  await page.mouse.click(transparentCorner.x,transparentCorner.y);await delay(350);
+  assert.deepEqual((await state()).pos,beforeCorner,'Transparent sprite corner must not start NPC travel');
+  assert.equal((await state()).route,0);assert(!(await page.locator('#dialogue').isVisible()));
   // The visible right edge of the innkeeper's torso is in the adjacent
   // tile (x=9). A tile-only hitbox used to mistake this click for walking.
   const actorEdge=await page.evaluate(()=>{

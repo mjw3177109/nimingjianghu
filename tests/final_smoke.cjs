@@ -63,6 +63,15 @@ assert.deepEqual(JSON.parse(JSON.stringify(st.pos)),blurred,'Task overlay captur
 el('closePanel').onclick();
 console.log('PASS: keyboard four directions, collision, key release, focus loss and panel isolation');
 
+st.pos={x:10,y:11};
+const transparentCam=window.NMFinal.debugCamera();
+for(const handler of handlers['game:click']||[])handler({clientX:8.5*32+14-transparentCam.x,clientY:11*32-70-transparentCam.y});
+frame(8);
+assert.deepEqual(JSON.parse(JSON.stringify(st.pos)),{x:10,y:11},'Rejected transparent actor pixel must not regain a tile-column hit');
+assert.equal(st.pending,null);assert.equal(st.route.length,0);
+assert(el('dialogue').classList.contains('hidden'));
+console.log('PASS: transparent actor corner does not move the player or trigger dialogue');
+
 // Exploration order must not strand a save after the altar has already been read.
 st.map='cave';st.pos={x:16,y:10};st.quest=2;st.manual=false;st.trace=false;st.destiny=0;st.skills=['基础剑法'];st.flags={};
 clickTile(16,8);frame(30);assert.equal(st.trace,true);assert.equal(st.quest,2,'Altar alone cannot finish the investigation');

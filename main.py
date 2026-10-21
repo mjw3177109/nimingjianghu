@@ -11,6 +11,13 @@ from pathlib import Path
 ROOT=Path(__file__).resolve().parent
 
 
+def actor_pixel_hit(image, feet_x, feet_y, screen_x, screen_y):
+    """Hit the same intact RGBA surface and feet anchor used by the renderer."""
+    x=int(screen_x-(feet_x-image.get_width()//2))
+    y=int(screen_y-(feet_y-image.get_height()+1))
+    return 0 <= x < image.get_width() and 0 <= y < image.get_height() and image.get_at((x,y))[3] > 16
+
+
 def blocked_tile(tilemap, structures, actors, x, y):
     """Same tile/structure/actor footprints as the browser movement rule."""
     if x < 0 or y < 0 or x >= tilemap['width'] or y >= tilemap['height']:
@@ -235,10 +242,6 @@ def main():
     def click(x,y):
         nonlocal route,pending
         m=data['maps'][scene]
-        for npc in m.get('npcs',[]):
-            if abs(x-npc['x'])<=1 and abs(y-npc['y'])<=1:move_to(npc['x'],npc['y'],('npc',npc['id']));return
-        for en in m.get('enemies',[]):
-            if bandit_alive and abs(x-en['x'])<=1 and abs(y-en['y'])<=1:move_to(en['x'],en['y'],('enemy',en['id']));return
         for obj in m.get('objects',[]):
             if abs(x-obj['x'])<=1 and abs(y-obj['y'])<=1:move_to(obj['x'],obj['y'],('obj',obj['id']));return
         for ex in m['exits']:
@@ -262,6 +265,15 @@ def main():
         m=tilemaps[scene];vx,vy=player_visual()
         return (max(0,min(int((vx+.5)*32-SW/2),m['width']*32-SW)),
                 max(0,min(int((vy+.5)*32-SH/2),m['height']*32-SH)))
+    def pick_actor(screen_x,screen_y):
+        m=data['maps'][scene];ox,oy=town_camera()
+        actors=[('npc',a) for a in m.get('npcs',[])]+[('enemy',a) for a in m.get('enemies',[]) if bandit_alive]
+        for kind,actor in sorted(actors,key=lambda pair:pair[1]['y'],reverse=True):
+            key=actor['id'];direction=1 if key in ('healer','bandit') else 0
+            art=animated_sprites[key][direction][0] if key in animated_sprites else sprites[key]
+            px=int((actor['x']+.5)*32-ox);py=int((actor['y']+1)*32-oy)
+            if actor_pixel_hit(art,px,py,screen_x,screen_y):return kind,actor
+        return None
     def paint_tile_world():
         m=tilemaps[scene];tw,th=m['width'],m['height'];tiles=atlases[scene]
         ox,oy=town_camera()
@@ -331,7 +343,11 @@ def main():
                             i=(0 if y<245 else 2)+(0 if x<330 else 1)
                             act(['attack','skill','heal','defend'][i])
                 elif y<315:
-                    ox,oy=town_camera();click((x+ox)//32,(y+oy)//32)
+                    hit=pick_actor(x,y)
+                    if hit:
+                        kind,actor=hit;move_to(actor['x'],actor['y'],(kind,actor['id']))
+                    else:
+                        ox,oy=town_camera();click((x+ox)//32,(y+oy)//32)
         if not lines and not battle:
             if motion is not None:
                 a,b,elapsed=motion

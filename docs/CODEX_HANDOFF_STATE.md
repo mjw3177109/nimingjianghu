@@ -1,8 +1,21 @@
 # Codex 续接状态
 
-更新时间：2026-10-22 04:50（Asia/Shanghai）。
+更新时间：2026-10-22 05:52（Asia/Shanghai）。
 
-## 最新周期：v1.0.8（优先读取）
+## 最新周期：v1.0.9（优先读取）
+
+- 基线：本地HEAD与GitHub连接器重新读取的远程HEAD均为 `ae885fdea4f37a26bf3b1fdcfdb1c1a9aefbe81a`，Vercel基线READY `dpl_GnsNUaN8TFqhVcc8RGwifoW4E6Bo`。直接git fetch多次网络连接失败，已通过GitHub API核对，未覆盖远程或Gitee配置。
+- 真实复现：Chromium读取韩掌柜原PNG的实际透明像素（alpha=0），点击头顶旁透明角落，旧版本却从(10,11)走到(8,11)。失败日志 `qa/1.0.9-browser-before.log`，截图 `qa/1.0.9-before/failure.png`，报告 `qa/1.0.9-before/failure.json`。
+- 根因：pickActorAtScreen拒绝该点后，interactClick仍用旧的NPC/山贼纵向三格命中把它重新识别为角色。已删除这两个旧回退；保留建筑热点、物品、出口和正常地面寻路。屏幕头部/躯干命中与最后一步交互沿用原逻辑。
+- Pygame同步取消NPC/敌人的九宫格命中，改用与实际绘制相同的RGBA Surface、朝向和脚底锚点读取透明Alpha；新增test_actor_pixels.py使用真实原版韩掌柜PNG验证透明角落、实体躯干、脚下地面和镜头偏移。窗口仍未实测，缺pygame/cairosvg。
+- 已执行 `npm test` / `npm run build`：通过；带Pillow的Python完整22项全通过，无跳过。日志 `qa/1.0.9-unit.log`、`qa/1.0.9-build.log`、`qa/1.0.9-python.log`；美术门禁仍退出1（预期），`qa/1.0.9-art.log`。
+- 真实Chromium两种首章顺序将独立保存 `qa/1.0.9-local/` 与 `qa/1.0.9-online/`；新SHA部署和CI结果须完成后再作为发布事实记录。
+- 本地两条真实Chromium首章现均通过：实际alpha=0像素点击不移动/不误触交互，随后正常躯干点击、连续点击最后一步、战斗、正反探索顺序、结尾、刷新继续均通过；无JS异常和失败请求。报告 `qa/1.0.9-local/manual-first/report.json`、`qa/1.0.9-local/trace-first/report.json`，日志 `qa/1.0.9-browser-forward.log`、`qa/1.0.9-browser-reverse.log`。
+- 本轮修改：game.js、main.py、tests/test_actor_pixels.py、tests/actor_collision_click_contract.cjs、tests/final_smoke.cjs、tests/chrome_browser_e2e.cjs、package.json=1.0.9、index.html统一缓存标记、README.md和本状态文件。正式人物资源/审批字段未改。
+- 仍需人工审核七张母版；未进入声称已审核的112帧生产。浏览器屏幕命中轮廓仍为几何近似，本轮只修复已被屏幕轮廓拒绝的像素被旧网格重新命中；后续可继续审查轮廓内部透明区域和遮挡关系，不宣称所有透明像素已逐像素验收。
+- 下一轮：先核对发布SHA/CI；有用户母版审批才推进方向帧，否则继续地图碰撞、前景遮挡、点击轮廓和存档边界的真实回归，避免重复催审。
+
+## 上一周期：v1.0.8
 
 - 基线本地/远程目标分支HEAD `1f41b39847cfc6cd6aaf7bd6fbe2f376e8f33ba1`，重新fetch已核对；Vercel基线READY `dpl_C7UaS5DgYe7augPAz6qH7Hw9sRrF`。保留原Gitee origin与上一周期本地状态补记。
 - 已实际复现山洞软锁：先调查石台、后拿秘籍，旧代码停在quest=3。修复前真实行为契约失败日志 `qa/reverse-clues-before.log`（actual=3、expected=4）。
@@ -11,7 +24,10 @@
 - final_smoke.cjs覆盖反向顺序、奖励幂等和旧存档恢复。Chromium测试保留正向首章，增加E2E_CAVE_ORDER=trace-first路线：先石台、中途刷新继续、后秘籍、回镇结尾；CI运行两条路线，独立保存报告/截图。
 - `npm test`、`npm run build`通过；带Pillow的Python完整21项通过。日志 `qa/1.0.8-unit.log`、`qa/1.0.8-build.log`、`qa/1.0.8-python.log`。美术门禁仍退出1（预期）：`qa/1.0.8-art.log`。
 - package.json=1.0.8，缓存标记统一更新；变更文件：game.js、main.py、tests/final_smoke.cjs、tests/test_cave_progress.py、tests/chrome_browser_e2e.cjs、.github/workflows/web-smoke.yml、README.md、index.html、package.json及本状态文件。
-- 本地两条Chromium路线与新SHA部署结果完成后记录在 `qa/release.json` 和本文件发布补记，不能用旧READY链接当作本轮上线。
+- 最终提交：`ae885fdea4f37a26bf3b1fdcfdb1c1a9aefbe81a`，已推送 `github/feat/playable-demo-v0.1`。Vercel READY `dpl_GnsNUaN8TFqhVcc8RGwifoW4E6Bo`，部署SHA一致，URL `https://nimingjianghu-g7sym1vxt-bobos-projects-e9f8bfba.vercel.app/`。
+- 最终线上两条真实Chromium首章路线全部通过：先秘籍和先石台均到quest=5，中途刷新、最后刷新继续、键盘/战斗/窄屏检查通过；无JS异常、无失败HTTP请求。报告 `qa/1.0.8-online/manual-first/report.json`、`qa/1.0.8-online/trace-first/report.json`；日志 `qa/1.0.8-online-forward.log`、`qa/1.0.8-online-reverse.log`。
+- GitHub CI #142 `39673953958` completed/success，包含两种探索顺序、Python、构建、地图截图和七人审核页；`https://github.com/mjw3177109/nimingjianghu/actions/runs/39673953958`。
+- 最终发布和测试元数据已保存 `qa/release.json`、`qa/1.0.8-release.json`。本文件部署完成后的事实补记保留本地，尚未单独提交；无运行时代码未提交，下一次实际修复时随同纳入。
 - 本地两条真实Chromium路线现已全部通过，均到达quest=5并刷新继续保留两条线索，无JS异常和失败请求；证据 `qa/1.0.8-local/manual-first/report.json`、`qa/1.0.8-local/trace-first/report.json`，日志 `qa/1.0.8-browser-forward.log`、`qa/1.0.8-browser-reverse.log`。
 - 七张母版仍待用户真实人工审核，正式审批字段和运行资源未改；不能自行推进声称已审核的112帧生产。Pygame窗口仍未实测（缺pygame/cairosvg），仅真实处理器逻辑与Python数据测试通过。
 - 下一轮：先核对最终SHA/部署/CI；若用户已审批母版则按P3-H逐人生成方向帧，否则继续地图碰撞/遮挡和存档边界检查，避免重复催审。
@@ -35,7 +51,7 @@
 
 - 本地已切换到 `feat/playable-demo-v0.1`，基线 HEAD `0862afa32bfdeabb9332ce88e31dd05268ab8309`。
 - `origin` 保留 Gitee；新增 `github` 指向 `https://github.com/mjw3177109/nimingjianghu.git`。不要推送 master/main。
-- package.json：1.0.8。本文件随发布提交保存；最终发布 SHA 和部署验收在 `qa/release.json` 及聊天交付报告中补充，续接时必须重新 `git rev-parse HEAD` 与查询远程。
+- package.json：1.0.9。本文件随发布提交保存；最终发布 SHA 和部署验收在 `qa/release.json` 及聊天交付报告中补充，续接时必须重新 `git rev-parse HEAD` 与查询远程。
 - 已配置当前聊天每小时 heartbeat：`逆命江湖每小时开发交付`。无实际进展时保持安静；不得空提交。
 
 ## 已实现

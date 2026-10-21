@@ -14,7 +14,8 @@ assert(game.includes('drawActorSprite(actor.sprite,px,py,facing,actor.moving||fa
 assert(game.includes('solid_footprint'),'Structure collisions must affect pathfinding');
 assert(game.includes('Math.abs(npc.x-x)<=1&&npc.y===y'));
 assert(game.includes('Math.abs(enemy.x-x)<=1&&enemy.y===y'));
-assert(game.includes('gx===npc.x&&gy>=npc.y-2&&gy<=npc.y'),'NPC hit-testing must not capture diagonal ground clicks');
+assert(!game.includes('gx===npc.x&&gy>=npc.y-2&&gy<=npc.y'),'Rejected sprite pixels must not fall back to an NPC grid column');
+assert(!game.includes('gx===en.x&&gy>=en.y-2&&gy<=en.y'),'Rejected sprite pixels must not fall back to an enemy grid column');
 assert(game.includes('gx===spot.tile[0]&&gy===spot.tile[1]'),'Door hotspots must not capture adjacent walking clicks');
 assert(!game.includes('Math.abs(gx-npc.x)<=1'),'Legacy square NPC hitboxes are forbidden');
 assert(game.includes('const stride=[1,2,3,2]'),'Walking must alternate left/neutral/right/neutral, not jump directly between legs');
