@@ -41,7 +41,7 @@ async function main(){
     if(s.pos.x===x&&s.pos.y===y&&!s.route&&!s.motion)return;
     const path=await page.evaluate(({x,y})=>{
      const s=window.NMFinal.debugState(),m=window.NMFinal.debugTilemap(),structures=window.NMFinal.debugStructures()[s.map]||[],seen=new Set([s.pos.x+','+s.pos.y]),prev=new Map(),q=[[s.pos.x,s.pos.y]];
-     const solid=(a,b)=>a<0||b<0||a>=m.width||b>=m.height||m.collision[b*m.width+a]===1||structures.some(o=>{const f=o.solid_footprint;return f&&a>=o.x+f.x&&a<o.x+f.x+f.w&&b>=o.y+f.y&&b<o.y+f.y+f.h});
+     const actors=window.GAME_WORLD.maps[s.map];const solid=(a,b)=>a<0||b<0||a>=m.width||b>=m.height||m.collision[b*m.width+a]===1||(actors.npcs||[]).some(o=>o.x===a&&o.y===b)||(s.banditAlive&&(actors.enemies||[]).some(o=>o.x===a&&o.y===b))||structures.some(o=>{const f=o.solid_footprint;return f&&a>=o.x+f.x&&a<o.x+f.x+f.w&&b>=o.y+f.y&&b<o.y+f.y+f.h});
      while(q.length){const [a,b]=q.shift();if(a===x&&b===y){let k=x+','+y,r=[];while(k!==s.pos.x+','+s.pos.y){r.unshift(k.split(',').map(Number));k=prev.get(k)}return r}for(const [dx,dy] of [[1,0],[-1,0],[0,1],[0,-1]]){const nx=a+dx,ny=b+dy,k=nx+','+ny;if(!seen.has(k)&&!solid(nx,ny)){seen.add(k);prev.set(k,a+','+b);q.push([nx,ny])}}}
      return null;
     },{x,y});

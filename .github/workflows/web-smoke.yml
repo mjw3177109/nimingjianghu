@@ -36,8 +36,7 @@ jobs:
       - run: node tests/p3j_game_sprite.cjs
       - run: python -m unittest discover -s tests -p 'test_*.py'
       - run: npm run build
-      - name: Open real Chromium and click Start Game
-        run: node tests/chrome_browser_smoke.cjs
+      # Full Playwright E2E covers Start; avoid duplicate flaky --dump-dom Chrome process.
       - name: Install real-browser E2E runner
         run: npm install --no-save --no-package-lock playwright@1.64.1
       - name: Real Chromium first-chapter click-through
