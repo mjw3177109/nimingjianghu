@@ -46,6 +46,32 @@ async function main(){
    captures.push({file,...status});
    console.log('CAPTURE',file,JSON.stringify(status));
   }
+  // Full-body side-walk art review: display every original frame without
+  // replacing/warping pixels. This is evidence, not a synthetic foot fix.
+  const strideData=await page.evaluate(async()=>{
+   const src=window.NM_SPRITE_REGISTRY?.player;
+   if(!src)throw Error('Player 4-dir sheet missing from registry');
+   const image=new Image();image.src=src;await image.decode();
+   if(image.naturalWidth!==384||image.naturalHeight!==512)throw Error('Unexpected player sheet resolution');
+   const c=document.createElement('canvas');c.width=800;c.height=550;
+   const g=c.getContext('2d');g.fillStyle='#162331';g.fillRect(0,0,c.width,c.height);
+   g.font='18px sans-serif';g.fillStyle='#f5d99c';g.fillText('Side-walk art QA - painted original frames, NOT approved',18,30);
+   for(const [idx,dir] of ['left','right'].entries()){
+    const y=idx*252+58;g.font='16px sans-serif';g.fillStyle='#e9c88f';g.fillText(dir.toUpperCase(),12,y+102);
+    for(let col=0;col<4;col++){
+     const x=86+col*176;
+     g.fillStyle='#364556';g.fillRect(x,y,144,192);
+     g.strokeStyle='#d4ae74';g.beginPath();g.moveTo(x,y+188);g.lineTo(x+144,y+188);g.stroke();
+     g.imageSmoothingEnabled=true;
+     g.drawImage(image,col*96,(idx+1)*128,96,128,x,y,144,192);
+     g.fillStyle='#f4e5cb';g.font='13px sans-serif';g.fillText(['idle','lead A','center','lead B'][col],x+40,y+213);
+    }
+   }
+   return c.toDataURL('image/png').split(',')[1];
+  });
+  const strideFile='player-left-right-stride-review.png';
+  fs.writeFileSync(path.join(output,strideFile),Buffer.from(strideData,'base64'));
+  console.log('CAPTURE',strideFile,'unapproved side-walk contact sheet');
   const asset=await page.evaluate(async()=>{
    const response=await fetch('assets/characters/scene_sprites/sprite_manifest.json');
    const m=await response.json();
