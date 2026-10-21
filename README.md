@@ -116,3 +116,6 @@ P3-F角色母版生成与验收：`assets/characters/masters/production_manifest
 
 ## Demo 1.0.3 Canvas2D 真实浏览器兼容修复
 修复 Canvas2D `setTransform(2,0,0,2)` 错误调用。标准 Canvas API 要求 `setTransform(a,b,c,d,e,f)` 六个参数，或唯一 DOMMatrixInit 对象。旧模拟Canvas没有严格校验参数个数，因此发布构建通过但真实 Chrome 首屏直接抛错；改为 `setTransform(2,0,0,2,0,0)`，并要求自动测试严格验证六个数值。本版本仅在真实浏览器“点击开始游戏、地图出现、人物移动”完成验证后才能宣告试玩可用。
+
+## 四方向 Sprite 正式资源接入安全闸门（2026-10-21）
+旧 `tools/pack_sprite_sheets.py` 的 48×64 帧/192×256 图集无法通过浏览器与 Pygame 的 96×128 帧/384×512 图集门槛，导致即使执行 `--approve` 也会继续显示旧人物。本版改为调用 `tools/p3g_art_pipeline.py` 生产真正的 384×512 候选图集；候选永远不会直接替换运行资源。人工核对身份、真四方向、左右脚交替、服装一致、透明底、脚底锚点后，先批准高清母版，并提交记录审核人、16帧SHA256、图集SHA256、6项逐项确认的独立 JSON，才允许使用 `--approve --review-evidence <审核文件.json>` 发布。`npm run qa:art` 会在7名角色未全部审核时返回失败；这是预期的发布阻断，不影响开发构建。**不能把绿色 build/E2E 解释成新 Sprite 全部完成。**
