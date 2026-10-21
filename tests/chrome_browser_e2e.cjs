@@ -49,7 +49,14 @@ async function main(){
     if(!path.length){await delay(180);continue}
     let target=path[Math.min(5,path.length)-1];
     await clickTile(target[0],target[1]);
-    await page.waitForFunction(({x,y})=>{const s=window.NMFinal.debugState();return s.pos.x===x&&s.pos.y===y&&s.route.length===0&&!window.NMFinal.debugAnimation().motion},{x:target[0],y:target[1]},{timeout:8000});
+    try{
+      await page.waitForFunction(({x,y})=>{const s=window.NMFinal.debugState();return s.pos.x===x&&s.pos.y===y&&s.route.length===0&&!window.NMFinal.debugAnimation().motion},{x:target[0],y:target[1]},{timeout:8000});
+    }catch(error){
+      const diagnostic=await page.evaluate(()=>({state:{map:window.NMFinal.debugState().map,pos:window.NMFinal.debugState().pos,route:window.NMFinal.debugState().route,pending:window.NMFinal.debugState().pending},animation:window.NMFinal.debugAnimation(),dialogueVisible:!document.getElementById('dialogue').classList.contains('hidden'),battleVisible:!document.getElementById('battle').classList.contains('hidden'),canvasRect:document.getElementById('game').getBoundingClientRect().toJSON(),bootError:window.NM_GAME_BOOT_ERROR||null}));
+      console.error('WALK_DIAGNOSTIC',JSON.stringify({goal:{x,y},target,diagnostic,errors,failed}));
+      await page.screenshot({path:'/tmp/niming-walk-failure.png'}).catch(()=>{});
+      throw error;
+    }
    }
    throw Error('Could not reach '+x+','+y);
   }
