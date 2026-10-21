@@ -62,6 +62,26 @@ async function main(){
   }
   await walkTo(10,11);
   await clickTile(8,10);
+  // Regression: re-click the NPC during the last animated step.
+  const midstride=await page.evaluate(()=>new Promise((resolve,reject)=>{
+   let attempts=0;
+   function probe(){
+    const st=window.NMFinal.debugState(),motion=window.NMFinal.debugAnimation().motion;
+    if(motion&&st.route.length===0&&motion.progress<0.8){
+     const camera=window.NMFinal.debugCamera(),rect=document.getElementById('game').getBoundingClientRect();
+     const x=rect.left+((8.5*32-camera.x)/640)*rect.width;
+     const y=rect.top+((10.5*32-camera.y)/360)*rect.height;
+     document.getElementById('game').dispatchEvent(new MouseEvent('click',{clientX:x,clientY:y,bubbles:true}));
+     resolve({moving:!!window.NMFinal.debugAnimation().motion,dialogue:!document.getElementById('dialogue').classList.contains('hidden')});
+     return;
+    }
+    if(++attempts>600)return reject(new Error('Final animated step was not reached'));
+    requestAnimationFrame(probe);
+   }
+   probe();
+  }));
+  assert(midstride.moving,'Re-click must not cancel movement');
+  assert.equal(midstride.dialogue,false,'Re-click must not freeze an incomplete stride');
   await page.locator('#dialogue').waitFor({state:'visible',timeout:10000});
   assert.equal((await state()).motion,false,'NPC dialogue must wait for player feet to settle');
   await dialogue();

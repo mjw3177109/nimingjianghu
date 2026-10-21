@@ -131,7 +131,7 @@ function nearestReach(target,avoidCenter=false){
  candidates.sort((a,b)=>a.r.length-b.r.length||a.radius-b.radius);
  return candidates[0]||null;
 }
-function travelTo(x,y,act){let n=nearestReach({x,y},act&&['npc','object'].includes(act.type));if(!n){notice('这里暂时无法抵达');return}state.route=n.r;state.pending=act?{...act,t:n.t}:null; if(!n.r.length&&state.pending)finishPending()}
+function travelTo(x,y,act){let n=nearestReach({x,y},act&&['npc','object'].includes(act.type));if(!n){notice('这里暂时无法抵达');return}state.route=n.r;state.pending=act?{...act,t:n.t}:null; if(!n.r.length&&state.pending&&!motion)finishPending()}
 function finishPending(){if(!state.pending)return;let p=state.pending;state.pending=null; if(p.type==='npc')talk(p.id);else if(p.type==='enemy')startBattle();else if(p.type==='object')objectClick(p.id);else if(p.type==='exit')changeMap(p.to,p.spawn);else if(p.type==='hotspot')notice(p.id==='inn_door'?'客栈里传来阵阵饭香，韩掌柜正在门口。':'药铺里弥漫着药香，苏晚晴可以为你指路。')}
 function changeMap(to,spawn){state.map=to;const wanted=to==='town'?{x:38,y:12}:{x:spawn[0],y:spawn[1]};state.pos=occupiedTile(to,wanted.x,wanted.y,state.banditAlive)?{x:tileMaps[to].spawn[0],y:tileMaps[to].spawn[1]}:wanted;state.route=[];motion=null;state.pending=null;state.day=Math.max(1,state.day);if(to==='cave')state.visitedCave=true;notice('进入 '+world.maps[to].name);updateUI()}
 function notice(msg){$('status').textContent=msg; $('hint').textContent=msg;clearTimeout(notice.timer); notice.timer=setTimeout(()=>$('hint').textContent='点击移动 · 点击人物交谈 · 点击出口切换地图',3600)}

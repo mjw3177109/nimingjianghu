@@ -8,4 +8,5 @@ assert(tick.includes('if(!state.route.length){finishPending();maybeEnding();}'),
 assert(tick.indexOf('motion=null;')<tick.indexOf('finishPending();maybeEnding();'),'Do not freeze half-stride');
 assert(tick.includes('if(!motion&&moveAcc>=WALK_TIME&&state.route.length)'),'Next tile cannot overwrite unfinished movement');
 assert(!tick.includes('motion={from,to,progress:0};if(!state.route.length){finishPending();maybeEnding()}'));
+assert(src.includes('if(!n.r.length&&state.pending&&!motion)finishPending()'),'Re-click during a moving tile must defer pending action');
 console.log('PASS: dialogue, battle and exits start after feet settle');

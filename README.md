@@ -119,3 +119,6 @@ P3-F角色母版生成与验收：`assets/characters/masters/production_manifest
 
 ## 四方向 Sprite 正式资源接入安全闸门（2026-10-21）
 旧 `tools/pack_sprite_sheets.py` 的 48×64 帧/192×256 图集无法通过浏览器与 Pygame 的 96×128 帧/384×512 图集门槛，导致即使执行 `--approve` 也会继续显示旧人物。本版改为调用 `tools/p3g_art_pipeline.py` 生产真正的 384×512 候选图集；候选永远不会直接替换运行资源。人工核对身份、真四方向、左右脚交替、服装一致、透明底、脚底锚点后，先批准高清母版，并提交记录审核人、16帧SHA256、图集SHA256、6项逐项确认的独立 JSON，才允许使用 `--approve --review-evidence <审核文件.json>` 发布。`npm run qa:art` 会在7名角色未全部审核时返回失败；这是预期的发布阻断，不影响开发构建。**不能把绿色 build/E2E 解释成新 Sprite 全部完成。**
+
+### 1.0.4 (2026-10-21)
+NPC 连续点击：最后一步尚在播放时，再次点击不应立即弹出对话并冻结人物。`travelTo` 现在等待最后一步结束后才触发 pending 交互，新增相应防回归断言。尚未完成其他 NPC 高清 Sprite 美术审批。
