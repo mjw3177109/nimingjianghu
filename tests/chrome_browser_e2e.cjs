@@ -61,7 +61,15 @@ async function main(){
    throw Error('Could not reach '+x+','+y);
   }
   await walkTo(10,11);
-  await clickTile(8,10);
+  // The visible right edge of the innkeeper's torso is in the adjacent
+  // tile (x=9). A tile-only hitbox used to mistake this click for walking.
+  const actorEdge=await page.evaluate(()=>{
+   const cam=window.NMFinal.debugCamera(),r=document.getElementById('game').getBoundingClientRect();
+   return {x:r.left+((8.5*32+19-cam.x)/640)*r.width,
+           y:r.top+(((10+1)*32-36-cam.y)/360)*r.height};
+  });
+  await page.mouse.click(actorEdge.x,actorEdge.y);
+  await page.waitForFunction(()=>window.NMFinal.debugState().pending?.type==='npc'||!document.getElementById('dialogue').classList.contains('hidden'),{timeout:2500});
   // Regression: re-click the NPC during the last animated step.
   const midstride=await page.evaluate(()=>new Promise((resolve,reject)=>{
    let attempts=0;

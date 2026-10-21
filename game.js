@@ -34,6 +34,20 @@ function currentTilemap(){return tileMaps[state.map]}
 function townCamera(){const map=currentTilemap(),player=visualPlayer(),px=(player.x+.5)*32,py=(player.y+.5)*32;return {x:Math.round(Math.max(0,Math.min(px-320,map.width*32-640))),y:Math.round(Math.max(0,Math.min(py-180,map.height*32-360)))}}
 function canvasPoint(e){const r=canvas.getBoundingClientRect();return {x:(e.clientX-r.left)/r.width*640,y:(e.clientY-r.top)/r.height*360}}
 function townTileFromScreen(sx,sy){const c=townCamera();return {x:Math.floor((sx+c.x)/32),y:Math.floor((sy+c.y)/32)}}
+// Click the visible body rather than the invisible 32px grid cell.
+// All characters share the same 54x72 render anchor; player is excluded.
+function pickActorAtScreen(sx,sy){
+ const cam=townCamera(),scene=world.maps[state.map];
+ const actors=[
+  ...(scene.npcs||[]).map(a=>({x:a.x,y:a.y,type:'npc',id:a.id})),
+  ...(state.banditAlive?(scene.enemies||[]):[]).map(a=>({x:a.x,y:a.y,type:'enemy'}))
+ ];
+ return actors.filter(a=>{
+  const centerX=(a.x+.5)*32-cam.x,feetY=(a.y+1)*32-cam.y;
+  const rise=feetY-sy;
+  return rise>=5&&rise<=69&&Math.abs(sx-centerX)<=(rise>46?17:22);
+ }).sort((a,b)=>b.y-a.y)[0]||null;
+}
 
 const spriteKeys={innkeeper:'innkeeper',healer:'healer',oldman:'oldman',bandit:'bandit'};
 let state={map:'town',pos:{x:14,y:12},tileSchema:2,facing:'down',route:[],moving:null,pending:null,quest:0,banditAlive:true,manual:false,trace:false,visitedCave:false,destiny:0,day:1,hp:100,maxHp:100,mp:50,maxMp:50,lv:1,exp:0,coins:10,potions:2,skills:['基础剑法'],flags:{},journal:['一个陌生的江湖。这里的一切似曾相识。']};
@@ -274,7 +288,16 @@ function tick(ts){if(!running){raf=0;return}frame++;
   window.dispatchEvent(new CustomEvent('nm-game-start-failed',{detail:{message:'地图渲染失败：'+String(error&&error.message||error)}}));return;
  }
  raf=requestAnimationFrame(tick)}
-canvas.addEventListener('click',e=>{if(!running)return;let r=canvas.getBoundingClientRect();const p=canvasPoint(e);const target=townTileFromScreen(p.x,p.y);interactClick(target.x,target.y)});
+canvas.addEventListener('click',e=>{
+ if(!running)return;
+ const p=canvasPoint(e),target=townTileFromScreen(p.x,p.y);
+ // Keep dialogue clicks consistent with the existing input contract.
+ if(!dialogue&&!battle){
+  const actor=pickActorAtScreen(p.x,p.y);
+  if(actor){travelTo(actor.x,actor.y,{type:actor.type,id:actor.id});return;}
+ }
+ interactClick(target.x,target.y);
+});
 $('nextDialogue').addEventListener('click',nextLine);$('skipIntro').addEventListener('click',skipIntro);for(let b of document.querySelectorAll('.battle-buttons button'))b.addEventListener('click',()=>strike(b.dataset.action));
 function openPanel(title,body){$('panelTitle').textContent=title;$('panelContent').innerHTML=body;$('panel').classList.remove('hidden')}
 $('inventory').onclick=()=>openPanel('江湖背包',`<p>银两：${state.coins} 两</p><p>疗伤药：${state.potions} 瓶</p><p>武功：${state.skills.join('、')}</p><p>${state.manual?'✓ 已获得《破风一剑》秘籍':'尚未获得秘籍'}</p>`);

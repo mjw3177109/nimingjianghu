@@ -30,6 +30,7 @@ jobs:
       - run: node --check structure-data.js
       - run: node tests/p3f_structures.cjs
       - run: node tests/actor_collision_click_contract.cjs
+      - run: node tests/actor_screen_hit_contract.cjs
       - run: node tests/resume_sprite_scale_contract.cjs
       - run: node tests/visual_occlusion_contract.cjs
       - run: node tests/stride_timing_contract.cjs
