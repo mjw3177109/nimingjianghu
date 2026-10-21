@@ -115,7 +115,22 @@ function talk(id){if(id==='healer'&&state.potions<2){state.potions++;notice('苏
  scripted(world.dialogue[id]||[['江湖客','江湖路远，后会有期。']],()=>{})}
 function objectClick(id){if(id==='manual'){if(!state.manual){state.manual=true;state.skills.push('破风一剑');state.coins+=10;notice('获得武功：破风一剑，银两+10');journal('山洞中找到了旧秘籍。上面提到“命轨”的异常。');if(state.quest>=2)advanceQuest(3);updateUI()}else notice('秘籍已取走');return}
  if(id==='trace'){if(!state.trace){state.trace=true;state.destiny=25;notice('命痕石台发生共鸣：逆命值 +25');journal('原本的剧情，被某人有意改写了。');if(state.manual){advanceQuest(4,'命痕碎片透露：有人故意把你带进这个江湖。');scripted([['沈砚','不对……我记得这里从来没有这块石台。'],['？？？','你终于注意到了。'],['沈砚','谁在说话？']],()=>{})}}else notice('石台已经沉寂');return}}
-function startBattle(){if(!state.banditAlive)return;state.route=[];battle={hp:54,enemyMax:54,guard:false,turn:0};$('battle').classList.remove('hidden');$('battleLog').textContent='山贼：把银子留下，饶你过去！';updateUI()}
+function drawBattleActor(canvasId,key,row,pose){
+ const battleCanvas=$(canvasId),c=battleCanvas.getContext('2d');if(!c)return;
+ c.clearRect(0,0,112,140);c.imageSmoothingEnabled=true;
+ const sprite=animatedSheets[key];
+ if(sprite&&sprite.complete&&sprite.naturalWidth>=384&&sprite.naturalHeight>=512){
+  const fw=sprite.naturalWidth/4,fh=sprite.naturalHeight/4;
+  c.drawImage(sprite,pose*fw,row*fh,fw,fh,20,7,72,124);
+ }else{
+  const old=imgs[key];if(old&&old.complete&&old.naturalWidth)c.drawImage(old,16,8,80,122);
+ }
+}
+function drawBattleActors(){
+ drawBattleActor('battlePlayerCanvas','player',1,frame%8<4?0:1);
+ drawBattleActor('battleEnemyCanvas','bandit',2,frame%12<6?0:1);
+}
+function startBattle(){if(!state.banditAlive)return;state.route=[];battle={hp:54,enemyMax:54,guard:false,turn:0};$('battle').classList.remove('hidden');$('battleLog').textContent='山贼：把银子留下，饶你过去！';drawBattleActors();updateUI()}
 function strike(action){if(!battle)return;let msg='',dmg=0;if(action==='attack'){dmg=12+Math.floor(Math.random()*9);msg='基础剑法命中，造成 '+dmg+' 点伤害。'}else if(action==='skill'){if(state.mp<8){$('battleLog').textContent='内力不足！';return}state.mp-=8;dmg=20+Math.floor(Math.random()*9);msg='破风一剑！剑气凌厉，造成 '+dmg+' 点伤害。'}else if(action==='heal'){if(state.potions<1){$('battleLog').textContent='疗伤药不足';return}state.potions--;let heal=Math.min(36,state.maxHp-state.hp);state.hp+=heal;msg='服下疗伤药，恢复 '+heal+' 点气血。'}else if(action==='defend'){battle.guard=true;msg='凝神格挡，下次受到的伤害减半。'}battle.hp=Math.max(0,battle.hp-dmg);if(battle.hp===0){$('battleLog').textContent=msg+' 山贼倒下了，你获得20经验和22两。';state.banditAlive=false;state.coins+=22;state.exp+=20;state.lv=2;state.hp=Math.min(state.maxHp,state.hp+10);advanceQuest(2,'山贼已被击败，山洞的道路终于安全。');setTimeout(()=>{$('battle').classList.add('hidden');battle=null;updateUI();scripted([['沈砚','居然真的打赢了……看来得去山洞看看。']],()=>{})},950);return}
  let hit=Math.max(1,8+Math.floor(Math.random()*6)-(battle.guard?7:0));state.hp=Math.max(0,state.hp-hit);msg+=' 山贼反击，造成 '+hit+' 点伤害。';battle.guard=false; if(!state.hp){$('battle').classList.add('hidden');battle=null;state.hp=75;state.pos={x:1,y:9};notice('你负伤退回山路起点，气血恢复至75。');scripted([['沈砚','差点送命。还是先恢复再挑战。']],()=>{});}else $('battleLog').textContent=msg;updateUI()}
 function maybeEnding(){if(state.quest>=4&&state.map==='town'&&!state.flags.ended){state.flags.ended=true;scripted(world.dialogue.ending,()=>{state.quest=5;journal('Demo 第一章完成：廖的棋局才刚刚开始。');notice('第一章完成 · 下一阶段敬请期待');updateUI()})}}
@@ -177,7 +192,7 @@ function tick(ts){if(!running){raf=0;return}frame++;
  if(!dialogue&&!battle){if(motion){motion.progress=Math.min(1,motion.progress+delta/WALK_TIME);if(motion.progress>=1)motion=null;}
  moveAcc+=delta;
  if(moveAcc>WALK_TIME&&state.route.length){moveAcc=0;const from={...state.pos},to=state.route.shift();state.facing=facingForMove(from,to);state.pos=to;motion={from,to,progress:0};if(!state.route.length){finishPending();maybeEnding()}}}
- draw();raf=requestAnimationFrame(tick)}
+ draw();if(battle)drawBattleActors();raf=requestAnimationFrame(tick)}
 canvas.addEventListener('click',e=>{if(!running)return;let r=canvas.getBoundingClientRect();const p=canvasPoint(e);const target=townTileFromScreen(p.x,p.y);interactClick(target.x,target.y)});
 $('nextDialogue').addEventListener('click',nextLine);for(let b of document.querySelectorAll('.battle-buttons button'))b.addEventListener('click',()=>strike(b.dataset.action));
 function openPanel(title,body){$('panelTitle').textContent=title;$('panelContent').innerHTML=body;$('panel').classList.remove('hidden')}

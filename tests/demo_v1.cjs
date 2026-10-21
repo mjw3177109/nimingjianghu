@@ -1,0 +1,13 @@
+'use strict';
+const fs=require('node:fs'),assert=require('node:assert/strict'),path=require('node:path');
+const root=path.resolve(__dirname,'..');const read=p=>fs.readFileSync(path.join(root,p),'utf8');
+const html=read('index.html'),game=read('game.js'),world=JSON.parse(read('data/world.json'));
+assert(html.includes('id="battlePlayerCanvas"')&&html.includes('id="battleEnemyCanvas"'),'Combat requires spritesheet preview canvases');
+assert(game.includes("drawBattleActor('battlePlayerCanvas','player'"),'Real hero Sprite absent from combat');
+assert(game.includes("drawBattleActor('battleEnemyCanvas','bandit'"),'Real bandit Sprite absent from combat');
+assert(game.includes('if(battle)drawBattleActors()'),'Combat actors must redraw during battle');
+assert(world.maps.road.enemies.some(e=>e.id==='bandit')&&world.maps.cave.objects.length>=2,'Complete playable chapter required');
+const registry=read('assets/characters/scene_sprites/sprite_registry.js');
+assert(registry.includes('player_4dir.png'),'Previously accepted Shenyan sprite must remain');
+const pkg=JSON.parse(read('package.json'));assert.equal(pkg.version,'1.0.0-demo');
+console.log('PASS DEMO V1: authentic hero/bandit sprite-rendered combat, original Shenyan, chapter flow intact');

@@ -23,3 +23,6 @@
 
 /* P3-G: real navigation control to the isolated art QA page. */
 a.home-btn{text-decoration:none;color:var(--text);display:flex;align-items:center}.art-review-entry{border-color:#b08c61;background:linear-gradient(120deg,#3a3540,#263444)}
+
+/* Demo V1: Combat previews are actual game sprites, not isolated low-res images. */
+.combat-actors canvas{width:clamp(80px,13vw,128px);height:auto;max-height:160px;object-fit:contain;image-rendering:auto;filter:drop-shadow(0 7px 8px #0009)}
