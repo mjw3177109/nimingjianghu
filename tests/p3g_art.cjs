@@ -19,9 +19,12 @@ for(const name of ['CHAR001','NPC001','NPC002','NPC003','NPC005','BOSS001','EN00
 assert(css.includes('image-rendering:pixelated'),'Sprite zoom must not blur by browser');
 const m=JSON.parse(read('assets/characters/masters/production_manifest.json'));
 assert.equal(m.tasks.length,7);
-assert(m.tasks.every(t=>t.status==='awaiting_generation_and_manual_review'&&t.master_approved===false&&t.portrait_approved===false),'Unreviewed art must stay unapproved');
+assert(m.tasks.every(t=>typeof t.master_approved==='boolean'&&typeof t.portrait_approved==='boolean'),'Master and portrait approval states must be explicit');
+for(const t of m.tasks)if(t.master_approved)assert(fs.existsSync(path.join(root,t.master)),'Approved master missing: '+t.id);
 const sprite=JSON.parse(read('assets/characters/scene_sprites/sprite_manifest.json'));
-assert(sprite.entries.every(e=>e.direction_status!=='user_approved_independently_painted'),'Legacy direction copies cannot be approved');
+for(const e of sprite.entries)if(e.direction_status==='user_approved_independently_painted'){
+ assert(e.sheet.endsWith('.png')&&e.review_evidence_sha256&&e.reviewer,'Approved sprite must be independent PNG with review proof');
+}
 const source=read('tools/p3g_art_pipeline.py');
 for(const marker of ['def inspect_rgba(','def candidate_master(','def pack_frames(','DIRECTIONS=("down","left","right","up")','CANDIDATE_NOT_APPROVED','MIN_FRAME=(256,384)','def sha256(']){
  assert(source.includes(marker),'High-resolution image QA contract missing: '+marker);

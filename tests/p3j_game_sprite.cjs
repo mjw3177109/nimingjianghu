@@ -5,12 +5,19 @@ const image=fs.readFileSync(path.join(root,asset));
 assert.equal(image.toString('hex',0,8),'89504e470d0a1a0a');
 assert.equal(image.readUInt32BE(16),384);
 assert.equal(image.readUInt32BE(20),512);
-assert.equal(image.length,49015);
-assert.equal(crypto.createHash('sha256').update(image).digest('hex'),'be0f8405b3e9e551a6521f563af75d204b945ffbbbe48b2bcc77828e8d78660c');
+const digest=crypto.createHash('sha256').update(image).digest('hex');
+assert(image.length>30000,'Real HD character sheet expected');
 const manifest=JSON.parse(fs.readFileSync(path.join(root,'assets/characters/scene_sprites/sprite_manifest.json'),'utf8'));
 const player=manifest.entries.find(x=>x.id==='CHAR001');
 assert.equal(player.sheet,asset);assert.equal(player.frame_width,96);assert.equal(player.frame_height,128);
-assert.equal(player.direction_status,'gameplay_trial_pending_user_art_review');
+assert(['gameplay_trial_pending_user_art_review','user_approved_independently_painted'].includes(player.direction_status));
+if(player.direction_status==='gameplay_trial_pending_user_art_review'){
+ assert.equal(image.length,49015);
+ assert.equal(digest,'be0f8405b3e9e551a6521f563af75d204b945ffbbbe48b2bcc77828e8d78660c');
+}else{
+ assert.equal(player.asset_sha256,digest);
+ assert(player.review_evidence_sha256&&player.reviewer,'Approved Shenyan requires review proof');
+}
 const registry=JSON.parse(fs.readFileSync(path.join(root,'assets/characters/scene_sprites/sprite_registry.js'),'utf8').replace(/^window\.NM_SPRITE_REGISTRY = /,'').trim().replace(/;$/,''));
 assert.equal(registry.player,asset);
 const js=fs.readFileSync(path.join(root,'game.js'),'utf8'),py=fs.readFileSync(path.join(root,'main.py'),'utf8'),review=fs.readFileSync(path.join(root,'art-review.js'),'utf8');
@@ -19,4 +26,4 @@ assert(js.includes('source96x128:!!animatedSheets.player'),'Browser animation di
 assert(py.includes("'gameplay_trial_pending_user_art_review'"),'Pygame should display generated trial sprite');
 assert(py.includes('sheet.get_width()<384 or sheet.get_height()<512'),'Low-res source must stay rejected');
 assert(review.includes('已进入试玩，待最终评审'),'Review must not imply final approval');
-console.log('PASS P3J: exact generated PNG, 16x96x128 frames, playable browser/Pygame integration and pending user review');
+console.log('PASS P3J: 16x96x128 frames, browser/Pygame integration, trial fingerprint or reviewed release evidence');

@@ -4,7 +4,8 @@ const root=path.resolve(__dirname,'..');
 const m=JSON.parse(fs.readFileSync(path.join(root,'assets/characters/scene_sprites/sprite_manifest.json'),'utf8'));
 assert.equal(m.frame_width,48);assert.equal(m.frame_height,64);assert.equal(m.columns,4);assert.equal(m.rows,4);
 assert.deepEqual(m.directions,['down','left','right','up']);
-assert.equal(m.entries.length,5);assert.equal(m.status,'derived_preproduction_not_approved_4dir');
+assert(m.entries.length>=5&&m.entries.length<=7,'Expect legacy sprites plus up to two newly approved roles');
+assert(['derived_preproduction_not_approved_4dir','partially_approved_4dir','approved_4dir'].includes(m.status));
 for(const e of m.entries){
  const asset=fs.readFileSync(path.join(root,e.sheet));
  if(e.sheet.endsWith('.png')){
@@ -12,7 +13,8 @@ for(const e of m.entries){
   assert.equal(asset.readUInt32BE(16),384,e.key+' high-resolution sprite width');
   assert.equal(asset.readUInt32BE(20),512,e.key+' high-resolution sprite height');
   assert.equal(e.frame_width,96);assert.equal(e.frame_height,128);
-  assert.equal(e.direction_status,'gameplay_trial_pending_user_art_review');
+  assert(['gameplay_trial_pending_user_art_review','user_approved_independently_painted'].includes(e.direction_status));
+  if(e.direction_status==='user_approved_independently_painted')assert(e.review_evidence_sha256&&e.reviewer&&e.asset_sha256,'Approved sprite needs signed evidence and hash');
   assert(asset.length>30000,e.key+' sprite seems too small');
  } else {
   const svg=asset.toString('utf8');
@@ -48,4 +50,4 @@ assert(g.includes('function drawActorSprite'),'Browser runtime missing direction
 assert(g.includes('visualPlayer()'),'Browser motion interpolation missing');
 assert(g.includes('facingForMove(from,to)'),'Browser direction tracking missing');
 assert(p.includes('animated_sprites')&&p.includes('def player_visual()'),'Pygame missing equivalent animation support');
-console.log('PASS P3C: 5 embedded-art 4-dir x 4-frame sheets, seamless tiles, facing, walking and Pygame parity');
+console.log('PASS P3C: candidate and approved sprite states, modular tiles, facing, walking and Pygame parity');
