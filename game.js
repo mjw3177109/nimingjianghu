@@ -142,7 +142,7 @@ function nearestReach(target,avoidCenter=false){
    if(r)candidates.push({r,t,radius});
   }
  }
- candidates.sort((a,b)=>a.radius-b.radius||a.r.length-b.r.length);
+ candidates.sort((a,b)=>(a.r.length+2*a.radius)-(b.r.length+2*b.radius)||a.radius-b.radius);
  return candidates[0]||null;
 }
 function travelTo(x,y,act){let n=nearestReach({x,y},act&&['npc','object'].includes(act.type));if(!n){notice('这里暂时无法抵达');return}state.route=n.r;state.pending=act?{...act,t:n.t}:null; if(!n.r.length&&state.pending&&!motion)finishPending()}
