@@ -1,0 +1,147 @@
+{
+  "status": "CANDIDATE_NOT_APPROVED",
+  "character": "CHAR001",
+  "name": "沈砚",
+  "sheet": "D:\\nimingjianghu\\assets\\characters\\scene_sprites\\candidates\\player_4dir_hd_candidate.png",
+  "review": "D:\\nimingjianghu\\assets\\characters\\scene_sprites\\candidates\\player_4dir_hd_review.png",
+  "sheet_size": [
+    384,
+    512
+  ],
+  "frame_size": [
+    96,
+    128
+  ],
+  "sources": [
+    {
+      "frame": "down_idle.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "0af50d1396609ec46ef8706c120dfd7d6142a94973592bbbfa24407d08d0b389"
+    },
+    {
+      "frame": "down_walk1.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "937b148eec58165d12dd9c9a9469b8bb26faa8afc6eebf4bdffa56da0bd29e21"
+    },
+    {
+      "frame": "down_walk2.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "2cae81a255e161ea460a7b6179db73a16cf29c6acc2217bad35b3fe84ee32c6e"
+    },
+    {
+      "frame": "down_walk3.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "d2f13b1e2521564b30dc79b6e4af29f4ee7c80bf597b39ca969d487951f47a42"
+    },
+    {
+      "frame": "left_idle.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "ecb9bc017b1a26d131a283e66491a22e9c435d05f05795f31622d7cad4a95246"
+    },
+    {
+      "frame": "left_walk1.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "3b17c504133c91c5d2f432a0ec37b2ee48240d0c3310caf264f6d411d89834d3"
+    },
+    {
+      "frame": "left_walk2.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "c7cde340446bd1c55cc53328a7529c376dc0d5f83292245304ecd0092b9be221"
+    },
+    {
+      "frame": "left_walk3.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "97593ca5b6a79ea12529f61a40b1bd8c0b0365f416b641110959267ea720996f"
+    },
+    {
+      "frame": "right_idle.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "e8c8751d6f1b6e2a3dc66f01484793eef709740af22310199edfa608408e6ed2"
+    },
+    {
+      "frame": "right_walk1.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "87cf76b93c0d7ae15f16d17f404485236f71f649cc81a89f14b0bac4e7d6198a"
+    },
+    {
+      "frame": "right_walk2.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "e8c902aff51146e39d021a01182abc2c5e109558b11f4877e9db18915703ddd3"
+    },
+    {
+      "frame": "right_walk3.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "fa889f1bd80fa5d86d2f62dc2a16789f7ae787c3f7ee3897d37e3907c1945862"
+    },
+    {
+      "frame": "up_idle.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "3079e84221d7c1e7f81dfe690632c9894aa1e03ed61b99475a8d1faeaa90cefe"
+    },
+    {
+      "frame": "up_walk1.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "9d19f6ca725ae5683d2ac9e138f34a2878920f7648738fe775a7a9018e2526bd"
+    },
+    {
+      "frame": "up_walk2.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "69e24eb504577b16875a5b6b25c12c650f877fb0d9f8bd2faa383d6a2083e978"
+    },
+    {
+      "frame": "up_walk3.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "8c78eb856ac0c43e63ba7aa50aadf5b023da57b6140b70099c7bef2da357a36c"
+    }
+  ],
+  "warnings": [],
+  "explicit_manual_approval_required": true
+}

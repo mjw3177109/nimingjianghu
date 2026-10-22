@@ -1,0 +1,540 @@
+{
+  "schema_version": 1,
+  "phase": "P3-H_SPRITE_FRAMES",
+  "character_id": "NPC003",
+  "character_name": "顾青岚",
+  "reference_master": "D:\\nimingjianghu\\assets\\characters\\masters\\NPC003_fullbody.png",
+  "reference_size": [
+    1024,
+    1536
+  ],
+  "status": "16_generated_candidates_pending_human_review",
+  "single_image_tasks": 16,
+  "directions": [
+    "down",
+    "left",
+    "right",
+    "up"
+  ],
+  "poses": [
+    "idle",
+    "walk1",
+    "walk2",
+    "walk3"
+  ],
+  "tasks": [
+    {
+      "id": "NPC003_down_idle",
+      "character_id": "NPC003",
+      "character_name": "顾青岚",
+      "direction": "down",
+      "direction_cn": "正面",
+      "pose": "idle",
+      "pose_cn": "自然站立",
+      "status": "generated_candidate_pending_human_review",
+      "single_image_only": true,
+      "reference_image": "D:\\nimingjianghu\\assets\\characters\\masters\\NPC003_fullbody.png",
+      "reference_size": [
+        1024,
+        1536
+      ],
+      "style_reference": "assets/home/characters_gallery_ref.webp",
+      "output_file": "qwen_4dir/NPC003/down_idle.png",
+      "target_size": [
+        1024,
+        1536
+      ],
+      "minimum_source_size": [
+        256,
+        384
+      ],
+      "format": "RGBA PNG with real alpha transparency",
+      "prompt": "【只生成一张独立角色帧，不是Sprite表】角色「顾青岚」，唯一人物身份与服装依据是传入的已人工验收高清母版。不得重设计脸、发型、发饰、服装、腰带、纹样、鞋、武器；不改变主色、身高比例、头身比和配饰位置。视角：正面，front view facing the camera, both eyes visible, chest and belt read clearly。动作：自然站立，neutral idle standing pose, both feet planted, arms relaxed naturally, sword stays in its normal sheath。保持角色全身完整、发顶与鞋底不裁切，居中站在固定脚底锚点，姿势符合自然人体透视。该图必须独立重绘对应角度；禁止镜像正面、拉伸正面、用头发/衣服遮住脸来假冒背面。严格沿用参考母版的精致国风Q版2.5D手绘武侠风格，干净轮廓、精细衣料。真正透明RGBA背景；单张PNG、竖向约3:4、建议1024×1536或更高分辨率。禁止画第二个人物、场景、地面投影、UI、文字、标签、边框、格子、其他方向或其他动作。每次只输出这一张帧，不要把其余15帧放在同一画布。",
+      "negative_prompt": "拼贴、角色设定表、三视图、四视图、接触表、九宫格、Sprite Sheet、多个姿势出现在同一张图、多个角色、背景场景、UI、按钮、边框、文字、编号、水印、logo、白色假透明棋盘格、实心背景、裁切头顶、裁切鞋底、手脚畸形、换脸、服装变色、额外武器、水平镜像冒充另一方向、正面伪装背面、拉伸现有小头像、过曝光晕、低清模糊",
+      "approval_gate": "This is still a candidate frame. Check all 16 frames and the four views manually before packing/release.",
+      "output_sha256": "b0a3da90523c403f87d3649464117c743ebdd355a9d48ad4fa4af4374c61b7c7",
+      "receipt_file": "production/character_frames/NPC003/receipts/NPC003_down_idle.json"
+    },
+    {
+      "id": "NPC003_down_walk1",
+      "character_id": "NPC003",
+      "character_name": "顾青岚",
+      "direction": "down",
+      "direction_cn": "正面",
+      "pose": "walk1",
+      "pose_cn": "迈步一",
+      "status": "generated_candidate_pending_human_review",
+      "single_image_only": true,
+      "reference_image": "D:\\nimingjianghu\\assets\\characters\\masters\\NPC003_fullbody.png",
+      "reference_size": [
+        1024,
+        1536
+      ],
+      "style_reference": "assets/home/characters_gallery_ref.webp",
+      "output_file": "qwen_4dir/NPC003/down_walk1.png",
+      "target_size": [
+        1024,
+        1536
+      ],
+      "minimum_source_size": [
+        256,
+        384
+      ],
+      "format": "RGBA PNG with real alpha transparency",
+      "prompt": "【只生成一张独立角色帧，不是Sprite表】角色「顾青岚」，唯一人物身份与服装依据是传入的已人工验收高清母版。不得重设计脸、发型、发饰、服装、腰带、纹样、鞋、武器；不改变主色、身高比例、头身比和配饰位置。视角：正面，front view facing the camera, both eyes visible, chest and belt read clearly。动作：迈步一，walking key pose A: left foot steps forward and right foot trails, natural counter-swing of arms。保持角色全身完整、发顶与鞋底不裁切，居中站在固定脚底锚点，姿势符合自然人体透视。该图必须独立重绘对应角度；禁止镜像正面、拉伸正面、用头发/衣服遮住脸来假冒背面。严格沿用参考母版的精致国风Q版2.5D手绘武侠风格，干净轮廓、精细衣料。真正透明RGBA背景；单张PNG、竖向约3:4、建议1024×1536或更高分辨率。禁止画第二个人物、场景、地面投影、UI、文字、标签、边框、格子、其他方向或其他动作。每次只输出这一张帧，不要把其余15帧放在同一画布。",
+      "negative_prompt": "拼贴、角色设定表、三视图、四视图、接触表、九宫格、Sprite Sheet、多个姿势出现在同一张图、多个角色、背景场景、UI、按钮、边框、文字、编号、水印、logo、白色假透明棋盘格、实心背景、裁切头顶、裁切鞋底、手脚畸形、换脸、服装变色、额外武器、水平镜像冒充另一方向、正面伪装背面、拉伸现有小头像、过曝光晕、低清模糊",
+      "approval_gate": "This is still a candidate frame. Check all 16 frames and the four views manually before packing/release.",
+      "output_sha256": "f583e171cb6710af855184938c9feefdf0ab16c7160c37db33a34a0bcd51a78d",
+      "receipt_file": "production/character_frames/NPC003/receipts/NPC003_down_walk1.json"
+    },
+    {
+      "id": "NPC003_down_walk2",
+      "character_id": "NPC003",
+      "character_name": "顾青岚",
+      "direction": "down",
+      "direction_cn": "正面",
+      "pose": "walk2",
+      "pose_cn": "迈步二",
+      "status": "generated_candidate_pending_human_review",
+      "single_image_only": true,
+      "reference_image": "D:\\nimingjianghu\\assets\\characters\\masters\\NPC003_fullbody.png",
+      "reference_size": [
+        1024,
+        1536
+      ],
+      "style_reference": "assets/home/characters_gallery_ref.webp",
+      "output_file": "qwen_4dir/NPC003/down_walk2.png",
+      "target_size": [
+        1024,
+        1536
+      ],
+      "minimum_source_size": [
+        256,
+        384
+      ],
+      "format": "RGBA PNG with real alpha transparency",
+      "prompt": "【只生成一张独立角色帧，不是Sprite表】角色「顾青岚」，唯一人物身份与服装依据是传入的已人工验收高清母版。不得重设计脸、发型、发饰、服装、腰带、纹样、鞋、武器；不改变主色、身高比例、头身比和配饰位置。视角：正面，front view facing the camera, both eyes visible, chest and belt read clearly。动作：迈步二，walking passing pose B: weight transitions over the front foot, knees and elbows naturally bent, cloth follows motion。保持角色全身完整、发顶与鞋底不裁切，居中站在固定脚底锚点，姿势符合自然人体透视。该图必须独立重绘对应角度；禁止镜像正面、拉伸正面、用头发/衣服遮住脸来假冒背面。严格沿用参考母版的精致国风Q版2.5D手绘武侠风格，干净轮廓、精细衣料。真正透明RGBA背景；单张PNG、竖向约3:4、建议1024×1536或更高分辨率。禁止画第二个人物、场景、地面投影、UI、文字、标签、边框、格子、其他方向或其他动作。每次只输出这一张帧，不要把其余15帧放在同一画布。",
+      "negative_prompt": "拼贴、角色设定表、三视图、四视图、接触表、九宫格、Sprite Sheet、多个姿势出现在同一张图、多个角色、背景场景、UI、按钮、边框、文字、编号、水印、logo、白色假透明棋盘格、实心背景、裁切头顶、裁切鞋底、手脚畸形、换脸、服装变色、额外武器、水平镜像冒充另一方向、正面伪装背面、拉伸现有小头像、过曝光晕、低清模糊",
+      "approval_gate": "This is still a candidate frame. Check all 16 frames and the four views manually before packing/release.",
+      "output_sha256": "dba5553d36ed55705f641ef8b607a7ff457a28aa1fcdfbd917b22a2cd02be29e",
+      "receipt_file": "production/character_frames/NPC003/receipts/NPC003_down_walk2.json"
+    },
+    {
+      "id": "NPC003_down_walk3",
+      "character_id": "NPC003",
+      "character_name": "顾青岚",
+      "direction": "down",
+      "direction_cn": "正面",
+      "pose": "walk3",
+      "pose_cn": "迈步三",
+      "status": "generated_candidate_pending_human_review",
+      "single_image_only": true,
+      "reference_image": "D:\\nimingjianghu\\assets\\characters\\masters\\NPC003_fullbody.png",
+      "reference_size": [
+        1024,
+        1536
+      ],
+      "style_reference": "assets/home/characters_gallery_ref.webp",
+      "output_file": "qwen_4dir/NPC003/down_walk3.png",
+      "target_size": [
+        1024,
+        1536
+      ],
+      "minimum_source_size": [
+        256,
+        384
+      ],
+      "format": "RGBA PNG with real alpha transparency",
+      "prompt": "【只生成一张独立角色帧，不是Sprite表】角色「顾青岚」，唯一人物身份与服装依据是传入的已人工验收高清母版。不得重设计脸、发型、发饰、服装、腰带、纹样、鞋、武器；不改变主色、身高比例、头身比和配饰位置。视角：正面，front view facing the camera, both eyes visible, chest and belt read clearly。动作：迈步三，walking key pose C: right foot steps forward and left foot trails, natural counter-swing of arms。保持角色全身完整、发顶与鞋底不裁切，居中站在固定脚底锚点，姿势符合自然人体透视。该图必须独立重绘对应角度；禁止镜像正面、拉伸正面、用头发/衣服遮住脸来假冒背面。严格沿用参考母版的精致国风Q版2.5D手绘武侠风格，干净轮廓、精细衣料。真正透明RGBA背景；单张PNG、竖向约3:4、建议1024×1536或更高分辨率。禁止画第二个人物、场景、地面投影、UI、文字、标签、边框、格子、其他方向或其他动作。每次只输出这一张帧，不要把其余15帧放在同一画布。",
+      "negative_prompt": "拼贴、角色设定表、三视图、四视图、接触表、九宫格、Sprite Sheet、多个姿势出现在同一张图、多个角色、背景场景、UI、按钮、边框、文字、编号、水印、logo、白色假透明棋盘格、实心背景、裁切头顶、裁切鞋底、手脚畸形、换脸、服装变色、额外武器、水平镜像冒充另一方向、正面伪装背面、拉伸现有小头像、过曝光晕、低清模糊",
+      "approval_gate": "This is still a candidate frame. Check all 16 frames and the four views manually before packing/release.",
+      "output_sha256": "6f89ca1b37fc99b9297918c14c198d1dc42bc9d92455c96453a4d82cb1a2c76b",
+      "receipt_file": "production/character_frames/NPC003/receipts/NPC003_down_walk3.json"
+    },
+    {
+      "id": "NPC003_left_idle",
+      "character_id": "NPC003",
+      "character_name": "顾青岚",
+      "direction": "left",
+      "direction_cn": "左侧面",
+      "pose": "idle",
+      "pose_cn": "自然站立",
+      "status": "generated_candidate_pending_human_review",
+      "single_image_only": true,
+      "reference_image": "D:\\nimingjianghu\\assets\\characters\\masters\\NPC003_fullbody.png",
+      "reference_size": [
+        1024,
+        1536
+      ],
+      "style_reference": "assets/home/characters_gallery_ref.webp",
+      "output_file": "qwen_4dir/NPC003/left_idle.png",
+      "target_size": [
+        1024,
+        1536
+      ],
+      "minimum_source_size": [
+        256,
+        384
+      ],
+      "format": "RGBA PNG with real alpha transparency",
+      "prompt": "【只生成一张独立角色帧，不是Sprite表】角色「顾青岚」，唯一人物身份与服装依据是传入的已人工验收高清母版。不得重设计脸、发型、发饰、服装、腰带、纹样、鞋、武器；不改变主色、身高比例、头身比和配饰位置。视角：左侧面，true left profile, character faces toward screen-left; visible side of face, nose points left。动作：自然站立，neutral idle standing pose, both feet planted, arms relaxed naturally, sword stays in its normal sheath。保持角色全身完整、发顶与鞋底不裁切，居中站在固定脚底锚点，姿势符合自然人体透视。该图必须独立重绘对应角度；禁止镜像正面、拉伸正面、用头发/衣服遮住脸来假冒背面。严格沿用参考母版的精致国风Q版2.5D手绘武侠风格，干净轮廓、精细衣料。真正透明RGBA背景；单张PNG、竖向约3:4、建议1024×1536或更高分辨率。禁止画第二个人物、场景、地面投影、UI、文字、标签、边框、格子、其他方向或其他动作。每次只输出这一张帧，不要把其余15帧放在同一画布。",
+      "negative_prompt": "拼贴、角色设定表、三视图、四视图、接触表、九宫格、Sprite Sheet、多个姿势出现在同一张图、多个角色、背景场景、UI、按钮、边框、文字、编号、水印、logo、白色假透明棋盘格、实心背景、裁切头顶、裁切鞋底、手脚畸形、换脸、服装变色、额外武器、水平镜像冒充另一方向、正面伪装背面、拉伸现有小头像、过曝光晕、低清模糊",
+      "approval_gate": "This is still a candidate frame. Check all 16 frames and the four views manually before packing/release.",
+      "output_sha256": "6d50b76d575a55836e50cb062c8e5c2f175e3c0b455a8cbdd8827caf6ddfa6c1",
+      "receipt_file": "production/character_frames/NPC003/receipts/NPC003_left_idle.json"
+    },
+    {
+      "id": "NPC003_left_walk1",
+      "character_id": "NPC003",
+      "character_name": "顾青岚",
+      "direction": "left",
+      "direction_cn": "左侧面",
+      "pose": "walk1",
+      "pose_cn": "迈步一",
+      "status": "generated_candidate_pending_human_review",
+      "single_image_only": true,
+      "reference_image": "D:\\nimingjianghu\\assets\\characters\\masters\\NPC003_fullbody.png",
+      "reference_size": [
+        1024,
+        1536
+      ],
+      "style_reference": "assets/home/characters_gallery_ref.webp",
+      "output_file": "qwen_4dir/NPC003/left_walk1.png",
+      "target_size": [
+        1024,
+        1536
+      ],
+      "minimum_source_size": [
+        256,
+        384
+      ],
+      "format": "RGBA PNG with real alpha transparency",
+      "prompt": "【只生成一张独立角色帧，不是Sprite表】角色「顾青岚」，唯一人物身份与服装依据是传入的已人工验收高清母版。不得重设计脸、发型、发饰、服装、腰带、纹样、鞋、武器；不改变主色、身高比例、头身比和配饰位置。视角：左侧面，true left profile, character faces toward screen-left; visible side of face, nose points left。动作：迈步一，walking key pose A: left foot steps forward and right foot trails, natural counter-swing of arms。保持角色全身完整、发顶与鞋底不裁切，居中站在固定脚底锚点，姿势符合自然人体透视。该图必须独立重绘对应角度；禁止镜像正面、拉伸正面、用头发/衣服遮住脸来假冒背面。严格沿用参考母版的精致国风Q版2.5D手绘武侠风格，干净轮廓、精细衣料。真正透明RGBA背景；单张PNG、竖向约3:4、建议1024×1536或更高分辨率。禁止画第二个人物、场景、地面投影、UI、文字、标签、边框、格子、其他方向或其他动作。每次只输出这一张帧，不要把其余15帧放在同一画布。",
+      "negative_prompt": "拼贴、角色设定表、三视图、四视图、接触表、九宫格、Sprite Sheet、多个姿势出现在同一张图、多个角色、背景场景、UI、按钮、边框、文字、编号、水印、logo、白色假透明棋盘格、实心背景、裁切头顶、裁切鞋底、手脚畸形、换脸、服装变色、额外武器、水平镜像冒充另一方向、正面伪装背面、拉伸现有小头像、过曝光晕、低清模糊",
+      "approval_gate": "This is still a candidate frame. Check all 16 frames and the four views manually before packing/release.",
+      "output_sha256": "ae86dbae51ffdf8d5b961e67073875f42c865081642a70cb3a812c94fbe0ce96",
+      "receipt_file": "production/character_frames/NPC003/receipts/NPC003_left_walk1.json"
+    },
+    {
+      "id": "NPC003_left_walk2",
+      "character_id": "NPC003",
+      "character_name": "顾青岚",
+      "direction": "left",
+      "direction_cn": "左侧面",
+      "pose": "walk2",
+      "pose_cn": "迈步二",
+      "status": "generated_candidate_pending_human_review",
+      "single_image_only": true,
+      "reference_image": "D:\\nimingjianghu\\assets\\characters\\masters\\NPC003_fullbody.png",
+      "reference_size": [
+        1024,
+        1536
+      ],
+      "style_reference": "assets/home/characters_gallery_ref.webp",
+      "output_file": "qwen_4dir/NPC003/left_walk2.png",
+      "target_size": [
+        1024,
+        1536
+      ],
+      "minimum_source_size": [
+        256,
+        384
+      ],
+      "format": "RGBA PNG with real alpha transparency",
+      "prompt": "【只生成一张独立角色帧，不是Sprite表】角色「顾青岚」，唯一人物身份与服装依据是传入的已人工验收高清母版。不得重设计脸、发型、发饰、服装、腰带、纹样、鞋、武器；不改变主色、身高比例、头身比和配饰位置。视角：左侧面，true left profile, character faces toward screen-left; visible side of face, nose points left。动作：迈步二，walking passing pose B: weight transitions over the front foot, knees and elbows naturally bent, cloth follows motion。保持角色全身完整、发顶与鞋底不裁切，居中站在固定脚底锚点，姿势符合自然人体透视。该图必须独立重绘对应角度；禁止镜像正面、拉伸正面、用头发/衣服遮住脸来假冒背面。严格沿用参考母版的精致国风Q版2.5D手绘武侠风格，干净轮廓、精细衣料。真正透明RGBA背景；单张PNG、竖向约3:4、建议1024×1536或更高分辨率。禁止画第二个人物、场景、地面投影、UI、文字、标签、边框、格子、其他方向或其他动作。每次只输出这一张帧，不要把其余15帧放在同一画布。",
+      "negative_prompt": "拼贴、角色设定表、三视图、四视图、接触表、九宫格、Sprite Sheet、多个姿势出现在同一张图、多个角色、背景场景、UI、按钮、边框、文字、编号、水印、logo、白色假透明棋盘格、实心背景、裁切头顶、裁切鞋底、手脚畸形、换脸、服装变色、额外武器、水平镜像冒充另一方向、正面伪装背面、拉伸现有小头像、过曝光晕、低清模糊",
+      "approval_gate": "This is still a candidate frame. Check all 16 frames and the four views manually before packing/release.",
+      "output_sha256": "55ae9bbd8153c252bb67605e836361aa7a1884e8ae1224a26e325f9cf6121b7e",
+      "receipt_file": "production/character_frames/NPC003/receipts/NPC003_left_walk2.json"
+    },
+    {
+      "id": "NPC003_left_walk3",
+      "character_id": "NPC003",
+      "character_name": "顾青岚",
+      "direction": "left",
+      "direction_cn": "左侧面",
+      "pose": "walk3",
+      "pose_cn": "迈步三",
+      "status": "generated_candidate_pending_human_review",
+      "single_image_only": true,
+      "reference_image": "D:\\nimingjianghu\\assets\\characters\\masters\\NPC003_fullbody.png",
+      "reference_size": [
+        1024,
+        1536
+      ],
+      "style_reference": "assets/home/characters_gallery_ref.webp",
+      "output_file": "qwen_4dir/NPC003/left_walk3.png",
+      "target_size": [
+        1024,
+        1536
+      ],
+      "minimum_source_size": [
+        256,
+        384
+      ],
+      "format": "RGBA PNG with real alpha transparency",
+      "prompt": "【只生成一张独立角色帧，不是Sprite表】角色「顾青岚」，唯一人物身份与服装依据是传入的已人工验收高清母版。不得重设计脸、发型、发饰、服装、腰带、纹样、鞋、武器；不改变主色、身高比例、头身比和配饰位置。视角：左侧面，true left profile, character faces toward screen-left; visible side of face, nose points left。动作：迈步三，walking key pose C: right foot steps forward and left foot trails, natural counter-swing of arms。保持角色全身完整、发顶与鞋底不裁切，居中站在固定脚底锚点，姿势符合自然人体透视。该图必须独立重绘对应角度；禁止镜像正面、拉伸正面、用头发/衣服遮住脸来假冒背面。严格沿用参考母版的精致国风Q版2.5D手绘武侠风格，干净轮廓、精细衣料。真正透明RGBA背景；单张PNG、竖向约3:4、建议1024×1536或更高分辨率。禁止画第二个人物、场景、地面投影、UI、文字、标签、边框、格子、其他方向或其他动作。每次只输出这一张帧，不要把其余15帧放在同一画布。",
+      "negative_prompt": "拼贴、角色设定表、三视图、四视图、接触表、九宫格、Sprite Sheet、多个姿势出现在同一张图、多个角色、背景场景、UI、按钮、边框、文字、编号、水印、logo、白色假透明棋盘格、实心背景、裁切头顶、裁切鞋底、手脚畸形、换脸、服装变色、额外武器、水平镜像冒充另一方向、正面伪装背面、拉伸现有小头像、过曝光晕、低清模糊",
+      "approval_gate": "This is still a candidate frame. Check all 16 frames and the four views manually before packing/release.",
+      "output_sha256": "7b8b864020624a05e753806a080eb7a40c56a8008f4e851dcb60b2fd17ea90a7",
+      "receipt_file": "production/character_frames/NPC003/receipts/NPC003_left_walk3.json"
+    },
+    {
+      "id": "NPC003_right_idle",
+      "character_id": "NPC003",
+      "character_name": "顾青岚",
+      "direction": "right",
+      "direction_cn": "右侧面",
+      "pose": "idle",
+      "pose_cn": "自然站立",
+      "status": "generated_candidate_pending_human_review",
+      "single_image_only": true,
+      "reference_image": "D:\\nimingjianghu\\assets\\characters\\masters\\NPC003_fullbody.png",
+      "reference_size": [
+        1024,
+        1536
+      ],
+      "style_reference": "assets/home/characters_gallery_ref.webp",
+      "output_file": "qwen_4dir/NPC003/right_idle.png",
+      "target_size": [
+        1024,
+        1536
+      ],
+      "minimum_source_size": [
+        256,
+        384
+      ],
+      "format": "RGBA PNG with real alpha transparency",
+      "prompt": "【只生成一张独立角色帧，不是Sprite表】角色「顾青岚」，唯一人物身份与服装依据是传入的已人工验收高清母版。不得重设计脸、发型、发饰、服装、腰带、纹样、鞋、武器；不改变主色、身高比例、头身比和配饰位置。视角：右侧面，true right profile, character faces toward screen-right; visible side of face, nose points right。动作：自然站立，neutral idle standing pose, both feet planted, arms relaxed naturally, sword stays in its normal sheath。保持角色全身完整、发顶与鞋底不裁切，居中站在固定脚底锚点，姿势符合自然人体透视。该图必须独立重绘对应角度；禁止镜像正面、拉伸正面、用头发/衣服遮住脸来假冒背面。严格沿用参考母版的精致国风Q版2.5D手绘武侠风格，干净轮廓、精细衣料。真正透明RGBA背景；单张PNG、竖向约3:4、建议1024×1536或更高分辨率。禁止画第二个人物、场景、地面投影、UI、文字、标签、边框、格子、其他方向或其他动作。每次只输出这一张帧，不要把其余15帧放在同一画布。",
+      "negative_prompt": "拼贴、角色设定表、三视图、四视图、接触表、九宫格、Sprite Sheet、多个姿势出现在同一张图、多个角色、背景场景、UI、按钮、边框、文字、编号、水印、logo、白色假透明棋盘格、实心背景、裁切头顶、裁切鞋底、手脚畸形、换脸、服装变色、额外武器、水平镜像冒充另一方向、正面伪装背面、拉伸现有小头像、过曝光晕、低清模糊",
+      "approval_gate": "This is still a candidate frame. Check all 16 frames and the four views manually before packing/release.",
+      "output_sha256": "d70c42e3064632f34309c172f0d8ae479db5382f00aba8611eb24bd69968cafe",
+      "receipt_file": "production/character_frames/NPC003/receipts/NPC003_right_idle.json"
+    },
+    {
+      "id": "NPC003_right_walk1",
+      "character_id": "NPC003",
+      "character_name": "顾青岚",
+      "direction": "right",
+      "direction_cn": "右侧面",
+      "pose": "walk1",
+      "pose_cn": "迈步一",
+      "status": "generated_candidate_pending_human_review",
+      "single_image_only": true,
+      "reference_image": "D:\\nimingjianghu\\assets\\characters\\masters\\NPC003_fullbody.png",
+      "reference_size": [
+        1024,
+        1536
+      ],
+      "style_reference": "assets/home/characters_gallery_ref.webp",
+      "output_file": "qwen_4dir/NPC003/right_walk1.png",
+      "target_size": [
+        1024,
+        1536
+      ],
+      "minimum_source_size": [
+        256,
+        384
+      ],
+      "format": "RGBA PNG with real alpha transparency",
+      "prompt": "【只生成一张独立角色帧，不是Sprite表】角色「顾青岚」，唯一人物身份与服装依据是传入的已人工验收高清母版。不得重设计脸、发型、发饰、服装、腰带、纹样、鞋、武器；不改变主色、身高比例、头身比和配饰位置。视角：右侧面，true right profile, character faces toward screen-right; visible side of face, nose points right。动作：迈步一，walking key pose A: left foot steps forward and right foot trails, natural counter-swing of arms。保持角色全身完整、发顶与鞋底不裁切，居中站在固定脚底锚点，姿势符合自然人体透视。该图必须独立重绘对应角度；禁止镜像正面、拉伸正面、用头发/衣服遮住脸来假冒背面。严格沿用参考母版的精致国风Q版2.5D手绘武侠风格，干净轮廓、精细衣料。真正透明RGBA背景；单张PNG、竖向约3:4、建议1024×1536或更高分辨率。禁止画第二个人物、场景、地面投影、UI、文字、标签、边框、格子、其他方向或其他动作。每次只输出这一张帧，不要把其余15帧放在同一画布。",
+      "negative_prompt": "拼贴、角色设定表、三视图、四视图、接触表、九宫格、Sprite Sheet、多个姿势出现在同一张图、多个角色、背景场景、UI、按钮、边框、文字、编号、水印、logo、白色假透明棋盘格、实心背景、裁切头顶、裁切鞋底、手脚畸形、换脸、服装变色、额外武器、水平镜像冒充另一方向、正面伪装背面、拉伸现有小头像、过曝光晕、低清模糊",
+      "approval_gate": "This is still a candidate frame. Check all 16 frames and the four views manually before packing/release.",
+      "output_sha256": "29830edfb2d8894f20f08b9d2716896dbdc5c4e970d99a1a4102d2eb46d0a564",
+      "receipt_file": "production/character_frames/NPC003/receipts/NPC003_right_walk1.json"
+    },
+    {
+      "id": "NPC003_right_walk2",
+      "character_id": "NPC003",
+      "character_name": "顾青岚",
+      "direction": "right",
+      "direction_cn": "右侧面",
+      "pose": "walk2",
+      "pose_cn": "迈步二",
+      "status": "generated_candidate_pending_human_review",
+      "single_image_only": true,
+      "reference_image": "D:\\nimingjianghu\\assets\\characters\\masters\\NPC003_fullbody.png",
+      "reference_size": [
+        1024,
+        1536
+      ],
+      "style_reference": "assets/home/characters_gallery_ref.webp",
+      "output_file": "qwen_4dir/NPC003/right_walk2.png",
+      "target_size": [
+        1024,
+        1536
+      ],
+      "minimum_source_size": [
+        256,
+        384
+      ],
+      "format": "RGBA PNG with real alpha transparency",
+      "prompt": "【只生成一张独立角色帧，不是Sprite表】角色「顾青岚」，唯一人物身份与服装依据是传入的已人工验收高清母版。不得重设计脸、发型、发饰、服装、腰带、纹样、鞋、武器；不改变主色、身高比例、头身比和配饰位置。视角：右侧面，true right profile, character faces toward screen-right; visible side of face, nose points right。动作：迈步二，walking passing pose B: weight transitions over the front foot, knees and elbows naturally bent, cloth follows motion。保持角色全身完整、发顶与鞋底不裁切，居中站在固定脚底锚点，姿势符合自然人体透视。该图必须独立重绘对应角度；禁止镜像正面、拉伸正面、用头发/衣服遮住脸来假冒背面。严格沿用参考母版的精致国风Q版2.5D手绘武侠风格，干净轮廓、精细衣料。真正透明RGBA背景；单张PNG、竖向约3:4、建议1024×1536或更高分辨率。禁止画第二个人物、场景、地面投影、UI、文字、标签、边框、格子、其他方向或其他动作。每次只输出这一张帧，不要把其余15帧放在同一画布。",
+      "negative_prompt": "拼贴、角色设定表、三视图、四视图、接触表、九宫格、Sprite Sheet、多个姿势出现在同一张图、多个角色、背景场景、UI、按钮、边框、文字、编号、水印、logo、白色假透明棋盘格、实心背景、裁切头顶、裁切鞋底、手脚畸形、换脸、服装变色、额外武器、水平镜像冒充另一方向、正面伪装背面、拉伸现有小头像、过曝光晕、低清模糊",
+      "approval_gate": "This is still a candidate frame. Check all 16 frames and the four views manually before packing/release.",
+      "output_sha256": "63906fc51cd87f26eda8ebbcfd2284bde6257a4942d0cea1be5f80ba44af120d",
+      "receipt_file": "production/character_frames/NPC003/receipts/NPC003_right_walk2.json"
+    },
+    {
+      "id": "NPC003_right_walk3",
+      "character_id": "NPC003",
+      "character_name": "顾青岚",
+      "direction": "right",
+      "direction_cn": "右侧面",
+      "pose": "walk3",
+      "pose_cn": "迈步三",
+      "status": "generated_candidate_pending_human_review",
+      "single_image_only": true,
+      "reference_image": "D:\\nimingjianghu\\assets\\characters\\masters\\NPC003_fullbody.png",
+      "reference_size": [
+        1024,
+        1536
+      ],
+      "style_reference": "assets/home/characters_gallery_ref.webp",
+      "output_file": "qwen_4dir/NPC003/right_walk3.png",
+      "target_size": [
+        1024,
+        1536
+      ],
+      "minimum_source_size": [
+        256,
+        384
+      ],
+      "format": "RGBA PNG with real alpha transparency",
+      "prompt": "【只生成一张独立角色帧，不是Sprite表】角色「顾青岚」，唯一人物身份与服装依据是传入的已人工验收高清母版。不得重设计脸、发型、发饰、服装、腰带、纹样、鞋、武器；不改变主色、身高比例、头身比和配饰位置。视角：右侧面，true right profile, character faces toward screen-right; visible side of face, nose points right。动作：迈步三，walking key pose C: right foot steps forward and left foot trails, natural counter-swing of arms。保持角色全身完整、发顶与鞋底不裁切，居中站在固定脚底锚点，姿势符合自然人体透视。该图必须独立重绘对应角度；禁止镜像正面、拉伸正面、用头发/衣服遮住脸来假冒背面。严格沿用参考母版的精致国风Q版2.5D手绘武侠风格，干净轮廓、精细衣料。真正透明RGBA背景；单张PNG、竖向约3:4、建议1024×1536或更高分辨率。禁止画第二个人物、场景、地面投影、UI、文字、标签、边框、格子、其他方向或其他动作。每次只输出这一张帧，不要把其余15帧放在同一画布。",
+      "negative_prompt": "拼贴、角色设定表、三视图、四视图、接触表、九宫格、Sprite Sheet、多个姿势出现在同一张图、多个角色、背景场景、UI、按钮、边框、文字、编号、水印、logo、白色假透明棋盘格、实心背景、裁切头顶、裁切鞋底、手脚畸形、换脸、服装变色、额外武器、水平镜像冒充另一方向、正面伪装背面、拉伸现有小头像、过曝光晕、低清模糊",
+      "approval_gate": "This is still a candidate frame. Check all 16 frames and the four views manually before packing/release.",
+      "output_sha256": "02ac138e6649416bb5ca94b4bd5fc006434a58fa38b88d11f98b69daa40d0501",
+      "receipt_file": "production/character_frames/NPC003/receipts/NPC003_right_walk3.json"
+    },
+    {
+      "id": "NPC003_up_idle",
+      "character_id": "NPC003",
+      "character_name": "顾青岚",
+      "direction": "up",
+      "direction_cn": "背面",
+      "pose": "idle",
+      "pose_cn": "自然站立",
+      "status": "generated_candidate_pending_human_review",
+      "single_image_only": true,
+      "reference_image": "D:\\nimingjianghu\\assets\\characters\\masters\\NPC003_fullbody.png",
+      "reference_size": [
+        1024,
+        1536
+      ],
+      "style_reference": "assets/home/characters_gallery_ref.webp",
+      "output_file": "qwen_4dir/NPC003/up_idle.png",
+      "target_size": [
+        1024,
+        1536
+      ],
+      "minimum_source_size": [
+        256,
+        384
+      ],
+      "format": "RGBA PNG with real alpha transparency",
+      "prompt": "【只生成一张独立角色帧，不是Sprite表】角色「顾青岚」，唯一人物身份与服装依据是传入的已人工验收高清母版。不得重设计脸、发型、发饰、服装、腰带、纹样、鞋、武器；不改变主色、身高比例、头身比和配饰位置。视角：背面，true rear view from behind, back of head and back of outfit visible, face not visible。动作：自然站立，neutral idle standing pose, both feet planted, arms relaxed naturally, sword stays in its normal sheath。保持角色全身完整、发顶与鞋底不裁切，居中站在固定脚底锚点，姿势符合自然人体透视。该图必须独立重绘对应角度；禁止镜像正面、拉伸正面、用头发/衣服遮住脸来假冒背面。严格沿用参考母版的精致国风Q版2.5D手绘武侠风格，干净轮廓、精细衣料。真正透明RGBA背景；单张PNG、竖向约3:4、建议1024×1536或更高分辨率。禁止画第二个人物、场景、地面投影、UI、文字、标签、边框、格子、其他方向或其他动作。每次只输出这一张帧，不要把其余15帧放在同一画布。",
+      "negative_prompt": "拼贴、角色设定表、三视图、四视图、接触表、九宫格、Sprite Sheet、多个姿势出现在同一张图、多个角色、背景场景、UI、按钮、边框、文字、编号、水印、logo、白色假透明棋盘格、实心背景、裁切头顶、裁切鞋底、手脚畸形、换脸、服装变色、额外武器、水平镜像冒充另一方向、正面伪装背面、拉伸现有小头像、过曝光晕、低清模糊",
+      "approval_gate": "This is still a candidate frame. Check all 16 frames and the four views manually before packing/release.",
+      "output_sha256": "cb5ad1ebf160c99127a45de477e80465509f436d8c224dd1c3e06d72480efc25",
+      "receipt_file": "production/character_frames/NPC003/receipts/NPC003_up_idle.json"
+    },
+    {
+      "id": "NPC003_up_walk1",
+      "character_id": "NPC003",
+      "character_name": "顾青岚",
+      "direction": "up",
+      "direction_cn": "背面",
+      "pose": "walk1",
+      "pose_cn": "迈步一",
+      "status": "generated_candidate_pending_human_review",
+      "single_image_only": true,
+      "reference_image": "D:\\nimingjianghu\\assets\\characters\\masters\\NPC003_fullbody.png",
+      "reference_size": [
+        1024,
+        1536
+      ],
+      "style_reference": "assets/home/characters_gallery_ref.webp",
+      "output_file": "qwen_4dir/NPC003/up_walk1.png",
+      "target_size": [
+        1024,
+        1536
+      ],
+      "minimum_source_size": [
+        256,
+        384
+      ],
+      "format": "RGBA PNG with real alpha transparency",
+      "prompt": "【只生成一张独立角色帧，不是Sprite表】角色「顾青岚」，唯一人物身份与服装依据是传入的已人工验收高清母版。不得重设计脸、发型、发饰、服装、腰带、纹样、鞋、武器；不改变主色、身高比例、头身比和配饰位置。视角：背面，true rear view from behind, back of head and back of outfit visible, face not visible。动作：迈步一，walking key pose A: left foot steps forward and right foot trails, natural counter-swing of arms。保持角色全身完整、发顶与鞋底不裁切，居中站在固定脚底锚点，姿势符合自然人体透视。该图必须独立重绘对应角度；禁止镜像正面、拉伸正面、用头发/衣服遮住脸来假冒背面。严格沿用参考母版的精致国风Q版2.5D手绘武侠风格，干净轮廓、精细衣料。真正透明RGBA背景；单张PNG、竖向约3:4、建议1024×1536或更高分辨率。禁止画第二个人物、场景、地面投影、UI、文字、标签、边框、格子、其他方向或其他动作。每次只输出这一张帧，不要把其余15帧放在同一画布。",
+      "negative_prompt": "拼贴、角色设定表、三视图、四视图、接触表、九宫格、Sprite Sheet、多个姿势出现在同一张图、多个角色、背景场景、UI、按钮、边框、文字、编号、水印、logo、白色假透明棋盘格、实心背景、裁切头顶、裁切鞋底、手脚畸形、换脸、服装变色、额外武器、水平镜像冒充另一方向、正面伪装背面、拉伸现有小头像、过曝光晕、低清模糊",
+      "approval_gate": "This is still a candidate frame. Check all 16 frames and the four views manually before packing/release.",
+      "output_sha256": "14258e97f2a1e0d12a4868d1b11089c37548b39002f827033dcfafd7a09d2d05",
+      "receipt_file": "production/character_frames/NPC003/receipts/NPC003_up_walk1.json"
+    },
+    {
+      "id": "NPC003_up_walk2",
+      "character_id": "NPC003",
+      "character_name": "顾青岚",
+      "direction": "up",
+      "direction_cn": "背面",
+      "pose": "walk2",
+      "pose_cn": "迈步二",
+      "status": "generated_candidate_pending_human_review",
+      "single_image_only": true,
+      "reference_image": "D:\\nimingjianghu\\assets\\characters\\masters\\NPC003_fullbody.png",
+      "reference_size": [
+        1024,
+        1536
+      ],
+      "style_reference": "assets/home/characters_gallery_ref.webp",
+      "output_file": "qwen_4dir/NPC003/up_walk2.png",
+      "target_size": [
+        1024,
+        1536
+      ],
+      "minimum_source_size": [
+        256,
+        384
+      ],
+      "format": "RGBA PNG with real alpha transparency",
+      "prompt": "【只生成一张独立角色帧，不是Sprite表】角色「顾青岚」，唯一人物身份与服装依据是传入的已人工验收高清母版。不得重设计脸、发型、发饰、服装、腰带、纹样、鞋、武器；不改变主色、身高比例、头身比和配饰位置。视角：背面，true rear view from behind, back of head and back of outfit visible, face not visible。动作：迈步二，walking passing pose B: weight transitions over the front foot, knees and elbows naturally bent, cloth follows motion。保持角色全身完整、发顶与鞋底不裁切，居中站在固定脚底锚点，姿势符合自然人体透视。该图必须独立重绘对应角度；禁止镜像正面、拉伸正面、用头发/衣服遮住脸来假冒背面。严格沿用参考母版的精致国风Q版2.5D手绘武侠风格，干净轮廓、精细衣料。真正透明RGBA背景；单张PNG、竖向约3:4、建议1024×1536或更高分辨率。禁止画第二个人物、场景、地面投影、UI、文字、标签、边框、格子、其他方向或其他动作。每次只输出这一张帧，不要把其余15帧放在同一画布。",
+      "negative_prompt": "拼贴、角色设定表、三视图、四视图、接触表、九宫格、Sprite Sheet、多个姿势出现在同一张图、多个角色、背景场景、UI、按钮、边框、文字、编号、水印、logo、白色假透明棋盘格、实心背景、裁切头顶、裁切鞋底、手脚畸形、换脸、服装变色、额外武器、水平镜像冒充另一方向、正面伪装背面、拉伸现有小头像、过曝光晕、低清模糊",
+      "approval_gate": "This is still a candidate frame. Check all 16 frames and the four views manually before packing/release.",
+      "output_sha256": "b6e9b12c2eef6046da05e7edf06be6d7df0d6c24c0cdf7285cbb42e70b5896a6",
+      "receipt_file": "production/character_frames/NPC003/receipts/NPC003_up_walk2.json"
+    },
+    {
+      "id": "NPC003_up_walk3",
+      "character_id": "NPC003",
+      "character_name": "顾青岚",
+      "direction": "up",
+      "direction_cn": "背面",
+      "pose": "walk3",
+      "pose_cn": "迈步三",
+      "status": "generated_candidate_pending_human_review",
+      "single_image_only": true,
+      "reference_image": "D:\\nimingjianghu\\assets\\characters\\masters\\NPC003_fullbody.png",
+      "reference_size": [
+        1024,
+        1536
+      ],
+      "style_reference": "assets/home/characters_gallery_ref.webp",
+      "output_file": "qwen_4dir/NPC003/up_walk3.png",
+      "target_size": [
+        1024,
+        1536
+      ],
+      "minimum_source_size": [
+        256,
+        384
+      ],
+      "format": "RGBA PNG with real alpha transparency",
+      "prompt": "【只生成一张独立角色帧，不是Sprite表】角色「顾青岚」，唯一人物身份与服装依据是传入的已人工验收高清母版。不得重设计脸、发型、发饰、服装、腰带、纹样、鞋、武器；不改变主色、身高比例、头身比和配饰位置。视角：背面，true rear view from behind, back of head and back of outfit visible, face not visible。动作：迈步三，walking key pose C: right foot steps forward and left foot trails, natural counter-swing of arms。保持角色全身完整、发顶与鞋底不裁切，居中站在固定脚底锚点，姿势符合自然人体透视。该图必须独立重绘对应角度；禁止镜像正面、拉伸正面、用头发/衣服遮住脸来假冒背面。严格沿用参考母版的精致国风Q版2.5D手绘武侠风格，干净轮廓、精细衣料。真正透明RGBA背景；单张PNG、竖向约3:4、建议1024×1536或更高分辨率。禁止画第二个人物、场景、地面投影、UI、文字、标签、边框、格子、其他方向或其他动作。每次只输出这一张帧，不要把其余15帧放在同一画布。",
+      "negative_prompt": "拼贴、角色设定表、三视图、四视图、接触表、九宫格、Sprite Sheet、多个姿势出现在同一张图、多个角色、背景场景、UI、按钮、边框、文字、编号、水印、logo、白色假透明棋盘格、实心背景、裁切头顶、裁切鞋底、手脚畸形、换脸、服装变色、额外武器、水平镜像冒充另一方向、正面伪装背面、拉伸现有小头像、过曝光晕、低清模糊",
+      "approval_gate": "This is still a candidate frame. Check all 16 frames and the four views manually before packing/release.",
+      "output_sha256": "cb9a59390ca05445782ef579437604957d7eaaa942c951a0f0a0bdc9481df741",
+      "receipt_file": "production/character_frames/NPC003/receipts/NPC003_up_walk3.json"
+    }
+  ],
+  "never_auto_approve": true
+}

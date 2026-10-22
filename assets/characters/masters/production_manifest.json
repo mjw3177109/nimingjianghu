@@ -30,9 +30,11 @@
       "portrait": "assets/characters/masters/CHAR001_portrait.png",
       "prompt": "为《逆命江湖》绘制人物「沈砚」的正式高清独立人物母版。唯一视觉锚点为官方六人绘卷和实际游戏截图，精致国风Q版2.5D手绘武侠，圆润大眼、精细线条、软金属饰件与中国古风衣料，头身比约 1:3.5；年轻男性，黑色蓬松发髻，白灰内衫搭配墨蓝短外袍，深色武侠腰带，腰间长剑，略带少年侠气，清澈坚定的眼神。人物单独居中，全身含鞋、脚底清晰、站立中性姿势，光线自然、线条干净，透明RGBA背景，保留大量透明边缘用于Sprite切片。不得改变官设性别年龄、服装颜色、发型、头饰、武器。无文字无UI无LOGO无水印无影子背景、无第二个人物。输出1536×2048母版，另生成1024×1024胸像。",
       "negative": "3D, 写实人类, 低清, 模糊, 截断头脚, 多人物, 场景背景, 水印, 错字, 气泡, logo, 角色串脸, 胡乱更改发型, 过度光晕, 锐化过度",
-      "status": "awaiting_generation_and_manual_review",
-      "master_approved": false,
-      "portrait_approved": false
+      "status": "master_approved_frames_pending",
+      "master_approved": true,
+      "portrait_approved": false,
+      "master_sha256": "7f4e0e10dbf960df888d0b9fd985d8b82c5feee24a4b9437336d7bf4804f5069",
+      "master_review_evidence": "assets/characters/masters/reviews/2026-10-23_user_fullbody.json"
     },
     {
       "id": "BOSS001",
@@ -41,9 +43,11 @@
       "portrait": "assets/characters/masters/BOSS001_portrait.png",
       "prompt": "为《逆命江湖》绘制人物「廖」的正式高清独立人物母版。唯一视觉锚点为官方六人绘卷和实际游戏截图，精致国风Q版2.5D手绘武侠，圆润大眼、精细线条、软金属饰件与中国古风衣料，头身比约 1:3.5；清冷深色长发成年男性，黑金长袍，玉石配饰与黑色折扇，克制的观命者气质，非狂暴反派。人物单独居中，全身含鞋、脚底清晰、站立中性姿势，光线自然、线条干净，透明RGBA背景，保留大量透明边缘用于Sprite切片。不得改变官设性别年龄、服装颜色、发型、头饰、武器。无文字无UI无LOGO无水印无影子背景、无第二个人物。输出1536×2048母版，另生成1024×1024胸像。",
       "negative": "3D, 写实人类, 低清, 模糊, 截断头脚, 多人物, 场景背景, 水印, 错字, 气泡, logo, 角色串脸, 胡乱更改发型, 过度光晕, 锐化过度",
-      "status": "awaiting_generation_and_manual_review",
-      "master_approved": false,
-      "portrait_approved": false
+      "status": "master_approved_frames_pending",
+      "master_approved": true,
+      "portrait_approved": false,
+      "master_sha256": "e91b003590e58011e6467cb65cb87ce4401f46e03c835a1f60de96addfeac90d",
+      "master_review_evidence": "assets/characters/masters/reviews/2026-10-23_user_fullbody.json"
     },
     {
       "id": "NPC001",
@@ -52,9 +56,11 @@
       "portrait": "assets/characters/masters/NPC001_portrait.png",
       "prompt": "为《逆命江湖》绘制人物「韩掌柜」的正式高清独立人物母版。唯一视觉锚点为官方六人绘卷和实际游戏截图，精致国风Q版2.5D手绘武侠，圆润大眼、精细线条、软金属饰件与中国古风衣料，头身比约 1:3.5；微胖中年男人，发髻、小胡须和爽朗笑容，棕米色布衣，围裙与酒葫芦，亲切和蔼。人物单独居中，全身含鞋、脚底清晰、站立中性姿势，光线自然、线条干净，透明RGBA背景，保留大量透明边缘用于Sprite切片。不得改变官设性别年龄、服装颜色、发型、头饰、武器。无文字无UI无LOGO无水印无影子背景、无第二个人物。输出1536×2048母版，另生成1024×1024胸像。",
       "negative": "3D, 写实人类, 低清, 模糊, 截断头脚, 多人物, 场景背景, 水印, 错字, 气泡, logo, 角色串脸, 胡乱更改发型, 过度光晕, 锐化过度",
-      "status": "awaiting_generation_and_manual_review",
-      "master_approved": false,
-      "portrait_approved": false
+      "status": "master_approved_frames_pending",
+      "master_approved": true,
+      "portrait_approved": false,
+      "master_sha256": "146a81c9e0308e530ecd2533be1b4df58d054c2e17f28bbe4506782a6cdb211e",
+      "master_review_evidence": "assets/characters/masters/reviews/2026-10-23_user_fullbody.json"
     },
     {
       "id": "NPC002",
@@ -63,9 +69,11 @@
       "portrait": "assets/characters/masters/NPC002_portrait.png",
       "prompt": "为《逆命江湖》绘制人物「顾老」的正式高清独立人物母版。唯一视觉锚点为官方六人绘卷和实际游戏截图，精致国风Q版2.5D手绘武侠，圆润大眼、精细线条、软金属饰件与中国古风衣料，头身比约 1:3.5；白发白须、面容慈祥但目光锐利的江湖隐士，青灰色斗篷，松木拐杖，苔绿内衫。人物单独居中，全身含鞋、脚底清晰、站立中性姿势，光线自然、线条干净，透明RGBA背景，保留大量透明边缘用于Sprite切片。不得改变官设性别年龄、服装颜色、发型、头饰、武器。无文字无UI无LOGO无水印无影子背景、无第二个人物。输出1536×2048母版，另生成1024×1024胸像。",
       "negative": "3D, 写实人类, 低清, 模糊, 截断头脚, 多人物, 场景背景, 水印, 错字, 气泡, logo, 角色串脸, 胡乱更改发型, 过度光晕, 锐化过度",
-      "status": "awaiting_generation_and_manual_review",
-      "master_approved": false,
-      "portrait_approved": false
+      "status": "master_approved_frames_pending",
+      "master_approved": true,
+      "portrait_approved": false,
+      "master_sha256": "9c356c72551e9feff7c67f581072c482e93234f154436b3a7fa2fc4ca95de803",
+      "master_review_evidence": "assets/characters/masters/reviews/2026-10-23_user_fullbody.json"
     },
     {
       "id": "NPC003",
@@ -74,9 +82,11 @@
       "portrait": "assets/characters/masters/NPC003_portrait.png",
       "prompt": "为《逆命江湖》绘制人物「顾青岚」的正式高清独立人物母版。唯一视觉锚点为官方六人绘卷和实际游戏截图，精致国风Q版2.5D手绘武侠，圆润大眼、精细线条、软金属饰件与中国古风衣料，头身比约 1:3.5；年轻女子剑客，深黑长发发冠与玉簪，青白层叠飘逸剑侠服，青玉剑配饰，清冷正义。人物单独居中，全身含鞋、脚底清晰、站立中性姿势，光线自然、线条干净，透明RGBA背景，保留大量透明边缘用于Sprite切片。不得改变官设性别年龄、服装颜色、发型、头饰、武器。无文字无UI无LOGO无水印无影子背景、无第二个人物。输出1536×2048母版，另生成1024×1024胸像。",
       "negative": "3D, 写实人类, 低清, 模糊, 截断头脚, 多人物, 场景背景, 水印, 错字, 气泡, logo, 角色串脸, 胡乱更改发型, 过度光晕, 锐化过度",
-      "status": "awaiting_generation_and_manual_review",
-      "master_approved": false,
-      "portrait_approved": false
+      "status": "master_approved_frames_pending",
+      "master_approved": true,
+      "portrait_approved": false,
+      "master_sha256": "5b64db7e2ce34293a2b07c16eec7768a1f54b52b3c0e3cbb363814173ee0d95c",
+      "master_review_evidence": "assets/characters/masters/reviews/2026-10-23_user_fullbody.json"
     },
     {
       "id": "NPC005",
@@ -85,9 +95,11 @@
       "portrait": "assets/characters/masters/NPC005_portrait.png",
       "prompt": "为《逆命江湖》绘制人物「苏晚晴」的正式高清独立人物母版。唯一视觉锚点为官方六人绘卷和实际游戏截图，精致国风Q版2.5D手绘武侠，圆润大眼、精细线条、软金属饰件与中国古风衣料，头身比约 1:3.5；温柔年轻女医者，双发簪与浅绿色碎花头饰，浅青绿长裙，细绣草药纹，藤编药篮。人物单独居中，全身含鞋、脚底清晰、站立中性姿势，光线自然、线条干净，透明RGBA背景，保留大量透明边缘用于Sprite切片。不得改变官设性别年龄、服装颜色、发型、头饰、武器。无文字无UI无LOGO无水印无影子背景、无第二个人物。输出1536×2048母版，另生成1024×1024胸像。",
       "negative": "3D, 写实人类, 低清, 模糊, 截断头脚, 多人物, 场景背景, 水印, 错字, 气泡, logo, 角色串脸, 胡乱更改发型, 过度光晕, 锐化过度",
-      "status": "awaiting_generation_and_manual_review",
-      "master_approved": false,
-      "portrait_approved": false
+      "status": "master_approved_frames_pending",
+      "master_approved": true,
+      "portrait_approved": false,
+      "master_sha256": "1f608b44296589dfda4f878e67206445ea85852ddca83dc347495cab38288c83",
+      "master_review_evidence": "assets/characters/masters/reviews/2026-10-23_user_fullbody.json"
     },
     {
       "id": "EN001",
@@ -96,9 +108,11 @@
       "portrait": "assets/characters/masters/EN001_portrait.png",
       "prompt": "为《逆命江湖》绘制人物「山贼」的正式高清独立人物母版。唯一视觉锚点为官方六人绘卷和实际游戏截图，精致国风Q版2.5D手绘武侠，圆润大眼、精细线条、软金属饰件与中国古风衣料，头身比约 1:3.5；男性山贼小兵，灰黑粗布衣，暗红额带，简易单刀，身型略壮但明显小于主角立绘规格。人物单独居中，全身含鞋、脚底清晰、站立中性姿势，光线自然、线条干净，透明RGBA背景，保留大量透明边缘用于Sprite切片。不得改变官设性别年龄、服装颜色、发型、头饰、武器。无文字无UI无LOGO无水印无影子背景、无第二个人物。输出1536×2048母版，另生成1024×1024胸像。",
       "negative": "3D, 写实人类, 低清, 模糊, 截断头脚, 多人物, 场景背景, 水印, 错字, 气泡, logo, 角色串脸, 胡乱更改发型, 过度光晕, 锐化过度",
-      "status": "awaiting_generation_and_manual_review",
-      "master_approved": false,
-      "portrait_approved": false
+      "status": "master_approved_frames_pending",
+      "master_approved": true,
+      "portrait_approved": false,
+      "master_sha256": "82f0e0ea159f274a245ba58accdea25fc79c22640a59e4f255a151d3defa890e",
+      "master_review_evidence": "assets/characters/masters/reviews/2026-10-23_user_fullbody.json"
     }
   ]
 }

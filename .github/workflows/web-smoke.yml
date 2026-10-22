@@ -59,7 +59,7 @@ jobs:
 
       - name: Capture representative map screenshots for manual visual QA
         run: node tests/chrome_visual_capture.cjs
-      - name: Check seven unapproved master candidates in review UI
+      - name: Check approved masters and 112 independent candidate frame sources
         run: node tests/chrome_master_review.cjs
       - name: Upload unapproved visual QA evidence
         if: always()

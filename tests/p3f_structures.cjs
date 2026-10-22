@@ -33,5 +33,18 @@ const code=fs.readFileSync(path.join(ROOT,'structure-data.js'),'utf8').replace(/
 assert.deepEqual(JSON.parse(code),m,'Browser registry drift');
 const char=JSON.parse(fs.readFileSync(path.join(ROOT,'assets/characters/masters/production_manifest.json'),'utf8'));
 assert.equal(char.tasks.length,7);
-assert(char.tasks.every(x=>x.status==='awaiting_generation_and_manual_review'&&!x.master_approved&&!x.portrait_approved),'Cannot auto approve unreviewed portrait art');
+const crypto=require('node:crypto');
+for(const task of char.tasks){
+ assert.equal(task.portrait_approved,false,'Fullbody approval must not approve portraits');
+ if(!task.master_approved)continue;
+ const evidence=JSON.parse(fs.readFileSync(path.join(ROOT,task.master_review_evidence),'utf8'));
+ assert.equal(evidence.scope,'fullbody_masters_only');
+ assert.equal(evidence.reviewer,'user_in_current_conversation');
+ assert.equal(evidence.user_statement,'独立全身母版通过了开始下一步把');
+ const record=evidence.records.find(x=>x.character_id===task.id);
+ assert(record?.approved===true&&record.master===task.master,'Missing actual master approval');
+ const hash=crypto.createHash('sha256').update(fs.readFileSync(path.join(ROOT,task.master))).digest('hex');
+ assert.equal(hash,record.sha256,'Approved master changed after review');
+ assert.equal(hash,task.master_sha256);
+}
 console.log('PASS P3F: 9 reusable hi-res architectural objects, correct occlusion, 7 explicit character master QA gates');

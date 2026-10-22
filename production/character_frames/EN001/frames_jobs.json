@@ -1,0 +1,540 @@
+{
+  "schema_version": 1,
+  "phase": "P3-H_SPRITE_FRAMES",
+  "character_id": "EN001",
+  "character_name": "山贼",
+  "reference_master": "D:\\nimingjianghu\\assets\\characters\\masters\\EN001_fullbody.png",
+  "reference_size": [
+    1024,
+    1536
+  ],
+  "status": "16_generated_candidates_pending_human_review",
+  "single_image_tasks": 16,
+  "directions": [
+    "down",
+    "left",
+    "right",
+    "up"
+  ],
+  "poses": [
+    "idle",
+    "walk1",
+    "walk2",
+    "walk3"
+  ],
+  "tasks": [
+    {
+      "id": "EN001_down_idle",
+      "character_id": "EN001",
+      "character_name": "山贼",
+      "direction": "down",
+      "direction_cn": "正面",
+      "pose": "idle",
+      "pose_cn": "自然站立",
+      "status": "generated_candidate_pending_human_review",
+      "single_image_only": true,
+      "reference_image": "D:\\nimingjianghu\\assets\\characters\\masters\\EN001_fullbody.png",
+      "reference_size": [
+        1024,
+        1536
+      ],
+      "style_reference": "assets/home/characters_gallery_ref.webp",
+      "output_file": "qwen_4dir/EN001/down_idle.png",
+      "target_size": [
+        1024,
+        1536
+      ],
+      "minimum_source_size": [
+        256,
+        384
+      ],
+      "format": "RGBA PNG with real alpha transparency",
+      "prompt": "【只生成一张独立角色帧，不是Sprite表】角色「山贼」，唯一人物身份与服装依据是传入的已人工验收高清母版。不得重设计脸、发型、发饰、服装、腰带、纹样、鞋、武器；不改变主色、身高比例、头身比和配饰位置。视角：正面，front view facing the camera, both eyes visible, chest and belt read clearly。动作：自然站立，neutral idle standing pose, both feet planted, arms relaxed naturally, sword stays in its normal sheath。保持角色全身完整、发顶与鞋底不裁切，居中站在固定脚底锚点，姿势符合自然人体透视。该图必须独立重绘对应角度；禁止镜像正面、拉伸正面、用头发/衣服遮住脸来假冒背面。严格沿用参考母版的精致国风Q版2.5D手绘武侠风格，干净轮廓、精细衣料。真正透明RGBA背景；单张PNG、竖向约3:4、建议1024×1536或更高分辨率。禁止画第二个人物、场景、地面投影、UI、文字、标签、边框、格子、其他方向或其他动作。每次只输出这一张帧，不要把其余15帧放在同一画布。",
+      "negative_prompt": "拼贴、角色设定表、三视图、四视图、接触表、九宫格、Sprite Sheet、多个姿势出现在同一张图、多个角色、背景场景、UI、按钮、边框、文字、编号、水印、logo、白色假透明棋盘格、实心背景、裁切头顶、裁切鞋底、手脚畸形、换脸、服装变色、额外武器、水平镜像冒充另一方向、正面伪装背面、拉伸现有小头像、过曝光晕、低清模糊",
+      "approval_gate": "This is still a candidate frame. Check all 16 frames and the four views manually before packing/release.",
+      "output_sha256": "694de6b86e14c19b02a60ab6e3a9a9b6cd254508ccad5d4707c486a9260b245b",
+      "receipt_file": "production/character_frames/EN001/receipts/EN001_down_idle.json"
+    },
+    {
+      "id": "EN001_down_walk1",
+      "character_id": "EN001",
+      "character_name": "山贼",
+      "direction": "down",
+      "direction_cn": "正面",
+      "pose": "walk1",
+      "pose_cn": "迈步一",
+      "status": "generated_candidate_pending_human_review",
+      "single_image_only": true,
+      "reference_image": "D:\\nimingjianghu\\assets\\characters\\masters\\EN001_fullbody.png",
+      "reference_size": [
+        1024,
+        1536
+      ],
+      "style_reference": "assets/home/characters_gallery_ref.webp",
+      "output_file": "qwen_4dir/EN001/down_walk1.png",
+      "target_size": [
+        1024,
+        1536
+      ],
+      "minimum_source_size": [
+        256,
+        384
+      ],
+      "format": "RGBA PNG with real alpha transparency",
+      "prompt": "【只生成一张独立角色帧，不是Sprite表】角色「山贼」，唯一人物身份与服装依据是传入的已人工验收高清母版。不得重设计脸、发型、发饰、服装、腰带、纹样、鞋、武器；不改变主色、身高比例、头身比和配饰位置。视角：正面，front view facing the camera, both eyes visible, chest and belt read clearly。动作：迈步一，walking key pose A: left foot steps forward and right foot trails, natural counter-swing of arms。保持角色全身完整、发顶与鞋底不裁切，居中站在固定脚底锚点，姿势符合自然人体透视。该图必须独立重绘对应角度；禁止镜像正面、拉伸正面、用头发/衣服遮住脸来假冒背面。严格沿用参考母版的精致国风Q版2.5D手绘武侠风格，干净轮廓、精细衣料。真正透明RGBA背景；单张PNG、竖向约3:4、建议1024×1536或更高分辨率。禁止画第二个人物、场景、地面投影、UI、文字、标签、边框、格子、其他方向或其他动作。每次只输出这一张帧，不要把其余15帧放在同一画布。",
+      "negative_prompt": "拼贴、角色设定表、三视图、四视图、接触表、九宫格、Sprite Sheet、多个姿势出现在同一张图、多个角色、背景场景、UI、按钮、边框、文字、编号、水印、logo、白色假透明棋盘格、实心背景、裁切头顶、裁切鞋底、手脚畸形、换脸、服装变色、额外武器、水平镜像冒充另一方向、正面伪装背面、拉伸现有小头像、过曝光晕、低清模糊",
+      "approval_gate": "This is still a candidate frame. Check all 16 frames and the four views manually before packing/release.",
+      "output_sha256": "47d33f6e86e3243e6dda1291d34bdb7b70f48c883c12b00b788f8c91e53ec548",
+      "receipt_file": "production/character_frames/EN001/receipts/EN001_down_walk1.json"
+    },
+    {
+      "id": "EN001_down_walk2",
+      "character_id": "EN001",
+      "character_name": "山贼",
+      "direction": "down",
+      "direction_cn": "正面",
+      "pose": "walk2",
+      "pose_cn": "迈步二",
+      "status": "generated_candidate_pending_human_review",
+      "single_image_only": true,
+      "reference_image": "D:\\nimingjianghu\\assets\\characters\\masters\\EN001_fullbody.png",
+      "reference_size": [
+        1024,
+        1536
+      ],
+      "style_reference": "assets/home/characters_gallery_ref.webp",
+      "output_file": "qwen_4dir/EN001/down_walk2.png",
+      "target_size": [
+        1024,
+        1536
+      ],
+      "minimum_source_size": [
+        256,
+        384
+      ],
+      "format": "RGBA PNG with real alpha transparency",
+      "prompt": "【只生成一张独立角色帧，不是Sprite表】角色「山贼」，唯一人物身份与服装依据是传入的已人工验收高清母版。不得重设计脸、发型、发饰、服装、腰带、纹样、鞋、武器；不改变主色、身高比例、头身比和配饰位置。视角：正面，front view facing the camera, both eyes visible, chest and belt read clearly。动作：迈步二，walking passing pose B: weight transitions over the front foot, knees and elbows naturally bent, cloth follows motion。保持角色全身完整、发顶与鞋底不裁切，居中站在固定脚底锚点，姿势符合自然人体透视。该图必须独立重绘对应角度；禁止镜像正面、拉伸正面、用头发/衣服遮住脸来假冒背面。严格沿用参考母版的精致国风Q版2.5D手绘武侠风格，干净轮廓、精细衣料。真正透明RGBA背景；单张PNG、竖向约3:4、建议1024×1536或更高分辨率。禁止画第二个人物、场景、地面投影、UI、文字、标签、边框、格子、其他方向或其他动作。每次只输出这一张帧，不要把其余15帧放在同一画布。",
+      "negative_prompt": "拼贴、角色设定表、三视图、四视图、接触表、九宫格、Sprite Sheet、多个姿势出现在同一张图、多个角色、背景场景、UI、按钮、边框、文字、编号、水印、logo、白色假透明棋盘格、实心背景、裁切头顶、裁切鞋底、手脚畸形、换脸、服装变色、额外武器、水平镜像冒充另一方向、正面伪装背面、拉伸现有小头像、过曝光晕、低清模糊",
+      "approval_gate": "This is still a candidate frame. Check all 16 frames and the four views manually before packing/release.",
+      "output_sha256": "87bace71f778c065552ca1e766ba2f85905a4931926743414e2a30ccd9679d9e",
+      "receipt_file": "production/character_frames/EN001/receipts/EN001_down_walk2.json"
+    },
+    {
+      "id": "EN001_down_walk3",
+      "character_id": "EN001",
+      "character_name": "山贼",
+      "direction": "down",
+      "direction_cn": "正面",
+      "pose": "walk3",
+      "pose_cn": "迈步三",
+      "status": "generated_candidate_pending_human_review",
+      "single_image_only": true,
+      "reference_image": "D:\\nimingjianghu\\assets\\characters\\masters\\EN001_fullbody.png",
+      "reference_size": [
+        1024,
+        1536
+      ],
+      "style_reference": "assets/home/characters_gallery_ref.webp",
+      "output_file": "qwen_4dir/EN001/down_walk3.png",
+      "target_size": [
+        1024,
+        1536
+      ],
+      "minimum_source_size": [
+        256,
+        384
+      ],
+      "format": "RGBA PNG with real alpha transparency",
+      "prompt": "【只生成一张独立角色帧，不是Sprite表】角色「山贼」，唯一人物身份与服装依据是传入的已人工验收高清母版。不得重设计脸、发型、发饰、服装、腰带、纹样、鞋、武器；不改变主色、身高比例、头身比和配饰位置。视角：正面，front view facing the camera, both eyes visible, chest and belt read clearly。动作：迈步三，walking key pose C: right foot steps forward and left foot trails, natural counter-swing of arms。保持角色全身完整、发顶与鞋底不裁切，居中站在固定脚底锚点，姿势符合自然人体透视。该图必须独立重绘对应角度；禁止镜像正面、拉伸正面、用头发/衣服遮住脸来假冒背面。严格沿用参考母版的精致国风Q版2.5D手绘武侠风格，干净轮廓、精细衣料。真正透明RGBA背景；单张PNG、竖向约3:4、建议1024×1536或更高分辨率。禁止画第二个人物、场景、地面投影、UI、文字、标签、边框、格子、其他方向或其他动作。每次只输出这一张帧，不要把其余15帧放在同一画布。",
+      "negative_prompt": "拼贴、角色设定表、三视图、四视图、接触表、九宫格、Sprite Sheet、多个姿势出现在同一张图、多个角色、背景场景、UI、按钮、边框、文字、编号、水印、logo、白色假透明棋盘格、实心背景、裁切头顶、裁切鞋底、手脚畸形、换脸、服装变色、额外武器、水平镜像冒充另一方向、正面伪装背面、拉伸现有小头像、过曝光晕、低清模糊",
+      "approval_gate": "This is still a candidate frame. Check all 16 frames and the four views manually before packing/release.",
+      "output_sha256": "2f608d73832e51390606f1f27379fd3fb6fb3357d3ad64433949618de118b730",
+      "receipt_file": "production/character_frames/EN001/receipts/EN001_down_walk3.json"
+    },
+    {
+      "id": "EN001_left_idle",
+      "character_id": "EN001",
+      "character_name": "山贼",
+      "direction": "left",
+      "direction_cn": "左侧面",
+      "pose": "idle",
+      "pose_cn": "自然站立",
+      "status": "generated_candidate_pending_human_review",
+      "single_image_only": true,
+      "reference_image": "D:\\nimingjianghu\\assets\\characters\\masters\\EN001_fullbody.png",
+      "reference_size": [
+        1024,
+        1536
+      ],
+      "style_reference": "assets/home/characters_gallery_ref.webp",
+      "output_file": "qwen_4dir/EN001/left_idle.png",
+      "target_size": [
+        1024,
+        1536
+      ],
+      "minimum_source_size": [
+        256,
+        384
+      ],
+      "format": "RGBA PNG with real alpha transparency",
+      "prompt": "【只生成一张独立角色帧，不是Sprite表】角色「山贼」，唯一人物身份与服装依据是传入的已人工验收高清母版。不得重设计脸、发型、发饰、服装、腰带、纹样、鞋、武器；不改变主色、身高比例、头身比和配饰位置。视角：左侧面，true left profile, character faces toward screen-left; visible side of face, nose points left。动作：自然站立，neutral idle standing pose, both feet planted, arms relaxed naturally, sword stays in its normal sheath。保持角色全身完整、发顶与鞋底不裁切，居中站在固定脚底锚点，姿势符合自然人体透视。该图必须独立重绘对应角度；禁止镜像正面、拉伸正面、用头发/衣服遮住脸来假冒背面。严格沿用参考母版的精致国风Q版2.5D手绘武侠风格，干净轮廓、精细衣料。真正透明RGBA背景；单张PNG、竖向约3:4、建议1024×1536或更高分辨率。禁止画第二个人物、场景、地面投影、UI、文字、标签、边框、格子、其他方向或其他动作。每次只输出这一张帧，不要把其余15帧放在同一画布。",
+      "negative_prompt": "拼贴、角色设定表、三视图、四视图、接触表、九宫格、Sprite Sheet、多个姿势出现在同一张图、多个角色、背景场景、UI、按钮、边框、文字、编号、水印、logo、白色假透明棋盘格、实心背景、裁切头顶、裁切鞋底、手脚畸形、换脸、服装变色、额外武器、水平镜像冒充另一方向、正面伪装背面、拉伸现有小头像、过曝光晕、低清模糊",
+      "approval_gate": "This is still a candidate frame. Check all 16 frames and the four views manually before packing/release.",
+      "output_sha256": "63cb0e52e683667827292af1930592e74f0842e298bad00d5b7e023026150ad7",
+      "receipt_file": "production/character_frames/EN001/receipts/EN001_left_idle.json"
+    },
+    {
+      "id": "EN001_left_walk1",
+      "character_id": "EN001",
+      "character_name": "山贼",
+      "direction": "left",
+      "direction_cn": "左侧面",
+      "pose": "walk1",
+      "pose_cn": "迈步一",
+      "status": "generated_candidate_pending_human_review",
+      "single_image_only": true,
+      "reference_image": "D:\\nimingjianghu\\assets\\characters\\masters\\EN001_fullbody.png",
+      "reference_size": [
+        1024,
+        1536
+      ],
+      "style_reference": "assets/home/characters_gallery_ref.webp",
+      "output_file": "qwen_4dir/EN001/left_walk1.png",
+      "target_size": [
+        1024,
+        1536
+      ],
+      "minimum_source_size": [
+        256,
+        384
+      ],
+      "format": "RGBA PNG with real alpha transparency",
+      "prompt": "【只生成一张独立角色帧，不是Sprite表】角色「山贼」，唯一人物身份与服装依据是传入的已人工验收高清母版。不得重设计脸、发型、发饰、服装、腰带、纹样、鞋、武器；不改变主色、身高比例、头身比和配饰位置。视角：左侧面，true left profile, character faces toward screen-left; visible side of face, nose points left。动作：迈步一，walking key pose A: left foot steps forward and right foot trails, natural counter-swing of arms。保持角色全身完整、发顶与鞋底不裁切，居中站在固定脚底锚点，姿势符合自然人体透视。该图必须独立重绘对应角度；禁止镜像正面、拉伸正面、用头发/衣服遮住脸来假冒背面。严格沿用参考母版的精致国风Q版2.5D手绘武侠风格，干净轮廓、精细衣料。真正透明RGBA背景；单张PNG、竖向约3:4、建议1024×1536或更高分辨率。禁止画第二个人物、场景、地面投影、UI、文字、标签、边框、格子、其他方向或其他动作。每次只输出这一张帧，不要把其余15帧放在同一画布。",
+      "negative_prompt": "拼贴、角色设定表、三视图、四视图、接触表、九宫格、Sprite Sheet、多个姿势出现在同一张图、多个角色、背景场景、UI、按钮、边框、文字、编号、水印、logo、白色假透明棋盘格、实心背景、裁切头顶、裁切鞋底、手脚畸形、换脸、服装变色、额外武器、水平镜像冒充另一方向、正面伪装背面、拉伸现有小头像、过曝光晕、低清模糊",
+      "approval_gate": "This is still a candidate frame. Check all 16 frames and the four views manually before packing/release.",
+      "output_sha256": "c5712214ed14b74e463772a9f73f09439b4a3750643cf4227708daf616e3b71a",
+      "receipt_file": "production/character_frames/EN001/receipts/EN001_left_walk1.json"
+    },
+    {
+      "id": "EN001_left_walk2",
+      "character_id": "EN001",
+      "character_name": "山贼",
+      "direction": "left",
+      "direction_cn": "左侧面",
+      "pose": "walk2",
+      "pose_cn": "迈步二",
+      "status": "generated_candidate_pending_human_review",
+      "single_image_only": true,
+      "reference_image": "D:\\nimingjianghu\\assets\\characters\\masters\\EN001_fullbody.png",
+      "reference_size": [
+        1024,
+        1536
+      ],
+      "style_reference": "assets/home/characters_gallery_ref.webp",
+      "output_file": "qwen_4dir/EN001/left_walk2.png",
+      "target_size": [
+        1024,
+        1536
+      ],
+      "minimum_source_size": [
+        256,
+        384
+      ],
+      "format": "RGBA PNG with real alpha transparency",
+      "prompt": "【只生成一张独立角色帧，不是Sprite表】角色「山贼」，唯一人物身份与服装依据是传入的已人工验收高清母版。不得重设计脸、发型、发饰、服装、腰带、纹样、鞋、武器；不改变主色、身高比例、头身比和配饰位置。视角：左侧面，true left profile, character faces toward screen-left; visible side of face, nose points left。动作：迈步二，walking passing pose B: weight transitions over the front foot, knees and elbows naturally bent, cloth follows motion。保持角色全身完整、发顶与鞋底不裁切，居中站在固定脚底锚点，姿势符合自然人体透视。该图必须独立重绘对应角度；禁止镜像正面、拉伸正面、用头发/衣服遮住脸来假冒背面。严格沿用参考母版的精致国风Q版2.5D手绘武侠风格，干净轮廓、精细衣料。真正透明RGBA背景；单张PNG、竖向约3:4、建议1024×1536或更高分辨率。禁止画第二个人物、场景、地面投影、UI、文字、标签、边框、格子、其他方向或其他动作。每次只输出这一张帧，不要把其余15帧放在同一画布。",
+      "negative_prompt": "拼贴、角色设定表、三视图、四视图、接触表、九宫格、Sprite Sheet、多个姿势出现在同一张图、多个角色、背景场景、UI、按钮、边框、文字、编号、水印、logo、白色假透明棋盘格、实心背景、裁切头顶、裁切鞋底、手脚畸形、换脸、服装变色、额外武器、水平镜像冒充另一方向、正面伪装背面、拉伸现有小头像、过曝光晕、低清模糊",
+      "approval_gate": "This is still a candidate frame. Check all 16 frames and the four views manually before packing/release.",
+      "output_sha256": "169eb050c7f64662cee9e60353a2b7d972143a2c948c95a21fc6f2de750825b7",
+      "receipt_file": "production/character_frames/EN001/receipts/EN001_left_walk2.json"
+    },
+    {
+      "id": "EN001_left_walk3",
+      "character_id": "EN001",
+      "character_name": "山贼",
+      "direction": "left",
+      "direction_cn": "左侧面",
+      "pose": "walk3",
+      "pose_cn": "迈步三",
+      "status": "generated_candidate_pending_human_review",
+      "single_image_only": true,
+      "reference_image": "D:\\nimingjianghu\\assets\\characters\\masters\\EN001_fullbody.png",
+      "reference_size": [
+        1024,
+        1536
+      ],
+      "style_reference": "assets/home/characters_gallery_ref.webp",
+      "output_file": "qwen_4dir/EN001/left_walk3.png",
+      "target_size": [
+        1024,
+        1536
+      ],
+      "minimum_source_size": [
+        256,
+        384
+      ],
+      "format": "RGBA PNG with real alpha transparency",
+      "prompt": "【只生成一张独立角色帧，不是Sprite表】角色「山贼」，唯一人物身份与服装依据是传入的已人工验收高清母版。不得重设计脸、发型、发饰、服装、腰带、纹样、鞋、武器；不改变主色、身高比例、头身比和配饰位置。视角：左侧面，true left profile, character faces toward screen-left; visible side of face, nose points left。动作：迈步三，walking key pose C: right foot steps forward and left foot trails, natural counter-swing of arms。保持角色全身完整、发顶与鞋底不裁切，居中站在固定脚底锚点，姿势符合自然人体透视。该图必须独立重绘对应角度；禁止镜像正面、拉伸正面、用头发/衣服遮住脸来假冒背面。严格沿用参考母版的精致国风Q版2.5D手绘武侠风格，干净轮廓、精细衣料。真正透明RGBA背景；单张PNG、竖向约3:4、建议1024×1536或更高分辨率。禁止画第二个人物、场景、地面投影、UI、文字、标签、边框、格子、其他方向或其他动作。每次只输出这一张帧，不要把其余15帧放在同一画布。",
+      "negative_prompt": "拼贴、角色设定表、三视图、四视图、接触表、九宫格、Sprite Sheet、多个姿势出现在同一张图、多个角色、背景场景、UI、按钮、边框、文字、编号、水印、logo、白色假透明棋盘格、实心背景、裁切头顶、裁切鞋底、手脚畸形、换脸、服装变色、额外武器、水平镜像冒充另一方向、正面伪装背面、拉伸现有小头像、过曝光晕、低清模糊",
+      "approval_gate": "This is still a candidate frame. Check all 16 frames and the four views manually before packing/release.",
+      "output_sha256": "9ed72be25501f31f34a0fbdcfeea78f2fc3fccebec14239b038950763843993e",
+      "receipt_file": "production/character_frames/EN001/receipts/EN001_left_walk3.json"
+    },
+    {
+      "id": "EN001_right_idle",
+      "character_id": "EN001",
+      "character_name": "山贼",
+      "direction": "right",
+      "direction_cn": "右侧面",
+      "pose": "idle",
+      "pose_cn": "自然站立",
+      "status": "generated_candidate_pending_human_review",
+      "single_image_only": true,
+      "reference_image": "D:\\nimingjianghu\\assets\\characters\\masters\\EN001_fullbody.png",
+      "reference_size": [
+        1024,
+        1536
+      ],
+      "style_reference": "assets/home/characters_gallery_ref.webp",
+      "output_file": "qwen_4dir/EN001/right_idle.png",
+      "target_size": [
+        1024,
+        1536
+      ],
+      "minimum_source_size": [
+        256,
+        384
+      ],
+      "format": "RGBA PNG with real alpha transparency",
+      "prompt": "【只生成一张独立角色帧，不是Sprite表】角色「山贼」，唯一人物身份与服装依据是传入的已人工验收高清母版。不得重设计脸、发型、发饰、服装、腰带、纹样、鞋、武器；不改变主色、身高比例、头身比和配饰位置。视角：右侧面，true right profile, character faces toward screen-right; visible side of face, nose points right。动作：自然站立，neutral idle standing pose, both feet planted, arms relaxed naturally, sword stays in its normal sheath。保持角色全身完整、发顶与鞋底不裁切，居中站在固定脚底锚点，姿势符合自然人体透视。该图必须独立重绘对应角度；禁止镜像正面、拉伸正面、用头发/衣服遮住脸来假冒背面。严格沿用参考母版的精致国风Q版2.5D手绘武侠风格，干净轮廓、精细衣料。真正透明RGBA背景；单张PNG、竖向约3:4、建议1024×1536或更高分辨率。禁止画第二个人物、场景、地面投影、UI、文字、标签、边框、格子、其他方向或其他动作。每次只输出这一张帧，不要把其余15帧放在同一画布。",
+      "negative_prompt": "拼贴、角色设定表、三视图、四视图、接触表、九宫格、Sprite Sheet、多个姿势出现在同一张图、多个角色、背景场景、UI、按钮、边框、文字、编号、水印、logo、白色假透明棋盘格、实心背景、裁切头顶、裁切鞋底、手脚畸形、换脸、服装变色、额外武器、水平镜像冒充另一方向、正面伪装背面、拉伸现有小头像、过曝光晕、低清模糊",
+      "approval_gate": "This is still a candidate frame. Check all 16 frames and the four views manually before packing/release.",
+      "output_sha256": "283d0898ab27f5983d5a83535de4c10291d541462a5f42524c5051b0726a3d0c",
+      "receipt_file": "production/character_frames/EN001/receipts/EN001_right_idle.json"
+    },
+    {
+      "id": "EN001_right_walk1",
+      "character_id": "EN001",
+      "character_name": "山贼",
+      "direction": "right",
+      "direction_cn": "右侧面",
+      "pose": "walk1",
+      "pose_cn": "迈步一",
+      "status": "generated_candidate_pending_human_review",
+      "single_image_only": true,
+      "reference_image": "D:\\nimingjianghu\\assets\\characters\\masters\\EN001_fullbody.png",
+      "reference_size": [
+        1024,
+        1536
+      ],
+      "style_reference": "assets/home/characters_gallery_ref.webp",
+      "output_file": "qwen_4dir/EN001/right_walk1.png",
+      "target_size": [
+        1024,
+        1536
+      ],
+      "minimum_source_size": [
+        256,
+        384
+      ],
+      "format": "RGBA PNG with real alpha transparency",
+      "prompt": "【只生成一张独立角色帧，不是Sprite表】角色「山贼」，唯一人物身份与服装依据是传入的已人工验收高清母版。不得重设计脸、发型、发饰、服装、腰带、纹样、鞋、武器；不改变主色、身高比例、头身比和配饰位置。视角：右侧面，true right profile, character faces toward screen-right; visible side of face, nose points right。动作：迈步一，walking key pose A: left foot steps forward and right foot trails, natural counter-swing of arms。保持角色全身完整、发顶与鞋底不裁切，居中站在固定脚底锚点，姿势符合自然人体透视。该图必须独立重绘对应角度；禁止镜像正面、拉伸正面、用头发/衣服遮住脸来假冒背面。严格沿用参考母版的精致国风Q版2.5D手绘武侠风格，干净轮廓、精细衣料。真正透明RGBA背景；单张PNG、竖向约3:4、建议1024×1536或更高分辨率。禁止画第二个人物、场景、地面投影、UI、文字、标签、边框、格子、其他方向或其他动作。每次只输出这一张帧，不要把其余15帧放在同一画布。",
+      "negative_prompt": "拼贴、角色设定表、三视图、四视图、接触表、九宫格、Sprite Sheet、多个姿势出现在同一张图、多个角色、背景场景、UI、按钮、边框、文字、编号、水印、logo、白色假透明棋盘格、实心背景、裁切头顶、裁切鞋底、手脚畸形、换脸、服装变色、额外武器、水平镜像冒充另一方向、正面伪装背面、拉伸现有小头像、过曝光晕、低清模糊",
+      "approval_gate": "This is still a candidate frame. Check all 16 frames and the four views manually before packing/release.",
+      "output_sha256": "683cb6303e50ad86168d12684ba22c5c9616fe6f5f3e448d342cc9e932b5b7da",
+      "receipt_file": "production/character_frames/EN001/receipts/EN001_right_walk1.json"
+    },
+    {
+      "id": "EN001_right_walk2",
+      "character_id": "EN001",
+      "character_name": "山贼",
+      "direction": "right",
+      "direction_cn": "右侧面",
+      "pose": "walk2",
+      "pose_cn": "迈步二",
+      "status": "generated_candidate_pending_human_review",
+      "single_image_only": true,
+      "reference_image": "D:\\nimingjianghu\\assets\\characters\\masters\\EN001_fullbody.png",
+      "reference_size": [
+        1024,
+        1536
+      ],
+      "style_reference": "assets/home/characters_gallery_ref.webp",
+      "output_file": "qwen_4dir/EN001/right_walk2.png",
+      "target_size": [
+        1024,
+        1536
+      ],
+      "minimum_source_size": [
+        256,
+        384
+      ],
+      "format": "RGBA PNG with real alpha transparency",
+      "prompt": "【只生成一张独立角色帧，不是Sprite表】角色「山贼」，唯一人物身份与服装依据是传入的已人工验收高清母版。不得重设计脸、发型、发饰、服装、腰带、纹样、鞋、武器；不改变主色、身高比例、头身比和配饰位置。视角：右侧面，true right profile, character faces toward screen-right; visible side of face, nose points right。动作：迈步二，walking passing pose B: weight transitions over the front foot, knees and elbows naturally bent, cloth follows motion。保持角色全身完整、发顶与鞋底不裁切，居中站在固定脚底锚点，姿势符合自然人体透视。该图必须独立重绘对应角度；禁止镜像正面、拉伸正面、用头发/衣服遮住脸来假冒背面。严格沿用参考母版的精致国风Q版2.5D手绘武侠风格，干净轮廓、精细衣料。真正透明RGBA背景；单张PNG、竖向约3:4、建议1024×1536或更高分辨率。禁止画第二个人物、场景、地面投影、UI、文字、标签、边框、格子、其他方向或其他动作。每次只输出这一张帧，不要把其余15帧放在同一画布。",
+      "negative_prompt": "拼贴、角色设定表、三视图、四视图、接触表、九宫格、Sprite Sheet、多个姿势出现在同一张图、多个角色、背景场景、UI、按钮、边框、文字、编号、水印、logo、白色假透明棋盘格、实心背景、裁切头顶、裁切鞋底、手脚畸形、换脸、服装变色、额外武器、水平镜像冒充另一方向、正面伪装背面、拉伸现有小头像、过曝光晕、低清模糊",
+      "approval_gate": "This is still a candidate frame. Check all 16 frames and the four views manually before packing/release.",
+      "output_sha256": "da98f026399a699a92ddfa6ef119ed17eddf567c26d2b3be237716a60ef3b722",
+      "receipt_file": "production/character_frames/EN001/receipts/EN001_right_walk2.json"
+    },
+    {
+      "id": "EN001_right_walk3",
+      "character_id": "EN001",
+      "character_name": "山贼",
+      "direction": "right",
+      "direction_cn": "右侧面",
+      "pose": "walk3",
+      "pose_cn": "迈步三",
+      "status": "generated_candidate_pending_human_review",
+      "single_image_only": true,
+      "reference_image": "D:\\nimingjianghu\\assets\\characters\\masters\\EN001_fullbody.png",
+      "reference_size": [
+        1024,
+        1536
+      ],
+      "style_reference": "assets/home/characters_gallery_ref.webp",
+      "output_file": "qwen_4dir/EN001/right_walk3.png",
+      "target_size": [
+        1024,
+        1536
+      ],
+      "minimum_source_size": [
+        256,
+        384
+      ],
+      "format": "RGBA PNG with real alpha transparency",
+      "prompt": "【只生成一张独立角色帧，不是Sprite表】角色「山贼」，唯一人物身份与服装依据是传入的已人工验收高清母版。不得重设计脸、发型、发饰、服装、腰带、纹样、鞋、武器；不改变主色、身高比例、头身比和配饰位置。视角：右侧面，true right profile, character faces toward screen-right; visible side of face, nose points right。动作：迈步三，walking key pose C: right foot steps forward and left foot trails, natural counter-swing of arms。保持角色全身完整、发顶与鞋底不裁切，居中站在固定脚底锚点，姿势符合自然人体透视。该图必须独立重绘对应角度；禁止镜像正面、拉伸正面、用头发/衣服遮住脸来假冒背面。严格沿用参考母版的精致国风Q版2.5D手绘武侠风格，干净轮廓、精细衣料。真正透明RGBA背景；单张PNG、竖向约3:4、建议1024×1536或更高分辨率。禁止画第二个人物、场景、地面投影、UI、文字、标签、边框、格子、其他方向或其他动作。每次只输出这一张帧，不要把其余15帧放在同一画布。",
+      "negative_prompt": "拼贴、角色设定表、三视图、四视图、接触表、九宫格、Sprite Sheet、多个姿势出现在同一张图、多个角色、背景场景、UI、按钮、边框、文字、编号、水印、logo、白色假透明棋盘格、实心背景、裁切头顶、裁切鞋底、手脚畸形、换脸、服装变色、额外武器、水平镜像冒充另一方向、正面伪装背面、拉伸现有小头像、过曝光晕、低清模糊",
+      "approval_gate": "This is still a candidate frame. Check all 16 frames and the four views manually before packing/release.",
+      "output_sha256": "d8edb00c97397016aefb6fb51d27797b04218173a473a30b3fbf0ccef96f5b06",
+      "receipt_file": "production/character_frames/EN001/receipts/EN001_right_walk3.json"
+    },
+    {
+      "id": "EN001_up_idle",
+      "character_id": "EN001",
+      "character_name": "山贼",
+      "direction": "up",
+      "direction_cn": "背面",
+      "pose": "idle",
+      "pose_cn": "自然站立",
+      "status": "generated_candidate_pending_human_review",
+      "single_image_only": true,
+      "reference_image": "D:\\nimingjianghu\\assets\\characters\\masters\\EN001_fullbody.png",
+      "reference_size": [
+        1024,
+        1536
+      ],
+      "style_reference": "assets/home/characters_gallery_ref.webp",
+      "output_file": "qwen_4dir/EN001/up_idle.png",
+      "target_size": [
+        1024,
+        1536
+      ],
+      "minimum_source_size": [
+        256,
+        384
+      ],
+      "format": "RGBA PNG with real alpha transparency",
+      "prompt": "【只生成一张独立角色帧，不是Sprite表】角色「山贼」，唯一人物身份与服装依据是传入的已人工验收高清母版。不得重设计脸、发型、发饰、服装、腰带、纹样、鞋、武器；不改变主色、身高比例、头身比和配饰位置。视角：背面，true rear view from behind, back of head and back of outfit visible, face not visible。动作：自然站立，neutral idle standing pose, both feet planted, arms relaxed naturally, sword stays in its normal sheath。保持角色全身完整、发顶与鞋底不裁切，居中站在固定脚底锚点，姿势符合自然人体透视。该图必须独立重绘对应角度；禁止镜像正面、拉伸正面、用头发/衣服遮住脸来假冒背面。严格沿用参考母版的精致国风Q版2.5D手绘武侠风格，干净轮廓、精细衣料。真正透明RGBA背景；单张PNG、竖向约3:4、建议1024×1536或更高分辨率。禁止画第二个人物、场景、地面投影、UI、文字、标签、边框、格子、其他方向或其他动作。每次只输出这一张帧，不要把其余15帧放在同一画布。",
+      "negative_prompt": "拼贴、角色设定表、三视图、四视图、接触表、九宫格、Sprite Sheet、多个姿势出现在同一张图、多个角色、背景场景、UI、按钮、边框、文字、编号、水印、logo、白色假透明棋盘格、实心背景、裁切头顶、裁切鞋底、手脚畸形、换脸、服装变色、额外武器、水平镜像冒充另一方向、正面伪装背面、拉伸现有小头像、过曝光晕、低清模糊",
+      "approval_gate": "This is still a candidate frame. Check all 16 frames and the four views manually before packing/release.",
+      "output_sha256": "83ba2b5fbaa2fe3f6c4072d6f5593d94590b114ef2ba0d55c535107e73964d3d",
+      "receipt_file": "production/character_frames/EN001/receipts/EN001_up_idle.json"
+    },
+    {
+      "id": "EN001_up_walk1",
+      "character_id": "EN001",
+      "character_name": "山贼",
+      "direction": "up",
+      "direction_cn": "背面",
+      "pose": "walk1",
+      "pose_cn": "迈步一",
+      "status": "generated_candidate_pending_human_review",
+      "single_image_only": true,
+      "reference_image": "D:\\nimingjianghu\\assets\\characters\\masters\\EN001_fullbody.png",
+      "reference_size": [
+        1024,
+        1536
+      ],
+      "style_reference": "assets/home/characters_gallery_ref.webp",
+      "output_file": "qwen_4dir/EN001/up_walk1.png",
+      "target_size": [
+        1024,
+        1536
+      ],
+      "minimum_source_size": [
+        256,
+        384
+      ],
+      "format": "RGBA PNG with real alpha transparency",
+      "prompt": "【只生成一张独立角色帧，不是Sprite表】角色「山贼」，唯一人物身份与服装依据是传入的已人工验收高清母版。不得重设计脸、发型、发饰、服装、腰带、纹样、鞋、武器；不改变主色、身高比例、头身比和配饰位置。视角：背面，true rear view from behind, back of head and back of outfit visible, face not visible。动作：迈步一，walking key pose A: left foot steps forward and right foot trails, natural counter-swing of arms。保持角色全身完整、发顶与鞋底不裁切，居中站在固定脚底锚点，姿势符合自然人体透视。该图必须独立重绘对应角度；禁止镜像正面、拉伸正面、用头发/衣服遮住脸来假冒背面。严格沿用参考母版的精致国风Q版2.5D手绘武侠风格，干净轮廓、精细衣料。真正透明RGBA背景；单张PNG、竖向约3:4、建议1024×1536或更高分辨率。禁止画第二个人物、场景、地面投影、UI、文字、标签、边框、格子、其他方向或其他动作。每次只输出这一张帧，不要把其余15帧放在同一画布。",
+      "negative_prompt": "拼贴、角色设定表、三视图、四视图、接触表、九宫格、Sprite Sheet、多个姿势出现在同一张图、多个角色、背景场景、UI、按钮、边框、文字、编号、水印、logo、白色假透明棋盘格、实心背景、裁切头顶、裁切鞋底、手脚畸形、换脸、服装变色、额外武器、水平镜像冒充另一方向、正面伪装背面、拉伸现有小头像、过曝光晕、低清模糊",
+      "approval_gate": "This is still a candidate frame. Check all 16 frames and the four views manually before packing/release.",
+      "output_sha256": "7c21952fc7be803ad9cf4b4d3a3a49d59ff53e9637a9143cf06bcb301a62fd87",
+      "receipt_file": "production/character_frames/EN001/receipts/EN001_up_walk1.json"
+    },
+    {
+      "id": "EN001_up_walk2",
+      "character_id": "EN001",
+      "character_name": "山贼",
+      "direction": "up",
+      "direction_cn": "背面",
+      "pose": "walk2",
+      "pose_cn": "迈步二",
+      "status": "generated_candidate_pending_human_review",
+      "single_image_only": true,
+      "reference_image": "D:\\nimingjianghu\\assets\\characters\\masters\\EN001_fullbody.png",
+      "reference_size": [
+        1024,
+        1536
+      ],
+      "style_reference": "assets/home/characters_gallery_ref.webp",
+      "output_file": "qwen_4dir/EN001/up_walk2.png",
+      "target_size": [
+        1024,
+        1536
+      ],
+      "minimum_source_size": [
+        256,
+        384
+      ],
+      "format": "RGBA PNG with real alpha transparency",
+      "prompt": "【只生成一张独立角色帧，不是Sprite表】角色「山贼」，唯一人物身份与服装依据是传入的已人工验收高清母版。不得重设计脸、发型、发饰、服装、腰带、纹样、鞋、武器；不改变主色、身高比例、头身比和配饰位置。视角：背面，true rear view from behind, back of head and back of outfit visible, face not visible。动作：迈步二，walking passing pose B: weight transitions over the front foot, knees and elbows naturally bent, cloth follows motion。保持角色全身完整、发顶与鞋底不裁切，居中站在固定脚底锚点，姿势符合自然人体透视。该图必须独立重绘对应角度；禁止镜像正面、拉伸正面、用头发/衣服遮住脸来假冒背面。严格沿用参考母版的精致国风Q版2.5D手绘武侠风格，干净轮廓、精细衣料。真正透明RGBA背景；单张PNG、竖向约3:4、建议1024×1536或更高分辨率。禁止画第二个人物、场景、地面投影、UI、文字、标签、边框、格子、其他方向或其他动作。每次只输出这一张帧，不要把其余15帧放在同一画布。",
+      "negative_prompt": "拼贴、角色设定表、三视图、四视图、接触表、九宫格、Sprite Sheet、多个姿势出现在同一张图、多个角色、背景场景、UI、按钮、边框、文字、编号、水印、logo、白色假透明棋盘格、实心背景、裁切头顶、裁切鞋底、手脚畸形、换脸、服装变色、额外武器、水平镜像冒充另一方向、正面伪装背面、拉伸现有小头像、过曝光晕、低清模糊",
+      "approval_gate": "This is still a candidate frame. Check all 16 frames and the four views manually before packing/release.",
+      "output_sha256": "ddd2d966729a852ea329a77edae66fccee10bdd1ce8ec9819d4717ea803db9c6",
+      "receipt_file": "production/character_frames/EN001/receipts/EN001_up_walk2.json"
+    },
+    {
+      "id": "EN001_up_walk3",
+      "character_id": "EN001",
+      "character_name": "山贼",
+      "direction": "up",
+      "direction_cn": "背面",
+      "pose": "walk3",
+      "pose_cn": "迈步三",
+      "status": "generated_candidate_pending_human_review",
+      "single_image_only": true,
+      "reference_image": "D:\\nimingjianghu\\assets\\characters\\masters\\EN001_fullbody.png",
+      "reference_size": [
+        1024,
+        1536
+      ],
+      "style_reference": "assets/home/characters_gallery_ref.webp",
+      "output_file": "qwen_4dir/EN001/up_walk3.png",
+      "target_size": [
+        1024,
+        1536
+      ],
+      "minimum_source_size": [
+        256,
+        384
+      ],
+      "format": "RGBA PNG with real alpha transparency",
+      "prompt": "【只生成一张独立角色帧，不是Sprite表】角色「山贼」，唯一人物身份与服装依据是传入的已人工验收高清母版。不得重设计脸、发型、发饰、服装、腰带、纹样、鞋、武器；不改变主色、身高比例、头身比和配饰位置。视角：背面，true rear view from behind, back of head and back of outfit visible, face not visible。动作：迈步三，walking key pose C: right foot steps forward and left foot trails, natural counter-swing of arms。保持角色全身完整、发顶与鞋底不裁切，居中站在固定脚底锚点，姿势符合自然人体透视。该图必须独立重绘对应角度；禁止镜像正面、拉伸正面、用头发/衣服遮住脸来假冒背面。严格沿用参考母版的精致国风Q版2.5D手绘武侠风格，干净轮廓、精细衣料。真正透明RGBA背景；单张PNG、竖向约3:4、建议1024×1536或更高分辨率。禁止画第二个人物、场景、地面投影、UI、文字、标签、边框、格子、其他方向或其他动作。每次只输出这一张帧，不要把其余15帧放在同一画布。",
+      "negative_prompt": "拼贴、角色设定表、三视图、四视图、接触表、九宫格、Sprite Sheet、多个姿势出现在同一张图、多个角色、背景场景、UI、按钮、边框、文字、编号、水印、logo、白色假透明棋盘格、实心背景、裁切头顶、裁切鞋底、手脚畸形、换脸、服装变色、额外武器、水平镜像冒充另一方向、正面伪装背面、拉伸现有小头像、过曝光晕、低清模糊",
+      "approval_gate": "This is still a candidate frame. Check all 16 frames and the four views manually before packing/release.",
+      "output_sha256": "f7ecdecc8a4b30f1c2332302e2f521a7de0abaaedd96c9d5f6c860cd0c981dfe",
+      "receipt_file": "production/character_frames/EN001/receipts/EN001_up_walk3.json"
+    }
+  ],
+  "never_auto_approve": true
+}

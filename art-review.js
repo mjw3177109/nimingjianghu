@@ -38,6 +38,9 @@ function render(){const row=directions[dir]??0;const sc=Number($('scale').value)
  drawSheet('stableSheet',stable);drawSheet('candidateSheet',candidate);
  $('currentResolution').textContent=stable?`${stable.naturalWidth}×${stable.naturalHeight} · ${stable.naturalWidth/4}×${stable.naturalHeight/4}/帧`:'无动画母版';
  $('candidateResolution').textContent=candidate?`${candidate.naturalWidth}×${candidate.naturalHeight} · ${candidate.naturalWidth/4}×${candidate.naturalHeight/4}/帧`:'未提交';
+ const source=$('frameSource');source.hidden=!candidate||candidate.naturalWidth<384;
+ source.href='qwen_4dir/'+selected.id+'/'+dir+'_'+['idle','walk1','walk2','walk3'][frame]+'.png';
+ source.textContent='打开当前动作的高清独立源帧（PNG）';
 }
 async function loadCandidate(person){
  // Prefer genuine HD frame source candidates. If absent, fall back ONLY to
@@ -59,10 +62,10 @@ async function showPerson(person){
  const entry=spriteManifest?.entries?.find(x=>x.id===person.id);
  const officiallyApproved=record?.master_approved===true&&record?.portrait_approved===true&&entry?.direction_status==='user_approved_independently_painted';
  const liveTrial=entry?.direction_status==='gameplay_trial_pending_user_art_review';
- $('masterStatus').textContent=officiallyApproved?'人工已审核':liveTrial?'已接入试玩 · 等你最终评审':'未审核 · 不可发布';
+ $('masterStatus').textContent=officiallyApproved?'人工已审核':record?.master_approved?'全身母版已审核 · 动作帧待审核':liveTrial?'已接入试玩 · 等你最终评审':'未审核 · 不可发布';
  $('masterStatus').style.borderColor=officiallyApproved?'#76be91':'#aa795f';
  $('stableCaption').textContent=entry?(entry.direction_status==='gameplay_trial_pending_user_art_review'?
- '【本次已经进入游戏试玩】新生成的四方向16帧，每个动作按整身图片绘制；供你实际走动后最终评审。':
+ '游戏当前使用的上一版试玩图集；右侧为本轮依据已批准母版制作的独立动作帧候选，待审核后接入。':
  '当前游戏使用的方向图集；'+(entry.direction_status==='user_approved_independently_painted'?'方向素材标为已审核。':'侧面、背面仍为过渡派生稿。')):'尚无可玩 Sprite；显示已有角色头像供核对。';
  $('candidateCaption').textContent='加载候选中；图片不会被自动发布。';
  const version=window.NM_SPRITE_REGISTRY||{};
@@ -73,8 +76,8 @@ async function showPerson(person){
  const masterCandidate=results[2];
  if(masterCandidate){
   $('masterCandidate').src=masterCandidate.src;$('masterCandidate').hidden=false;
-  $('masterCandidateCaption').textContent=person.id+' · '+masterCandidate.naturalWidth+'×'+masterCandidate.naturalHeight+' 源像素 · 候选，未人工审核，不是16帧Sprite';
-  $('masterCandidateReport').href='assets/characters/masters/candidates/'+person.id+'_master_qa.json';$('masterCandidateReport').hidden=false;
+  $('masterCandidateCaption').textContent=person.id+' · '+masterCandidate.naturalWidth+'×'+masterCandidate.naturalHeight+' 源像素 · '+(record?.master_approved?'全身母版已人工审核；动作帧、头像另行审核':'候选，未人工审核，不是16帧Sprite');
+  $('masterCandidateReport').href=record?.master_review_evidence||'assets/characters/masters/candidates/'+person.id+'_master_qa.json';$('masterCandidateReport').hidden=false;
  }else $('masterCandidateCaption').textContent=person.id+'：尚无通过技术检查的独立母版候选。';
  stable=results[0];candidate=results[1];
  if(!candidate){$('candidateCaption').textContent='尚未提交独立四方向16帧候选，不以镜像或缩放图填充。';}
@@ -101,12 +104,13 @@ async function init(){
  }
  $('counter').textContent='7 / 7';
  try{
-  const [m,s]=await Promise.all([
+  const [m,s,p]=await Promise.all([
    fetch('assets/characters/masters/production_manifest.json').then(r=>{if(!r.ok)throw Error('missing masters');return r.json();}),
-   fetch('assets/characters/scene_sprites/sprite_manifest.json').then(r=>{if(!r.ok)throw Error('missing sprites');return r.json();})
+   fetch('assets/characters/scene_sprites/sprite_manifest.json').then(r=>{if(!r.ok)throw Error('missing sprites');return r.json();}),
+   fetch('assets/characters/scene_sprites/candidates/production_status.json').then(r=>{if(!r.ok)throw Error('missing frame status');return r.json();})
   ]);
   masterManifest=m;spriteManifest=s;
-  $('sourceCount').textContent='高清母版：'+m.tasks.filter(x=>x.master_approved&&x.portrait_approved).length+' / '+m.tasks.length+' 已审核';
+  $('sourceCount').textContent='全身母版：'+m.tasks.filter(x=>x.master_approved).length+' / '+m.tasks.length+' 已审核 · 独立动作帧：'+p.generated+' / '+p.expected+' 已生成，待人工审核 · 头像另行审核';
  }catch(err){$('sourceCount').textContent='母版清单载入失败：请检查项目部署';}
  $('direction').addEventListener('change',e=>{dir=e.target.value;render()});
  $('pose').addEventListener('change',e=>{frame=Number(e.target.value);render()});

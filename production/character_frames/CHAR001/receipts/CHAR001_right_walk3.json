@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "job": "CHAR001_right_walk3",
+  "provider": "built_in_imagegen",
+  "status": "generated_candidate_pending_human_review",
+  "approved": false,
+  "source": "C:\\Users\\bobo\\.codex\\generated_images\\01a15f3b-bf82-73f2-b028-13291652514f\\exec-678aea01-5d9e-432c-a065-088ebff27c03.png",
+  "output_file": "qwen_4dir/CHAR001/right_walk3.png",
+  "sha256": "fa889f1bd80fa5d86d2f62dc2a16789f7ae787c3f7ee3897d37e3907c1945862",
+  "master_sha256": "7f4e0e10dbf960df888d0b9fd985d8b82c5feee24a4b9437336d7bf4804f5069",
+  "prompt": "【只生成一张独立角色帧，不是Sprite表】角色「沈砚」，唯一人物身份与服装依据是传入的已人工验收高清母版。不得重设计脸、发型、发饰、服装、腰带、纹样、鞋、武器；不改变主色、身高比例、头身比和配饰位置。视角：右侧面，true right profile, character faces toward screen-right; visible side of face, nose points right。动作：迈步三，walking key pose C: right foot steps forward and left foot trails, natural counter-swing of arms。保持角色全身完整、发顶与鞋底不裁切，居中站在固定脚底锚点，姿势符合自然人体透视。该图必须独立重绘对应角度；禁止镜像正面、拉伸正面、用头发/衣服遮住脸来假冒背面。严格沿用参考母版的精致国风Q版2.5D手绘武侠风格，干净轮廓、精细衣料。真正透明RGBA背景；单张PNG、竖向2:3、建议1024×1536或更高分辨率。禁止画第二个人物、场景、地面投影、UI、文字、标签、边框、格子、其他方向或其他动作。每次只输出这一张帧，不要把其余15帧放在同一画布。\n强制构图：1024×1536透明PNG，人物只占画面中央的宽60%高76%，从x=205到819、y=170到1337的安全矩形内，所有头发、手、鞋、飘带、剑穗全部位于安全矩形。画布四边必须完全透明，不能任何毛发或衣角碰边。不是特写，镜头拉远。角色右侧面，鼻子向屏幕右边，迈步三右脚前左脚后，双臂反向自然摆动。严格保持参考沈砚的身份服饰，单人单帧，无文字、光晕或地面投影。",
+  "inspection": {
+    "w": 1024,
+    "h": 1536,
+    "bbox": [
+      52,
+      126,
+      966,
+      1457
+    ],
+    "sha256": "fa889f1bd80fa5d86d2f62dc2a16789f7ae787c3f7ee3897d37e3907c1945862"
+  }
+}

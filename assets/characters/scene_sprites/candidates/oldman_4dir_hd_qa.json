@@ -1,0 +1,147 @@
+{
+  "status": "CANDIDATE_NOT_APPROVED",
+  "character": "NPC002",
+  "name": "顾老",
+  "sheet": "D:\\nimingjianghu\\assets\\characters\\scene_sprites\\candidates\\oldman_4dir_hd_candidate.png",
+  "review": "D:\\nimingjianghu\\assets\\characters\\scene_sprites\\candidates\\oldman_4dir_hd_review.png",
+  "sheet_size": [
+    384,
+    512
+  ],
+  "frame_size": [
+    96,
+    128
+  ],
+  "sources": [
+    {
+      "frame": "down_idle.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "b6b92f99313bace8745b40d057a7b11c38634904d6e667d675adf34f25c6bdad"
+    },
+    {
+      "frame": "down_walk1.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "18ac23dc1591fcde162749fd720f2ea69dc5db387733c6a62802c125e641cee4"
+    },
+    {
+      "frame": "down_walk2.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "30617d186f99894c01c81e6528b0d24e05be81efa8f83ec445dfd80d23dd6869"
+    },
+    {
+      "frame": "down_walk3.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "0edca6799b4f48304c9afb02ca02cf5677d57c97494b552671bb4b2ae9d40fe3"
+    },
+    {
+      "frame": "left_idle.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "fccaf6519130333e692ac555bfe006e90274415842531a6d174187ebec5a056d"
+    },
+    {
+      "frame": "left_walk1.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "fe6a5b7232adad21d7b08a3959c0b2fd8ff9abf94d9e09a2d0a2489a88df02f0"
+    },
+    {
+      "frame": "left_walk2.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "8aa2d709b03200a3b8f3ed102d94c4442723977c1a72c19507d02d85537ab216"
+    },
+    {
+      "frame": "left_walk3.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "9a6738c8ace772a8c5134d07e1c176897b81278f175f078e74fecfba850c2950"
+    },
+    {
+      "frame": "right_idle.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "8b3106d2b23e90567d8ed4b020c8b185768d65af8a55f08f02acbfaa3b4bdc31"
+    },
+    {
+      "frame": "right_walk1.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "21606330caa1fc41c9467802a3440c70b73412eac73c7f68db1702724edcf75e"
+    },
+    {
+      "frame": "right_walk2.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "62da1ef9ddf3662d98bff45c5a3eae7f2804535b671213519a25bc0e29c99b6a"
+    },
+    {
+      "frame": "right_walk3.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "419dbda1c3539ea915472d5186134c8e8556bf7f924043e60c429d4138b89d2b"
+    },
+    {
+      "frame": "up_idle.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "36959362e0ce72fc50c77962f8a5e18936252023d99f70d927d5c5a3f6de477e"
+    },
+    {
+      "frame": "up_walk1.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "197d18c6ffce6f21f6c2065c8bf2f86a381745965ed3e72c6c463f4b91a09bc6"
+    },
+    {
+      "frame": "up_walk2.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "33b968971dee11d6f881fb943bc8335454c0e518b97d395002f57023b2e44a38"
+    },
+    {
+      "frame": "up_walk3.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "d77a5221f83efb2668c395961e0e6165560bd8ecff67dc6adb5ea12a7aec23e2"
+    }
+  ],
+  "warnings": [],
+  "explicit_manual_approval_required": true
+}

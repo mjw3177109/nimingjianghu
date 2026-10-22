@@ -1,0 +1,147 @@
+{
+  "status": "CANDIDATE_NOT_APPROVED",
+  "character": "NPC001",
+  "name": "韩掌柜",
+  "sheet": "D:\\nimingjianghu\\assets\\characters\\scene_sprites\\candidates\\innkeeper_4dir_hd_candidate.png",
+  "review": "D:\\nimingjianghu\\assets\\characters\\scene_sprites\\candidates\\innkeeper_4dir_hd_review.png",
+  "sheet_size": [
+    384,
+    512
+  ],
+  "frame_size": [
+    96,
+    128
+  ],
+  "sources": [
+    {
+      "frame": "down_idle.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "7a33abb01f41754f3d464f798149c48ed817970b07d09a232ac586fcb0480892"
+    },
+    {
+      "frame": "down_walk1.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "05d599c5e4155b776afc08554a2995bd349d2a75fcad16d5e53563bdb65e05d2"
+    },
+    {
+      "frame": "down_walk2.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "cb81f347044b509900caad7d20089ecdfa71a10e45a51bda50caef25ee959fc6"
+    },
+    {
+      "frame": "down_walk3.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "5b77119adcaf764f41707042c3948314c7595fde89579e17b176af294a2ee985"
+    },
+    {
+      "frame": "left_idle.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "1b0defe20ee961c162c7628ea5578365868225ddce38f3032f79b058fac6cd3a"
+    },
+    {
+      "frame": "left_walk1.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "3346c7ec45e92ead45d03a1786a9c3d3e906137684debbf5795af4da094e208e"
+    },
+    {
+      "frame": "left_walk2.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "3401a14450b3d63fd203af3db1820803ee792615bfdfb153a44e6d04f51aa992"
+    },
+    {
+      "frame": "left_walk3.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "28447e90a4507168948e4845badeffa30e571394450fc62707dfd602dbf08622"
+    },
+    {
+      "frame": "right_idle.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "0012d8d7e85dbdbdd628ff5ae5a3abd10d3108bd259ef51eb926ea404a5e0047"
+    },
+    {
+      "frame": "right_walk1.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "b42969fc75458fb5a58caad5b6c65065b9d1972f3063c0db239a83d497260b04"
+    },
+    {
+      "frame": "right_walk2.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "d2951d1fcd9b77e6b72303603fdf726d156e90e62a243f95f05b5cca8568cc2e"
+    },
+    {
+      "frame": "right_walk3.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "4148cd2c809e36cb28c7d3c37521e5dbae0f2e8dfd0465ed33d741691d4c841b"
+    },
+    {
+      "frame": "up_idle.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "d6b62203b3996c5718c25a1968c81c838bbd6eb8960172758727f85c8e4c7080"
+    },
+    {
+      "frame": "up_walk1.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "934fecc9c4f72c56da77f340f7dffa28330cc34ae5dd36d06826ff152bd2bb8c"
+    },
+    {
+      "frame": "up_walk2.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "28454bb131411205cbd99d272a488d18c77746b3e4a1674b8611ce339a3fbaf8"
+    },
+    {
+      "frame": "up_walk3.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "628a5986228ded8bf941107b401961fe0cdf7b97f539ac3054101ff59373cc11"
+    }
+  ],
+  "warnings": [],
+  "explicit_manual_approval_required": true
+}

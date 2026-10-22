@@ -1,6 +1,21 @@
 # Codex 续接状态
 
-更新时间：2026-10-22 05:52（Asia/Shanghai）。
+更新时间：2026-10-23（Asia/Shanghai）。
+
+## 最新工作：用户批准全身母版，进入112帧生产（优先读取）
+
+- 生产已完成：112/112独立PNG，全部原生1024×1536、112个唯一SHA256；每人16帧已通过P3-G整组检查并生成候选图集、审核图和QA报告，7组技术警告均为空。共275350059字节源PNG全部保留，不用低清表替代独立帧。
+- 沈砚right_walk3首轮碰边被拒收，独立重生成后通过；完整实际提示词和接收帧SHA在production各角色receipts。候选图集没有自动获得人工批准。
+- 最终代码 `npm test` / `npm run build`通过；Python24项通过。真实本地Chromium两种首章顺序均PASS，无JS异常/失败请求；新的审核页测试已实际下载112张构建后PNG并逐一核对哈希、方向动作源链接，全部PASS。`qa/1.0.10-local/`、`qa/1.0.10-master-review.log`和`qa/master-review/report.json`保存证据。
+- 独立美术发布门禁仍退出1（ART_RELEASE_BLOCKED 20项），因为运行版方向图集没有获本轮人工批准；这是预期阻断，未放松门禁。准备将v1.0.10真实候选改动推送指定GitHub分支，再检查同SHA Preview和线上112源图，不把基线URL冒充新版本。
+
+- 用户原话：“独立全身母版通过了开始下一步把”。这是七张独立全身母版的真实批准，不包括头像、方向帧、图集或运行效果。
+- 七张候选哈希已逐一与原技术报告核对，原字节复制到正式全身母版路径。审批证据 `assets/characters/masters/reviews/2026-10-23_user_fullbody.json`；production_manifest中仅master_approved=true，portrait_approved仍false，游戏Sprite审批和绑定未改。
+- 112个独立任务已导出到 `production/character_frames/`。内置imagegen逐张参考对应批准母版生成原生RGBA PNG；实际保存源图在 `qwen_4dir/<ID>/`，逐帧提示词、源路径、母版SHA、输出SHA和技术检查在各角色receipts目录。没有receipt不得称为完成。
+- 当前正持续生成，尚未宣称112张全部完成。每角色16张齐全后运行P3-G frames打包候选，并核查真实四向、服装道具和步态。候选交用户新一轮人工审核之前，不调用Sprite release审批、不更新运行绑定、不发布Production。
+- 审核页已区分全身母版与头像/动作帧审批；回归检查批准原话、审批范围及正式母版哈希。npm test/build和带Pillow的Python22项均通过；真实Chromium七张母版审核页通过，日志 `qa/1.0.10-*.log`。
+- 本轮基线已重新核对：GitHub目标分支=本地HEAD `1d7675db9dd36881f9480bddee57555abc161110`；Vercel对应Preview READY `dpl_EWhfRj47vCR2sLUHvv1FuuFvpEzD`，`https://nimingjianghu-gglsz3u47-bobos-projects-e9f8bfba.vercel.app/`。这是v1.0.9基线，不是本轮美术新版本。
+- 补记v1.0.9验收：本地和线上两种首章顺序均通过，无JS异常和失败HTTP请求，线上报告 `qa/1.0.9-online/manual-first/report.json`、`qa/1.0.9-online/trace-first/report.json`；CI #144 `39682850707` success。旧段落“七张母版待审/方向帧未生产”已被本段真实用户批准取代。
 
 ## 最新周期：v1.0.9（优先读取）
 

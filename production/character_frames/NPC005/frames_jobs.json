@@ -1,0 +1,540 @@
+{
+  "schema_version": 1,
+  "phase": "P3-H_SPRITE_FRAMES",
+  "character_id": "NPC005",
+  "character_name": "苏晚晴",
+  "reference_master": "D:\\nimingjianghu\\assets\\characters\\masters\\NPC005_fullbody.png",
+  "reference_size": [
+    1024,
+    1536
+  ],
+  "status": "16_generated_candidates_pending_human_review",
+  "single_image_tasks": 16,
+  "directions": [
+    "down",
+    "left",
+    "right",
+    "up"
+  ],
+  "poses": [
+    "idle",
+    "walk1",
+    "walk2",
+    "walk3"
+  ],
+  "tasks": [
+    {
+      "id": "NPC005_down_idle",
+      "character_id": "NPC005",
+      "character_name": "苏晚晴",
+      "direction": "down",
+      "direction_cn": "正面",
+      "pose": "idle",
+      "pose_cn": "自然站立",
+      "status": "generated_candidate_pending_human_review",
+      "single_image_only": true,
+      "reference_image": "D:\\nimingjianghu\\assets\\characters\\masters\\NPC005_fullbody.png",
+      "reference_size": [
+        1024,
+        1536
+      ],
+      "style_reference": "assets/home/characters_gallery_ref.webp",
+      "output_file": "qwen_4dir/NPC005/down_idle.png",
+      "target_size": [
+        1024,
+        1536
+      ],
+      "minimum_source_size": [
+        256,
+        384
+      ],
+      "format": "RGBA PNG with real alpha transparency",
+      "prompt": "【只生成一张独立角色帧，不是Sprite表】角色「苏晚晴」，唯一人物身份与服装依据是传入的已人工验收高清母版。不得重设计脸、发型、发饰、服装、腰带、纹样、鞋、武器；不改变主色、身高比例、头身比和配饰位置。视角：正面，front view facing the camera, both eyes visible, chest and belt read clearly。动作：自然站立，neutral idle standing pose, both feet planted, arms relaxed naturally, sword stays in its normal sheath。保持角色全身完整、发顶与鞋底不裁切，居中站在固定脚底锚点，姿势符合自然人体透视。该图必须独立重绘对应角度；禁止镜像正面、拉伸正面、用头发/衣服遮住脸来假冒背面。严格沿用参考母版的精致国风Q版2.5D手绘武侠风格，干净轮廓、精细衣料。真正透明RGBA背景；单张PNG、竖向约3:4、建议1024×1536或更高分辨率。禁止画第二个人物、场景、地面投影、UI、文字、标签、边框、格子、其他方向或其他动作。每次只输出这一张帧，不要把其余15帧放在同一画布。",
+      "negative_prompt": "拼贴、角色设定表、三视图、四视图、接触表、九宫格、Sprite Sheet、多个姿势出现在同一张图、多个角色、背景场景、UI、按钮、边框、文字、编号、水印、logo、白色假透明棋盘格、实心背景、裁切头顶、裁切鞋底、手脚畸形、换脸、服装变色、额外武器、水平镜像冒充另一方向、正面伪装背面、拉伸现有小头像、过曝光晕、低清模糊",
+      "approval_gate": "This is still a candidate frame. Check all 16 frames and the four views manually before packing/release.",
+      "output_sha256": "59f1754f059f84d2d9be11c246c9746bd3150a6f922f786b08b8bc1e5cd1ed7a",
+      "receipt_file": "production/character_frames/NPC005/receipts/NPC005_down_idle.json"
+    },
+    {
+      "id": "NPC005_down_walk1",
+      "character_id": "NPC005",
+      "character_name": "苏晚晴",
+      "direction": "down",
+      "direction_cn": "正面",
+      "pose": "walk1",
+      "pose_cn": "迈步一",
+      "status": "generated_candidate_pending_human_review",
+      "single_image_only": true,
+      "reference_image": "D:\\nimingjianghu\\assets\\characters\\masters\\NPC005_fullbody.png",
+      "reference_size": [
+        1024,
+        1536
+      ],
+      "style_reference": "assets/home/characters_gallery_ref.webp",
+      "output_file": "qwen_4dir/NPC005/down_walk1.png",
+      "target_size": [
+        1024,
+        1536
+      ],
+      "minimum_source_size": [
+        256,
+        384
+      ],
+      "format": "RGBA PNG with real alpha transparency",
+      "prompt": "【只生成一张独立角色帧，不是Sprite表】角色「苏晚晴」，唯一人物身份与服装依据是传入的已人工验收高清母版。不得重设计脸、发型、发饰、服装、腰带、纹样、鞋、武器；不改变主色、身高比例、头身比和配饰位置。视角：正面，front view facing the camera, both eyes visible, chest and belt read clearly。动作：迈步一，walking key pose A: left foot steps forward and right foot trails, natural counter-swing of arms。保持角色全身完整、发顶与鞋底不裁切，居中站在固定脚底锚点，姿势符合自然人体透视。该图必须独立重绘对应角度；禁止镜像正面、拉伸正面、用头发/衣服遮住脸来假冒背面。严格沿用参考母版的精致国风Q版2.5D手绘武侠风格，干净轮廓、精细衣料。真正透明RGBA背景；单张PNG、竖向约3:4、建议1024×1536或更高分辨率。禁止画第二个人物、场景、地面投影、UI、文字、标签、边框、格子、其他方向或其他动作。每次只输出这一张帧，不要把其余15帧放在同一画布。",
+      "negative_prompt": "拼贴、角色设定表、三视图、四视图、接触表、九宫格、Sprite Sheet、多个姿势出现在同一张图、多个角色、背景场景、UI、按钮、边框、文字、编号、水印、logo、白色假透明棋盘格、实心背景、裁切头顶、裁切鞋底、手脚畸形、换脸、服装变色、额外武器、水平镜像冒充另一方向、正面伪装背面、拉伸现有小头像、过曝光晕、低清模糊",
+      "approval_gate": "This is still a candidate frame. Check all 16 frames and the four views manually before packing/release.",
+      "output_sha256": "56822a37b703348ff4ebbc26f0c8b8d2c5c48b84e993cc7e9babf80c26f9e6df",
+      "receipt_file": "production/character_frames/NPC005/receipts/NPC005_down_walk1.json"
+    },
+    {
+      "id": "NPC005_down_walk2",
+      "character_id": "NPC005",
+      "character_name": "苏晚晴",
+      "direction": "down",
+      "direction_cn": "正面",
+      "pose": "walk2",
+      "pose_cn": "迈步二",
+      "status": "generated_candidate_pending_human_review",
+      "single_image_only": true,
+      "reference_image": "D:\\nimingjianghu\\assets\\characters\\masters\\NPC005_fullbody.png",
+      "reference_size": [
+        1024,
+        1536
+      ],
+      "style_reference": "assets/home/characters_gallery_ref.webp",
+      "output_file": "qwen_4dir/NPC005/down_walk2.png",
+      "target_size": [
+        1024,
+        1536
+      ],
+      "minimum_source_size": [
+        256,
+        384
+      ],
+      "format": "RGBA PNG with real alpha transparency",
+      "prompt": "【只生成一张独立角色帧，不是Sprite表】角色「苏晚晴」，唯一人物身份与服装依据是传入的已人工验收高清母版。不得重设计脸、发型、发饰、服装、腰带、纹样、鞋、武器；不改变主色、身高比例、头身比和配饰位置。视角：正面，front view facing the camera, both eyes visible, chest and belt read clearly。动作：迈步二，walking passing pose B: weight transitions over the front foot, knees and elbows naturally bent, cloth follows motion。保持角色全身完整、发顶与鞋底不裁切，居中站在固定脚底锚点，姿势符合自然人体透视。该图必须独立重绘对应角度；禁止镜像正面、拉伸正面、用头发/衣服遮住脸来假冒背面。严格沿用参考母版的精致国风Q版2.5D手绘武侠风格，干净轮廓、精细衣料。真正透明RGBA背景；单张PNG、竖向约3:4、建议1024×1536或更高分辨率。禁止画第二个人物、场景、地面投影、UI、文字、标签、边框、格子、其他方向或其他动作。每次只输出这一张帧，不要把其余15帧放在同一画布。",
+      "negative_prompt": "拼贴、角色设定表、三视图、四视图、接触表、九宫格、Sprite Sheet、多个姿势出现在同一张图、多个角色、背景场景、UI、按钮、边框、文字、编号、水印、logo、白色假透明棋盘格、实心背景、裁切头顶、裁切鞋底、手脚畸形、换脸、服装变色、额外武器、水平镜像冒充另一方向、正面伪装背面、拉伸现有小头像、过曝光晕、低清模糊",
+      "approval_gate": "This is still a candidate frame. Check all 16 frames and the four views manually before packing/release.",
+      "output_sha256": "14d5da78c457afa82b3942def89d0e41ede8b2f41f3583259dcefc16d7226ba6",
+      "receipt_file": "production/character_frames/NPC005/receipts/NPC005_down_walk2.json"
+    },
+    {
+      "id": "NPC005_down_walk3",
+      "character_id": "NPC005",
+      "character_name": "苏晚晴",
+      "direction": "down",
+      "direction_cn": "正面",
+      "pose": "walk3",
+      "pose_cn": "迈步三",
+      "status": "generated_candidate_pending_human_review",
+      "single_image_only": true,
+      "reference_image": "D:\\nimingjianghu\\assets\\characters\\masters\\NPC005_fullbody.png",
+      "reference_size": [
+        1024,
+        1536
+      ],
+      "style_reference": "assets/home/characters_gallery_ref.webp",
+      "output_file": "qwen_4dir/NPC005/down_walk3.png",
+      "target_size": [
+        1024,
+        1536
+      ],
+      "minimum_source_size": [
+        256,
+        384
+      ],
+      "format": "RGBA PNG with real alpha transparency",
+      "prompt": "【只生成一张独立角色帧，不是Sprite表】角色「苏晚晴」，唯一人物身份与服装依据是传入的已人工验收高清母版。不得重设计脸、发型、发饰、服装、腰带、纹样、鞋、武器；不改变主色、身高比例、头身比和配饰位置。视角：正面，front view facing the camera, both eyes visible, chest and belt read clearly。动作：迈步三，walking key pose C: right foot steps forward and left foot trails, natural counter-swing of arms。保持角色全身完整、发顶与鞋底不裁切，居中站在固定脚底锚点，姿势符合自然人体透视。该图必须独立重绘对应角度；禁止镜像正面、拉伸正面、用头发/衣服遮住脸来假冒背面。严格沿用参考母版的精致国风Q版2.5D手绘武侠风格，干净轮廓、精细衣料。真正透明RGBA背景；单张PNG、竖向约3:4、建议1024×1536或更高分辨率。禁止画第二个人物、场景、地面投影、UI、文字、标签、边框、格子、其他方向或其他动作。每次只输出这一张帧，不要把其余15帧放在同一画布。",
+      "negative_prompt": "拼贴、角色设定表、三视图、四视图、接触表、九宫格、Sprite Sheet、多个姿势出现在同一张图、多个角色、背景场景、UI、按钮、边框、文字、编号、水印、logo、白色假透明棋盘格、实心背景、裁切头顶、裁切鞋底、手脚畸形、换脸、服装变色、额外武器、水平镜像冒充另一方向、正面伪装背面、拉伸现有小头像、过曝光晕、低清模糊",
+      "approval_gate": "This is still a candidate frame. Check all 16 frames and the four views manually before packing/release.",
+      "output_sha256": "14f7164d711e39499125d49008e5ae0870ad634e0aeaa021d67b38c4c5b0987c",
+      "receipt_file": "production/character_frames/NPC005/receipts/NPC005_down_walk3.json"
+    },
+    {
+      "id": "NPC005_left_idle",
+      "character_id": "NPC005",
+      "character_name": "苏晚晴",
+      "direction": "left",
+      "direction_cn": "左侧面",
+      "pose": "idle",
+      "pose_cn": "自然站立",
+      "status": "generated_candidate_pending_human_review",
+      "single_image_only": true,
+      "reference_image": "D:\\nimingjianghu\\assets\\characters\\masters\\NPC005_fullbody.png",
+      "reference_size": [
+        1024,
+        1536
+      ],
+      "style_reference": "assets/home/characters_gallery_ref.webp",
+      "output_file": "qwen_4dir/NPC005/left_idle.png",
+      "target_size": [
+        1024,
+        1536
+      ],
+      "minimum_source_size": [
+        256,
+        384
+      ],
+      "format": "RGBA PNG with real alpha transparency",
+      "prompt": "【只生成一张独立角色帧，不是Sprite表】角色「苏晚晴」，唯一人物身份与服装依据是传入的已人工验收高清母版。不得重设计脸、发型、发饰、服装、腰带、纹样、鞋、武器；不改变主色、身高比例、头身比和配饰位置。视角：左侧面，true left profile, character faces toward screen-left; visible side of face, nose points left。动作：自然站立，neutral idle standing pose, both feet planted, arms relaxed naturally, sword stays in its normal sheath。保持角色全身完整、发顶与鞋底不裁切，居中站在固定脚底锚点，姿势符合自然人体透视。该图必须独立重绘对应角度；禁止镜像正面、拉伸正面、用头发/衣服遮住脸来假冒背面。严格沿用参考母版的精致国风Q版2.5D手绘武侠风格，干净轮廓、精细衣料。真正透明RGBA背景；单张PNG、竖向约3:4、建议1024×1536或更高分辨率。禁止画第二个人物、场景、地面投影、UI、文字、标签、边框、格子、其他方向或其他动作。每次只输出这一张帧，不要把其余15帧放在同一画布。",
+      "negative_prompt": "拼贴、角色设定表、三视图、四视图、接触表、九宫格、Sprite Sheet、多个姿势出现在同一张图、多个角色、背景场景、UI、按钮、边框、文字、编号、水印、logo、白色假透明棋盘格、实心背景、裁切头顶、裁切鞋底、手脚畸形、换脸、服装变色、额外武器、水平镜像冒充另一方向、正面伪装背面、拉伸现有小头像、过曝光晕、低清模糊",
+      "approval_gate": "This is still a candidate frame. Check all 16 frames and the four views manually before packing/release.",
+      "output_sha256": "9d1584f67b1216592bc95647cf11b5f800b8dcd85a9135e5ec30ac0b9d092225",
+      "receipt_file": "production/character_frames/NPC005/receipts/NPC005_left_idle.json"
+    },
+    {
+      "id": "NPC005_left_walk1",
+      "character_id": "NPC005",
+      "character_name": "苏晚晴",
+      "direction": "left",
+      "direction_cn": "左侧面",
+      "pose": "walk1",
+      "pose_cn": "迈步一",
+      "status": "generated_candidate_pending_human_review",
+      "single_image_only": true,
+      "reference_image": "D:\\nimingjianghu\\assets\\characters\\masters\\NPC005_fullbody.png",
+      "reference_size": [
+        1024,
+        1536
+      ],
+      "style_reference": "assets/home/characters_gallery_ref.webp",
+      "output_file": "qwen_4dir/NPC005/left_walk1.png",
+      "target_size": [
+        1024,
+        1536
+      ],
+      "minimum_source_size": [
+        256,
+        384
+      ],
+      "format": "RGBA PNG with real alpha transparency",
+      "prompt": "【只生成一张独立角色帧，不是Sprite表】角色「苏晚晴」，唯一人物身份与服装依据是传入的已人工验收高清母版。不得重设计脸、发型、发饰、服装、腰带、纹样、鞋、武器；不改变主色、身高比例、头身比和配饰位置。视角：左侧面，true left profile, character faces toward screen-left; visible side of face, nose points left。动作：迈步一，walking key pose A: left foot steps forward and right foot trails, natural counter-swing of arms。保持角色全身完整、发顶与鞋底不裁切，居中站在固定脚底锚点，姿势符合自然人体透视。该图必须独立重绘对应角度；禁止镜像正面、拉伸正面、用头发/衣服遮住脸来假冒背面。严格沿用参考母版的精致国风Q版2.5D手绘武侠风格，干净轮廓、精细衣料。真正透明RGBA背景；单张PNG、竖向约3:4、建议1024×1536或更高分辨率。禁止画第二个人物、场景、地面投影、UI、文字、标签、边框、格子、其他方向或其他动作。每次只输出这一张帧，不要把其余15帧放在同一画布。",
+      "negative_prompt": "拼贴、角色设定表、三视图、四视图、接触表、九宫格、Sprite Sheet、多个姿势出现在同一张图、多个角色、背景场景、UI、按钮、边框、文字、编号、水印、logo、白色假透明棋盘格、实心背景、裁切头顶、裁切鞋底、手脚畸形、换脸、服装变色、额外武器、水平镜像冒充另一方向、正面伪装背面、拉伸现有小头像、过曝光晕、低清模糊",
+      "approval_gate": "This is still a candidate frame. Check all 16 frames and the four views manually before packing/release.",
+      "output_sha256": "6e9d90a397c18aea88b229bed45baf13214182d21fb85375c6632257979ae7f2",
+      "receipt_file": "production/character_frames/NPC005/receipts/NPC005_left_walk1.json"
+    },
+    {
+      "id": "NPC005_left_walk2",
+      "character_id": "NPC005",
+      "character_name": "苏晚晴",
+      "direction": "left",
+      "direction_cn": "左侧面",
+      "pose": "walk2",
+      "pose_cn": "迈步二",
+      "status": "generated_candidate_pending_human_review",
+      "single_image_only": true,
+      "reference_image": "D:\\nimingjianghu\\assets\\characters\\masters\\NPC005_fullbody.png",
+      "reference_size": [
+        1024,
+        1536
+      ],
+      "style_reference": "assets/home/characters_gallery_ref.webp",
+      "output_file": "qwen_4dir/NPC005/left_walk2.png",
+      "target_size": [
+        1024,
+        1536
+      ],
+      "minimum_source_size": [
+        256,
+        384
+      ],
+      "format": "RGBA PNG with real alpha transparency",
+      "prompt": "【只生成一张独立角色帧，不是Sprite表】角色「苏晚晴」，唯一人物身份与服装依据是传入的已人工验收高清母版。不得重设计脸、发型、发饰、服装、腰带、纹样、鞋、武器；不改变主色、身高比例、头身比和配饰位置。视角：左侧面，true left profile, character faces toward screen-left; visible side of face, nose points left。动作：迈步二，walking passing pose B: weight transitions over the front foot, knees and elbows naturally bent, cloth follows motion。保持角色全身完整、发顶与鞋底不裁切，居中站在固定脚底锚点，姿势符合自然人体透视。该图必须独立重绘对应角度；禁止镜像正面、拉伸正面、用头发/衣服遮住脸来假冒背面。严格沿用参考母版的精致国风Q版2.5D手绘武侠风格，干净轮廓、精细衣料。真正透明RGBA背景；单张PNG、竖向约3:4、建议1024×1536或更高分辨率。禁止画第二个人物、场景、地面投影、UI、文字、标签、边框、格子、其他方向或其他动作。每次只输出这一张帧，不要把其余15帧放在同一画布。",
+      "negative_prompt": "拼贴、角色设定表、三视图、四视图、接触表、九宫格、Sprite Sheet、多个姿势出现在同一张图、多个角色、背景场景、UI、按钮、边框、文字、编号、水印、logo、白色假透明棋盘格、实心背景、裁切头顶、裁切鞋底、手脚畸形、换脸、服装变色、额外武器、水平镜像冒充另一方向、正面伪装背面、拉伸现有小头像、过曝光晕、低清模糊",
+      "approval_gate": "This is still a candidate frame. Check all 16 frames and the four views manually before packing/release.",
+      "output_sha256": "189a0fcb46f6e070e2796e9e7884598e6f328e910556749a01e712d1a43445c5",
+      "receipt_file": "production/character_frames/NPC005/receipts/NPC005_left_walk2.json"
+    },
+    {
+      "id": "NPC005_left_walk3",
+      "character_id": "NPC005",
+      "character_name": "苏晚晴",
+      "direction": "left",
+      "direction_cn": "左侧面",
+      "pose": "walk3",
+      "pose_cn": "迈步三",
+      "status": "generated_candidate_pending_human_review",
+      "single_image_only": true,
+      "reference_image": "D:\\nimingjianghu\\assets\\characters\\masters\\NPC005_fullbody.png",
+      "reference_size": [
+        1024,
+        1536
+      ],
+      "style_reference": "assets/home/characters_gallery_ref.webp",
+      "output_file": "qwen_4dir/NPC005/left_walk3.png",
+      "target_size": [
+        1024,
+        1536
+      ],
+      "minimum_source_size": [
+        256,
+        384
+      ],
+      "format": "RGBA PNG with real alpha transparency",
+      "prompt": "【只生成一张独立角色帧，不是Sprite表】角色「苏晚晴」，唯一人物身份与服装依据是传入的已人工验收高清母版。不得重设计脸、发型、发饰、服装、腰带、纹样、鞋、武器；不改变主色、身高比例、头身比和配饰位置。视角：左侧面，true left profile, character faces toward screen-left; visible side of face, nose points left。动作：迈步三，walking key pose C: right foot steps forward and left foot trails, natural counter-swing of arms。保持角色全身完整、发顶与鞋底不裁切，居中站在固定脚底锚点，姿势符合自然人体透视。该图必须独立重绘对应角度；禁止镜像正面、拉伸正面、用头发/衣服遮住脸来假冒背面。严格沿用参考母版的精致国风Q版2.5D手绘武侠风格，干净轮廓、精细衣料。真正透明RGBA背景；单张PNG、竖向约3:4、建议1024×1536或更高分辨率。禁止画第二个人物、场景、地面投影、UI、文字、标签、边框、格子、其他方向或其他动作。每次只输出这一张帧，不要把其余15帧放在同一画布。",
+      "negative_prompt": "拼贴、角色设定表、三视图、四视图、接触表、九宫格、Sprite Sheet、多个姿势出现在同一张图、多个角色、背景场景、UI、按钮、边框、文字、编号、水印、logo、白色假透明棋盘格、实心背景、裁切头顶、裁切鞋底、手脚畸形、换脸、服装变色、额外武器、水平镜像冒充另一方向、正面伪装背面、拉伸现有小头像、过曝光晕、低清模糊",
+      "approval_gate": "This is still a candidate frame. Check all 16 frames and the four views manually before packing/release.",
+      "output_sha256": "8a44486c4684dfdfe91db4086ae6d5cdfc4757cd22547ba5a40d15b73672d2d1",
+      "receipt_file": "production/character_frames/NPC005/receipts/NPC005_left_walk3.json"
+    },
+    {
+      "id": "NPC005_right_idle",
+      "character_id": "NPC005",
+      "character_name": "苏晚晴",
+      "direction": "right",
+      "direction_cn": "右侧面",
+      "pose": "idle",
+      "pose_cn": "自然站立",
+      "status": "generated_candidate_pending_human_review",
+      "single_image_only": true,
+      "reference_image": "D:\\nimingjianghu\\assets\\characters\\masters\\NPC005_fullbody.png",
+      "reference_size": [
+        1024,
+        1536
+      ],
+      "style_reference": "assets/home/characters_gallery_ref.webp",
+      "output_file": "qwen_4dir/NPC005/right_idle.png",
+      "target_size": [
+        1024,
+        1536
+      ],
+      "minimum_source_size": [
+        256,
+        384
+      ],
+      "format": "RGBA PNG with real alpha transparency",
+      "prompt": "【只生成一张独立角色帧，不是Sprite表】角色「苏晚晴」，唯一人物身份与服装依据是传入的已人工验收高清母版。不得重设计脸、发型、发饰、服装、腰带、纹样、鞋、武器；不改变主色、身高比例、头身比和配饰位置。视角：右侧面，true right profile, character faces toward screen-right; visible side of face, nose points right。动作：自然站立，neutral idle standing pose, both feet planted, arms relaxed naturally, sword stays in its normal sheath。保持角色全身完整、发顶与鞋底不裁切，居中站在固定脚底锚点，姿势符合自然人体透视。该图必须独立重绘对应角度；禁止镜像正面、拉伸正面、用头发/衣服遮住脸来假冒背面。严格沿用参考母版的精致国风Q版2.5D手绘武侠风格，干净轮廓、精细衣料。真正透明RGBA背景；单张PNG、竖向约3:4、建议1024×1536或更高分辨率。禁止画第二个人物、场景、地面投影、UI、文字、标签、边框、格子、其他方向或其他动作。每次只输出这一张帧，不要把其余15帧放在同一画布。",
+      "negative_prompt": "拼贴、角色设定表、三视图、四视图、接触表、九宫格、Sprite Sheet、多个姿势出现在同一张图、多个角色、背景场景、UI、按钮、边框、文字、编号、水印、logo、白色假透明棋盘格、实心背景、裁切头顶、裁切鞋底、手脚畸形、换脸、服装变色、额外武器、水平镜像冒充另一方向、正面伪装背面、拉伸现有小头像、过曝光晕、低清模糊",
+      "approval_gate": "This is still a candidate frame. Check all 16 frames and the four views manually before packing/release.",
+      "output_sha256": "ad2f1f4583f64faec1803fb831dec033a1d4df9df5495a1bc1297c64fed322ab",
+      "receipt_file": "production/character_frames/NPC005/receipts/NPC005_right_idle.json"
+    },
+    {
+      "id": "NPC005_right_walk1",
+      "character_id": "NPC005",
+      "character_name": "苏晚晴",
+      "direction": "right",
+      "direction_cn": "右侧面",
+      "pose": "walk1",
+      "pose_cn": "迈步一",
+      "status": "generated_candidate_pending_human_review",
+      "single_image_only": true,
+      "reference_image": "D:\\nimingjianghu\\assets\\characters\\masters\\NPC005_fullbody.png",
+      "reference_size": [
+        1024,
+        1536
+      ],
+      "style_reference": "assets/home/characters_gallery_ref.webp",
+      "output_file": "qwen_4dir/NPC005/right_walk1.png",
+      "target_size": [
+        1024,
+        1536
+      ],
+      "minimum_source_size": [
+        256,
+        384
+      ],
+      "format": "RGBA PNG with real alpha transparency",
+      "prompt": "【只生成一张独立角色帧，不是Sprite表】角色「苏晚晴」，唯一人物身份与服装依据是传入的已人工验收高清母版。不得重设计脸、发型、发饰、服装、腰带、纹样、鞋、武器；不改变主色、身高比例、头身比和配饰位置。视角：右侧面，true right profile, character faces toward screen-right; visible side of face, nose points right。动作：迈步一，walking key pose A: left foot steps forward and right foot trails, natural counter-swing of arms。保持角色全身完整、发顶与鞋底不裁切，居中站在固定脚底锚点，姿势符合自然人体透视。该图必须独立重绘对应角度；禁止镜像正面、拉伸正面、用头发/衣服遮住脸来假冒背面。严格沿用参考母版的精致国风Q版2.5D手绘武侠风格，干净轮廓、精细衣料。真正透明RGBA背景；单张PNG、竖向约3:4、建议1024×1536或更高分辨率。禁止画第二个人物、场景、地面投影、UI、文字、标签、边框、格子、其他方向或其他动作。每次只输出这一张帧，不要把其余15帧放在同一画布。",
+      "negative_prompt": "拼贴、角色设定表、三视图、四视图、接触表、九宫格、Sprite Sheet、多个姿势出现在同一张图、多个角色、背景场景、UI、按钮、边框、文字、编号、水印、logo、白色假透明棋盘格、实心背景、裁切头顶、裁切鞋底、手脚畸形、换脸、服装变色、额外武器、水平镜像冒充另一方向、正面伪装背面、拉伸现有小头像、过曝光晕、低清模糊",
+      "approval_gate": "This is still a candidate frame. Check all 16 frames and the four views manually before packing/release.",
+      "output_sha256": "7aaec0dbe9160be5bc7e81745c9362b650b2b7ef1f118977e9db61c94c1a9ad0",
+      "receipt_file": "production/character_frames/NPC005/receipts/NPC005_right_walk1.json"
+    },
+    {
+      "id": "NPC005_right_walk2",
+      "character_id": "NPC005",
+      "character_name": "苏晚晴",
+      "direction": "right",
+      "direction_cn": "右侧面",
+      "pose": "walk2",
+      "pose_cn": "迈步二",
+      "status": "generated_candidate_pending_human_review",
+      "single_image_only": true,
+      "reference_image": "D:\\nimingjianghu\\assets\\characters\\masters\\NPC005_fullbody.png",
+      "reference_size": [
+        1024,
+        1536
+      ],
+      "style_reference": "assets/home/characters_gallery_ref.webp",
+      "output_file": "qwen_4dir/NPC005/right_walk2.png",
+      "target_size": [
+        1024,
+        1536
+      ],
+      "minimum_source_size": [
+        256,
+        384
+      ],
+      "format": "RGBA PNG with real alpha transparency",
+      "prompt": "【只生成一张独立角色帧，不是Sprite表】角色「苏晚晴」，唯一人物身份与服装依据是传入的已人工验收高清母版。不得重设计脸、发型、发饰、服装、腰带、纹样、鞋、武器；不改变主色、身高比例、头身比和配饰位置。视角：右侧面，true right profile, character faces toward screen-right; visible side of face, nose points right。动作：迈步二，walking passing pose B: weight transitions over the front foot, knees and elbows naturally bent, cloth follows motion。保持角色全身完整、发顶与鞋底不裁切，居中站在固定脚底锚点，姿势符合自然人体透视。该图必须独立重绘对应角度；禁止镜像正面、拉伸正面、用头发/衣服遮住脸来假冒背面。严格沿用参考母版的精致国风Q版2.5D手绘武侠风格，干净轮廓、精细衣料。真正透明RGBA背景；单张PNG、竖向约3:4、建议1024×1536或更高分辨率。禁止画第二个人物、场景、地面投影、UI、文字、标签、边框、格子、其他方向或其他动作。每次只输出这一张帧，不要把其余15帧放在同一画布。",
+      "negative_prompt": "拼贴、角色设定表、三视图、四视图、接触表、九宫格、Sprite Sheet、多个姿势出现在同一张图、多个角色、背景场景、UI、按钮、边框、文字、编号、水印、logo、白色假透明棋盘格、实心背景、裁切头顶、裁切鞋底、手脚畸形、换脸、服装变色、额外武器、水平镜像冒充另一方向、正面伪装背面、拉伸现有小头像、过曝光晕、低清模糊",
+      "approval_gate": "This is still a candidate frame. Check all 16 frames and the four views manually before packing/release.",
+      "output_sha256": "4144d74c21873af71cca71d5d99e9f4f6f730bac3f607b5c4f82e830bb162bd7",
+      "receipt_file": "production/character_frames/NPC005/receipts/NPC005_right_walk2.json"
+    },
+    {
+      "id": "NPC005_right_walk3",
+      "character_id": "NPC005",
+      "character_name": "苏晚晴",
+      "direction": "right",
+      "direction_cn": "右侧面",
+      "pose": "walk3",
+      "pose_cn": "迈步三",
+      "status": "generated_candidate_pending_human_review",
+      "single_image_only": true,
+      "reference_image": "D:\\nimingjianghu\\assets\\characters\\masters\\NPC005_fullbody.png",
+      "reference_size": [
+        1024,
+        1536
+      ],
+      "style_reference": "assets/home/characters_gallery_ref.webp",
+      "output_file": "qwen_4dir/NPC005/right_walk3.png",
+      "target_size": [
+        1024,
+        1536
+      ],
+      "minimum_source_size": [
+        256,
+        384
+      ],
+      "format": "RGBA PNG with real alpha transparency",
+      "prompt": "【只生成一张独立角色帧，不是Sprite表】角色「苏晚晴」，唯一人物身份与服装依据是传入的已人工验收高清母版。不得重设计脸、发型、发饰、服装、腰带、纹样、鞋、武器；不改变主色、身高比例、头身比和配饰位置。视角：右侧面，true right profile, character faces toward screen-right; visible side of face, nose points right。动作：迈步三，walking key pose C: right foot steps forward and left foot trails, natural counter-swing of arms。保持角色全身完整、发顶与鞋底不裁切，居中站在固定脚底锚点，姿势符合自然人体透视。该图必须独立重绘对应角度；禁止镜像正面、拉伸正面、用头发/衣服遮住脸来假冒背面。严格沿用参考母版的精致国风Q版2.5D手绘武侠风格，干净轮廓、精细衣料。真正透明RGBA背景；单张PNG、竖向约3:4、建议1024×1536或更高分辨率。禁止画第二个人物、场景、地面投影、UI、文字、标签、边框、格子、其他方向或其他动作。每次只输出这一张帧，不要把其余15帧放在同一画布。",
+      "negative_prompt": "拼贴、角色设定表、三视图、四视图、接触表、九宫格、Sprite Sheet、多个姿势出现在同一张图、多个角色、背景场景、UI、按钮、边框、文字、编号、水印、logo、白色假透明棋盘格、实心背景、裁切头顶、裁切鞋底、手脚畸形、换脸、服装变色、额外武器、水平镜像冒充另一方向、正面伪装背面、拉伸现有小头像、过曝光晕、低清模糊",
+      "approval_gate": "This is still a candidate frame. Check all 16 frames and the four views manually before packing/release.",
+      "output_sha256": "abec6562c6fc04de196b030a2ab42d63dfdd3447928e174a35d8871f22382124",
+      "receipt_file": "production/character_frames/NPC005/receipts/NPC005_right_walk3.json"
+    },
+    {
+      "id": "NPC005_up_idle",
+      "character_id": "NPC005",
+      "character_name": "苏晚晴",
+      "direction": "up",
+      "direction_cn": "背面",
+      "pose": "idle",
+      "pose_cn": "自然站立",
+      "status": "generated_candidate_pending_human_review",
+      "single_image_only": true,
+      "reference_image": "D:\\nimingjianghu\\assets\\characters\\masters\\NPC005_fullbody.png",
+      "reference_size": [
+        1024,
+        1536
+      ],
+      "style_reference": "assets/home/characters_gallery_ref.webp",
+      "output_file": "qwen_4dir/NPC005/up_idle.png",
+      "target_size": [
+        1024,
+        1536
+      ],
+      "minimum_source_size": [
+        256,
+        384
+      ],
+      "format": "RGBA PNG with real alpha transparency",
+      "prompt": "【只生成一张独立角色帧，不是Sprite表】角色「苏晚晴」，唯一人物身份与服装依据是传入的已人工验收高清母版。不得重设计脸、发型、发饰、服装、腰带、纹样、鞋、武器；不改变主色、身高比例、头身比和配饰位置。视角：背面，true rear view from behind, back of head and back of outfit visible, face not visible。动作：自然站立，neutral idle standing pose, both feet planted, arms relaxed naturally, sword stays in its normal sheath。保持角色全身完整、发顶与鞋底不裁切，居中站在固定脚底锚点，姿势符合自然人体透视。该图必须独立重绘对应角度；禁止镜像正面、拉伸正面、用头发/衣服遮住脸来假冒背面。严格沿用参考母版的精致国风Q版2.5D手绘武侠风格，干净轮廓、精细衣料。真正透明RGBA背景；单张PNG、竖向约3:4、建议1024×1536或更高分辨率。禁止画第二个人物、场景、地面投影、UI、文字、标签、边框、格子、其他方向或其他动作。每次只输出这一张帧，不要把其余15帧放在同一画布。",
+      "negative_prompt": "拼贴、角色设定表、三视图、四视图、接触表、九宫格、Sprite Sheet、多个姿势出现在同一张图、多个角色、背景场景、UI、按钮、边框、文字、编号、水印、logo、白色假透明棋盘格、实心背景、裁切头顶、裁切鞋底、手脚畸形、换脸、服装变色、额外武器、水平镜像冒充另一方向、正面伪装背面、拉伸现有小头像、过曝光晕、低清模糊",
+      "approval_gate": "This is still a candidate frame. Check all 16 frames and the four views manually before packing/release.",
+      "output_sha256": "9bc0ebdf5868b9d5bfaa07f71b7412b66ac23b7ca083d19bd2bea71899eb953b",
+      "receipt_file": "production/character_frames/NPC005/receipts/NPC005_up_idle.json"
+    },
+    {
+      "id": "NPC005_up_walk1",
+      "character_id": "NPC005",
+      "character_name": "苏晚晴",
+      "direction": "up",
+      "direction_cn": "背面",
+      "pose": "walk1",
+      "pose_cn": "迈步一",
+      "status": "generated_candidate_pending_human_review",
+      "single_image_only": true,
+      "reference_image": "D:\\nimingjianghu\\assets\\characters\\masters\\NPC005_fullbody.png",
+      "reference_size": [
+        1024,
+        1536
+      ],
+      "style_reference": "assets/home/characters_gallery_ref.webp",
+      "output_file": "qwen_4dir/NPC005/up_walk1.png",
+      "target_size": [
+        1024,
+        1536
+      ],
+      "minimum_source_size": [
+        256,
+        384
+      ],
+      "format": "RGBA PNG with real alpha transparency",
+      "prompt": "【只生成一张独立角色帧，不是Sprite表】角色「苏晚晴」，唯一人物身份与服装依据是传入的已人工验收高清母版。不得重设计脸、发型、发饰、服装、腰带、纹样、鞋、武器；不改变主色、身高比例、头身比和配饰位置。视角：背面，true rear view from behind, back of head and back of outfit visible, face not visible。动作：迈步一，walking key pose A: left foot steps forward and right foot trails, natural counter-swing of arms。保持角色全身完整、发顶与鞋底不裁切，居中站在固定脚底锚点，姿势符合自然人体透视。该图必须独立重绘对应角度；禁止镜像正面、拉伸正面、用头发/衣服遮住脸来假冒背面。严格沿用参考母版的精致国风Q版2.5D手绘武侠风格，干净轮廓、精细衣料。真正透明RGBA背景；单张PNG、竖向约3:4、建议1024×1536或更高分辨率。禁止画第二个人物、场景、地面投影、UI、文字、标签、边框、格子、其他方向或其他动作。每次只输出这一张帧，不要把其余15帧放在同一画布。",
+      "negative_prompt": "拼贴、角色设定表、三视图、四视图、接触表、九宫格、Sprite Sheet、多个姿势出现在同一张图、多个角色、背景场景、UI、按钮、边框、文字、编号、水印、logo、白色假透明棋盘格、实心背景、裁切头顶、裁切鞋底、手脚畸形、换脸、服装变色、额外武器、水平镜像冒充另一方向、正面伪装背面、拉伸现有小头像、过曝光晕、低清模糊",
+      "approval_gate": "This is still a candidate frame. Check all 16 frames and the four views manually before packing/release.",
+      "output_sha256": "8de28bfbbb60d6971a0f98f0e08585a2ec04dc9609461a5ddf026f5ce32dceb9",
+      "receipt_file": "production/character_frames/NPC005/receipts/NPC005_up_walk1.json"
+    },
+    {
+      "id": "NPC005_up_walk2",
+      "character_id": "NPC005",
+      "character_name": "苏晚晴",
+      "direction": "up",
+      "direction_cn": "背面",
+      "pose": "walk2",
+      "pose_cn": "迈步二",
+      "status": "generated_candidate_pending_human_review",
+      "single_image_only": true,
+      "reference_image": "D:\\nimingjianghu\\assets\\characters\\masters\\NPC005_fullbody.png",
+      "reference_size": [
+        1024,
+        1536
+      ],
+      "style_reference": "assets/home/characters_gallery_ref.webp",
+      "output_file": "qwen_4dir/NPC005/up_walk2.png",
+      "target_size": [
+        1024,
+        1536
+      ],
+      "minimum_source_size": [
+        256,
+        384
+      ],
+      "format": "RGBA PNG with real alpha transparency",
+      "prompt": "【只生成一张独立角色帧，不是Sprite表】角色「苏晚晴」，唯一人物身份与服装依据是传入的已人工验收高清母版。不得重设计脸、发型、发饰、服装、腰带、纹样、鞋、武器；不改变主色、身高比例、头身比和配饰位置。视角：背面，true rear view from behind, back of head and back of outfit visible, face not visible。动作：迈步二，walking passing pose B: weight transitions over the front foot, knees and elbows naturally bent, cloth follows motion。保持角色全身完整、发顶与鞋底不裁切，居中站在固定脚底锚点，姿势符合自然人体透视。该图必须独立重绘对应角度；禁止镜像正面、拉伸正面、用头发/衣服遮住脸来假冒背面。严格沿用参考母版的精致国风Q版2.5D手绘武侠风格，干净轮廓、精细衣料。真正透明RGBA背景；单张PNG、竖向约3:4、建议1024×1536或更高分辨率。禁止画第二个人物、场景、地面投影、UI、文字、标签、边框、格子、其他方向或其他动作。每次只输出这一张帧，不要把其余15帧放在同一画布。",
+      "negative_prompt": "拼贴、角色设定表、三视图、四视图、接触表、九宫格、Sprite Sheet、多个姿势出现在同一张图、多个角色、背景场景、UI、按钮、边框、文字、编号、水印、logo、白色假透明棋盘格、实心背景、裁切头顶、裁切鞋底、手脚畸形、换脸、服装变色、额外武器、水平镜像冒充另一方向、正面伪装背面、拉伸现有小头像、过曝光晕、低清模糊",
+      "approval_gate": "This is still a candidate frame. Check all 16 frames and the four views manually before packing/release.",
+      "output_sha256": "a41858cef04eadf94e4eb305e3827a14c8cc6b95a440de38eb57417da02a0481",
+      "receipt_file": "production/character_frames/NPC005/receipts/NPC005_up_walk2.json"
+    },
+    {
+      "id": "NPC005_up_walk3",
+      "character_id": "NPC005",
+      "character_name": "苏晚晴",
+      "direction": "up",
+      "direction_cn": "背面",
+      "pose": "walk3",
+      "pose_cn": "迈步三",
+      "status": "generated_candidate_pending_human_review",
+      "single_image_only": true,
+      "reference_image": "D:\\nimingjianghu\\assets\\characters\\masters\\NPC005_fullbody.png",
+      "reference_size": [
+        1024,
+        1536
+      ],
+      "style_reference": "assets/home/characters_gallery_ref.webp",
+      "output_file": "qwen_4dir/NPC005/up_walk3.png",
+      "target_size": [
+        1024,
+        1536
+      ],
+      "minimum_source_size": [
+        256,
+        384
+      ],
+      "format": "RGBA PNG with real alpha transparency",
+      "prompt": "【只生成一张独立角色帧，不是Sprite表】角色「苏晚晴」，唯一人物身份与服装依据是传入的已人工验收高清母版。不得重设计脸、发型、发饰、服装、腰带、纹样、鞋、武器；不改变主色、身高比例、头身比和配饰位置。视角：背面，true rear view from behind, back of head and back of outfit visible, face not visible。动作：迈步三，walking key pose C: right foot steps forward and left foot trails, natural counter-swing of arms。保持角色全身完整、发顶与鞋底不裁切，居中站在固定脚底锚点，姿势符合自然人体透视。该图必须独立重绘对应角度；禁止镜像正面、拉伸正面、用头发/衣服遮住脸来假冒背面。严格沿用参考母版的精致国风Q版2.5D手绘武侠风格，干净轮廓、精细衣料。真正透明RGBA背景；单张PNG、竖向约3:4、建议1024×1536或更高分辨率。禁止画第二个人物、场景、地面投影、UI、文字、标签、边框、格子、其他方向或其他动作。每次只输出这一张帧，不要把其余15帧放在同一画布。",
+      "negative_prompt": "拼贴、角色设定表、三视图、四视图、接触表、九宫格、Sprite Sheet、多个姿势出现在同一张图、多个角色、背景场景、UI、按钮、边框、文字、编号、水印、logo、白色假透明棋盘格、实心背景、裁切头顶、裁切鞋底、手脚畸形、换脸、服装变色、额外武器、水平镜像冒充另一方向、正面伪装背面、拉伸现有小头像、过曝光晕、低清模糊",
+      "approval_gate": "This is still a candidate frame. Check all 16 frames and the four views manually before packing/release.",
+      "output_sha256": "d40898358b43b23235c7e9f9272afddae598e7dd2f2843b7ede0da0df56ea413",
+      "receipt_file": "production/character_frames/NPC005/receipts/NPC005_up_walk3.json"
+    }
+  ],
+  "never_auto_approve": true
+}
