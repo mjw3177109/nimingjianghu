@@ -25,6 +25,27 @@ REVIEW_FIELDS = ("identity", "true_four_views", "foot_alternation",
                  "transparent_background", "body_proportions", "consistent_clothing")
 
 
+def validate_overall_approval(evidence, char_id, report):
+    """Accept an actual scoped user decision without inventing checkbox answers."""
+    record_file = (ROOT / evidence.get('approval_record', '')).resolve()
+    if not record_file.is_relative_to(ROOT) or not record_file.is_file():
+        raise ValueError('缺少用户整体批准的原始记录')
+    record = json.loads(record_file.read_text(encoding='utf-8'))
+    if record.get('scope') != 'presented_candidate_sheets_except_player':
+        raise ValueError('整体批准范围不明确')
+    if char_id == 'CHAR001' or char_id in record.get('excluded_character_ids', []):
+        raise ValueError('主角不在本次图集批准范围内')
+    if not isinstance(record.get('user_statement'), str) or len(record['user_statement'].strip()) < 10:
+        raise ValueError('必须保留用户真实批准原话')
+    if record.get('reviewer') != evidence.get('reviewer'):
+        raise ValueError('整体批准记录的审核人不一致')
+    entry = next((r for r in record.get('records', []) if r.get('character_id') == char_id), None)
+    if not entry or entry.get('approved') is not True:
+        raise ValueError('此角色未获整体批准')
+    if entry.get('sheet_sha256') != sha256(report['sheet']) or entry.get('frame_sha256') != [f['sha256'] for f in report['sources']]:
+        raise ValueError('整体批准记录与实际候选图集/源帧哈希不一致')
+
+
 def sha256(file):
     return hashlib.sha256(Path(file).read_bytes()).hexdigest()
 
@@ -46,8 +67,10 @@ def release(char_id, report, evidence_path):
         raise ValueError("审核人不得为空")
     if not isinstance(evidence.get("notes"), str) or len(evidence["notes"].strip()) < 20:
         raise ValueError("审核备注至少20字符，说明具体视觉核查结果")
-    if any(evidence.get("checks", {}).get(k) is not True for k in REVIEW_FIELDS):
-        raise ValueError("人物身份/真实四方向/左右脚/透明背景/比例/服饰六项未全部确认")
+    if evidence.get('approval_record'):
+        validate_overall_approval(evidence, char_id, report)
+    elif any(evidence.get("checks", {}).get(k) is not True for k in REVIEW_FIELDS):
+        raise ValueError("缺少逐项检查或明确的用户整体批准记录")
     hashes = [f["sha256"] for f in report["sources"]]
     if evidence.get("frame_sha256") != hashes:
         raise ValueError("审核的16张源帧哈希与当前输入不一致，禁止偷换图")
@@ -86,6 +109,7 @@ def release(char_id, report, evidence_path):
         "asset_sha256": sha256(dst),
         "reviewer": evidence["reviewer"],
         "review_evidence_sha256": sha256(evidence_path),
+        "review_evidence": Path(evidence_path).resolve().relative_to(ROOT).as_posix(),
         "source_master": master["master"],
     })
     manifest["pending"] = [e for e in manifest.get("pending", []) if e.get("id") != char_id]

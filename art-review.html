@@ -7,7 +7,7 @@
  <aside class="characters"><h2>角色档案 <span id="counter">0 / 7</span></h2><div id="characterList" class="character-list" aria-label="审核角色选择"></div><div class="summary"><span id="sourceCount">—</span><span id="reviewStatus">等待载入</span></div></aside>
  <main class="review">
   <div class="headline"><img id="portrait" width="76" height="76" alt="原版角色头像"><div><h2 id="characterName">正在加载</h2><p id="characterId"></p></div><span class="pill" id="masterStatus">未审核</span></div>
-  <section class="master-candidate"><h3>独立全身母版</h3><p id="masterCandidateCaption">等待载入；母版与游戏运行资源分开。</p><img id="masterCandidate" alt="独立全身母版原图" hidden><p><a id="masterCandidateReport" hidden>查看审核记录与 SHA256</a> · <a href="assets/home/characters_gallery_ref.webp" target="_blank" rel="noopener">打开官方绘卷对照</a></p><p>七张全身母版已于2026年10月23日获用户批准。每名角色的四方向16帧仍须另行审核，头像与游戏内最终效果也分别验收。</p></section>
+  <section class="master-candidate"><h3>独立全身母版</h3><p id="masterCandidateCaption">等待载入；母版与游戏运行资源分开。</p><img id="masterCandidate" alt="独立全身母版原图" hidden><p><a id="masterCandidateReport" hidden>查看审核记录与 SHA256</a> · <a href="assets/home/characters_gallery_ref.webp" target="_blank" rel="noopener">打开官方绘卷对照</a></p><p>七张全身母版已获批准；主角外六人的方向图集已获用户批准并接入。主角继续使用现用素材，候选与头像另行审核。</p></section>
   <div class="controls">
    <label>朝向 <select id="direction"><option value="down">正面 · 下</option><option value="left">真实左侧</option><option value="right">真实右侧</option><option value="up">真实背面 · 上</option></select></label>
    <label>动作 <select id="pose"><option value="0">待机</option><option value="1">步态一</option><option value="2">步态二</option><option value="3">步态三</option></select></label>
@@ -16,7 +16,7 @@
    <a id="frameSource" target="_blank" rel="noopener" hidden>打开当前动作的高清独立源帧（PNG）</a>
   </div>
   <div class="compare">
-   <section class="art-pane"><div class="pane-head"><strong>当前游戏 Sprite · 上一版试玩</strong><small id="currentResolution">资源检测中</small></div><canvas id="currentCanvas" width="384" height="384" aria-label="当前稳定版角色动作"></canvas><p id="stableCaption">前视母版衍生的临时方向图集，不代表真实四视角验收通过。</p></section>
+   <section class="art-pane"><div class="pane-head"><strong>当前游戏 Sprite</strong><small id="currentResolution">资源检测中</small></div><canvas id="currentCanvas" width="384" height="384" aria-label="当前稳定版角色动作"></canvas><p id="stableCaption">前视母版衍生的临时方向图集，不代表真实四视角验收通过。</p></section>
    <section class="art-pane"><div class="pane-head"><strong>待审候选</strong><small id="candidateResolution">加载中</small></div><canvas id="candidateCanvas" width="384" height="384" aria-label="待审角色动作"></canvas><p id="candidateCaption">如无候选文件，会明确标记未提交。</p></section>
   </div>
   <section class="sheet-panel"><h3>16帧 · 四行四列对比</h3><p>每行按下、左、右、上排列，四列依次是待机与三个动作帧。灰色格只表示没有可用候选，不代表已生成。</p><div class="sheet-grid"><div><h4>稳定版图集</h4><canvas id="stableSheet" width="384" height="512"></canvas></div><div><h4>待审图集</h4><canvas id="candidateSheet" width="384" height="512"></canvas></div></div></section>

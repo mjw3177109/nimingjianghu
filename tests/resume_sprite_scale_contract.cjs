@@ -4,9 +4,9 @@ const root=path.resolve(__dirname,'..'),game=fs.readFileSync(path.join(root,'gam
 const maps=Object.fromEntries(['town','road','cave'].map(name=>[name,JSON.parse(fs.readFileSync(path.join(root,'data/maps',name,name+'_tilemap.json'),'utf8'))]));
 const structures=JSON.parse(fs.readFileSync(path.join(root,'data/structures.json'),'utf8'));
 const world=JSON.parse(fs.readFileSync(path.join(root,'data/world.json'),'utf8'));
-const collisionFunction=game.match(/function occupiedTile\(mapName,x,y,banditAlive=true\)\{[\s\S]*?\n\}/);
+const collisionFunction=game.match(/function occupiedTile\(mapName,x,y,banditAlive=true,quest=0\)\{[\s\S]*?\n\}/);
 assert(collisionFunction,'Shared collision predicate must exist');
-const occupied=vm.runInNewContext('(()=>{const tileMaps='+JSON.stringify(maps)+';const structData='+JSON.stringify(structures)+';const world='+JSON.stringify(world)+';'+collisionFunction[0]+';return occupiedTile})()');
+const occupied=vm.runInNewContext('(()=>{const tileMaps='+JSON.stringify(maps)+';const structData='+JSON.stringify(structures)+';const world='+JSON.stringify(world)+';'+game.match(/function activeNpcs\(mapName,quest=0\)\{[\s\S]*?\n\}/)[0]+collisionFunction[0]+';return occupiedTile})()');
 for(const name of ['town','road','cave']){
  const m=maps[name];assert.equal(occupied(name,...m.spawn),false,'Scene spawn must be safe: '+name);
  assert.equal(occupied(name,-1,0),true,'Out-of-bounds must be solid');
@@ -16,10 +16,12 @@ assert(occupied('town',29,21),'Willow trunk must block restored save');
 assert(occupied('town',8,10),'Innkeeper tile must block restored save');
 assert(occupied('road',18,10,true),'Live bandit tile must block restored save');
 assert.equal(occupied('road',18,10,false),false,'Defeated bandit tile must be passable');
+assert.equal(occupied('town',35,14,true,0),false,'Liao must not create invisible collisions before the ending');
+assert.equal(occupied('town',35,14,true,4),true,'Visible ending Liao must reserve his footprint');
 assert(occupied('cave',15,8),'Altar must block restored save');
 assert(occupied('cave',22,10),'Chest must block restored save');
-assert(game.includes('if(!st.pos||occupiedTile(st.map,st.pos.x,st.pos.y,st.banditAlive!==false))'),'Saved games must reject occupied positions');
-assert(game.includes('state.pos=occupiedTile(to,wanted.x,wanted.y,state.banditAlive)'),'Map transitions must reject occupied spawns');
+assert(game.includes('if(!st.pos||occupiedTile(st.map,st.pos.x,st.pos.y,st.banditAlive!==false,st.quest))'),'Saved games must reject occupied positions');
+assert(game.includes('state.pos=occupiedTile(to,wanted.x,wanted.y,state.banditAlive,state.quest)'),'Map transitions must reject occupied spawns');
 const sizeFunction=game.match(/function spriteDrawSize\(key,image\)\{[\s\S]*?\n\}/);
 assert(sizeFunction,'Shared sprite scale function missing');
 const drawSize=vm.runInNewContext('(()=>{'+sizeFunction[0]+';return spriteDrawSize})()');

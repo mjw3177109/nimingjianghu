@@ -11,6 +11,10 @@ from pathlib import Path
 ROOT=Path(__file__).resolve().parent
 
 
+def active_npcs(scene_data, quest):
+    return [npc for npc in scene_data.get('npcs', []) if npc.get('min_quest', 0) <= quest]
+
+
 def actor_pixel_hit(image, feet_x, feet_y, screen_x, screen_y):
     """Hit the same intact RGBA surface and feet anchor used by the renderer."""
     x=int(screen_x-(feet_x-image.get_width()//2))
@@ -127,8 +131,12 @@ def main():
     # P3-I: never use the previous upper/lower-body SVG animation proxies in gameplay.
     # Preserve the actual full-body PNG in near-native resolution; no torso/legs clipping.
     sprites={}
-    for key in ['player','innkeeper','healer','oldman','bandit']:
-        full=pygame.image.load(str(ROOT/'assets/sprites'/(key+'.png'))).convert_alpha()
+    for key in ['player','innkeeper','healer','oldman','bandit','swordswoman','liao']:
+        if key in ('swordswoman','liao'):
+            cid={'swordswoman':'NPC003','liao':'BOSS001'}[key]
+            full=pygame.image.load(str(ROOT/'assets/characters/masters'/(cid+'_fullbody.png'))).convert_alpha()
+        else:
+            full=pygame.image.load(str(ROOT/'assets/sprites'/(key+'.png'))).convert_alpha()
         target_height=80 if key=='bandit' else 100 if key=='player' else 96
         width=min(84 if key=='bandit' else 73,max(1,round(full.get_width()*target_height/full.get_height())))
         height=round(width*full.get_height()/full.get_width())
@@ -156,7 +164,7 @@ def main():
     scene='town';pos=tuple(tilemaps['town']['spawn']);facing='down';motion=None;route=[];pending=None;quest=0;hp=100;mp=50;potions=2;destiny=0;coins=10;manual=False;trace=False;bandit_alive=True;lines=[];dialogue_cb=None;battle=None;note='鼠标点击地面移动，点击人物或出口互动。';journal='这里是我记忆中的江湖吗？'
     def walls(x,y):
         m=tilemaps[scene]
-        actors=data['maps'][scene].get('npcs',[]) + (data['maps'][scene].get('enemies',[]) if bandit_alive else [])
+        actors=active_npcs(data['maps'][scene],quest) + (data['maps'][scene].get('enemies',[]) if bandit_alive else [])
         return blocked_tile(m,structures[scene],actors,x,y)
     def find_path(start,dest):
         if walls(*dest):return None
@@ -267,7 +275,7 @@ def main():
                 max(0,min(int((vy+.5)*32-SH/2),m['height']*32-SH)))
     def pick_actor(screen_x,screen_y):
         m=data['maps'][scene];ox,oy=town_camera()
-        actors=[('npc',a) for a in m.get('npcs',[])]+[('enemy',a) for a in m.get('enemies',[]) if bandit_alive]
+        actors=[('npc',a) for a in active_npcs(m,quest)]+[('enemy',a) for a in m.get('enemies',[]) if bandit_alive]
         for kind,actor in sorted(actors,key=lambda pair:pair[1]['y'],reverse=True):
             key=actor['id'];direction=1 if key in ('healer','bandit') else 0
             art=animated_sprites[key][direction][0] if key in animated_sprites else sprites[key]
@@ -292,7 +300,7 @@ def main():
             for name,xx,yy in [('客栈',7,8),('药铺',30,8)]:
                 sx,sy=xx*32-ox,yy*32-oy
                 if -80<sx<690 and -80<sy<420:txt(name,sx,sy)
-        actors=[(n['x'],n['y'],n['name'],n['id']) for n in data['maps'][scene].get('npcs',[])]
+        actors=[(n['x'],n['y'],n['name'],n['id']) for n in active_npcs(data['maps'][scene],quest)]
         if scene=='road' and bandit_alive:
             actors += [(n['x'],n['y'],n['name']+' ⚔','bandit') for n in data['maps']['road'].get('enemies',[])]
         vx,vy=player_visual();actors.append((vx,vy,'','player'))
@@ -300,7 +308,7 @@ def main():
             px=int((xx+.5)*32-ox);py=int((yy+1)*32-oy)
             if not (-50<px<690 and -80<py<430):continue
             pygame.draw.ellipse(canvas,(36,54,49),(px-14,py-6,28,7))
-            sp={'innkeeper':'innkeeper','healer':'healer','oldman':'oldman','bandit':'bandit','player':'player'}[aid]
+            sp=aid
             direction={'down':0,'left':1,'right':2,'up':3}.get(facing if sp=='player' else ('left' if sp in ('healer','bandit') else 'down'),0)
             active=(sp=='player' and (bool(route) or motion is not None))
             tick=(pygame.time.get_ticks()//115)%3

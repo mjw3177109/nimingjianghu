@@ -1,0 +1,26 @@
+{
+  "character_id": "NPC003",
+  "approved": true,
+  "reviewer": "user_in_current_conversation",
+  "notes": "用户明确批准除主角外的六人待审图集并要求直接接入；按整体批准原话记录，未虚构逐项检查答案。",
+  "approval_record": "assets/characters/scene_sprites/reviews/2026-10-23_user_six_sheets.json",
+  "sheet_sha256": "5b3996f3212eaad8462fe0fbc4ccaec2c659b4dd28fabb9d5eb940d62f16d6fb",
+  "frame_sha256": [
+    "b0a3da90523c403f87d3649464117c743ebdd355a9d48ad4fa4af4374c61b7c7",
+    "f583e171cb6710af855184938c9feefdf0ab16c7160c37db33a34a0bcd51a78d",
+    "dba5553d36ed55705f641ef8b607a7ff457a28aa1fcdfbd917b22a2cd02be29e",
+    "6f89ca1b37fc99b9297918c14c198d1dc42bc9d92455c96453a4d82cb1a2c76b",
+    "6d50b76d575a55836e50cb062c8e5c2f175e3c0b455a8cbdd8827caf6ddfa6c1",
+    "ae86dbae51ffdf8d5b961e67073875f42c865081642a70cb3a812c94fbe0ce96",
+    "55ae9bbd8153c252bb67605e836361aa7a1884e8ae1224a26e325f9cf6121b7e",
+    "7b8b864020624a05e753806a080eb7a40c56a8008f4e851dcb60b2fd17ea90a7",
+    "d70c42e3064632f34309c172f0d8ae479db5382f00aba8611eb24bd69968cafe",
+    "29830edfb2d8894f20f08b9d2716896dbdc5c4e970d99a1a4102d2eb46d0a564",
+    "63906fc51cd87f26eda8ebbcfd2284bde6257a4942d0cea1be5f80ba44af120d",
+    "02ac138e6649416bb5ca94b4bd5fc006434a58fa38b88d11f98b69daa40d0501",
+    "cb5ad1ebf160c99127a45de477e80465509f436d8c224dd1c3e06d72480efc25",
+    "14258e97f2a1e0d12a4868d1b11089c37548b39002f827033dcfafd7a09d2d05",
+    "b6e9b12c2eef6046da05e7edf06be6d7df0d6c24c0cdf7285cbb42e70b5896a6",
+    "cb9a59390ca05445782ef579437604957d7eaaa942c951a0f0a0bdc9481df741"
+  ]
+}

@@ -1,12 +1,20 @@
 import json
 import unittest
 from pathlib import Path
-from main import blocked_tile
+from main import blocked_tile, active_npcs
 
 ROOT = Path(__file__).resolve().parents[1]
 
 
 class CollisionParity(unittest.TestCase):
+    def test_liao_only_appears_after_cave_clues(self):
+        world = json.loads((ROOT / 'data/world.json').read_text(encoding='utf-8'))
+        scene = world['maps']['town']
+        for quest in range(6):
+            ids = [npc['id'] for npc in active_npcs(scene, quest)]
+            self.assertIn('swordswoman', ids)
+            self.assertEqual('liao' in ids, quest >= 4)
+
     def test_real_structure_and_actor_footprints(self):
         world = json.loads((ROOT / 'data/world.json').read_text(encoding='utf-8'))
         structures = json.loads((ROOT / 'data/structures.json').read_text(encoding='utf-8'))

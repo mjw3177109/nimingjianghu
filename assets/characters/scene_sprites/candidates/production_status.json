@@ -3,7 +3,7 @@
   "phase": "independent_frame_candidates",
   "expected": 112,
   "generated": 112,
-  "human_approved_characters": 0,
+  "human_approved_characters": 6,
   "characters": [
     {
       "id": "CHAR001",
@@ -99,7 +99,7 @@
       "name": "廖",
       "expected": 16,
       "generated": 16,
-      "human_approved": false,
+      "human_approved": true,
       "frames": [
         {
           "id": "BOSS001_down_idle",
@@ -188,7 +188,7 @@
       "name": "韩掌柜",
       "expected": 16,
       "generated": 16,
-      "human_approved": false,
+      "human_approved": true,
       "frames": [
         {
           "id": "NPC001_down_idle",
@@ -277,7 +277,7 @@
       "name": "顾老",
       "expected": 16,
       "generated": 16,
-      "human_approved": false,
+      "human_approved": true,
       "frames": [
         {
           "id": "NPC002_down_idle",
@@ -366,7 +366,7 @@
       "name": "顾青岚",
       "expected": 16,
       "generated": 16,
-      "human_approved": false,
+      "human_approved": true,
       "frames": [
         {
           "id": "NPC003_down_idle",
@@ -455,7 +455,7 @@
       "name": "苏晚晴",
       "expected": 16,
       "generated": 16,
-      "human_approved": false,
+      "human_approved": true,
       "frames": [
         {
           "id": "NPC005_down_idle",
@@ -544,7 +544,7 @@
       "name": "山贼",
       "expected": 16,
       "generated": 16,
-      "human_approved": false,
+      "human_approved": true,
       "frames": [
         {
           "id": "EN001_down_idle",

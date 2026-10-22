@@ -2,7 +2,21 @@
 
 更新时间：2026-10-23（Asia/Shanghai）。
 
-## 最新周期：v1.0.11 角色PNG透明像素命中（优先读取）
+## 最新周期：v1.0.12 六人图集接入（优先读取）
+
+- 用户本轮真实批准主角外六人待审图集，并明确“沿用现用主角即可”。已接入六套PNG，主角现用PNG哈希保持 be0f8405b3e9e551a6521f563af75d204b945ffbbbe48b2bcc77828e8d78660c。主角新候选、头像不在批准范围，不能声称全部独立图集通过正式门禁。
+- 审批原话、范围、六套实际图集与各16帧哈希保存在 assets/characters/scene_sprites/reviews/2026-10-23_user_six_sheets.json。release 支持可核验的整体批准原话，未伪造六个逐项人工勾选；生成凭据 approved=false 保留。
+- 顾青岚加入青石镇可交谈NPC；廖 min_quest=4，取得两线索后现身，结尾后可交谈。JS/Python 绘制、点击、碰撞共用任务阶段过滤，存档恢复考虑新人物脚印。
+- npm test/build 已通过；带Pillow Python26项全部通过。本地真实Chromium正向首章、顾青岚/廖可选交谈、透明像素/实体点击、战斗、结尾与刷新读档PASS，无JS异常/失败请求，报告 qa/1.0.12-local/manual-first/report.json。审核页七人112张PNG哈希核验PASS，六套运行PNG哈希与批准记录一致；主角候选仍未批准。独立美术门禁仅报告CHAR001两个阻断（预期，不等同于要求重画主角）。新提交SHA、Vercel Preview与线上核验待本轮完成补记，旧URL不是本轮交付。
+
+## 历史周期：v1.0.11 角色PNG透明像素命中（优先读取）
+
+- 最终发布：`4400e6de362221ef5e8dd255b20100700c14c71a`。GitHub指定分支与本地HEAD已核对一致，树 `8c6bc0b449efdeb8d5f00927b12b530f375bbcab`。Git直连连接重置后经GitHub连接器发布，树与原8557916提交完全一致，旧提交保存在 `codex/local-1.0.11-8557916`；本地导入精确提交对象同步，未重置文件、未改Gitee origin。
+- 最终Vercel Preview READY：`dpl_8efLXF3S4ufie9gabjavsZLekpiq`，SHA一致，target=null。URL `https://nimingjianghu-684vp9ebh-bobos-projects-e9f8bfba.vercel.app/`。未发布Production。
+- 最终线上两条真实Chromium首章均PASS，包含真实透明内点和实体躯干点击、山贼保留脚印、战斗、结尾与刷新继续，均quest=5、manual/trace=true、banditAlive=false，无JS异常与HTTP失败；报告 `qa/1.0.11-online/manual-first/report.json`、`qa/1.0.11-online/trace-first/report.json`，日志 `qa/1.0.11-online-forward.log`、`qa/1.0.11-online-reverse.log`。
+- CI #150（PR）`39827814677` completed/success；#149（push）`39827805180`最新读取仍in_progress，后续核对，不提前称成功。npm test/build、Python24项均通过；独立美术发布门禁退出1（预期），日志 `qa/1.0.11-art.log`。
+- 最终SHA/Preview/CI和经实际校验的两份线上报告已保存 `qa/release.json`、`qa/1.0.11-release.json`。此发布后补记保留本地，不为状态文字单独造新版本，工作区仅本文件有补记。
+- 后续先核对#149；112帧继续等用户真实方向/步态审核，批准后再接入，暂不改变正式Sprite与美术审批。可继续实查前景遮挡、人物遮挡点击和存档边界；Pygame窗口仍未实际打开验收。
 
 - 已核对基线GitHub HEAD、本地HEAD及Vercel均为 `f6ff627bf854a8bd2c99e359ea7a8a3076cf1c19`，Preview READY `dpl_CgFwoS1YqAJdAZpHG3f4U7KqLk9R`。上一轮PR CI #148 `39824144777`已completed/success。
 - 实际复现：韩掌柜原PNG缩放42×72后(5,5)的真实alpha=0，处于旧头部几何轮廓内；点击后主角从(10,11)移动到(8,11)。失败证据 `qa/1.0.11-before.log`、`qa/1.0.11-before/failure.json`/failure.png。

@@ -36,7 +36,7 @@ assert.equal(lastDraw[7],108);assert.equal(lastDraw[8],144,'Mask must match the 
 const pickSource=game.slice(game.indexOf('function pickActorAtScreen('),game.indexOf('const spriteKeys='));
 const pick=vm.runInNewContext('('+pickSource.trim()+')',{
  townCamera:()=>({x:0,y:0}),state:{map:'town',banditAlive:true},
- world:{maps:{town:{npcs:[{x:8,y:10,id:'innkeeper',icon:'shop'}]}}},
+ world:{maps:{town:{npcs:[{x:8,y:10,id:'innkeeper',icon:'shop'}]}}},activeNpcs:()=>[{x:8,y:10,id:'innkeeper',icon:'shop'}],
  actorSpriteHit:hit,npcSpriteKey:maskContext.npcSpriteKey,defaultActorFacing:maskContext.defaultActorFacing
 });
 const x=8,y=10,camX=0,camY=0,cx=(x+.5)*32-camX,feet=(y+1)*32-camY;

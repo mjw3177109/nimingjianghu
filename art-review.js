@@ -60,13 +60,14 @@ async function showPerson(person){
  for(const el of $('characterList').querySelectorAll('[data-char]'))el.setAttribute('aria-current',el.dataset.char===person.id?'true':'false');
  const record=masterManifest?.tasks?.find(x=>x.id===person.id);
  const entry=spriteManifest?.entries?.find(x=>x.id===person.id);
+ const directionsApproved=entry?.direction_status==='user_approved_independently_painted';
  const officiallyApproved=record?.master_approved===true&&record?.portrait_approved===true&&entry?.direction_status==='user_approved_independently_painted';
  const liveTrial=entry?.direction_status==='gameplay_trial_pending_user_art_review';
- $('masterStatus').textContent=officiallyApproved?'人工已审核':record?.master_approved?'全身母版已审核 · 动作帧待审核':liveTrial?'已接入试玩 · 等你最终评审':'未审核 · 不可发布';
- $('masterStatus').style.borderColor=officiallyApproved?'#76be91':'#aa795f';
+ $('masterStatus').textContent=officiallyApproved?'人工已审核':directionsApproved?'方向图集已审核 · 头像另行审核':record?.master_approved?'全身母版已审核 · 动作帧待审核':liveTrial?'已接入试玩 · 等你最终评审':'未审核 · 不可发布';
+ $('masterStatus').style.borderColor=officiallyApproved||directionsApproved?'#76be91':'#aa795f';
  $('stableCaption').textContent=entry?(entry.direction_status==='gameplay_trial_pending_user_art_review'?
  '游戏当前使用的上一版试玩图集；右侧为本轮依据已批准母版制作的独立动作帧候选，待审核后接入。':
- '当前游戏使用的方向图集；'+(entry.direction_status==='user_approved_independently_painted'?'方向素材标为已审核。':'侧面、背面仍为过渡派生稿。')):'尚无可玩 Sprite；显示已有角色头像供核对。';
+ '当前游戏使用的方向图集；'+(directionsApproved?'本轮图集已获用户批准并接入游戏。':'侧面、背面仍为过渡派生稿。')):'尚无可玩 Sprite；显示已有角色头像供核对。';
  $('candidateCaption').textContent='加载候选中；图片不会被自动发布。';
  const version=window.NM_SPRITE_REGISTRY||{};
  $('masterCandidate').hidden=true;$('masterCandidateReport').hidden=true;
@@ -76,7 +77,7 @@ async function showPerson(person){
  const masterCandidate=results[2];
  if(masterCandidate){
   $('masterCandidate').src=masterCandidate.src;$('masterCandidate').hidden=false;
-  $('masterCandidateCaption').textContent=person.id+' · '+masterCandidate.naturalWidth+'×'+masterCandidate.naturalHeight+' 源像素 · '+(record?.master_approved?'全身母版已人工审核；动作帧、头像另行审核':'候选，未人工审核，不是16帧Sprite');
+  $('masterCandidateCaption').textContent=person.id+' · '+masterCandidate.naturalWidth+'×'+masterCandidate.naturalHeight+' 源像素 · '+(record?.master_approved?'全身母版已人工审核；'+(directionsApproved?'方向图集已审核，头像另行审核':'动作帧、头像另行审核'):'候选，未人工审核，不是16帧Sprite');
   $('masterCandidateReport').href=record?.master_review_evidence||'assets/characters/masters/candidates/'+person.id+'_master_qa.json';$('masterCandidateReport').hidden=false;
  }else $('masterCandidateCaption').textContent=person.id+'：尚无通过技术检查的独立母版候选。';
  stable=results[0];candidate=results[1];
@@ -84,9 +85,9 @@ async function showPerson(person){
  else if(candidate.naturalWidth<384){
   $('candidateCaption').textContent='旧版24×32/帧低分辨率候选；仅可检查方向和动作，不属于正式高清母版。';
  }else{
-  $('candidateCaption').textContent='已找到高清 Sprite 候选；仍需确认真实独立四方向、服饰与母版一致，未经审核不能发布。';
+  $('candidateCaption').textContent=directionsApproved?'该图集已获用户整体批准，当前游戏已使用同一份PNG。':'主角这套候选未获批准，游戏继续保留现用主角图集。';
  }
- $('reviewStatus').textContent=person.id+'：'+(officiallyApproved?'已审核':liveTrial?'已进入试玩，待最终评审':'未审核');
+ $('reviewStatus').textContent=person.id+'：'+(officiallyApproved?'已审核':directionsApproved?'方向图集已审核并接入':liveTrial?'已进入试玩，待最终评审':'未审核');
  render();
 }
 function tick(ts){
@@ -110,7 +111,7 @@ async function init(){
    fetch('assets/characters/scene_sprites/candidates/production_status.json').then(r=>{if(!r.ok)throw Error('missing frame status');return r.json();})
   ]);
   masterManifest=m;spriteManifest=s;
-  $('sourceCount').textContent='全身母版：'+m.tasks.filter(x=>x.master_approved).length+' / '+m.tasks.length+' 已审核 · 独立动作帧：'+p.generated+' / '+p.expected+' 已生成，待人工审核 · 头像另行审核';
+  $('sourceCount').textContent='全身母版：'+m.tasks.filter(x=>x.master_approved).length+' / '+m.tasks.length+' 已审核 · 独立动作帧：'+p.generated+' / '+p.expected+' 已生成 · 方向图集：'+p.human_approved_characters+' / 7 已审核并接入 · 主角候选与头像另行审核';
  }catch(err){$('sourceCount').textContent='母版清单载入失败：请检查项目部署';}
  $('direction').addEventListener('change',e=>{dir=e.target.value;render()});
  $('pose').addEventListener('change',e=>{frame=Number(e.target.value);render()});

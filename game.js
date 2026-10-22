@@ -36,10 +36,13 @@ function canvasPoint(e){const r=canvas.getBoundingClientRect();return {x:(e.clie
 function townTileFromScreen(sx,sy){const c=townCamera();return {x:Math.floor((sx+c.x)/32),y:Math.floor((sy+c.y)/32)}}
 // Click the visible body rather than the invisible 32px grid cell.
 // Use the current rendered PNG frame and its real alpha; player is excluded.
+function activeNpcs(mapName,quest=0){
+ return (world.maps[mapName].npcs||[]).filter(npc=>(npc.min_quest||0)<=quest);
+}
 function pickActorAtScreen(sx,sy){
  const cam=townCamera(),scene=world.maps[state.map];
  const actors=[
-  ...(scene.npcs||[]).map(a=>({...a,type:'npc'})),
+  ...activeNpcs(state.map,state.quest).map(a=>({...a,type:'npc'})),
   ...(state.banditAlive?(scene.enemies||[]):[]).map(a=>({...a,type:'enemy'}))
  ];
  return actors.filter(a=>{
@@ -64,7 +67,7 @@ function facingForMove(from,to){if(to.x>from.x)return 'right';if(to.x<from.x)ret
 const SAVE_KEY='nimingjianghu_tile_v2',OLD_KEYS=['nimingjianghu_tile_v1','nimingjianghu_final_demo_v1','nimingjianghu_save_v3','nimingjianghu_chibi_v02'];
 function readSaved(){for(const key of [SAVE_KEY,...OLD_KEYS]){try{const v=JSON.parse(localStorage.getItem(key)||'null');if(v&&v.state&&world.maps[v.state.map]&&typeof v.state.quest==='number'&&typeof v.state.hp==='number'){const st={...v.state,route:[],moving:null,pending:null};if(st.tileSchema!==2){if(st.map==='town'){if(key!=='nimingjianghu_tile_v1')st.pos={x:14,y:12};}
 else st.pos={x:tileMaps[st.map].spawn[0],y:tileMaps[st.map].spawn[1]};st.tileSchema=2;}
-if(!st.pos||occupiedTile(st.map,st.pos.x,st.pos.y,st.banditAlive!==false))st.pos={x:tileMaps[st.map].spawn[0],y:tileMaps[st.map].spawn[1]};
+if(!st.pos||occupiedTile(st.map,st.pos.x,st.pos.y,st.banditAlive!==false,st.quest))st.pos={x:tileMaps[st.map].spawn[0],y:tileMaps[st.map].spawn[1]};
 return st;}}catch(e){console.warn('存档不可读：',key)}}return null}
 function saveGame(){if(!running)return;try{localStorage.setItem(SAVE_KEY,JSON.stringify({version:3,state:{...state,tileSchema:2,route:[],moving:null,pending:null}}));window.dispatchEvent(new Event('nm-save-updated'));}catch(e){console.warn('无法存档',e)}}
 function stop(){running=false;clearMoveKeys();epoch++;if(raf){cancelAnimationFrame(raf);raf=0}dialogue=null;battle=null;for(const id of ['dialogue','battle','panel'])$(id).classList.add('hidden')}
@@ -73,7 +76,7 @@ function launch(saved){stop();motion=null;walkStepIndex=0;state=saved?{...JSON.p
 // P3-I: seamless full-body renderer. Legacy split-body SVG sheets are kept
 // for comparison in the art review studio but are NEVER used in gameplay.
 const imgs={},animatedSheets={};
-const characters={player:'assets/sprites/player.png',innkeeper:'assets/sprites/innkeeper.png',
+const characters={swordswoman:'assets/characters/masters/NPC003_fullbody.png',liao:'assets/characters/masters/BOSS001_fullbody.png',player:'assets/sprites/player.png',innkeeper:'assets/sprites/innkeeper.png',
  healer:'assets/sprites/healer.png',oldman:'assets/sprites/oldman.png',bandit:'assets/sprites/bandit.png'};
 const spritePolicy={minimumFrameWidth:96,minimumFrameHeight:128,previewDisabled:true};
 for(const [k,path] of Object.entries(characters)){
@@ -116,7 +119,7 @@ function drawActorSprite(key,feetX,feetY,facing,moving=false){
  ctx.restore();
 }
 const actorHitMasks=new WeakMap();
-function npcSpriteKey(npc){return npc.icon==='shop'?'innkeeper':npc.icon==='heal'?'healer':'oldman'}
+function npcSpriteKey(npc){return npc.id==='swordswoman'?'swordswoman':npc.id==='liao'?'liao':npc.icon==='shop'?'innkeeper':npc.icon==='heal'?'healer':'oldman'}
 function defaultActorFacing(key){return key==='healer'||key==='bandit'?'left':'down'}
 function actorSpriteHit(key,facing,feetX,feetY,sx,sy){
  const sheet=animatedSheets[key];
@@ -145,7 +148,7 @@ function actorSpriteHit(key,facing,feetX,feetY,sx,sy){
 function posEq(a,b){return a.x===b.x&&a.y===b.y}
 function inBounds(x,y){const m=currentTilemap();return x>=0&&y>=0&&x<m.width&&y<m.height}
 // One collision rule for pathfinding, saved positions and map-entry spawns.
-function occupiedTile(mapName,x,y,banditAlive=true){
+function occupiedTile(mapName,x,y,banditAlive=true,quest=0){
  const m=tileMaps[mapName],scene=world.maps[mapName];
  if(!m||!scene||!Number.isInteger(x)||!Number.isInteger(y)||x<0||y<0||x>=m.width||y>=m.height)return true;
  if(m.collision[y*m.width+x]===1)return true;
@@ -154,11 +157,11 @@ function occupiedTile(mapName,x,y,banditAlive=true){
   if(f&&x>=obj.x+f.x&&x<obj.x+f.x+f.w&&y>=obj.y+f.y&&y<obj.y+f.y+f.h)return true;
  }
  // Painted actors wider than one tile reserve neighboring cells horizontally.
- for(const npc of scene.npcs||[])if(Math.abs(npc.x-x)<=1&&npc.y===y)return true;
+ for(const npc of activeNpcs(mapName,quest))if(Math.abs(npc.x-x)<=1&&npc.y===y)return true;
  if(banditAlive)for(const enemy of scene.enemies||[])if(Math.abs(enemy.x-x)<=1&&enemy.y===y)return true;
  return false;
 }
-function blocked(x,y){return occupiedTile(state.map,x,y,state.banditAlive)}
+function blocked(x,y){return occupiedTile(state.map,x,y,state.banditAlive,state.quest)}
 function bfs(from,to){if(blocked(to.x,to.y))return null;let q=[from],seen=new Set([from.x+','+from.y]),prev={};while(q.length){let a=q.shift(),key=a.x+','+a.y;if(posEq(a,to)){let r=[],cur=key;while(cur!==from.x+','+from.y){let [xx,yy]=cur.split(',').map(Number);r.push({x:xx,y:yy});cur=prev[cur]}return r.reverse()}for(let [dx,dy] of [[1,0],[-1,0],[0,1],[0,-1]]){let nx=a.x+dx,ny=a.y+dy,k=nx+','+ny;if(blocked(nx,ny)||seen.has(k))continue;seen.add(k);prev[k]=key;q.push({x:nx,y:ny})}}return null}
 function nearestReach(target,avoidCenter=false){
  const candidates=[];
@@ -176,7 +179,7 @@ function nearestReach(target,avoidCenter=false){
 }
 function travelTo(x,y,act){let n=nearestReach({x,y},act&&['npc','object'].includes(act.type));if(!n){notice('这里暂时无法抵达');return}state.route=n.r;state.pending=act?{...act,t:n.t}:null; if(!n.r.length&&state.pending&&!motion)finishPending()}
 function finishPending(){if(!state.pending)return;let p=state.pending;state.pending=null; if(p.type==='npc')talk(p.id);else if(p.type==='enemy')startBattle();else if(p.type==='object')objectClick(p.id);else if(p.type==='exit')changeMap(p.to,p.spawn);else if(p.type==='hotspot')notice(p.id==='inn_door'?'客栈里传来阵阵饭香，韩掌柜正在门口。':'药铺里弥漫着药香，苏晚晴可以为你指路。')}
-function changeMap(to,spawn){state.map=to;const wanted=to==='town'?{x:38,y:12}:{x:spawn[0],y:spawn[1]};state.pos=occupiedTile(to,wanted.x,wanted.y,state.banditAlive)?{x:tileMaps[to].spawn[0],y:tileMaps[to].spawn[1]}:wanted;state.route=[];motion=null;state.pending=null;state.day=Math.max(1,state.day);if(to==='cave')state.visitedCave=true;notice('进入 '+world.maps[to].name);updateUI()}
+function changeMap(to,spawn){state.map=to;const wanted=to==='town'?{x:38,y:12}:{x:spawn[0],y:spawn[1]};state.pos=occupiedTile(to,wanted.x,wanted.y,state.banditAlive,state.quest)?{x:tileMaps[to].spawn[0],y:tileMaps[to].spawn[1]}:wanted;state.route=[];motion=null;state.pending=null;state.day=Math.max(1,state.day);if(to==='cave')state.visitedCave=true;notice('进入 '+world.maps[to].name);updateUI()}
 function notice(msg){$('status').textContent=msg; $('hint').textContent=msg;clearTimeout(notice.timer); notice.timer=setTimeout(()=>$('hint').textContent='点击移动 · 点击人物交谈 · 点击出口切换地图',3600)}
 function scripted(lines,done){clearMoveKeys();dialogue={lines,idx:0,done};$('dialogue').classList.remove('hidden');showLine()}
 function showLine(){if(!dialogue)return;let row=dialogue.lines[dialogue.idx];$('speaker').textContent=row[0];$('dialogueText').textContent=row[1];const names={'沈砚':'CHAR001','廖':'BOSS001','韩掌柜':'NPC001','顾老':'NPC002','苏晚晴':'NPC005','顾青岚':'NPC003','？？？':'BOSS001'};$('dialoguePortrait').src='assets/portraits/'+(names[row[0]]||'CHAR001')+'_avatar.webp'}
@@ -253,7 +256,7 @@ function drawTileTown(){
  // Painter's algorithm: every actor, railing, canopy and front structure has
  // a world-space foot depth. Do not paint every foreground object over every actor.
  const actors=[];
- for(const npc of world.maps[state.map].npcs||[])actors.push({x:npc.x,y:npc.y,sprite:npcSpriteKey(npc),name:npc.name,id:npc.id});
+ for(const npc of activeNpcs(state.map,state.quest))actors.push({x:npc.x,y:npc.y,sprite:npcSpriteKey(npc),name:npc.name,id:npc.id});
  if(state.map==='road'&&state.banditAlive)for(const enemy of world.maps.road.enemies||[])actors.push({x:enemy.x,y:enemy.y,sprite:'bandit',name:enemy.name+' ⚔'});
  const showPos=visualPlayer();actors.push({x:showPos.x,y:showPos.y,sprite:'player',name:'',facing:state.facing||'down',moving:!!motion&&motion.progress<1});
  const drawQueue=[];

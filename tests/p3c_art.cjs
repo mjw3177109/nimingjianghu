@@ -2,7 +2,7 @@
 const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path');
 const root=path.resolve(__dirname,'..');
 const m=JSON.parse(fs.readFileSync(path.join(root,'assets/characters/scene_sprites/sprite_manifest.json'),'utf8'));
-assert.equal(m.frame_width,48);assert.equal(m.frame_height,64);assert.equal(m.columns,4);assert.equal(m.rows,4);
+assert.equal(m.frame_width,96);assert.equal(m.frame_height,128);assert.equal(m.columns,4);assert.equal(m.rows,4);
 assert.deepEqual(m.directions,['down','left','right','up']);
 assert(m.entries.length>=5&&m.entries.length<=7,'Expect legacy sprites plus up to two newly approved roles');
 assert(['derived_preproduction_not_approved_4dir','partially_approved_4dir','approved_4dir'].includes(m.status));

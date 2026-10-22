@@ -25,7 +25,7 @@ async function main(){
   await page.locator('#startButton').click();
   await page.waitForFunction(()=>window.NMFinal?.isRunning()&&!document.getElementById('gameScreen').hidden);
   await delay(600);
-  if(await page.locator('#skipIntro').isVisible())await page.locator('#skipIntro').click();
+  await page.locator('#skipIntro').waitFor({state:'visible',timeout:15000});await page.locator('#skipIntro').click();
   async function dialogue(){
    for(let i=0;i<20;i++){
     if(!(await page.locator('#dialogue').isVisible()))return;
@@ -34,6 +34,31 @@ async function main(){
    throw Error('Dialogue did not close');
   }
   async function state(){return page.evaluate(()=>{const s=window.NMFinal.debugState();return {map:s.map,pos:{...s.pos},quest:s.quest,route:s.route.length,motion:!!window.NMFinal.debugAnimation().motion,banditAlive:s.banditAlive,manual:s.manual,trace:s.trace}})}
+  async function actorPixels(key,tileX,tileY,facing){
+   return page.evaluate(async({key,tileX,tileY,facing})=>{
+    const path=(window.NM_SPRITE_REGISTRY||{})[key]||'';
+    const image=new Image();image.src=/_4dir\.png$/i.test(path)?path:'assets/sprites/'+key+'.png';await image.decode();
+    const sheet=/_4dir\.png$/i.test(path),scale=Math.min(72/image.naturalHeight,76/image.naturalWidth);
+    const w=sheet?54:Math.round(image.naturalWidth*scale),h=sheet?72:Math.round(image.naturalHeight*scale);
+    const c=document.createElement('canvas');c.width=w*2;c.height=h*2;const g=c.getContext('2d');
+    if(sheet){const fw=image.naturalWidth/4,fh=image.naturalHeight/4;g.drawImage(image,0,({down:0,left:1,right:2,up:3}[facing]||0)*fh,fw,fh,0,0,c.width,c.height)}
+    else g.drawImage(image,0,0,c.width,c.height);
+    const data=g.getImageData(0,0,c.width,c.height).data,feetX=(tileX+.5)*32,feetY=(tileY+1)*32;
+    const left=Math.round(feetX-w/2),top=Math.round(feetY-h+1),cam=window.NMFinal.debugCamera(),r=document.getElementById('game').getBoundingClientRect();
+    const point=(worldX,worldY,alpha)=>({worldX,worldY,alpha,x:r.left+((worldX-cam.x)/640)*r.width,y:r.top+((worldY-cam.y)/360)*r.height});
+    const choose=predicate=>{for(let y=0;y<c.height;y++)for(let x=0;x<c.width;x++){
+     const worldX=left+(x+.5)/2,worldY=top+(y+.5)/2,alpha=data[(y*c.width+x)*4+3],rise=feetY-worldY,dx=worldX-feetX;
+     if(predicate(alpha,dx,rise))return point(worldX,worldY,alpha);
+    }return null};
+    const inOld=(dx,rise)=>rise>=5&&rise<=69&&Math.abs(dx)<=(rise>46?17:22);
+    const floorX=feetX-32,floorY=feetY-1,px=Math.floor((floorX-left)*2),py=Math.floor((floorY-top)*2);
+    return {source:image.src,outer:choose((a,dx,rise)=>a===0&&!inOld(dx,rise)&&rise>69&&Math.abs(dx)<15),
+     inner:choose((a,dx,rise)=>a===0&&inOld(dx,rise)&&rise>46&&Math.abs(dx)<15),
+     edge:choose((a,dx,rise)=>a>180&&dx>=16&&rise>25&&rise<46),
+     body:choose((a,dx,rise)=>a>180&&Math.abs(dx)<12&&rise>30&&rise<50),
+     floor:point(floorX,floorY,px<0||py<0||px>=c.width||py>=c.height?0:data[(py*c.width+px)*4+3])};
+   },{key,tileX,tileY,facing});
+  }
   async function capture(name){await page.screenshot({path:path.join(OUTPUT,name+'.png')});}
   const initial=await state();
   for(const [key,dx,dy] of [['ArrowLeft',-1,0],['ArrowRight',1,0],['ArrowUp',0,-1],['ArrowDown',0,1]]){
@@ -71,7 +96,7 @@ async function main(){
     if(s.pos.x===x&&s.pos.y===y&&!s.route&&!s.motion)return;
     const path=await page.evaluate(({x,y})=>{
      const s=window.NMFinal.debugState(),m=window.NMFinal.debugTilemap(),structures=window.NMFinal.debugStructures()[s.map]||[],seen=new Set([s.pos.x+','+s.pos.y]),prev=new Map(),q=[[s.pos.x,s.pos.y]];
-     const actors=window.GAME_WORLD.maps[s.map];const solid=(a,b)=>a<0||b<0||a>=m.width||b>=m.height||m.collision[b*m.width+a]===1||(actors.npcs||[]).some(o=>Math.abs(o.x-a)<=1&&o.y===b)||(s.banditAlive&&(actors.enemies||[]).some(o=>Math.abs(o.x-a)<=1&&o.y===b))||structures.some(o=>{const f=o.solid_footprint;return f&&a>=o.x+f.x&&a<o.x+f.x+f.w&&b>=o.y+f.y&&b<o.y+f.y+f.h});
+     const actors=window.GAME_WORLD.maps[s.map];const solid=(a,b)=>a<0||b<0||a>=m.width||b>=m.height||m.collision[b*m.width+a]===1||(actors.npcs||[]).filter(o=>(o.min_quest||0)<=s.quest).some(o=>Math.abs(o.x-a)<=1&&o.y===b)||(s.banditAlive&&(actors.enemies||[]).some(o=>Math.abs(o.x-a)<=1&&o.y===b))||structures.some(o=>{const f=o.solid_footprint;return f&&a>=o.x+f.x&&a<o.x+f.x+f.w&&b>=o.y+f.y&&b<o.y+f.y+f.h});
      while(q.length){const [a,b]=q.shift();if(a===x&&b===y){let k=x+','+y,r=[];while(k!==s.pos.x+','+s.pos.y){r.unshift(k.split(',').map(Number));k=prev.get(k)}return r}for(const [dx,dy] of [[1,0],[-1,0],[0,1],[0,-1]]){const nx=a+dx,ny=b+dy,k=nx+','+ny;if(!seen.has(k)&&!solid(nx,ny)){seen.add(k);prev.set(k,a+','+b);q.push([nx,ny])}}}
      return null;
     },{x,y});
@@ -94,14 +119,8 @@ async function main(){
   // A transparent pixel just above the innkeeper's painted head is inside
   // his old three-tile interaction column. Rejecting the body hit must not
   // fall back to that column and silently begin NPC travel.
-  const transparentCorner=await page.evaluate(async()=>{
-   const image=new Image();image.src='assets/sprites/innkeeper.png';await image.decode();
-   const c=document.createElement('canvas');c.width=42;c.height=72;
-   const g=c.getContext('2d');g.drawImage(image,0,0,42,72);
-   const alpha=g.getImageData(35,1,1,1).data[3];
-   const cam=window.NMFinal.debugCamera(),r=document.getElementById('game').getBoundingClientRect();
-   return {alpha,x:r.left+((8.5*32+14-cam.x)/640)*r.width,y:r.top+((11*32-70-cam.y)/360)*r.height};
-  });
+  const innkeeperPixels=await actorPixels('innkeeper',8,10,'down');
+  const transparentCorner=innkeeperPixels.outer;
   assert.equal(transparentCorner.alpha,0,'Regression click must hit an actual transparent sprite pixel');
   const beforeCorner=(await state()).pos;
   await page.mouse.click(transparentCorner.x,transparentCorner.y);await delay(350);
@@ -109,14 +128,7 @@ async function main(){
   assert.equal((await state()).route,0);assert(!(await page.locator('#dialogue').isVisible()));
   // This real transparent source pixel lies INSIDE the former head polygon.
   // Rejecting only the outer rectangle cannot prevent this false interaction.
-  const transparentBody=await page.evaluate(async()=>{
-   const image=new Image();image.src='assets/sprites/innkeeper.png';await image.decode();
-   const c=document.createElement('canvas');c.width=42;c.height=72;
-   const g=c.getContext('2d');g.drawImage(image,0,0,42,72);
-   const cam=window.NMFinal.debugCamera(),r=document.getElementById('game').getBoundingClientRect();
-   return {alpha:g.getImageData(5,5,1,1).data[3],
-    x:r.left+((8.5*32-16-cam.x)/640)*r.width,y:r.top+((11*32-66-cam.y)/360)*r.height};
-  });
+  const transparentBody=innkeeperPixels.inner;
   assert.equal(transparentBody.alpha,0,'Inner-body regression must use a real transparent pixel');
   await page.mouse.click(transparentBody.x,transparentBody.y);await delay(350);
   assert.equal((await state()).route,0,'Transparent pixel inside the old head polygon must not target an NPC');
@@ -124,22 +136,18 @@ async function main(){
   assert(!(await page.locator('#dialogue').isVisible()));
   // The visible right edge of the innkeeper's torso is in the adjacent
   // tile (x=9). A tile-only hitbox used to mistake this click for walking.
-  const actorEdge=await page.evaluate(()=>{
-   const cam=window.NMFinal.debugCamera(),r=document.getElementById('game').getBoundingClientRect();
-   return {x:r.left+((8.5*32+19-cam.x)/640)*r.width,
-           y:r.top+(((10+1)*32-36-cam.y)/360)*r.height};
-  });
+  const actorEdge=innkeeperPixels.edge;assert(actorEdge&&actorEdge.alpha>180,'Painted adjacent-column torso must exist');
   await page.mouse.click(actorEdge.x,actorEdge.y);
   await page.waitForFunction(()=>window.NMFinal.debugState().pending?.type==='npc'||!document.getElementById('dialogue').classList.contains('hidden'),undefined,{timeout:2500});
   // Regression: re-click the NPC during the last animated step.
-  const midstride=await page.evaluate(()=>new Promise((resolve,reject)=>{
+  const midstride=await page.evaluate(({worldX,worldY})=>new Promise((resolve,reject)=>{
    let attempts=0;
    function probe(){
     const st=window.NMFinal.debugState(),motion=window.NMFinal.debugAnimation().motion;
     if(motion&&st.route.length===0&&motion.progress<0.8){
      const camera=window.NMFinal.debugCamera(),rect=document.getElementById('game').getBoundingClientRect();
-     const x=rect.left+((8.5*32-camera.x)/640)*rect.width;
-     const y=rect.top+((10.5*32-camera.y)/360)*rect.height;
+     const x=rect.left+((worldX-camera.x)/640)*rect.width;
+     const y=rect.top+((worldY-camera.y)/360)*rect.height;
      document.getElementById('game').dispatchEvent(new MouseEvent('click',{clientX:x,clientY:y,bubbles:true}));
      resolve({moving:!!window.NMFinal.debugAnimation().motion,dialogue:!document.getElementById('dialogue').classList.contains('hidden')});
      return;
@@ -148,28 +156,24 @@ async function main(){
     requestAnimationFrame(probe);
    }
    probe();
-  }));
+  }),actorEdge);
   assert(midstride.moving,'Re-click must not cancel movement');
   assert.equal(midstride.dialogue,false,'Re-click must not freeze an incomplete stride');
   await page.locator('#dialogue').waitFor({state:'visible',timeout:10000});
   assert.equal((await state()).motion,false,'NPC dialogue must wait for player feet to settle');
   await dialogue();
   assert.equal((await state()).quest,1,'Innkeeper quest did not start');
+  await walkTo(22,15);
+  const gu=await actorPixels('swordswoman',22,14,'down');await page.mouse.click(gu.body.x,gu.body.y);
+  await page.waitForFunction(()=>!document.getElementById('dialogue').classList.contains('hidden'));
+  assert((await page.locator('#dialogue').innerText()).includes('顾青岚'));await dialogue();
+  assert.equal((await state()).quest,1,'Optional conversation must preserve the main quest');
   await capture('town-quest');
   await walkTo(36,12);await clickTile(39,12);
   await page.waitForFunction(()=>window.NMFinal.debugState().map==='road',{timeout:12000});
   await walkTo(15,10);
-  const banditPixels=await page.evaluate(async()=>{
-   const image=new Image();image.src='assets/sprites/bandit.png';await image.decode();
-   const scale=Math.min(72/image.naturalHeight,76/image.naturalWidth),w=Math.round(image.naturalWidth*scale),h=Math.round(image.naturalHeight*scale);
-   const c=document.createElement('canvas');c.width=w*2;c.height=h*2;
-   const g=c.getContext('2d');g.drawImage(image,0,0,c.width,c.height);
-   const cam=window.NMFinal.debugCamera(),r=document.getElementById('game').getBoundingClientRect();
-   const screen=(x,y)=>({x:r.left+((x-cam.x)/640)*r.width,y:r.top+((y-cam.y)/360)*r.height});
-   return {groundAlpha:g.getImageData(Math.floor((w/2-32)*2),(h-2)*2,1,1).data[3],
-    bodyAlpha:g.getImageData(w,(h-41)*2,1,1).data[3],
-    ground:screen(17.5*32,11*32-1),body:screen(18.5*32,11*32-40)};
-  });
+  const banditMask=await actorPixels('bandit',18,10,'left');
+  const banditPixels={groundAlpha:banditMask.floor.alpha,ground:banditMask.floor,bodyAlpha:banditMask.body.alpha,body:banditMask.body};
   assert.equal(banditPixels.groundAlpha,0,'Reserved-floor click must avoid the painted wide weapon');
   await page.mouse.click(banditPixels.ground.x,banditPixels.ground.y);await delay(250);
   assert.deepEqual((await state()).pos,{x:15,y:10},'Wide bandit sprite must not overlap player');
@@ -209,6 +213,11 @@ async function main(){
   await walkTo(2,10);await clickTile(0,10);
   await page.waitForFunction(()=>window.NMFinal.debugState().map==='town',{timeout:10000});await dialogue();
   assert.equal((await state()).quest,5,'Ending not reached');
+  await walkTo(35,15);
+  const liao=await actorPixels('liao',35,14,'down');await page.mouse.click(liao.body.x,liao.body.y);
+  await page.waitForFunction(()=>!document.getElementById('dialogue').classList.contains('hidden'));
+  assert((await page.locator('#dialogue').innerText()).includes('廖'));await dialogue();
+  assert.equal((await state()).quest,5);
   await capture('ending');
   await page.locator('#restart').click();
   assert(await page.locator('#continueButton').isEnabled(),'Save resume disabled');
