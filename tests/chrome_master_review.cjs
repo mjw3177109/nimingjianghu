@@ -3,7 +3,7 @@
 const {chromium}=require('playwright'),assert=require('node:assert/strict');
 const fs=require('node:fs'),path=require('node:path');
 const {serveBuild,launchOptions}=require('../tools/browser-test-runtime.cjs');
-const root=path.resolve(__dirname,'..'),output=path.join(root,'qa/master-review');
+const root=path.resolve(__dirname,'..'),output=path.resolve(root,process.env.ART_REVIEW_OUTPUT||'qa/master-review');
 async function main(){
  fs.mkdirSync(output,{recursive:true});
  const server=process.env.E2E_URL?null:await serveBuild(root,4193);
@@ -14,7 +14,12 @@ async function main(){
   page.on('pageerror',e=>errors.push(e.message));
   const response=await page.goto(new URL('art-review.html',base).href);
   assert.equal(response.status(),200);
-  const status=await (await page.request.get(new URL('assets/characters/scene_sprites/candidates/production_status.json',base).href)).json();
+  // Use Chromium's real same-origin network path, including its DNS/proxy setup.
+  const status=await page.evaluate(async()=>{
+   const response=await fetch('assets/characters/scene_sprites/candidates/production_status.json');
+   if(!response.ok)throw Error('Frame status HTTP '+response.status);
+   return response.json();
+  });
   assert.equal(status.generated,112,'All independent frames must be delivered for review');
   assert.equal(status.human_approved_characters,0,'Frame generation cannot approve the artwork');
   for(const id of ['CHAR001','NPC005','NPC001','NPC002','NPC003','BOSS001','EN001']){
@@ -29,13 +34,20 @@ async function main(){
     const source=page.locator('#frameSource');await source.waitFor({state:'visible'});
     const file='qwen_4dir/'+id+'/'+direction+'_'+['idle','walk1','walk2','walk3'][pose]+'.png';
     assert.equal(await source.getAttribute('href'),file);
-    const png=await page.request.get(new URL(file,base).href);assert.equal(png.status(),200);
-    const bytes=await png.body();assert.equal(bytes.subarray(0,8).toString('hex'),'89504e470d0a1a0a');
-    assert(bytes.readUInt32BE(16)>=256&&bytes.readUInt32BE(20)>=384,'Frame must be a native HD source');
+    const png=await page.evaluate(async file=>{
+     const response=await fetch(file),bytes=await response.arrayBuffer(),view=new DataView(bytes);
+     const hex=values=>Array.from(values,x=>x.toString(16).padStart(2,'0')).join('');
+     return {status:response.status,signature:hex(new Uint8Array(bytes,0,Math.min(8,bytes.byteLength))),
+      width:bytes.byteLength>=24?view.getUint32(16):0,height:bytes.byteLength>=24?view.getUint32(20):0,
+      sha256:hex(new Uint8Array(await crypto.subtle.digest('SHA-256',bytes)))};
+    },file);
+    assert.equal(png.status,200);assert.equal(png.signature,'89504e470d0a1a0a');
+    assert(png.width>=256&&png.height>=384,'Frame must be a native HD source');
     const expected=status.characters.find(x=>x.id===id).frames.find(x=>x.file===file);
-    assert.equal(require('node:crypto').createHash('sha256').update(bytes).digest('hex'),expected.sha256,'Published source differs from generated frame');
+    assert.equal(png.sha256,expected.sha256,'Published source differs from generated frame');
    }
    await page.locator('.master-candidate').screenshot({path:path.join(output,id+'.png')});
+   console.log('VERIFIED '+id+': 16 independent PNG sources and hashes');
   }
   assert.deepEqual(errors,[]);
   fs.writeFileSync(path.join(output,'report.json'),JSON.stringify({url:base,records,errors,masterApprovalScope:'fullbody_masters_only',frameCandidatesHumanApproved:false,sourceFramesVerified:112},null,2));

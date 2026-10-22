@@ -4,6 +4,11 @@
 
 ## 最新工作：用户批准全身母版，进入112帧生产（优先读取）
 
+- e3da8d0已推送并核对GitHub HEAD；Vercel同SHA Preview READY `dpl_5nSEXVnJdM4g9PceKoFnAGwYDku1`，`https://nimingjianghu-ojkybqys1-bobos-projects-e9f8bfba.vercel.app/`。CI pull_request #146 `39822395041`已success，push #145仍需最终核对。
+- 线上审核页可打开，但Playwright的Node APIRequest下载元数据发生ETIMEDOUT；已改为Chromium页面内同源fetch，并直接在浏览器读取PNG头/尺寸、计算SHA256。新核验在本地112张全通过，日志 `qa/1.0.10-local-master-review-browserfetch.log`。线上新路径核验仍在运行，不能在结束前标为成功。测试新增独立ART_REVIEW_OUTPUT目录以隔离证据。
+
+- 本轮实际提交：`e3da8d0f17bd2b8a9aaf308090855bc70a9d143a`（v1.0.10，396个文件）；本地提交完成，GitHub push正在传输完整源图，须以最终命令结果/远程HEAD核对成功。push日志 `qa/1.0.10-push.log`，不可重复制造同样提交。此行是提交后的本地续接事实。
+
 - 生产已完成：112/112独立PNG，全部原生1024×1536、112个唯一SHA256；每人16帧已通过P3-G整组检查并生成候选图集、审核图和QA报告，7组技术警告均为空。共275350059字节源PNG全部保留，不用低清表替代独立帧。
 - 沈砚right_walk3首轮碰边被拒收，独立重生成后通过；完整实际提示词和接收帧SHA在production各角色receipts。候选图集没有自动获得人工批准。
 - 最终代码 `npm test` / `npm run build`通过；Python24项通过。真实本地Chromium两种首章顺序均PASS，无JS异常/失败请求；新的审核页测试已实际下载112张构建后PNG并逐一核对哈希、方向动作源链接，全部PASS。`qa/1.0.10-local/`、`qa/1.0.10-master-review.log`和`qa/master-review/report.json`保存证据。
