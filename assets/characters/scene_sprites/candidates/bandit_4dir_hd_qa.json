@@ -1,0 +1,147 @@
+{
+  "status": "CANDIDATE_NOT_APPROVED",
+  "character": "EN001",
+  "name": "山贼",
+  "sheet": "D:\\nimingjianghu\\assets\\characters\\scene_sprites\\candidates\\bandit_4dir_hd_candidate.png",
+  "review": "D:\\nimingjianghu\\assets\\characters\\scene_sprites\\candidates\\bandit_4dir_hd_review.png",
+  "sheet_size": [
+    384,
+    512
+  ],
+  "frame_size": [
+    96,
+    128
+  ],
+  "sources": [
+    {
+      "frame": "down_idle.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "694de6b86e14c19b02a60ab6e3a9a9b6cd254508ccad5d4707c486a9260b245b"
+    },
+    {
+      "frame": "down_walk1.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "47d33f6e86e3243e6dda1291d34bdb7b70f48c883c12b00b788f8c91e53ec548"
+    },
+    {
+      "frame": "down_walk2.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "87bace71f778c065552ca1e766ba2f85905a4931926743414e2a30ccd9679d9e"
+    },
+    {
+      "frame": "down_walk3.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "2f608d73832e51390606f1f27379fd3fb6fb3357d3ad64433949618de118b730"
+    },
+    {
+      "frame": "left_idle.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "63cb0e52e683667827292af1930592e74f0842e298bad00d5b7e023026150ad7"
+    },
+    {
+      "frame": "left_walk1.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "c5712214ed14b74e463772a9f73f09439b4a3750643cf4227708daf616e3b71a"
+    },
+    {
+      "frame": "left_walk2.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "169eb050c7f64662cee9e60353a2b7d972143a2c948c95a21fc6f2de750825b7"
+    },
+    {
+      "frame": "left_walk3.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "9ed72be25501f31f34a0fbdcfeea78f2fc3fccebec14239b038950763843993e"
+    },
+    {
+      "frame": "right_idle.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "283d0898ab27f5983d5a83535de4c10291d541462a5f42524c5051b0726a3d0c"
+    },
+    {
+      "frame": "right_walk1.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "683cb6303e50ad86168d12684ba22c5c9616fe6f5f3e448d342cc9e932b5b7da"
+    },
+    {
+      "frame": "right_walk2.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "da98f026399a699a92ddfa6ef119ed17eddf567c26d2b3be237716a60ef3b722"
+    },
+    {
+      "frame": "right_walk3.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "d8edb00c97397016aefb6fb51d27797b04218173a473a30b3fbf0ccef96f5b06"
+    },
+    {
+      "frame": "up_idle.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "83ba2b5fbaa2fe3f6c4072d6f5593d94590b114ef2ba0d55c535107e73964d3d"
+    },
+    {
+      "frame": "up_walk1.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "7c21952fc7be803ad9cf4b4d3a3a49d59ff53e9637a9143cf06bcb301a62fd87"
+    },
+    {
+      "frame": "up_walk2.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "ddd2d966729a852ea329a77edae66fccee10bdd1ce8ec9819d4717ea803db9c6"
+    },
+    {
+      "frame": "up_walk3.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "f7ecdecc8a4b30f1c2332302e2f521a7de0abaaedd96c9d5f6c860cd0c981dfe"
+    }
+  ],
+  "warnings": [],
+  "explicit_manual_approval_required": true
+}

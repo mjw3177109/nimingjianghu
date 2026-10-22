@@ -1,0 +1,395 @@
+# -*- coding: utf-8 -*-
+"""逆命江湖 Q版 Pygame Demo · 新游戏→青石镇→山路→山洞→命痕→返回青石镇。"""
+import json
+import random
+import os
+import subprocess
+import sys
+from collections import deque
+from pathlib import Path
+
+ROOT=Path(__file__).resolve().parent
+
+
+def active_npcs(scene_data, quest):
+    return [npc for npc in scene_data.get('npcs', []) if npc.get('min_quest', 0) <= quest]
+
+
+def actor_pixel_hit(image, feet_x, feet_y, screen_x, screen_y):
+    """Hit the same intact RGBA surface and feet anchor used by the renderer."""
+    x=int(screen_x-(feet_x-image.get_width()//2))
+    y=int(screen_y-(feet_y-image.get_height()+1))
+    return 0 <= x < image.get_width() and 0 <= y < image.get_height() and image.get_at((x,y))[3] > 16
+
+
+def blocked_tile(tilemap, structures, actors, x, y):
+    """Same tile/structure/actor footprints as the browser movement rule."""
+    if x < 0 or y < 0 or x >= tilemap['width'] or y >= tilemap['height']:
+        return True
+    if tilemap['collision'][y * tilemap['width'] + x] == 1:
+        return True
+    for obj in structures:
+        f = obj.get('solid_footprint')
+        if f and obj['x'] + f['x'] <= x < obj['x'] + f['x'] + f['w'] and obj['y'] + f['y'] <= y < obj['y'] + f['y'] + f['h']:
+            return True
+    return any(abs(a['x'] - x) <= 1 and a['y'] == y for a in actors)
+
+
+def prepare_assets():
+    # Modular P3 gameplay intentionally does not regenerate legacy full-scene images.
+    for name in ('town','road','cave'):
+        atlas=ROOT/'assets/tilesets'/name/(name+'_atlas.svg')
+        if not atlas.exists():raise FileNotFoundError(f'缺少 Tile 图集: {atlas}')
+
+
+def main():
+    try:
+        import pygame
+    except ImportError:
+        print('需要安装 pygame: python -m pip install pygame>=2.5')
+        return 1
+    prepare_assets()
+    pygame.init()
+    data=json.loads((ROOT/'data/world.json').read_text(encoding='utf-8'))
+    SCALE=2; SW,SH=640,360;T=20
+    tilemaps={key:json.loads((ROOT/'data/maps'/key/(key+'_tilemap.json')).read_text(encoding='utf-8')) for key in ('town','road','cave')}
+    for key,m in tilemaps.items():
+        if m['tile_size']!=32 or len(m['collision'])!=m['width']*m['height']:raise ValueError(f'P3 tilemap schema incompatible: {key}')
+    T=32
+    screen=pygame.display.set_mode((SW*SCALE,SH*SCALE))
+    pygame.display.set_caption('逆命江湖 | P3-I 无拼接裂缝整身高清角色显示')
+    canvas=pygame.Surface((SW,SH))
+    clock=pygame.time.Clock()
+    fontpath=next((p for p in [r'C:\Windows\Fonts\msyh.ttc',r'C:\Windows\Fonts\simhei.ttf','/usr/share/fonts/truetype/wqy/wqy-microhei.ttc','/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc'] if Path(p).exists()),None)
+    def font(size):return pygame.font.Font(fontpath,size) if fontpath else pygame.font.Font(None,size)
+    f=font(12); fbig=font(17)
+    def load_art(folder,stem,size,alpha=False):
+        # 与网页版共用正式手绘 Q 版 WebP 场景；人物沿用同一套 PNG
+        directory=ROOT/'assets'/folder
+        painted=directory/(stem+'.webp')
+        png=directory/(stem+'.png')
+        q=directory/(stem+'_q.svg')
+        if painted.exists():
+            from PIL import Image
+            im=Image.open(painted).convert('RGBA')
+            picture=pygame.image.fromstring(im.tobytes(),im.size,'RGBA')
+        elif png.exists():
+            picture=pygame.image.load(str(png))
+        elif q.exists():
+            try:
+                picture=pygame.image.load(str(q))
+            except (pygame.error,ValueError):
+                import io,cairosvg
+                picture=pygame.image.load(io.BytesIO(cairosvg.svg2png(url=str(q))),'png')
+        else:
+            raise FileNotFoundError(f'缺少正式资源: {folder}/{stem}')
+        picture=pygame.transform.smoothscale(picture,size)
+        return picture.convert_alpha() if alpha else picture.convert()
+    atlases={}
+    for key,m in tilemaps.items():
+        atlas_file=ROOT/m['atlas'].replace('.svg','_hd64.svg')
+        if not atlas_file.exists():atlas_file=ROOT/m['atlas']
+        try:
+            atlas=pygame.image.load(str(atlas_file)).convert_alpha()
+        except (pygame.error,ValueError):
+            try:
+                import io,cairosvg
+                atlas=pygame.image.load(io.BytesIO(cairosvg.svg2png(url=str(atlas_file))),key+'_atlas.png').convert_alpha()
+            except (ImportError,ValueError,OSError,pygame.error) as exc:
+                raise RuntimeError(f'无法加载 {key} Tile Atlas：请安装 cairosvg 或检查图块 SVG') from exc
+        source_px=atlas.get_width()//m['atlas_columns']
+        if source_px not in (32,64):raise ValueError(f'{key} source tile must be 32 or 64 pixels')
+        atlases[key]=[pygame.transform.smoothscale(atlas.subsurface(
+            pygame.Rect((i%m['atlas_columns'])*source_px,(i//m['atlas_columns'])*source_px,source_px,source_px)),(32,32))
+            if source_px>32 else atlas.subsurface(
+            pygame.Rect((i%m['atlas_columns'])*32,(i//m['atlas_columns'])*32,32,32))
+            for i in range(len(m['tile_ids']))]
+    structures=json.loads((ROOT/'data/structures.json').read_text(encoding='utf-8'))
+    structure_images={}
+    for places in (structures['town'],structures['road'],structures['cave']):
+        for obj in places:
+            name=obj['image']
+            if name in structure_images:continue
+            asset=ROOT/name
+            if not asset.exists():raise FileNotFoundError(f'P3-F architecture SVG missing: {asset}')
+            try:
+                import io,cairosvg
+                binary=cairosvg.svg2png(url=str(asset))
+                rendered=pygame.image.load(io.BytesIO(binary),'architecture.png').convert_alpha()
+                structure_images[name]=rendered
+            except (ImportError,OSError,ValueError,pygame.error) as exc:
+                print(f'[P3-F] 结构组件未能解码 {name}：请安装 cairosvg，保留下方Tile。原因：{exc}')
+                structure_images[name]=None
+    def structure_layer(layer,scene,ox,oy):
+        for obj in structures[scene]:
+            if obj['layer']!=layer:continue
+            img=structure_images.get(obj['image'])
+            if img is None:continue
+            dest=pygame.Rect(int(obj['x']*32-ox),int(obj['y']*32-oy),obj['w']*32,obj['h']*32)
+            if not dest.colliderect(pygame.Rect(0,0,SW,SH)):continue
+            canvas.blit(pygame.transform.smoothscale(img,dest.size),dest)
+    # P3-I: never use the previous upper/lower-body SVG animation proxies in gameplay.
+    # Preserve the actual full-body PNG in near-native resolution; no torso/legs clipping.
+    sprites={}
+    for key in ['player','innkeeper','healer','oldman','bandit','swordswoman','liao']:
+        if key in ('swordswoman','liao'):
+            cid={'swordswoman':'NPC003','liao':'BOSS001'}[key]
+            full=pygame.image.load(str(ROOT/'assets/characters/masters'/(cid+'_fullbody.png'))).convert_alpha()
+        else:
+            full=pygame.image.load(str(ROOT/'assets/sprites'/(key+'.png'))).convert_alpha()
+        target_height=80 if key=='bandit' else 100 if key=='player' else 96
+        width=min(84 if key=='bandit' else 73,max(1,round(full.get_width()*target_height/full.get_height())))
+        height=round(width*full.get_height()/full.get_width())
+        sprites[key]=pygame.transform.smoothscale(full,(width,height))
+    sprite_manifest=json.loads((ROOT/'assets/characters/scene_sprites/sprite_manifest.json').read_text(encoding='utf-8'))
+    animated_sprites={}
+    for entry in sprite_manifest['entries']:
+        key=entry['key'];src=ROOT/entry['sheet']
+        # Genuine, manually approved, 96x128+ per-frame PNG sheets only.
+        if key not in sprites or entry.get('direction_status') not in ('user_approved_independently_painted','gameplay_trial_pending_user_art_review') or src.suffix.lower()!='.png':
+            continue
+        if not src.is_file():continue
+        if entry.get('direction_status')=='gameplay_trial_pending_user_art_review' and key!='player':
+            continue
+        sheet=pygame.image.load(str(src)).convert_alpha()
+        if sheet.get_width()<384 or sheet.get_height()<512 or sheet.get_width()%4 or sheet.get_height()%4:
+            print(f'[P3-I] Rejecting low-res or malformed sprite sheet: {src}')
+            continue
+        fw,fh=sheet.get_width()//4,sheet.get_height()//4
+        if entry.get('direction_status')=='gameplay_trial_pending_user_art_review':
+            print('[P3-J] 沈砚16帧已进入试玩版，尚待用户美术验收')
+        animated_sprites[key]=[[pygame.transform.smoothscale(sheet.subsurface(
+            pygame.Rect(col*fw,row*fh,fw,fh)),(56,102))
+            for col in range(4)] for row in range(4)]
+    scene='town';pos=tuple(tilemaps['town']['spawn']);facing='down';motion=None;route=[];pending=None;quest=0;hp=100;mp=50;potions=2;destiny=0;coins=10;manual=False;trace=False;bandit_alive=True;lines=[];dialogue_cb=None;battle=None;note='鼠标点击地面移动，点击人物或出口互动。';journal='这里是我记忆中的江湖吗？'
+    def walls(x,y):
+        m=tilemaps[scene]
+        actors=active_npcs(data['maps'][scene],quest) + (data['maps'][scene].get('enemies',[]) if bandit_alive else [])
+        return blocked_tile(m,structures[scene],actors,x,y)
+    def find_path(start,dest):
+        if walls(*dest):return None
+        Q=deque([start]);prev={start:None}
+        while Q:
+            a=Q.popleft()
+            if a==dest:
+                ans=[]
+                while prev[a] is not None:ans.append(a);a=prev[a]
+                return ans[::-1]
+            for dx,dy in ((1,0),(-1,0),(0,1),(0,-1)):
+                n=(a[0]+dx,a[1]+dy)
+                if n not in prev and not walls(*n):prev[n]=a;Q.append(n)
+        return None
+    def move_to(x,y,action=None):
+        nonlocal route,pending,note
+        candidates=[]
+        for dx,dy in (((1,0),(-1,0),(0,1),(0,-1)) if action and action[0] in ('npc','obj') else ((0,0),(1,0),(-1,0),(0,1),(0,-1))):
+            t=x+dx,y+dy;p=find_path(pos,t)
+            if p is not None:candidates.append((len(p),p,t))
+        if candidates:
+            _,route,to=min(candidates,key=lambda k:k[0]);pending=(action,to) if action else None
+            if not route and motion is None:run_pending()
+        else:note='这里无法到达。'
+    def say(rows, callback=None):
+        nonlocal lines,dialogue_cb
+        lines=[list(x) for x in rows];dialogue_cb=callback
+    def advance(n,text):
+        nonlocal quest,journal,note
+        quest=max(quest,n);journal=note=text
+    def change_map(to,spawn):
+        nonlocal scene,pos,route,pending,note,motion
+        scene=to;pos=(38,12) if to=='town' else tuple(spawn);route=[];pending=None;motion=None;note='进入 '+data['maps'][to]['name']
+    def talk(id):
+        nonlocal potions,note
+        if id=='healer' and potions<2:potions+=1;note='苏晚晴赠送一瓶疗伤药'
+        cb=(lambda:advance(1,'韩掌柜委托你击败山贼。')) if id=='innkeeper' and quest==0 else None
+        if id=='oldman' and quest>=2: cb=lambda:advance(3,'山洞里或许有命轨的线索。')
+        say(data['dialogue'][id],cb)
+    def pickup(id):
+        nonlocal manual,trace,destiny,coins,note
+        if id=='manual':
+            if not manual:
+                manual=True;coins+=10;note='获得破风一剑秘籍、银两+10';advance(3,'得到山洞秘籍。试着调查命痕石台。')
+            else:note='已经拿走秘籍。'
+        if id=='trace':
+            if not trace:
+                trace=True;destiny=25;note='逆命值提升至25'
+            else:note='石台已经沉寂。'
+        if manual and trace and quest<4:
+            advance(4,'剧情出现了不该存在的命痕。');say([('沈砚','这里不该有这种东西……'),('神秘声音','你终于发现了。')])
+    def act(key):
+        nonlocal battle,hp,mp,potions,bandit_alive,coins,note
+        if not battle:return
+        enemy=battle
+        if key=='attack':damage=random.randint(12,20);msg='基础剑法造成%d点伤害。'%damage
+        elif key=='skill':
+            if mp<8:note='内力不足';return
+            mp-=8;damage=random.randint(20,28);msg='破风一剑造成%d点伤害。'%damage
+        elif key=='heal':
+            if not potions:note='没有疗伤药';return
+            potions-=1;hp=min(100,hp+36);damage=0;msg='服药恢复气血。'
+        else:damage=0;enemy['guard']=True;msg='凝神防御。'
+        enemy['hp']-=damage
+        if enemy['hp']<=0:
+            battle=None;bandit_alive=False;coins+=22;hp=min(100,hp+10)
+            advance(2,'战胜山贼！前往山洞寻找线索。');say([('沈砚','这条路终于通了，继续往前。')]);return
+        attacked=random.randint(8,13)
+        if enemy.pop('guard',False):attacked=max(1,attacked-7)
+        hp=max(0,hp-attacked);note=msg+' 山贼反击%d。'%attacked
+        if hp==0:hp=75;battle=None;change_map('road',(1,9));say([('沈砚','差点丢了性命，下次谨慎些。')])
+    def run_pending():
+        nonlocal pending,scene,pos,battle,quest,journal
+        if not pending:return
+        action,to=pending;pending=None
+        k=action[0]
+        if k=='npc':talk(action[1])
+        elif k=='enemy' and bandit_alive:battle={'hp':54}
+        elif k=='obj':pickup(action[1])
+        elif k=='exit':change_map(action[1],action[2])
+        if quest>=4 and scene=='town' and quest!=5:
+            quest=5;journal='廖的棋盘已经显露，第一章结束。';say(data['dialogue']['ending'])
+    def click(x,y):
+        nonlocal route,pending
+        m=data['maps'][scene]
+        for obj in m.get('objects',[]):
+            if abs(x-obj['x'])<=1 and abs(y-obj['y'])<=1:move_to(obj['x'],obj['y'],('obj',obj['id']));return
+        for ex in m['exits']:
+            if abs(x-ex['x'])<=1 and abs(y-ex['y'])<=1:move_to(ex['x'],ex['y'],('exit',ex['to'],ex['spawn']));return
+        p=find_path(pos,(x,y))
+        if p is not None:route=p;pending=None
+    def txt(t,x,y,color=(245,227,188),big=False):
+        canvas.blit((fbig if big else f).render(str(t),True,color),(x,y))
+    def dialogue_next():
+        nonlocal dialogue_cb
+        if lines:lines.pop(0)
+        if not lines and dialogue_cb:
+            cb=dialogue_cb;dialogue_cb=None;cb()
+
+    def player_visual():
+        if motion is None:return pos
+        a,b,elapsed=motion
+        t=min(1.0,max(0.0,elapsed/.12))
+        return (a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t)
+    def town_camera():
+        m=tilemaps[scene];vx,vy=player_visual()
+        return (max(0,min(int((vx+.5)*32-SW/2),m['width']*32-SW)),
+                max(0,min(int((vy+.5)*32-SH/2),m['height']*32-SH)))
+    def pick_actor(screen_x,screen_y):
+        m=data['maps'][scene];ox,oy=town_camera()
+        actors=[('npc',a) for a in active_npcs(m,quest)]+[('enemy',a) for a in m.get('enemies',[]) if bandit_alive]
+        for kind,actor in sorted(actors,key=lambda pair:pair[1]['y'],reverse=True):
+            key=actor['id'];direction=1 if key in ('healer','bandit') else 0
+            art=animated_sprites[key][direction][0] if key in animated_sprites else sprites[key]
+            px=int((actor['x']+.5)*32-ox);py=int((actor['y']+1)*32-oy)
+            if actor_pixel_hit(art,px,py,screen_x,screen_y):return kind,actor
+        return None
+    def paint_tile_world():
+        m=tilemaps[scene];tw,th=m['width'],m['height'];tiles=atlases[scene]
+        ox,oy=town_camera()
+        canvas.fill((37,46,52) if scene=='cave' else (82,115,102))
+        x0,x1=max(0,ox//32),min(tw-1,(ox+SW)//32+1)
+        y0,y1=max(0,oy//32),min(th-1,(oy+SH)//32+1)
+        def layer(name):
+            grid=m['layers'].get(name)
+            if grid is None:return
+            for yy in range(y0,y1+1):
+                for xx in range(x0,x1+1):
+                    index=grid[yy*tw+xx]
+                    if index>=0:canvas.blit(tiles[index],(xx*32-ox,yy*32-oy))
+        layer('ground');layer('water');layer('terrain');layer('building');layer('deco_low');structure_layer('base',scene,ox,oy)
+        if scene=='town':
+            for name,xx,yy in [('客栈',7,8),('药铺',30,8)]:
+                sx,sy=xx*32-ox,yy*32-oy
+                if -80<sx<690 and -80<sy<420:txt(name,sx,sy)
+        actors=[(n['x'],n['y'],n['name'],n['id']) for n in active_npcs(data['maps'][scene],quest)]
+        if scene=='road' and bandit_alive:
+            actors += [(n['x'],n['y'],n['name']+' ⚔','bandit') for n in data['maps']['road'].get('enemies',[])]
+        vx,vy=player_visual();actors.append((vx,vy,'','player'))
+        for xx,yy,name,aid in sorted(actors,key=lambda a:(a[1],a[0])):
+            px=int((xx+.5)*32-ox);py=int((yy+1)*32-oy)
+            if not (-50<px<690 and -80<py<430):continue
+            pygame.draw.ellipse(canvas,(36,54,49),(px-14,py-6,28,7))
+            sp=aid
+            direction={'down':0,'left':1,'right':2,'up':3}.get(facing if sp=='player' else ('left' if sp in ('healer','bandit') else 'down'),0)
+            active=(sp=='player' and (bool(route) or motion is not None))
+            tick=(pygame.time.get_ticks()//115)%3
+            frame_idx=1+tick if active else 0
+            if sp in animated_sprites:
+                art=animated_sprites[sp][direction][frame_idx]
+            else:
+                art=sprites[sp]  # Render ONE intact full-body PNG, no torso/leg split
+            canvas.blit(art,(px-art.get_width()//2,py-art.get_height()+1))
+            if name:txt(name,px-22,py-art.get_height()-18)
+        if scene=='cave':
+            for ob in data['maps']['cave'].get('objects',[]):
+                px,py=ob['x']*32-ox,ob['y']*32-oy
+                if ob['id']=='manual' and manual:canvas.blit(tiles[13],(px,py))
+                if ob['id']=='trace' and trace:pygame.draw.ellipse(canvas,(111,163,155),(px+7,py+12,18,8))
+                if -75<px<670 and -75<py<415:txt(ob['name'],px-12,py-15)
+        layer('front');structure_layer('front',scene,ox,oy)
+        for ex in data['maps'][scene]['exits']:
+            px,py=int((ex['x']+.5)*32-ox),int((ex['y']+.5)*32-oy)
+            if -60<px<670 and -60<py<420:txt(ex['label'],px-22,py-24)
+        if route:
+            x,y=route[-1]
+            pygame.draw.rect(canvas,(240,205,131),(x*32-ox+5,y*32-oy+5,22,22),2)
+    running=True;lastmove=0
+    say(data['dialogue']['intro'])
+    while running:
+        dt=clock.tick(60)/1000
+        for e in pygame.event.get():
+            if e.type==pygame.QUIT:running=False
+            elif e.type==pygame.KEYDOWN:
+                if e.key==pygame.K_ESCAPE:running=False
+                elif lines and e.key in (pygame.K_SPACE,pygame.K_RETURN):dialogue_next()
+                elif battle and e.key in (pygame.K_1,pygame.K_2,pygame.K_3,pygame.K_4):act(['attack','skill','heal','defend'][e.key-pygame.K_1])
+            elif e.type==pygame.MOUSEBUTTONDOWN and e.button==1:
+                x,y=e.pos[0]//SCALE,e.pos[1]//SCALE
+                if lines:dialogue_next()
+                elif battle:
+                    if 115<=y<=310:
+                        if 90<=x<=550:
+                            i=(0 if y<245 else 2)+(0 if x<330 else 1)
+                            act(['attack','skill','heal','defend'][i])
+                elif y<315:
+                    hit=pick_actor(x,y)
+                    if hit:
+                        kind,actor=hit;move_to(actor['x'],actor['y'],(kind,actor['id']))
+                    else:
+                        ox,oy=town_camera();click((x+ox)//32,(y+oy)//32)
+        if not lines and not battle:
+            if motion is not None:
+                a,b,elapsed=motion
+                elapsed+=dt
+                motion=(a,b,elapsed) if elapsed<.12 else None
+                if motion is None and not route:run_pending()
+            if not lines and not battle and motion is None and pygame.key.get_focused():
+                keys=pygame.key.get_pressed()
+                for controls,dx,dy in [((pygame.K_LEFT,pygame.K_a),-1,0),((pygame.K_RIGHT,pygame.K_d),1,0),((pygame.K_UP,pygame.K_w),0,-1),((pygame.K_DOWN,pygame.K_s),0,1)]:
+                    if any(keys[k] for k in controls):
+                        target=(pos[0]+dx,pos[1]+dy)
+                        route=[] if walls(*target) else [target];pending=None
+                        break
+            if route and motion is None and not lines and not battle:
+                lastmove+=dt
+                if lastmove>.12:
+                    lastmove=0;previous=pos;pos=route.pop(0)
+                    facing=('right' if pos[0]>previous[0] else 'left' if pos[0]<previous[0] else 'down' if pos[1]>previous[1] else 'up')
+                    motion=(previous,pos,0.0)
+        paint_tile_world()
+        pygame.draw.rect(canvas,(15,23,26),(0,315,640,45));txt('地点：'+m['name']+' | 气血 %d/100 内力 %d/50  银两 %d 逆命 %d'%(hp,mp,coins,destiny),12,320)
+        phases=['和韩掌柜交谈','击败山贼','前往山洞','寻找秘籍并调查石台','返回青石镇','第一章已完成']
+        txt('任务：'+phases[min(quest,5)],12,338)
+        if lines:
+            pygame.draw.rect(canvas,(16,25,27),(26,219,590,89));pygame.draw.rect(canvas,(188,154,100),(26,219,590,89),2)
+            who,text=lines[0];txt(who,44,231,(238,199,120),True);txt(text,44,261);txt('鼠标点击 / Enter 继续',444,286,(160,179,161))
+        if battle:
+            pygame.draw.rect(canvas,(14,21,24),(80,76,480,239));pygame.draw.rect(canvas,(198,164,103),(80,76,480,239),3)
+            txt('江湖交锋 · 山贼气血 %d'%max(0,battle['hp']),105,95,(244,201,135),True)
+            txt('沈砚气血 %d  内力 %d'%(hp,mp),105,131)
+            txt(note,105,167)
+            txt('[1] 基础剑法          [2] 破风一剑',105,226)
+            txt('[3] 疗伤药(%d)          [4] 防御'%potions,105,270)
+        screen.blit(pygame.transform.scale(canvas,(1280,720)),(0,0));pygame.display.flip()
+    pygame.quit();return 0
+
+if __name__=='__main__':sys.exit(main())

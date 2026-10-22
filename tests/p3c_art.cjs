@@ -1,0 +1,53 @@
+'use strict';
+const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path');
+const root=path.resolve(__dirname,'..');
+const m=JSON.parse(fs.readFileSync(path.join(root,'assets/characters/scene_sprites/sprite_manifest.json'),'utf8'));
+assert.equal(m.frame_width,96);assert.equal(m.frame_height,128);assert.equal(m.columns,4);assert.equal(m.rows,4);
+assert.deepEqual(m.directions,['down','left','right','up']);
+assert(m.entries.length>=5&&m.entries.length<=7,'Expect legacy sprites plus up to two newly approved roles');
+assert(['derived_preproduction_not_approved_4dir','partially_approved_4dir','approved_4dir'].includes(m.status));
+for(const e of m.entries){
+ const asset=fs.readFileSync(path.join(root,e.sheet));
+ if(e.sheet.endsWith('.png')){
+  assert.equal(asset.toString('hex',0,8),'89504e470d0a1a0a',e.key+' PNG header');
+  assert.equal(asset.readUInt32BE(16),384,e.key+' high-resolution sprite width');
+  assert.equal(asset.readUInt32BE(20),512,e.key+' high-resolution sprite height');
+  assert.equal(e.frame_width,96);assert.equal(e.frame_height,128);
+  assert(['gameplay_trial_pending_user_art_review','user_approved_independently_painted'].includes(e.direction_status));
+  if(e.direction_status==='user_approved_independently_painted')assert(e.review_evidence_sha256&&e.reviewer&&e.asset_sha256,'Approved sprite needs signed evidence and hash');
+  assert(asset.length>30000,e.key+' sprite seems too small');
+ } else {
+  const svg=asset.toString('utf8');
+  assert(svg.includes('width="192" height="256"'),e.key+' size invalid');
+  assert(svg.includes('data:image/png;base64,'),e.key+' missing original PNG reference');
+  assert.equal(svg.split('data:image/png;base64,').length-1,1,e.key+' should embed source once');
+  assert.equal(svg.split('<use href="#source"/>').length-1,32,e.key+' 4 dirs * 4frames * upper/lower clips must exist');
+  assert(svg.includes('id="upper"')&&svg.includes('id="lower"'),e.key+' lacks dynamic layers');
+  assert(!svg.includes('href="http'),e.key+' external dependency');
+ }
+}
+
+for(const s of ['town','road','cave']){
+ const map=JSON.parse(fs.readFileSync(path.join(root,'data/maps',s,s+'_tilemap.json'),'utf8'));
+ const svg=fs.readFileSync(path.join(root,map.atlas),'utf8');
+ assert(svg.includes('id="p3c-clip"'),'Lacks real per-tile natural material detail: '+s);
+ assert(svg.includes('P3-C 32px natural-material pixel detail'),s+' missing polish overlay');
+}
+const registry=fs.readFileSync(path.join(root,'assets/characters/scene_sprites/sprite_registry.js'),'utf8');
+const registryData=JSON.parse(registry.trim().replace(/^window\.NM_SPRITE_REGISTRY = /,'').replace(/;$/,''));
+for(const entry of m.entries){assert.equal(registryData[entry.key],entry.sheet,'Registry/manifest drift: '+entry.key)}
+const jobs=JSON.parse(fs.readFileSync(path.join(root,'assets/characters/scene_sprites/qwen_4dir_jobs.json'),'utf8'));
+assert.equal(jobs.tasks.length,112,'Expected 7 characters * 16 frames');
+assert.equal(jobs.tasks.filter(x=>x.status==='ready').length,80,'Expected 5 game characters ready');
+assert.equal(jobs.tasks.filter(x=>x.status.startsWith('blocked')).length,32,'2 characters must wait for fullbody master');
+const index=fs.readFileSync(path.join(root,'index.html'),'utf8');
+assert(index.includes('sprite_registry.js'),'Browser must load replaceable sprite registry');
+const packer=fs.readFileSync(path.join(root,'tools/pack_sprite_sheets.py'),'utf8');
+assert(packer.includes('pack_frames')&&packer.includes('--review-evidence')&&packer.includes('im.size != (384, 512)'),'Production packer must use reviewed 384x512 P3G pipeline');
+const g=fs.readFileSync(path.join(root,'game.js'),'utf8');
+const p=fs.readFileSync(path.join(root,'main.py'),'utf8');
+assert(g.includes('function drawActorSprite'),'Browser runtime missing direction animation');
+assert(g.includes('visualPlayer()'),'Browser motion interpolation missing');
+assert(g.includes('facingForMove(from,to)'),'Browser direction tracking missing');
+assert(p.includes('animated_sprites')&&p.includes('def player_visual()'),'Pygame missing equivalent animation support');
+console.log('PASS P3C: candidate and approved sprite states, modular tiles, facing, walking and Pygame parity');

@@ -1,0 +1,147 @@
+{
+  "status": "CANDIDATE_NOT_APPROVED",
+  "character": "BOSS001",
+  "name": "廖",
+  "sheet": "D:\\nimingjianghu\\assets\\characters\\scene_sprites\\candidates\\liao_4dir_hd_candidate.png",
+  "review": "D:\\nimingjianghu\\assets\\characters\\scene_sprites\\candidates\\liao_4dir_hd_review.png",
+  "sheet_size": [
+    384,
+    512
+  ],
+  "frame_size": [
+    96,
+    128
+  ],
+  "sources": [
+    {
+      "frame": "down_idle.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "5b488c284da486bf70db71c23c52a4c4688553a73208aa339069fa2a1cb45f49"
+    },
+    {
+      "frame": "down_walk1.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "43abb90068532f701c7aa688762ea49e9c828c9deeec18e62dc4b985ef7bb2ed"
+    },
+    {
+      "frame": "down_walk2.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "8b03fe2e28e12f49be73f9d681b919d55907e0f6ad3b2a524a99311eaedf416e"
+    },
+    {
+      "frame": "down_walk3.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "565d7aa8dfb492c9ab13ae37fb4c51402ce0901a6e65ebf2cf1af422f40cd4f1"
+    },
+    {
+      "frame": "left_idle.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "fab3b649cf4d281c5aca9ad6e583ab2110a4a2bee4b55aba4df145b43818ea7e"
+    },
+    {
+      "frame": "left_walk1.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "fe2be6dd28dd788aaa6b5f0de526f627bab4e2bfeb774dd75ed5284c8a297bdc"
+    },
+    {
+      "frame": "left_walk2.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "0db37af6cba9b2a07a0e02b6a9f398874c80016c2bfabaf62ec58d89e4a29dd4"
+    },
+    {
+      "frame": "left_walk3.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "58b0c831b5f57f741dbf954024e2f6ced16886e6f751383a25035d81d34d0007"
+    },
+    {
+      "frame": "right_idle.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "137cd48da2dbc82abcb812a9340daededccaa779eb59a8286561ce347994dc59"
+    },
+    {
+      "frame": "right_walk1.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "7959e8dedabe303222d6e11c2059c57c5d5da079d0baf5df18ffb88afcd93f1e"
+    },
+    {
+      "frame": "right_walk2.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "86f21ddb0f6bc5a9616e01726217231996a1219de1fea2f564612e9497bbe997"
+    },
+    {
+      "frame": "right_walk3.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "e6c47cf6b2651b0eba137c8ee20d08adbb3a820b58f93dba2fb846005bc13a26"
+    },
+    {
+      "frame": "up_idle.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "7b49814d5b1668e5e0e26a92cc59d420ba3468cbd6023e78b51d1ddb5fab67fb"
+    },
+    {
+      "frame": "up_walk1.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "2e16e2ca8dc3b21e2b6fa12e83ca475d8ee4e0ed347526dcb3b34a0be5576fd3"
+    },
+    {
+      "frame": "up_walk2.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "213db66fcc5e2410620b6a1c55594953fec727212cb09ce9adf6bede40286f27"
+    },
+    {
+      "frame": "up_walk3.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "886294788f76a36d3e78857419a404afd35e4a5368b90b63e519360ec3b0bf76"
+    }
+  ],
+  "warnings": [],
+  "explicit_manual_approval_required": true
+}

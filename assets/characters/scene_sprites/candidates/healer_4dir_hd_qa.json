@@ -1,0 +1,147 @@
+{
+  "status": "CANDIDATE_NOT_APPROVED",
+  "character": "NPC005",
+  "name": "苏晚晴",
+  "sheet": "D:\\nimingjianghu\\assets\\characters\\scene_sprites\\candidates\\healer_4dir_hd_candidate.png",
+  "review": "D:\\nimingjianghu\\assets\\characters\\scene_sprites\\candidates\\healer_4dir_hd_review.png",
+  "sheet_size": [
+    384,
+    512
+  ],
+  "frame_size": [
+    96,
+    128
+  ],
+  "sources": [
+    {
+      "frame": "down_idle.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "59f1754f059f84d2d9be11c246c9746bd3150a6f922f786b08b8bc1e5cd1ed7a"
+    },
+    {
+      "frame": "down_walk1.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "56822a37b703348ff4ebbc26f0c8b8d2c5c48b84e993cc7e9babf80c26f9e6df"
+    },
+    {
+      "frame": "down_walk2.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "14d5da78c457afa82b3942def89d0e41ede8b2f41f3583259dcefc16d7226ba6"
+    },
+    {
+      "frame": "down_walk3.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "14f7164d711e39499125d49008e5ae0870ad634e0aeaa021d67b38c4c5b0987c"
+    },
+    {
+      "frame": "left_idle.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "9d1584f67b1216592bc95647cf11b5f800b8dcd85a9135e5ec30ac0b9d092225"
+    },
+    {
+      "frame": "left_walk1.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "6e9d90a397c18aea88b229bed45baf13214182d21fb85375c6632257979ae7f2"
+    },
+    {
+      "frame": "left_walk2.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "189a0fcb46f6e070e2796e9e7884598e6f328e910556749a01e712d1a43445c5"
+    },
+    {
+      "frame": "left_walk3.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "8a44486c4684dfdfe91db4086ae6d5cdfc4757cd22547ba5a40d15b73672d2d1"
+    },
+    {
+      "frame": "right_idle.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "ad2f1f4583f64faec1803fb831dec033a1d4df9df5495a1bc1297c64fed322ab"
+    },
+    {
+      "frame": "right_walk1.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "7aaec0dbe9160be5bc7e81745c9362b650b2b7ef1f118977e9db61c94c1a9ad0"
+    },
+    {
+      "frame": "right_walk2.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "4144d74c21873af71cca71d5d99e9f4f6f730bac3f607b5c4f82e830bb162bd7"
+    },
+    {
+      "frame": "right_walk3.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "abec6562c6fc04de196b030a2ab42d63dfdd3447928e174a35d8871f22382124"
+    },
+    {
+      "frame": "up_idle.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "9bc0ebdf5868b9d5bfaa07f71b7412b66ac23b7ca083d19bd2bea71899eb953b"
+    },
+    {
+      "frame": "up_walk1.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "8de28bfbbb60d6971a0f98f0e08585a2ec04dc9609461a5ddf026f5ce32dceb9"
+    },
+    {
+      "frame": "up_walk2.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "a41858cef04eadf94e4eb305e3827a14c8cc6b95a440de38eb57417da02a0481"
+    },
+    {
+      "frame": "up_walk3.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "d40898358b43b23235c7e9f9272afddae598e7dd2f2843b7ede0da0df56ea413"
+    }
+  ],
+  "warnings": [],
+  "explicit_manual_approval_required": true
+}

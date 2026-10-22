@@ -1,0 +1,25 @@
+{
+  "status": "CANDIDATE_NOT_APPROVED",
+  "character": "NPC002",
+  "name": "顾老",
+  "fullbody_file": "D:\\nimingjianghu\\assets\\characters\\masters\\candidates\\NPC002_fullbody_candidate.png",
+  "portrait_file": "D:\\nimingjianghu\\assets\\characters\\masters\\candidates\\NPC002_portrait_candidate.png",
+  "review_file": "D:\\nimingjianghu\\assets\\characters\\masters\\candidates\\NPC002_review.jpg",
+  "source": {
+    "w": 1024,
+    "h": 1536,
+    "bbox": [
+      64,
+      70,
+      1001,
+      1496
+    ],
+    "sha256": "5249b3db3407184b6a9499aa7a0dde504dec543eaeb02daf14941e2812b0e95f"
+  },
+  "output_sha256": {
+    "fullbody": "9c356c72551e9feff7c67f581072c482e93234f154436b3a7fa2fc4ca95de803",
+    "portrait": "8c43a0f57542f71eb50274e0049938c7f40815f85c93d1099989959ee32a4d00",
+    "review": "33da7ab8855b1df8f4136b125653d08a30a41f80e61d1d1ac01d4af79ca8160a"
+  },
+  "note": "高清尺寸、透明度等仅为技术检查；角色脸/衣服/透视一致性需要人工审核"
+}

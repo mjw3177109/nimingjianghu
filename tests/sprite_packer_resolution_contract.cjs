@@ -1,0 +1,16 @@
+'use strict';
+const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path');
+const root=path.resolve(__dirname,'..'),read=p=>fs.readFileSync(path.join(root,p),'utf8');
+const pack=read('tools/pack_sprite_sheets.py'),p3g=read('tools/p3g_art_pipeline.py');
+assert(pack.includes('from p3g_art_pipeline import BASE, ROOT, SPRITE_PIXEL, pack_frames, manifest_entry'));
+assert(p3g.includes('SPRITE_PIXEL=(96,128)'),'Packed frames must be 96x128');
+assert(p3g.includes('MIN_FRAME=(256,384)'),'Do not upscale low resolution source');
+assert(pack.includes('im.size != (384, 512)'),'Must publish full-resolution atlas');
+assert(pack.includes('--review-evidence'),'Manual approval evidence required');
+assert(pack.includes('frame_sha256')&&pack.includes('sheet_sha256'),'All 16 approved inputs must be hashed');
+assert(pack.includes('master_approved')&&pack.includes('inspect_rgba(master_path, 1024, 1536)'));
+const pkg=JSON.parse(read('package.json'));
+assert(pkg.scripts.build.includes('tests/sprite_packer_resolution_contract.cjs'));
+assert(pkg.scripts.test.includes('tests/sprite_packer_resolution_contract.cjs'));
+assert(pkg.scripts['qa:art']==='node tools/art_release_gate.cjs');
+console.log('PASS sprite pipeline: no 192x256 sheets, no unreviewed approval, 384x512 browser/Pygame compatible output');

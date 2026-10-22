@@ -1,0 +1,25 @@
+{
+  "status": "CANDIDATE_NOT_APPROVED",
+  "character": "BOSS001",
+  "name": "廖",
+  "fullbody_file": "D:\\nimingjianghu\\assets\\characters\\masters\\candidates\\BOSS001_fullbody_candidate.png",
+  "portrait_file": "D:\\nimingjianghu\\assets\\characters\\masters\\candidates\\BOSS001_portrait_candidate.png",
+  "review_file": "D:\\nimingjianghu\\assets\\characters\\masters\\candidates\\BOSS001_review.jpg",
+  "source": {
+    "w": 1024,
+    "h": 1536,
+    "bbox": [
+      35,
+      72,
+      1001,
+      1450
+    ],
+    "sha256": "ecccd4511d6a6d00f663a91cb6f0c6eee9b5f81ac8e0b7f7ed8fb589e5710627"
+  },
+  "output_sha256": {
+    "fullbody": "e91b003590e58011e6467cb65cb87ce4401f46e03c835a1f60de96addfeac90d",
+    "portrait": "788e43a2599a55fdac9c9f85f4ff73ef0b02328766991e12f5bc35c848ecd57f",
+    "review": "af13ede91742f95e98d8b160e0204efb369731327b4abdcbc3a4f0e4e009180f"
+  },
+  "note": "高清尺寸、透明度等仅为技术检查；角色脸/衣服/透视一致性需要人工审核"
+}

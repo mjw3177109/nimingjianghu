@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="192" height="128" viewBox="0 0 96 64"><defs><linearGradient id="roof" x2="0" y2="1"><stop stop-color="#8499a6"/><stop offset=".38" stop-color="#425a70"/><stop offset="1" stop-color="#23384a"/></linearGradient><linearGradient id="plaster" x2="0" y2="1"><stop stop-color="#f6e7c7"/><stop offset="1" stop-color="#bd9f7c"/></linearGradient><linearGradient id="wood" x2="0" y2="1"><stop stop-color="#b5885b"/><stop offset="1" stop-color="#644432"/></linearGradient><radialGradient id="glow"><stop stop-color="#ffe5a0" stop-opacity=".9"/><stop offset="1" stop-color="#f4a15b" stop-opacity="0"/></radialGradient></defs><ellipse cx="48" cy="58" rx="43" ry="10" fill="#1d2324" opacity=".49"/>
+<rect x="7" y="30" width="82" height="35" rx="5" fill="#805237" stroke="#382e2b" stroke-width="4"/>
+<path d="M7 32Q19 4 48 4Q78 6 89 32Z" fill="#b17a46" stroke="#44362d" stroke-width="4"/>
+<path d="M14 30Q24 14 48 13Q74 14 83 30" fill="none" stroke="#e2b779" stroke-width="3"/>
+<path d="M47 6V65" stroke="#ecd38c" stroke-width="7"/><path d="M8 43H88" stroke="#e3b26e" stroke-width="5"/><rect x="40" y="37" width="17" height="20" rx="3" fill="#d9c48d" stroke="#785d3b" stroke-width="2"/>
+<path d="M47 43h4v8h-4z" fill="#533c33"/></svg>

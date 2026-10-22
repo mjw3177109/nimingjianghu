@@ -1,0 +1,24 @@
+'use strict';
+const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path');
+const root=path.resolve(__dirname,'..'),game=fs.readFileSync(path.join(root,'game.js'),'utf8');
+const s=JSON.parse(fs.readFileSync(path.join(root,'data/structures.json'),'utf8'));
+const town=JSON.parse(fs.readFileSync(path.join(root,'data/maps/town/town_tilemap.json'),'utf8'));
+const front=town.layers.front;
+const cells=id=>front.flatMap((v,i)=>v===id?[[i%town.width,Math.floor(i/town.width)]]:[]);
+assert(cells(16).length>0&&cells(17).length>0,'Both back and front bridge rails required');
+assert(s.town.find(o=>o.id==='bridge_front').occlusion_depth===13,'Bridge rail depth must split y12 and y13 walkers');
+assert(s.town.find(o=>o.id==='willow').occlusion_depth===22,'Willow canopy must sort behind y22+ walkers');
+assert(game.includes('const drawQueue=[]')&&game.includes('drawQueue.sort((a,b)=>a.depth-b.depth'),'World actor/occluder depth sort required');
+assert(game.includes('i===16?y-.5')&&game.includes('i===17?y'),'Back and front rails must have different depths');
+assert(game.includes('i===22?22'),'Willow canopy must use trunk-foot depth');
+assert(!game.includes("paint('front');paintStructureLayer(state.map,'front',cam)"),'Foreground cannot blanket every actor');
+const idx=(x,y)=>y*town.width+x;
+for(let x=18;x<=21;x++)for(let y=11;y<=13;y++)assert.equal(town.collision[idx(x,y)],0,'Bridge deck must remain traversable');
+for(const obj of s.town.filter(o=>o.layer==='front'))assert(Number.isFinite(obj.occlusion_depth),'Front structure missing depth: '+obj.id);
+for(const [id,depth] of [['altar',10],['chest',11]]){
+ const ob=s.cave.find(o=>o.id===id);
+ assert.equal(ob.layer,'front',id+' must depth-sort with actors instead of always drawing behind them');
+ assert.equal(ob.occlusion_depth,depth,id+' depth must match the solid prop foot');
+ assert(ob.solid_footprint,id+' must retain a solid footprint');
+}
+console.log('PASS: depth-sorted bridge rails, willow canopy, cave props, traversable bridge deck and no blanket foreground');

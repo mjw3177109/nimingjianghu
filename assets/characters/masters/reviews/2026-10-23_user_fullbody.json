@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-23",
+  "reviewer": "user_in_current_conversation",
+  "user_statement": "独立全身母版通过了开始下一步把",
+  "scope": "fullbody_masters_only",
+  "excludes": [
+    "portraits",
+    "direction_frames",
+    "sprite_sheets",
+    "runtime_art"
+  ],
+  "records": [
+    {
+      "character_id": "CHAR001",
+      "name": "沈砚",
+      "approved": true,
+      "source": "assets/characters/masters/candidates/CHAR001_fullbody_candidate.png",
+      "master": "assets/characters/masters/CHAR001_fullbody.png",
+      "sha256": "7f4e0e10dbf960df888d0b9fd985d8b82c5feee24a4b9437336d7bf4804f5069"
+    },
+    {
+      "character_id": "BOSS001",
+      "name": "廖",
+      "approved": true,
+      "source": "assets/characters/masters/candidates/BOSS001_fullbody_candidate.png",
+      "master": "assets/characters/masters/BOSS001_fullbody.png",
+      "sha256": "e91b003590e58011e6467cb65cb87ce4401f46e03c835a1f60de96addfeac90d"
+    },
+    {
+      "character_id": "NPC001",
+      "name": "韩掌柜",
+      "approved": true,
+      "source": "assets/characters/masters/candidates/NPC001_fullbody_candidate.png",
+      "master": "assets/characters/masters/NPC001_fullbody.png",
+      "sha256": "146a81c9e0308e530ecd2533be1b4df58d054c2e17f28bbe4506782a6cdb211e"
+    },
+    {
+      "character_id": "NPC002",
+      "name": "顾老",
+      "approved": true,
+      "source": "assets/characters/masters/candidates/NPC002_fullbody_candidate.png",
+      "master": "assets/characters/masters/NPC002_fullbody.png",
+      "sha256": "9c356c72551e9feff7c67f581072c482e93234f154436b3a7fa2fc4ca95de803"
+    },
+    {
+      "character_id": "NPC003",
+      "name": "顾青岚",
+      "approved": true,
+      "source": "assets/characters/masters/candidates/NPC003_fullbody_candidate.png",
+      "master": "assets/characters/masters/NPC003_fullbody.png",
+      "sha256": "5b64db7e2ce34293a2b07c16eec7768a1f54b52b3c0e3cbb363814173ee0d95c"
+    },
+    {
+      "character_id": "NPC005",
+      "name": "苏晚晴",
+      "approved": true,
+      "source": "assets/characters/masters/candidates/NPC005_fullbody_candidate.png",
+      "master": "assets/characters/masters/NPC005_fullbody.png",
+      "sha256": "1f608b44296589dfda4f878e67206445ea85852ddca83dc347495cab38288c83"
+    },
+    {
+      "character_id": "EN001",
+      "name": "山贼",
+      "approved": true,
+      "source": "assets/characters/masters/candidates/EN001_fullbody_candidate.png",
+      "master": "assets/characters/masters/EN001_fullbody.png",
+      "sha256": "82f0e0ea159f274a245ba58accdea25fc79c22640a59e4f255a151d3defa890e"
+    }
+  ]
+}

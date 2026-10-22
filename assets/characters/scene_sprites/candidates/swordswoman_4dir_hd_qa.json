@@ -1,0 +1,147 @@
+{
+  "status": "CANDIDATE_NOT_APPROVED",
+  "character": "NPC003",
+  "name": "顾青岚",
+  "sheet": "D:\\nimingjianghu\\assets\\characters\\scene_sprites\\candidates\\swordswoman_4dir_hd_candidate.png",
+  "review": "D:\\nimingjianghu\\assets\\characters\\scene_sprites\\candidates\\swordswoman_4dir_hd_review.png",
+  "sheet_size": [
+    384,
+    512
+  ],
+  "frame_size": [
+    96,
+    128
+  ],
+  "sources": [
+    {
+      "frame": "down_idle.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "b0a3da90523c403f87d3649464117c743ebdd355a9d48ad4fa4af4374c61b7c7"
+    },
+    {
+      "frame": "down_walk1.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "f583e171cb6710af855184938c9feefdf0ab16c7160c37db33a34a0bcd51a78d"
+    },
+    {
+      "frame": "down_walk2.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "dba5553d36ed55705f641ef8b607a7ff457a28aa1fcdfbd917b22a2cd02be29e"
+    },
+    {
+      "frame": "down_walk3.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "6f89ca1b37fc99b9297918c14c198d1dc42bc9d92455c96453a4d82cb1a2c76b"
+    },
+    {
+      "frame": "left_idle.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "6d50b76d575a55836e50cb062c8e5c2f175e3c0b455a8cbdd8827caf6ddfa6c1"
+    },
+    {
+      "frame": "left_walk1.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "ae86dbae51ffdf8d5b961e67073875f42c865081642a70cb3a812c94fbe0ce96"
+    },
+    {
+      "frame": "left_walk2.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "55ae9bbd8153c252bb67605e836361aa7a1884e8ae1224a26e325f9cf6121b7e"
+    },
+    {
+      "frame": "left_walk3.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "7b8b864020624a05e753806a080eb7a40c56a8008f4e851dcb60b2fd17ea90a7"
+    },
+    {
+      "frame": "right_idle.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "d70c42e3064632f34309c172f0d8ae479db5382f00aba8611eb24bd69968cafe"
+    },
+    {
+      "frame": "right_walk1.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "29830edfb2d8894f20f08b9d2716896dbdc5c4e970d99a1a4102d2eb46d0a564"
+    },
+    {
+      "frame": "right_walk2.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "63906fc51cd87f26eda8ebbcfd2284bde6257a4942d0cea1be5f80ba44af120d"
+    },
+    {
+      "frame": "right_walk3.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "02ac138e6649416bb5ca94b4bd5fc006434a58fa38b88d11f98b69daa40d0501"
+    },
+    {
+      "frame": "up_idle.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "cb5ad1ebf160c99127a45de477e80465509f436d8c224dd1c3e06d72480efc25"
+    },
+    {
+      "frame": "up_walk1.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "14258e97f2a1e0d12a4868d1b11089c37548b39002f827033dcfafd7a09d2d05"
+    },
+    {
+      "frame": "up_walk2.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "b6e9b12c2eef6046da05e7edf06be6d7df0d6c24c0cdf7285cbb42e70b5896a6"
+    },
+    {
+      "frame": "up_walk3.png",
+      "source_resolution": [
+        1024,
+        1536
+      ],
+      "sha256": "cb9a59390ca05445782ef579437604957d7eaaa942c951a0f0a0bdc9481df741"
+    }
+  ],
+  "warnings": [],
+  "explicit_manual_approval_required": true
+}

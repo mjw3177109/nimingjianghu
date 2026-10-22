@@ -1,0 +1,632 @@
+{
+  "schema_version": 1,
+  "phase": "independent_frame_candidates",
+  "expected": 112,
+  "generated": 112,
+  "human_approved_characters": 6,
+  "characters": [
+    {
+      "id": "CHAR001",
+      "name": "沈砚",
+      "expected": 16,
+      "generated": 16,
+      "human_approved": false,
+      "frames": [
+        {
+          "id": "CHAR001_down_idle",
+          "file": "qwen_4dir/CHAR001/down_idle.png",
+          "sha256": "0af50d1396609ec46ef8706c120dfd7d6142a94973592bbbfa24407d08d0b389"
+        },
+        {
+          "id": "CHAR001_down_walk1",
+          "file": "qwen_4dir/CHAR001/down_walk1.png",
+          "sha256": "937b148eec58165d12dd9c9a9469b8bb26faa8afc6eebf4bdffa56da0bd29e21"
+        },
+        {
+          "id": "CHAR001_down_walk2",
+          "file": "qwen_4dir/CHAR001/down_walk2.png",
+          "sha256": "2cae81a255e161ea460a7b6179db73a16cf29c6acc2217bad35b3fe84ee32c6e"
+        },
+        {
+          "id": "CHAR001_down_walk3",
+          "file": "qwen_4dir/CHAR001/down_walk3.png",
+          "sha256": "d2f13b1e2521564b30dc79b6e4af29f4ee7c80bf597b39ca969d487951f47a42"
+        },
+        {
+          "id": "CHAR001_left_idle",
+          "file": "qwen_4dir/CHAR001/left_idle.png",
+          "sha256": "ecb9bc017b1a26d131a283e66491a22e9c435d05f05795f31622d7cad4a95246"
+        },
+        {
+          "id": "CHAR001_left_walk1",
+          "file": "qwen_4dir/CHAR001/left_walk1.png",
+          "sha256": "3b17c504133c91c5d2f432a0ec37b2ee48240d0c3310caf264f6d411d89834d3"
+        },
+        {
+          "id": "CHAR001_left_walk2",
+          "file": "qwen_4dir/CHAR001/left_walk2.png",
+          "sha256": "c7cde340446bd1c55cc53328a7529c376dc0d5f83292245304ecd0092b9be221"
+        },
+        {
+          "id": "CHAR001_left_walk3",
+          "file": "qwen_4dir/CHAR001/left_walk3.png",
+          "sha256": "97593ca5b6a79ea12529f61a40b1bd8c0b0365f416b641110959267ea720996f"
+        },
+        {
+          "id": "CHAR001_right_idle",
+          "file": "qwen_4dir/CHAR001/right_idle.png",
+          "sha256": "e8c8751d6f1b6e2a3dc66f01484793eef709740af22310199edfa608408e6ed2"
+        },
+        {
+          "id": "CHAR001_right_walk1",
+          "file": "qwen_4dir/CHAR001/right_walk1.png",
+          "sha256": "87cf76b93c0d7ae15f16d17f404485236f71f649cc81a89f14b0bac4e7d6198a"
+        },
+        {
+          "id": "CHAR001_right_walk2",
+          "file": "qwen_4dir/CHAR001/right_walk2.png",
+          "sha256": "e8c902aff51146e39d021a01182abc2c5e109558b11f4877e9db18915703ddd3"
+        },
+        {
+          "id": "CHAR001_right_walk3",
+          "file": "qwen_4dir/CHAR001/right_walk3.png",
+          "sha256": "fa889f1bd80fa5d86d2f62dc2a16789f7ae787c3f7ee3897d37e3907c1945862"
+        },
+        {
+          "id": "CHAR001_up_idle",
+          "file": "qwen_4dir/CHAR001/up_idle.png",
+          "sha256": "3079e84221d7c1e7f81dfe690632c9894aa1e03ed61b99475a8d1faeaa90cefe"
+        },
+        {
+          "id": "CHAR001_up_walk1",
+          "file": "qwen_4dir/CHAR001/up_walk1.png",
+          "sha256": "9d19f6ca725ae5683d2ac9e138f34a2878920f7648738fe775a7a9018e2526bd"
+        },
+        {
+          "id": "CHAR001_up_walk2",
+          "file": "qwen_4dir/CHAR001/up_walk2.png",
+          "sha256": "69e24eb504577b16875a5b6b25c12c650f877fb0d9f8bd2faa383d6a2083e978"
+        },
+        {
+          "id": "CHAR001_up_walk3",
+          "file": "qwen_4dir/CHAR001/up_walk3.png",
+          "sha256": "8c78eb856ac0c43e63ba7aa50aadf5b023da57b6140b70099c7bef2da357a36c"
+        }
+      ]
+    },
+    {
+      "id": "BOSS001",
+      "name": "廖",
+      "expected": 16,
+      "generated": 16,
+      "human_approved": true,
+      "frames": [
+        {
+          "id": "BOSS001_down_idle",
+          "file": "qwen_4dir/BOSS001/down_idle.png",
+          "sha256": "5b488c284da486bf70db71c23c52a4c4688553a73208aa339069fa2a1cb45f49"
+        },
+        {
+          "id": "BOSS001_down_walk1",
+          "file": "qwen_4dir/BOSS001/down_walk1.png",
+          "sha256": "43abb90068532f701c7aa688762ea49e9c828c9deeec18e62dc4b985ef7bb2ed"
+        },
+        {
+          "id": "BOSS001_down_walk2",
+          "file": "qwen_4dir/BOSS001/down_walk2.png",
+          "sha256": "8b03fe2e28e12f49be73f9d681b919d55907e0f6ad3b2a524a99311eaedf416e"
+        },
+        {
+          "id": "BOSS001_down_walk3",
+          "file": "qwen_4dir/BOSS001/down_walk3.png",
+          "sha256": "565d7aa8dfb492c9ab13ae37fb4c51402ce0901a6e65ebf2cf1af422f40cd4f1"
+        },
+        {
+          "id": "BOSS001_left_idle",
+          "file": "qwen_4dir/BOSS001/left_idle.png",
+          "sha256": "fab3b649cf4d281c5aca9ad6e583ab2110a4a2bee4b55aba4df145b43818ea7e"
+        },
+        {
+          "id": "BOSS001_left_walk1",
+          "file": "qwen_4dir/BOSS001/left_walk1.png",
+          "sha256": "fe2be6dd28dd788aaa6b5f0de526f627bab4e2bfeb774dd75ed5284c8a297bdc"
+        },
+        {
+          "id": "BOSS001_left_walk2",
+          "file": "qwen_4dir/BOSS001/left_walk2.png",
+          "sha256": "0db37af6cba9b2a07a0e02b6a9f398874c80016c2bfabaf62ec58d89e4a29dd4"
+        },
+        {
+          "id": "BOSS001_left_walk3",
+          "file": "qwen_4dir/BOSS001/left_walk3.png",
+          "sha256": "58b0c831b5f57f741dbf954024e2f6ced16886e6f751383a25035d81d34d0007"
+        },
+        {
+          "id": "BOSS001_right_idle",
+          "file": "qwen_4dir/BOSS001/right_idle.png",
+          "sha256": "137cd48da2dbc82abcb812a9340daededccaa779eb59a8286561ce347994dc59"
+        },
+        {
+          "id": "BOSS001_right_walk1",
+          "file": "qwen_4dir/BOSS001/right_walk1.png",
+          "sha256": "7959e8dedabe303222d6e11c2059c57c5d5da079d0baf5df18ffb88afcd93f1e"
+        },
+        {
+          "id": "BOSS001_right_walk2",
+          "file": "qwen_4dir/BOSS001/right_walk2.png",
+          "sha256": "86f21ddb0f6bc5a9616e01726217231996a1219de1fea2f564612e9497bbe997"
+        },
+        {
+          "id": "BOSS001_right_walk3",
+          "file": "qwen_4dir/BOSS001/right_walk3.png",
+          "sha256": "e6c47cf6b2651b0eba137c8ee20d08adbb3a820b58f93dba2fb846005bc13a26"
+        },
+        {
+          "id": "BOSS001_up_idle",
+          "file": "qwen_4dir/BOSS001/up_idle.png",
+          "sha256": "7b49814d5b1668e5e0e26a92cc59d420ba3468cbd6023e78b51d1ddb5fab67fb"
+        },
+        {
+          "id": "BOSS001_up_walk1",
+          "file": "qwen_4dir/BOSS001/up_walk1.png",
+          "sha256": "2e16e2ca8dc3b21e2b6fa12e83ca475d8ee4e0ed347526dcb3b34a0be5576fd3"
+        },
+        {
+          "id": "BOSS001_up_walk2",
+          "file": "qwen_4dir/BOSS001/up_walk2.png",
+          "sha256": "213db66fcc5e2410620b6a1c55594953fec727212cb09ce9adf6bede40286f27"
+        },
+        {
+          "id": "BOSS001_up_walk3",
+          "file": "qwen_4dir/BOSS001/up_walk3.png",
+          "sha256": "886294788f76a36d3e78857419a404afd35e4a5368b90b63e519360ec3b0bf76"
+        }
+      ]
+    },
+    {
+      "id": "NPC001",
+      "name": "韩掌柜",
+      "expected": 16,
+      "generated": 16,
+      "human_approved": true,
+      "frames": [
+        {
+          "id": "NPC001_down_idle",
+          "file": "qwen_4dir/NPC001/down_idle.png",
+          "sha256": "7a33abb01f41754f3d464f798149c48ed817970b07d09a232ac586fcb0480892"
+        },
+        {
+          "id": "NPC001_down_walk1",
+          "file": "qwen_4dir/NPC001/down_walk1.png",
+          "sha256": "05d599c5e4155b776afc08554a2995bd349d2a75fcad16d5e53563bdb65e05d2"
+        },
+        {
+          "id": "NPC001_down_walk2",
+          "file": "qwen_4dir/NPC001/down_walk2.png",
+          "sha256": "cb81f347044b509900caad7d20089ecdfa71a10e45a51bda50caef25ee959fc6"
+        },
+        {
+          "id": "NPC001_down_walk3",
+          "file": "qwen_4dir/NPC001/down_walk3.png",
+          "sha256": "5b77119adcaf764f41707042c3948314c7595fde89579e17b176af294a2ee985"
+        },
+        {
+          "id": "NPC001_left_idle",
+          "file": "qwen_4dir/NPC001/left_idle.png",
+          "sha256": "1b0defe20ee961c162c7628ea5578365868225ddce38f3032f79b058fac6cd3a"
+        },
+        {
+          "id": "NPC001_left_walk1",
+          "file": "qwen_4dir/NPC001/left_walk1.png",
+          "sha256": "3346c7ec45e92ead45d03a1786a9c3d3e906137684debbf5795af4da094e208e"
+        },
+        {
+          "id": "NPC001_left_walk2",
+          "file": "qwen_4dir/NPC001/left_walk2.png",
+          "sha256": "3401a14450b3d63fd203af3db1820803ee792615bfdfb153a44e6d04f51aa992"
+        },
+        {
+          "id": "NPC001_left_walk3",
+          "file": "qwen_4dir/NPC001/left_walk3.png",
+          "sha256": "28447e90a4507168948e4845badeffa30e571394450fc62707dfd602dbf08622"
+        },
+        {
+          "id": "NPC001_right_idle",
+          "file": "qwen_4dir/NPC001/right_idle.png",
+          "sha256": "0012d8d7e85dbdbdd628ff5ae5a3abd10d3108bd259ef51eb926ea404a5e0047"
+        },
+        {
+          "id": "NPC001_right_walk1",
+          "file": "qwen_4dir/NPC001/right_walk1.png",
+          "sha256": "b42969fc75458fb5a58caad5b6c65065b9d1972f3063c0db239a83d497260b04"
+        },
+        {
+          "id": "NPC001_right_walk2",
+          "file": "qwen_4dir/NPC001/right_walk2.png",
+          "sha256": "d2951d1fcd9b77e6b72303603fdf726d156e90e62a243f95f05b5cca8568cc2e"
+        },
+        {
+          "id": "NPC001_right_walk3",
+          "file": "qwen_4dir/NPC001/right_walk3.png",
+          "sha256": "4148cd2c809e36cb28c7d3c37521e5dbae0f2e8dfd0465ed33d741691d4c841b"
+        },
+        {
+          "id": "NPC001_up_idle",
+          "file": "qwen_4dir/NPC001/up_idle.png",
+          "sha256": "d6b62203b3996c5718c25a1968c81c838bbd6eb8960172758727f85c8e4c7080"
+        },
+        {
+          "id": "NPC001_up_walk1",
+          "file": "qwen_4dir/NPC001/up_walk1.png",
+          "sha256": "934fecc9c4f72c56da77f340f7dffa28330cc34ae5dd36d06826ff152bd2bb8c"
+        },
+        {
+          "id": "NPC001_up_walk2",
+          "file": "qwen_4dir/NPC001/up_walk2.png",
+          "sha256": "28454bb131411205cbd99d272a488d18c77746b3e4a1674b8611ce339a3fbaf8"
+        },
+        {
+          "id": "NPC001_up_walk3",
+          "file": "qwen_4dir/NPC001/up_walk3.png",
+          "sha256": "628a5986228ded8bf941107b401961fe0cdf7b97f539ac3054101ff59373cc11"
+        }
+      ]
+    },
+    {
+      "id": "NPC002",
+      "name": "顾老",
+      "expected": 16,
+      "generated": 16,
+      "human_approved": true,
+      "frames": [
+        {
+          "id": "NPC002_down_idle",
+          "file": "qwen_4dir/NPC002/down_idle.png",
+          "sha256": "b6b92f99313bace8745b40d057a7b11c38634904d6e667d675adf34f25c6bdad"
+        },
+        {
+          "id": "NPC002_down_walk1",
+          "file": "qwen_4dir/NPC002/down_walk1.png",
+          "sha256": "18ac23dc1591fcde162749fd720f2ea69dc5db387733c6a62802c125e641cee4"
+        },
+        {
+          "id": "NPC002_down_walk2",
+          "file": "qwen_4dir/NPC002/down_walk2.png",
+          "sha256": "30617d186f99894c01c81e6528b0d24e05be81efa8f83ec445dfd80d23dd6869"
+        },
+        {
+          "id": "NPC002_down_walk3",
+          "file": "qwen_4dir/NPC002/down_walk3.png",
+          "sha256": "0edca6799b4f48304c9afb02ca02cf5677d57c97494b552671bb4b2ae9d40fe3"
+        },
+        {
+          "id": "NPC002_left_idle",
+          "file": "qwen_4dir/NPC002/left_idle.png",
+          "sha256": "fccaf6519130333e692ac555bfe006e90274415842531a6d174187ebec5a056d"
+        },
+        {
+          "id": "NPC002_left_walk1",
+          "file": "qwen_4dir/NPC002/left_walk1.png",
+          "sha256": "fe6a5b7232adad21d7b08a3959c0b2fd8ff9abf94d9e09a2d0a2489a88df02f0"
+        },
+        {
+          "id": "NPC002_left_walk2",
+          "file": "qwen_4dir/NPC002/left_walk2.png",
+          "sha256": "8aa2d709b03200a3b8f3ed102d94c4442723977c1a72c19507d02d85537ab216"
+        },
+        {
+          "id": "NPC002_left_walk3",
+          "file": "qwen_4dir/NPC002/left_walk3.png",
+          "sha256": "9a6738c8ace772a8c5134d07e1c176897b81278f175f078e74fecfba850c2950"
+        },
+        {
+          "id": "NPC002_right_idle",
+          "file": "qwen_4dir/NPC002/right_idle.png",
+          "sha256": "8b3106d2b23e90567d8ed4b020c8b185768d65af8a55f08f02acbfaa3b4bdc31"
+        },
+        {
+          "id": "NPC002_right_walk1",
+          "file": "qwen_4dir/NPC002/right_walk1.png",
+          "sha256": "21606330caa1fc41c9467802a3440c70b73412eac73c7f68db1702724edcf75e"
+        },
+        {
+          "id": "NPC002_right_walk2",
+          "file": "qwen_4dir/NPC002/right_walk2.png",
+          "sha256": "62da1ef9ddf3662d98bff45c5a3eae7f2804535b671213519a25bc0e29c99b6a"
+        },
+        {
+          "id": "NPC002_right_walk3",
+          "file": "qwen_4dir/NPC002/right_walk3.png",
+          "sha256": "419dbda1c3539ea915472d5186134c8e8556bf7f924043e60c429d4138b89d2b"
+        },
+        {
+          "id": "NPC002_up_idle",
+          "file": "qwen_4dir/NPC002/up_idle.png",
+          "sha256": "36959362e0ce72fc50c77962f8a5e18936252023d99f70d927d5c5a3f6de477e"
+        },
+        {
+          "id": "NPC002_up_walk1",
+          "file": "qwen_4dir/NPC002/up_walk1.png",
+          "sha256": "197d18c6ffce6f21f6c2065c8bf2f86a381745965ed3e72c6c463f4b91a09bc6"
+        },
+        {
+          "id": "NPC002_up_walk2",
+          "file": "qwen_4dir/NPC002/up_walk2.png",
+          "sha256": "33b968971dee11d6f881fb943bc8335454c0e518b97d395002f57023b2e44a38"
+        },
+        {
+          "id": "NPC002_up_walk3",
+          "file": "qwen_4dir/NPC002/up_walk3.png",
+          "sha256": "d77a5221f83efb2668c395961e0e6165560bd8ecff67dc6adb5ea12a7aec23e2"
+        }
+      ]
+    },
+    {
+      "id": "NPC003",
+      "name": "顾青岚",
+      "expected": 16,
+      "generated": 16,
+      "human_approved": true,
+      "frames": [
+        {
+          "id": "NPC003_down_idle",
+          "file": "qwen_4dir/NPC003/down_idle.png",
+          "sha256": "b0a3da90523c403f87d3649464117c743ebdd355a9d48ad4fa4af4374c61b7c7"
+        },
+        {
+          "id": "NPC003_down_walk1",
+          "file": "qwen_4dir/NPC003/down_walk1.png",
+          "sha256": "f583e171cb6710af855184938c9feefdf0ab16c7160c37db33a34a0bcd51a78d"
+        },
+        {
+          "id": "NPC003_down_walk2",
+          "file": "qwen_4dir/NPC003/down_walk2.png",
+          "sha256": "dba5553d36ed55705f641ef8b607a7ff457a28aa1fcdfbd917b22a2cd02be29e"
+        },
+        {
+          "id": "NPC003_down_walk3",
+          "file": "qwen_4dir/NPC003/down_walk3.png",
+          "sha256": "6f89ca1b37fc99b9297918c14c198d1dc42bc9d92455c96453a4d82cb1a2c76b"
+        },
+        {
+          "id": "NPC003_left_idle",
+          "file": "qwen_4dir/NPC003/left_idle.png",
+          "sha256": "6d50b76d575a55836e50cb062c8e5c2f175e3c0b455a8cbdd8827caf6ddfa6c1"
+        },
+        {
+          "id": "NPC003_left_walk1",
+          "file": "qwen_4dir/NPC003/left_walk1.png",
+          "sha256": "ae86dbae51ffdf8d5b961e67073875f42c865081642a70cb3a812c94fbe0ce96"
+        },
+        {
+          "id": "NPC003_left_walk2",
+          "file": "qwen_4dir/NPC003/left_walk2.png",
+          "sha256": "55ae9bbd8153c252bb67605e836361aa7a1884e8ae1224a26e325f9cf6121b7e"
+        },
+        {
+          "id": "NPC003_left_walk3",
+          "file": "qwen_4dir/NPC003/left_walk3.png",
+          "sha256": "7b8b864020624a05e753806a080eb7a40c56a8008f4e851dcb60b2fd17ea90a7"
+        },
+        {
+          "id": "NPC003_right_idle",
+          "file": "qwen_4dir/NPC003/right_idle.png",
+          "sha256": "d70c42e3064632f34309c172f0d8ae479db5382f00aba8611eb24bd69968cafe"
+        },
+        {
+          "id": "NPC003_right_walk1",
+          "file": "qwen_4dir/NPC003/right_walk1.png",
+          "sha256": "29830edfb2d8894f20f08b9d2716896dbdc5c4e970d99a1a4102d2eb46d0a564"
+        },
+        {
+          "id": "NPC003_right_walk2",
+          "file": "qwen_4dir/NPC003/right_walk2.png",
+          "sha256": "63906fc51cd87f26eda8ebbcfd2284bde6257a4942d0cea1be5f80ba44af120d"
+        },
+        {
+          "id": "NPC003_right_walk3",
+          "file": "qwen_4dir/NPC003/right_walk3.png",
+          "sha256": "02ac138e6649416bb5ca94b4bd5fc006434a58fa38b88d11f98b69daa40d0501"
+        },
+        {
+          "id": "NPC003_up_idle",
+          "file": "qwen_4dir/NPC003/up_idle.png",
+          "sha256": "cb5ad1ebf160c99127a45de477e80465509f436d8c224dd1c3e06d72480efc25"
+        },
+        {
+          "id": "NPC003_up_walk1",
+          "file": "qwen_4dir/NPC003/up_walk1.png",
+          "sha256": "14258e97f2a1e0d12a4868d1b11089c37548b39002f827033dcfafd7a09d2d05"
+        },
+        {
+          "id": "NPC003_up_walk2",
+          "file": "qwen_4dir/NPC003/up_walk2.png",
+          "sha256": "b6e9b12c2eef6046da05e7edf06be6d7df0d6c24c0cdf7285cbb42e70b5896a6"
+        },
+        {
+          "id": "NPC003_up_walk3",
+          "file": "qwen_4dir/NPC003/up_walk3.png",
+          "sha256": "cb9a59390ca05445782ef579437604957d7eaaa942c951a0f0a0bdc9481df741"
+        }
+      ]
+    },
+    {
+      "id": "NPC005",
+      "name": "苏晚晴",
+      "expected": 16,
+      "generated": 16,
+      "human_approved": true,
+      "frames": [
+        {
+          "id": "NPC005_down_idle",
+          "file": "qwen_4dir/NPC005/down_idle.png",
+          "sha256": "59f1754f059f84d2d9be11c246c9746bd3150a6f922f786b08b8bc1e5cd1ed7a"
+        },
+        {
+          "id": "NPC005_down_walk1",
+          "file": "qwen_4dir/NPC005/down_walk1.png",
+          "sha256": "56822a37b703348ff4ebbc26f0c8b8d2c5c48b84e993cc7e9babf80c26f9e6df"
+        },
+        {
+          "id": "NPC005_down_walk2",
+          "file": "qwen_4dir/NPC005/down_walk2.png",
+          "sha256": "14d5da78c457afa82b3942def89d0e41ede8b2f41f3583259dcefc16d7226ba6"
+        },
+        {
+          "id": "NPC005_down_walk3",
+          "file": "qwen_4dir/NPC005/down_walk3.png",
+          "sha256": "14f7164d711e39499125d49008e5ae0870ad634e0aeaa021d67b38c4c5b0987c"
+        },
+        {
+          "id": "NPC005_left_idle",
+          "file": "qwen_4dir/NPC005/left_idle.png",
+          "sha256": "9d1584f67b1216592bc95647cf11b5f800b8dcd85a9135e5ec30ac0b9d092225"
+        },
+        {
+          "id": "NPC005_left_walk1",
+          "file": "qwen_4dir/NPC005/left_walk1.png",
+          "sha256": "6e9d90a397c18aea88b229bed45baf13214182d21fb85375c6632257979ae7f2"
+        },
+        {
+          "id": "NPC005_left_walk2",
+          "file": "qwen_4dir/NPC005/left_walk2.png",
+          "sha256": "189a0fcb46f6e070e2796e9e7884598e6f328e910556749a01e712d1a43445c5"
+        },
+        {
+          "id": "NPC005_left_walk3",
+          "file": "qwen_4dir/NPC005/left_walk3.png",
+          "sha256": "8a44486c4684dfdfe91db4086ae6d5cdfc4757cd22547ba5a40d15b73672d2d1"
+        },
+        {
+          "id": "NPC005_right_idle",
+          "file": "qwen_4dir/NPC005/right_idle.png",
+          "sha256": "ad2f1f4583f64faec1803fb831dec033a1d4df9df5495a1bc1297c64fed322ab"
+        },
+        {
+          "id": "NPC005_right_walk1",
+          "file": "qwen_4dir/NPC005/right_walk1.png",
+          "sha256": "7aaec0dbe9160be5bc7e81745c9362b650b2b7ef1f118977e9db61c94c1a9ad0"
+        },
+        {
+          "id": "NPC005_right_walk2",
+          "file": "qwen_4dir/NPC005/right_walk2.png",
+          "sha256": "4144d74c21873af71cca71d5d99e9f4f6f730bac3f607b5c4f82e830bb162bd7"
+        },
+        {
+          "id": "NPC005_right_walk3",
+          "file": "qwen_4dir/NPC005/right_walk3.png",
+          "sha256": "abec6562c6fc04de196b030a2ab42d63dfdd3447928e174a35d8871f22382124"
+        },
+        {
+          "id": "NPC005_up_idle",
+          "file": "qwen_4dir/NPC005/up_idle.png",
+          "sha256": "9bc0ebdf5868b9d5bfaa07f71b7412b66ac23b7ca083d19bd2bea71899eb953b"
+        },
+        {
+          "id": "NPC005_up_walk1",
+          "file": "qwen_4dir/NPC005/up_walk1.png",
+          "sha256": "8de28bfbbb60d6971a0f98f0e08585a2ec04dc9609461a5ddf026f5ce32dceb9"
+        },
+        {
+          "id": "NPC005_up_walk2",
+          "file": "qwen_4dir/NPC005/up_walk2.png",
+          "sha256": "a41858cef04eadf94e4eb305e3827a14c8cc6b95a440de38eb57417da02a0481"
+        },
+        {
+          "id": "NPC005_up_walk3",
+          "file": "qwen_4dir/NPC005/up_walk3.png",
+          "sha256": "d40898358b43b23235c7e9f9272afddae598e7dd2f2843b7ede0da0df56ea413"
+        }
+      ]
+    },
+    {
+      "id": "EN001",
+      "name": "山贼",
+      "expected": 16,
+      "generated": 16,
+      "human_approved": true,
+      "frames": [
+        {
+          "id": "EN001_down_idle",
+          "file": "qwen_4dir/EN001/down_idle.png",
+          "sha256": "694de6b86e14c19b02a60ab6e3a9a9b6cd254508ccad5d4707c486a9260b245b"
+        },
+        {
+          "id": "EN001_down_walk1",
+          "file": "qwen_4dir/EN001/down_walk1.png",
+          "sha256": "47d33f6e86e3243e6dda1291d34bdb7b70f48c883c12b00b788f8c91e53ec548"
+        },
+        {
+          "id": "EN001_down_walk2",
+          "file": "qwen_4dir/EN001/down_walk2.png",
+          "sha256": "87bace71f778c065552ca1e766ba2f85905a4931926743414e2a30ccd9679d9e"
+        },
+        {
+          "id": "EN001_down_walk3",
+          "file": "qwen_4dir/EN001/down_walk3.png",
+          "sha256": "2f608d73832e51390606f1f27379fd3fb6fb3357d3ad64433949618de118b730"
+        },
+        {
+          "id": "EN001_left_idle",
+          "file": "qwen_4dir/EN001/left_idle.png",
+          "sha256": "63cb0e52e683667827292af1930592e74f0842e298bad00d5b7e023026150ad7"
+        },
+        {
+          "id": "EN001_left_walk1",
+          "file": "qwen_4dir/EN001/left_walk1.png",
+          "sha256": "c5712214ed14b74e463772a9f73f09439b4a3750643cf4227708daf616e3b71a"
+        },
+        {
+          "id": "EN001_left_walk2",
+          "file": "qwen_4dir/EN001/left_walk2.png",
+          "sha256": "169eb050c7f64662cee9e60353a2b7d972143a2c948c95a21fc6f2de750825b7"
+        },
+        {
+          "id": "EN001_left_walk3",
+          "file": "qwen_4dir/EN001/left_walk3.png",
+          "sha256": "9ed72be25501f31f34a0fbdcfeea78f2fc3fccebec14239b038950763843993e"
+        },
+        {
+          "id": "EN001_right_idle",
+          "file": "qwen_4dir/EN001/right_idle.png",
+          "sha256": "283d0898ab27f5983d5a83535de4c10291d541462a5f42524c5051b0726a3d0c"
+        },
+        {
+          "id": "EN001_right_walk1",
+          "file": "qwen_4dir/EN001/right_walk1.png",
+          "sha256": "683cb6303e50ad86168d12684ba22c5c9616fe6f5f3e448d342cc9e932b5b7da"
+        },
+        {
+          "id": "EN001_right_walk2",
+          "file": "qwen_4dir/EN001/right_walk2.png",
+          "sha256": "da98f026399a699a92ddfa6ef119ed17eddf567c26d2b3be237716a60ef3b722"
+        },
+        {
+          "id": "EN001_right_walk3",
+          "file": "qwen_4dir/EN001/right_walk3.png",
+          "sha256": "d8edb00c97397016aefb6fb51d27797b04218173a473a30b3fbf0ccef96f5b06"
+        },
+        {
+          "id": "EN001_up_idle",
+          "file": "qwen_4dir/EN001/up_idle.png",
+          "sha256": "83ba2b5fbaa2fe3f6c4072d6f5593d94590b114ef2ba0d55c535107e73964d3d"
+        },
+        {
+          "id": "EN001_up_walk1",
+          "file": "qwen_4dir/EN001/up_walk1.png",
+          "sha256": "7c21952fc7be803ad9cf4b4d3a3a49d59ff53e9637a9143cf06bcb301a62fd87"
+        },
+        {
+          "id": "EN001_up_walk2",
+          "file": "qwen_4dir/EN001/up_walk2.png",
+          "sha256": "ddd2d966729a852ea329a77edae66fccee10bdd1ce8ec9819d4717ea803db9c6"
+        },
+        {
+          "id": "EN001_up_walk3",
+          "file": "qwen_4dir/EN001/up_walk3.png",
+          "sha256": "f7ecdecc8a4b30f1c2332302e2f521a7de0abaaedd96c9d5f6c860cd0c981dfe"
+        }
+      ]
+    }
+  ]
+}

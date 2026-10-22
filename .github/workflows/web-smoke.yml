@@ -1,0 +1,71 @@
+name: Web Demo Smoke Test
+on:
+  push:
+    branches: [main, feat/playable-demo-v0.1]
+  pull_request:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: '22'
+      - run: node --check game.js
+      - run: node --check app.js
+      - run: node --check boot-guard.js
+      - run: node tests/startup_recovery.cjs
+      - run: node --check world-data.js
+      - run: node tests/final_smoke.cjs
+      - run: node tests/p3a_tiles.cjs
+      - run: node tests/p3b_tiles.cjs
+      - run: node tests/p3c_art.cjs
+      - run: node tests/p3c_shenyan_preview.cjs
+      - run: node tests/p3d_home.cjs
+      - run: node tools/p3e-hd-atlas.cjs
+      - run: node tests/p3e_hd_art.cjs
+      - run: node --check structure-data.js
+      - run: node tests/p3f_structures.cjs
+      - run: node tests/actor_collision_click_contract.cjs
+      - run: node tests/actor_screen_hit_contract.cjs
+      - run: node tests/resume_sprite_scale_contract.cjs
+      - run: node tests/visual_occlusion_contract.cjs
+      - run: node tests/stride_timing_contract.cjs
+      - run: node tests/movement_settle_contract.cjs
+      - run: node --check art-review.js
+      - run: node tests/p3g_art.cjs
+      - run: node tests/p3h_prompt_pack.cjs
+      - run: node tests/p3i_sprite_integrity.cjs
+      - run: node tests/p3j_game_sprite.cjs
+      - name: Install image-test dependency
+        run: python -m pip install Pillow
+      - run: python -m unittest discover -s tests -p 'test_*.py'
+      - run: npm run build
+      # Full Playwright E2E covers Start; avoid duplicate flaky --dump-dom Chrome process.
+      - name: Install real-browser E2E runner
+        run: npm install --no-save --no-package-lock playwright@1.64.1
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Real Chromium first-chapter click-through
+        run: node tests/chrome_browser_e2e.cjs
+      - name: Real Chromium altar-first journey with mid-investigation reload
+        run: node tests/chrome_browser_e2e.cjs
+        env:
+          E2E_CAVE_ORDER: trace-first
+          E2E_OUTPUT: qa/e2e-trace-first
+
+      - name: Capture representative map screenshots for manual visual QA
+        run: node tests/chrome_visual_capture.cjs
+      - name: Check approved masters and 112 independent candidate frame sources
+        run: node tests/chrome_master_review.cjs
+      - name: Upload unapproved visual QA evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: niming-visual-qa-unapproved
+          path: qa/
+          if-no-files-found: warn
+          retention-days: 14

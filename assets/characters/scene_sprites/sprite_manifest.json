@@ -1,0 +1,133 @@
+{
+  "schema_version": 2,
+  "frame_width": 96,
+  "frame_height": 128,
+  "columns": 4,
+  "rows": 4,
+  "directions": [
+    "down",
+    "left",
+    "right",
+    "up"
+  ],
+  "frame_order": [
+    "idle",
+    "walk_left",
+    "walk_center",
+    "walk_right"
+  ],
+  "fps": 8,
+  "origin": "feet_center",
+  "status": "partially_approved_4dir",
+  "entries": [
+    {
+      "id": "CHAR001",
+      "name": "沈砚",
+      "key": "player",
+      "sheet": "assets/characters/scene_sprites/player_4dir.png",
+      "source_master": "user_generated_1086x1448_four_direction_sheet",
+      "direction_status": "gameplay_trial_pending_user_art_review",
+      "animation_status": "genuinely_drawn_16_frames_no_split_proxy",
+      "frame_width": 96,
+      "frame_height": 128,
+      "source_sheet_dimensions": [
+        1086,
+        1448
+      ],
+      "source_sha256": "459a92dcb368c6b91ad5b6ddc00fe06325b27f357af4f8ff53ebf78195e7b4c4",
+      "asset_sha256": "be0f8405b3e9e551a6521f563af75d204b945ffbbbe48b2bcc77828e8d78660c"
+    },
+    {
+      "id": "NPC001",
+      "name": "韩掌柜",
+      "key": "innkeeper",
+      "sheet": "assets/characters/scene_sprites/innkeeper_4dir.png",
+      "source_master": "assets/characters/masters/NPC001_fullbody.png",
+      "direction_status": "user_approved_independently_painted",
+      "animation_status": "verified_16_frames",
+      "frame_width": 96,
+      "frame_height": 128,
+      "asset_sha256": "e56b4ed2ee0639f3ada02731f007b553b34605bd646eec0e7cdaea647ac719bc",
+      "reviewer": "user_in_current_conversation",
+      "review_evidence_sha256": "7a414e1e002bf202e7e711fb7843be91e82de991d676678999dbcef71b323775",
+      "review_evidence": "assets/characters/scene_sprites/reviews/NPC001_release.json"
+    },
+    {
+      "id": "NPC005",
+      "name": "苏晚晴",
+      "key": "healer",
+      "sheet": "assets/characters/scene_sprites/healer_4dir.png",
+      "source_master": "assets/characters/masters/NPC005_fullbody.png",
+      "direction_status": "user_approved_independently_painted",
+      "animation_status": "verified_16_frames",
+      "frame_width": 96,
+      "frame_height": 128,
+      "asset_sha256": "83302d97a0de05b8209e69708d9d5859fa48ebb830d9f40a6f4df94e1ee1aeb3",
+      "reviewer": "user_in_current_conversation",
+      "review_evidence_sha256": "60fb018ced5b06d52de72b165ec0c83b0da2f8e68427958b06f37d78ae15613f",
+      "review_evidence": "assets/characters/scene_sprites/reviews/NPC005_release.json"
+    },
+    {
+      "id": "NPC002",
+      "name": "顾老",
+      "key": "oldman",
+      "sheet": "assets/characters/scene_sprites/oldman_4dir.png",
+      "source_master": "assets/characters/masters/NPC002_fullbody.png",
+      "direction_status": "user_approved_independently_painted",
+      "animation_status": "verified_16_frames",
+      "frame_width": 96,
+      "frame_height": 128,
+      "asset_sha256": "c41e740df5a605dfbe4f81c2f5c158551f15e9ac88d2f324dd88a664a5968376",
+      "reviewer": "user_in_current_conversation",
+      "review_evidence_sha256": "f5438438ad99727173561614f0b5fee6e835ba02cbe94da5a06c41bd5e6b4fd7",
+      "review_evidence": "assets/characters/scene_sprites/reviews/NPC002_release.json"
+    },
+    {
+      "id": "EN001",
+      "name": "山贼",
+      "key": "bandit",
+      "sheet": "assets/characters/scene_sprites/bandit_4dir.png",
+      "source_master": "assets/characters/masters/EN001_fullbody.png",
+      "direction_status": "user_approved_independently_painted",
+      "animation_status": "verified_16_frames",
+      "frame_width": 96,
+      "frame_height": 128,
+      "asset_sha256": "6adbb699276ee762b5164de4adf792bf8fd1f8ce056e0aa35f2b3fc60cebca3e",
+      "reviewer": "user_in_current_conversation",
+      "review_evidence_sha256": "f3b8ad3fe453643e2f0fdd369104ab12173dd4f668ae0ab41172ee9d212f6873",
+      "review_evidence": "assets/characters/scene_sprites/reviews/EN001_release.json"
+    },
+    {
+      "id": "NPC003",
+      "name": "顾青岚",
+      "key": "swordswoman",
+      "sheet": "assets/characters/scene_sprites/swordswoman_4dir.png",
+      "frame_width": 96,
+      "frame_height": 128,
+      "direction_status": "user_approved_independently_painted",
+      "animation_status": "verified_16_frames",
+      "asset_sha256": "5b3996f3212eaad8462fe0fbc4ccaec2c659b4dd28fabb9d5eb940d62f16d6fb",
+      "reviewer": "user_in_current_conversation",
+      "review_evidence_sha256": "89a59537fff91f254a28bd8a357d879deda307580a6087d4be043de4f136f2a1",
+      "review_evidence": "assets/characters/scene_sprites/reviews/NPC003_release.json",
+      "source_master": "assets/characters/masters/NPC003_fullbody.png"
+    },
+    {
+      "id": "BOSS001",
+      "name": "廖",
+      "key": "liao",
+      "sheet": "assets/characters/scene_sprites/liao_4dir.png",
+      "frame_width": 96,
+      "frame_height": 128,
+      "direction_status": "user_approved_independently_painted",
+      "animation_status": "verified_16_frames",
+      "asset_sha256": "eb7a89e10982abb7c439f065308ac0e36b0c29cc88bcbc05f4ebc8cdd94368fc",
+      "reviewer": "user_in_current_conversation",
+      "review_evidence_sha256": "cab0f464f50f4ac104f4e8bb235d0fc2be4399d4ae14b2de3d099e2e7f6ab6bb",
+      "review_evidence": "assets/characters/scene_sprites/reviews/BOSS001_release.json",
+      "source_master": "assets/characters/masters/BOSS001_fullbody.png"
+    }
+  ],
+  "pending": [],
+  "approval_record": "assets/characters/scene_sprites/reviews/2026-10-23_user_six_sheets.json"
+}

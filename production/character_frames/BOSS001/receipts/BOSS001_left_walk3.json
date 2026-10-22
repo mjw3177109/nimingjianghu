@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "job": "BOSS001_left_walk3",
+  "provider": "built_in_imagegen",
+  "status": "generated_candidate_pending_human_review",
+  "approved": false,
+  "source": "C:\\Users\\bobo\\.codex\\generated_images\\01a15f3b-bf82-73f2-b028-13291652514f\\exec-0df4579f-f552-4fa7-8577-5957776079df.png",
+  "output_file": "qwen_4dir/BOSS001/left_walk3.png",
+  "sha256": "58b0c831b5f57f741dbf954024e2f6ced16886e6f751383a25035d81d34d0007",
+  "master_sha256": "e91b003590e58011e6467cb65cb87ce4401f46e03c835a1f60de96addfeac90d",
+  "prompt": "【只生成一张独立角色帧，不是Sprite表】角色「廖」，唯一人物身份与服装依据是传入的已人工验收高清母版。不得重设计脸、发型、发饰、服装、腰带、纹样、鞋、武器；不改变主色、身高比例、头身比和配饰位置。视角：左侧面，true left profile, character faces toward screen-left; visible side of face, nose points left。动作：迈步三，walking key pose C: right foot steps forward and left foot trails, natural counter-swing of arms。保持角色全身完整、发顶与鞋底不裁切，居中站在固定脚底锚点，姿势符合自然人体透视。该图必须独立重绘对应角度；禁止镜像正面、拉伸正面、用头发/衣服遮住脸来假冒背面。严格沿用参考母版的精致国风Q版2.5D手绘武侠风格，干净轮廓、精细衣料。真正透明RGBA背景；单张PNG、竖向2:3、建议1024×1536或更高分辨率。禁止画第二个人物、场景、地面投影、UI、文字、标签、边框、格子、其他方向或其他动作。每次只输出这一张帧，不要把其余15帧放在同一画布。\n生成规范：1024×1536原生竖版PNG，真正RGBA透明背景，禁止背景色、光晕和地面投影。图1仅作为已批准的身份、服装、道具、头身比例和画风参考。只画这个角色这一个动作；保留图1原有道具，不给无剑角色增加剑。人物发顶到鞋底和所有配饰完整，四边至少60像素透明留白。侧面是身体真正转向对应左右方向，背面看不见脸，不能镜像。正面向下表示面朝观众；步行动作全身自然变化，不是只移动脚。准确生成：左侧面，迈步三。",
+  "inspection": {
+    "w": 1024,
+    "h": 1536,
+    "bbox": [
+      65,
+      81,
+      994,
+      1450
+    ],
+    "sha256": "58b0c831b5f57f741dbf954024e2f6ced16886e6f751383a25035d81d34d0007"
+  }
+}

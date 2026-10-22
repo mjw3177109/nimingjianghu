@@ -1,0 +1,540 @@
+{
+  "schema_version": 1,
+  "phase": "P3-H_SPRITE_FRAMES",
+  "character_id": "NPC002",
+  "character_name": "顾老",
+  "reference_master": "D:\\nimingjianghu\\assets\\characters\\masters\\NPC002_fullbody.png",
+  "reference_size": [
+    1024,
+    1536
+  ],
+  "status": "16_generated_candidates_pending_human_review",
+  "single_image_tasks": 16,
+  "directions": [
+    "down",
+    "left",
+    "right",
+    "up"
+  ],
+  "poses": [
+    "idle",
+    "walk1",
+    "walk2",
+    "walk3"
+  ],
+  "tasks": [
+    {
+      "id": "NPC002_down_idle",
+      "character_id": "NPC002",
+      "character_name": "顾老",
+      "direction": "down",
+      "direction_cn": "正面",
+      "pose": "idle",
+      "pose_cn": "自然站立",
+      "status": "generated_candidate_pending_human_review",
+      "single_image_only": true,
+      "reference_image": "D:\\nimingjianghu\\assets\\characters\\masters\\NPC002_fullbody.png",
+      "reference_size": [
+        1024,
+        1536
+      ],
+      "style_reference": "assets/home/characters_gallery_ref.webp",
+      "output_file": "qwen_4dir/NPC002/down_idle.png",
+      "target_size": [
+        1024,
+        1536
+      ],
+      "minimum_source_size": [
+        256,
+        384
+      ],
+      "format": "RGBA PNG with real alpha transparency",
+      "prompt": "【只生成一张独立角色帧，不是Sprite表】角色「顾老」，唯一人物身份与服装依据是传入的已人工验收高清母版。不得重设计脸、发型、发饰、服装、腰带、纹样、鞋、武器；不改变主色、身高比例、头身比和配饰位置。视角：正面，front view facing the camera, both eyes visible, chest and belt read clearly。动作：自然站立，neutral idle standing pose, both feet planted, arms relaxed naturally, sword stays in its normal sheath。保持角色全身完整、发顶与鞋底不裁切，居中站在固定脚底锚点，姿势符合自然人体透视。该图必须独立重绘对应角度；禁止镜像正面、拉伸正面、用头发/衣服遮住脸来假冒背面。严格沿用参考母版的精致国风Q版2.5D手绘武侠风格，干净轮廓、精细衣料。真正透明RGBA背景；单张PNG、竖向约3:4、建议1024×1536或更高分辨率。禁止画第二个人物、场景、地面投影、UI、文字、标签、边框、格子、其他方向或其他动作。每次只输出这一张帧，不要把其余15帧放在同一画布。",
+      "negative_prompt": "拼贴、角色设定表、三视图、四视图、接触表、九宫格、Sprite Sheet、多个姿势出现在同一张图、多个角色、背景场景、UI、按钮、边框、文字、编号、水印、logo、白色假透明棋盘格、实心背景、裁切头顶、裁切鞋底、手脚畸形、换脸、服装变色、额外武器、水平镜像冒充另一方向、正面伪装背面、拉伸现有小头像、过曝光晕、低清模糊",
+      "approval_gate": "This is still a candidate frame. Check all 16 frames and the four views manually before packing/release.",
+      "output_sha256": "b6b92f99313bace8745b40d057a7b11c38634904d6e667d675adf34f25c6bdad",
+      "receipt_file": "production/character_frames/NPC002/receipts/NPC002_down_idle.json"
+    },
+    {
+      "id": "NPC002_down_walk1",
+      "character_id": "NPC002",
+      "character_name": "顾老",
+      "direction": "down",
+      "direction_cn": "正面",
+      "pose": "walk1",
+      "pose_cn": "迈步一",
+      "status": "generated_candidate_pending_human_review",
+      "single_image_only": true,
+      "reference_image": "D:\\nimingjianghu\\assets\\characters\\masters\\NPC002_fullbody.png",
+      "reference_size": [
+        1024,
+        1536
+      ],
+      "style_reference": "assets/home/characters_gallery_ref.webp",
+      "output_file": "qwen_4dir/NPC002/down_walk1.png",
+      "target_size": [
+        1024,
+        1536
+      ],
+      "minimum_source_size": [
+        256,
+        384
+      ],
+      "format": "RGBA PNG with real alpha transparency",
+      "prompt": "【只生成一张独立角色帧，不是Sprite表】角色「顾老」，唯一人物身份与服装依据是传入的已人工验收高清母版。不得重设计脸、发型、发饰、服装、腰带、纹样、鞋、武器；不改变主色、身高比例、头身比和配饰位置。视角：正面，front view facing the camera, both eyes visible, chest and belt read clearly。动作：迈步一，walking key pose A: left foot steps forward and right foot trails, natural counter-swing of arms。保持角色全身完整、发顶与鞋底不裁切，居中站在固定脚底锚点，姿势符合自然人体透视。该图必须独立重绘对应角度；禁止镜像正面、拉伸正面、用头发/衣服遮住脸来假冒背面。严格沿用参考母版的精致国风Q版2.5D手绘武侠风格，干净轮廓、精细衣料。真正透明RGBA背景；单张PNG、竖向约3:4、建议1024×1536或更高分辨率。禁止画第二个人物、场景、地面投影、UI、文字、标签、边框、格子、其他方向或其他动作。每次只输出这一张帧，不要把其余15帧放在同一画布。",
+      "negative_prompt": "拼贴、角色设定表、三视图、四视图、接触表、九宫格、Sprite Sheet、多个姿势出现在同一张图、多个角色、背景场景、UI、按钮、边框、文字、编号、水印、logo、白色假透明棋盘格、实心背景、裁切头顶、裁切鞋底、手脚畸形、换脸、服装变色、额外武器、水平镜像冒充另一方向、正面伪装背面、拉伸现有小头像、过曝光晕、低清模糊",
+      "approval_gate": "This is still a candidate frame. Check all 16 frames and the four views manually before packing/release.",
+      "output_sha256": "18ac23dc1591fcde162749fd720f2ea69dc5db387733c6a62802c125e641cee4",
+      "receipt_file": "production/character_frames/NPC002/receipts/NPC002_down_walk1.json"
+    },
+    {
+      "id": "NPC002_down_walk2",
+      "character_id": "NPC002",
+      "character_name": "顾老",
+      "direction": "down",
+      "direction_cn": "正面",
+      "pose": "walk2",
+      "pose_cn": "迈步二",
+      "status": "generated_candidate_pending_human_review",
+      "single_image_only": true,
+      "reference_image": "D:\\nimingjianghu\\assets\\characters\\masters\\NPC002_fullbody.png",
+      "reference_size": [
+        1024,
+        1536
+      ],
+      "style_reference": "assets/home/characters_gallery_ref.webp",
+      "output_file": "qwen_4dir/NPC002/down_walk2.png",
+      "target_size": [
+        1024,
+        1536
+      ],
+      "minimum_source_size": [
+        256,
+        384
+      ],
+      "format": "RGBA PNG with real alpha transparency",
+      "prompt": "【只生成一张独立角色帧，不是Sprite表】角色「顾老」，唯一人物身份与服装依据是传入的已人工验收高清母版。不得重设计脸、发型、发饰、服装、腰带、纹样、鞋、武器；不改变主色、身高比例、头身比和配饰位置。视角：正面，front view facing the camera, both eyes visible, chest and belt read clearly。动作：迈步二，walking passing pose B: weight transitions over the front foot, knees and elbows naturally bent, cloth follows motion。保持角色全身完整、发顶与鞋底不裁切，居中站在固定脚底锚点，姿势符合自然人体透视。该图必须独立重绘对应角度；禁止镜像正面、拉伸正面、用头发/衣服遮住脸来假冒背面。严格沿用参考母版的精致国风Q版2.5D手绘武侠风格，干净轮廓、精细衣料。真正透明RGBA背景；单张PNG、竖向约3:4、建议1024×1536或更高分辨率。禁止画第二个人物、场景、地面投影、UI、文字、标签、边框、格子、其他方向或其他动作。每次只输出这一张帧，不要把其余15帧放在同一画布。",
+      "negative_prompt": "拼贴、角色设定表、三视图、四视图、接触表、九宫格、Sprite Sheet、多个姿势出现在同一张图、多个角色、背景场景、UI、按钮、边框、文字、编号、水印、logo、白色假透明棋盘格、实心背景、裁切头顶、裁切鞋底、手脚畸形、换脸、服装变色、额外武器、水平镜像冒充另一方向、正面伪装背面、拉伸现有小头像、过曝光晕、低清模糊",
+      "approval_gate": "This is still a candidate frame. Check all 16 frames and the four views manually before packing/release.",
+      "output_sha256": "30617d186f99894c01c81e6528b0d24e05be81efa8f83ec445dfd80d23dd6869",
+      "receipt_file": "production/character_frames/NPC002/receipts/NPC002_down_walk2.json"
+    },
+    {
+      "id": "NPC002_down_walk3",
+      "character_id": "NPC002",
+      "character_name": "顾老",
+      "direction": "down",
+      "direction_cn": "正面",
+      "pose": "walk3",
+      "pose_cn": "迈步三",
+      "status": "generated_candidate_pending_human_review",
+      "single_image_only": true,
+      "reference_image": "D:\\nimingjianghu\\assets\\characters\\masters\\NPC002_fullbody.png",
+      "reference_size": [
+        1024,
+        1536
+      ],
+      "style_reference": "assets/home/characters_gallery_ref.webp",
+      "output_file": "qwen_4dir/NPC002/down_walk3.png",
+      "target_size": [
+        1024,
+        1536
+      ],
+      "minimum_source_size": [
+        256,
+        384
+      ],
+      "format": "RGBA PNG with real alpha transparency",
+      "prompt": "【只生成一张独立角色帧，不是Sprite表】角色「顾老」，唯一人物身份与服装依据是传入的已人工验收高清母版。不得重设计脸、发型、发饰、服装、腰带、纹样、鞋、武器；不改变主色、身高比例、头身比和配饰位置。视角：正面，front view facing the camera, both eyes visible, chest and belt read clearly。动作：迈步三，walking key pose C: right foot steps forward and left foot trails, natural counter-swing of arms。保持角色全身完整、发顶与鞋底不裁切，居中站在固定脚底锚点，姿势符合自然人体透视。该图必须独立重绘对应角度；禁止镜像正面、拉伸正面、用头发/衣服遮住脸来假冒背面。严格沿用参考母版的精致国风Q版2.5D手绘武侠风格，干净轮廓、精细衣料。真正透明RGBA背景；单张PNG、竖向约3:4、建议1024×1536或更高分辨率。禁止画第二个人物、场景、地面投影、UI、文字、标签、边框、格子、其他方向或其他动作。每次只输出这一张帧，不要把其余15帧放在同一画布。",
+      "negative_prompt": "拼贴、角色设定表、三视图、四视图、接触表、九宫格、Sprite Sheet、多个姿势出现在同一张图、多个角色、背景场景、UI、按钮、边框、文字、编号、水印、logo、白色假透明棋盘格、实心背景、裁切头顶、裁切鞋底、手脚畸形、换脸、服装变色、额外武器、水平镜像冒充另一方向、正面伪装背面、拉伸现有小头像、过曝光晕、低清模糊",
+      "approval_gate": "This is still a candidate frame. Check all 16 frames and the four views manually before packing/release.",
+      "output_sha256": "0edca6799b4f48304c9afb02ca02cf5677d57c97494b552671bb4b2ae9d40fe3",
+      "receipt_file": "production/character_frames/NPC002/receipts/NPC002_down_walk3.json"
+    },
+    {
+      "id": "NPC002_left_idle",
+      "character_id": "NPC002",
+      "character_name": "顾老",
+      "direction": "left",
+      "direction_cn": "左侧面",
+      "pose": "idle",
+      "pose_cn": "自然站立",
+      "status": "generated_candidate_pending_human_review",
+      "single_image_only": true,
+      "reference_image": "D:\\nimingjianghu\\assets\\characters\\masters\\NPC002_fullbody.png",
+      "reference_size": [
+        1024,
+        1536
+      ],
+      "style_reference": "assets/home/characters_gallery_ref.webp",
+      "output_file": "qwen_4dir/NPC002/left_idle.png",
+      "target_size": [
+        1024,
+        1536
+      ],
+      "minimum_source_size": [
+        256,
+        384
+      ],
+      "format": "RGBA PNG with real alpha transparency",
+      "prompt": "【只生成一张独立角色帧，不是Sprite表】角色「顾老」，唯一人物身份与服装依据是传入的已人工验收高清母版。不得重设计脸、发型、发饰、服装、腰带、纹样、鞋、武器；不改变主色、身高比例、头身比和配饰位置。视角：左侧面，true left profile, character faces toward screen-left; visible side of face, nose points left。动作：自然站立，neutral idle standing pose, both feet planted, arms relaxed naturally, sword stays in its normal sheath。保持角色全身完整、发顶与鞋底不裁切，居中站在固定脚底锚点，姿势符合自然人体透视。该图必须独立重绘对应角度；禁止镜像正面、拉伸正面、用头发/衣服遮住脸来假冒背面。严格沿用参考母版的精致国风Q版2.5D手绘武侠风格，干净轮廓、精细衣料。真正透明RGBA背景；单张PNG、竖向约3:4、建议1024×1536或更高分辨率。禁止画第二个人物、场景、地面投影、UI、文字、标签、边框、格子、其他方向或其他动作。每次只输出这一张帧，不要把其余15帧放在同一画布。",
+      "negative_prompt": "拼贴、角色设定表、三视图、四视图、接触表、九宫格、Sprite Sheet、多个姿势出现在同一张图、多个角色、背景场景、UI、按钮、边框、文字、编号、水印、logo、白色假透明棋盘格、实心背景、裁切头顶、裁切鞋底、手脚畸形、换脸、服装变色、额外武器、水平镜像冒充另一方向、正面伪装背面、拉伸现有小头像、过曝光晕、低清模糊",
+      "approval_gate": "This is still a candidate frame. Check all 16 frames and the four views manually before packing/release.",
+      "output_sha256": "fccaf6519130333e692ac555bfe006e90274415842531a6d174187ebec5a056d",
+      "receipt_file": "production/character_frames/NPC002/receipts/NPC002_left_idle.json"
+    },
+    {
+      "id": "NPC002_left_walk1",
+      "character_id": "NPC002",
+      "character_name": "顾老",
+      "direction": "left",
+      "direction_cn": "左侧面",
+      "pose": "walk1",
+      "pose_cn": "迈步一",
+      "status": "generated_candidate_pending_human_review",
+      "single_image_only": true,
+      "reference_image": "D:\\nimingjianghu\\assets\\characters\\masters\\NPC002_fullbody.png",
+      "reference_size": [
+        1024,
+        1536
+      ],
+      "style_reference": "assets/home/characters_gallery_ref.webp",
+      "output_file": "qwen_4dir/NPC002/left_walk1.png",
+      "target_size": [
+        1024,
+        1536
+      ],
+      "minimum_source_size": [
+        256,
+        384
+      ],
+      "format": "RGBA PNG with real alpha transparency",
+      "prompt": "【只生成一张独立角色帧，不是Sprite表】角色「顾老」，唯一人物身份与服装依据是传入的已人工验收高清母版。不得重设计脸、发型、发饰、服装、腰带、纹样、鞋、武器；不改变主色、身高比例、头身比和配饰位置。视角：左侧面，true left profile, character faces toward screen-left; visible side of face, nose points left。动作：迈步一，walking key pose A: left foot steps forward and right foot trails, natural counter-swing of arms。保持角色全身完整、发顶与鞋底不裁切，居中站在固定脚底锚点，姿势符合自然人体透视。该图必须独立重绘对应角度；禁止镜像正面、拉伸正面、用头发/衣服遮住脸来假冒背面。严格沿用参考母版的精致国风Q版2.5D手绘武侠风格，干净轮廓、精细衣料。真正透明RGBA背景；单张PNG、竖向约3:4、建议1024×1536或更高分辨率。禁止画第二个人物、场景、地面投影、UI、文字、标签、边框、格子、其他方向或其他动作。每次只输出这一张帧，不要把其余15帧放在同一画布。",
+      "negative_prompt": "拼贴、角色设定表、三视图、四视图、接触表、九宫格、Sprite Sheet、多个姿势出现在同一张图、多个角色、背景场景、UI、按钮、边框、文字、编号、水印、logo、白色假透明棋盘格、实心背景、裁切头顶、裁切鞋底、手脚畸形、换脸、服装变色、额外武器、水平镜像冒充另一方向、正面伪装背面、拉伸现有小头像、过曝光晕、低清模糊",
+      "approval_gate": "This is still a candidate frame. Check all 16 frames and the four views manually before packing/release.",
+      "output_sha256": "fe6a5b7232adad21d7b08a3959c0b2fd8ff9abf94d9e09a2d0a2489a88df02f0",
+      "receipt_file": "production/character_frames/NPC002/receipts/NPC002_left_walk1.json"
+    },
+    {
+      "id": "NPC002_left_walk2",
+      "character_id": "NPC002",
+      "character_name": "顾老",
+      "direction": "left",
+      "direction_cn": "左侧面",
+      "pose": "walk2",
+      "pose_cn": "迈步二",
+      "status": "generated_candidate_pending_human_review",
+      "single_image_only": true,
+      "reference_image": "D:\\nimingjianghu\\assets\\characters\\masters\\NPC002_fullbody.png",
+      "reference_size": [
+        1024,
+        1536
+      ],
+      "style_reference": "assets/home/characters_gallery_ref.webp",
+      "output_file": "qwen_4dir/NPC002/left_walk2.png",
+      "target_size": [
+        1024,
+        1536
+      ],
+      "minimum_source_size": [
+        256,
+        384
+      ],
+      "format": "RGBA PNG with real alpha transparency",
+      "prompt": "【只生成一张独立角色帧，不是Sprite表】角色「顾老」，唯一人物身份与服装依据是传入的已人工验收高清母版。不得重设计脸、发型、发饰、服装、腰带、纹样、鞋、武器；不改变主色、身高比例、头身比和配饰位置。视角：左侧面，true left profile, character faces toward screen-left; visible side of face, nose points left。动作：迈步二，walking passing pose B: weight transitions over the front foot, knees and elbows naturally bent, cloth follows motion。保持角色全身完整、发顶与鞋底不裁切，居中站在固定脚底锚点，姿势符合自然人体透视。该图必须独立重绘对应角度；禁止镜像正面、拉伸正面、用头发/衣服遮住脸来假冒背面。严格沿用参考母版的精致国风Q版2.5D手绘武侠风格，干净轮廓、精细衣料。真正透明RGBA背景；单张PNG、竖向约3:4、建议1024×1536或更高分辨率。禁止画第二个人物、场景、地面投影、UI、文字、标签、边框、格子、其他方向或其他动作。每次只输出这一张帧，不要把其余15帧放在同一画布。",
+      "negative_prompt": "拼贴、角色设定表、三视图、四视图、接触表、九宫格、Sprite Sheet、多个姿势出现在同一张图、多个角色、背景场景、UI、按钮、边框、文字、编号、水印、logo、白色假透明棋盘格、实心背景、裁切头顶、裁切鞋底、手脚畸形、换脸、服装变色、额外武器、水平镜像冒充另一方向、正面伪装背面、拉伸现有小头像、过曝光晕、低清模糊",
+      "approval_gate": "This is still a candidate frame. Check all 16 frames and the four views manually before packing/release.",
+      "output_sha256": "8aa2d709b03200a3b8f3ed102d94c4442723977c1a72c19507d02d85537ab216",
+      "receipt_file": "production/character_frames/NPC002/receipts/NPC002_left_walk2.json"
+    },
+    {
+      "id": "NPC002_left_walk3",
+      "character_id": "NPC002",
+      "character_name": "顾老",
+      "direction": "left",
+      "direction_cn": "左侧面",
+      "pose": "walk3",
+      "pose_cn": "迈步三",
+      "status": "generated_candidate_pending_human_review",
+      "single_image_only": true,
+      "reference_image": "D:\\nimingjianghu\\assets\\characters\\masters\\NPC002_fullbody.png",
+      "reference_size": [
+        1024,
+        1536
+      ],
+      "style_reference": "assets/home/characters_gallery_ref.webp",
+      "output_file": "qwen_4dir/NPC002/left_walk3.png",
+      "target_size": [
+        1024,
+        1536
+      ],
+      "minimum_source_size": [
+        256,
+        384
+      ],
+      "format": "RGBA PNG with real alpha transparency",
+      "prompt": "【只生成一张独立角色帧，不是Sprite表】角色「顾老」，唯一人物身份与服装依据是传入的已人工验收高清母版。不得重设计脸、发型、发饰、服装、腰带、纹样、鞋、武器；不改变主色、身高比例、头身比和配饰位置。视角：左侧面，true left profile, character faces toward screen-left; visible side of face, nose points left。动作：迈步三，walking key pose C: right foot steps forward and left foot trails, natural counter-swing of arms。保持角色全身完整、发顶与鞋底不裁切，居中站在固定脚底锚点，姿势符合自然人体透视。该图必须独立重绘对应角度；禁止镜像正面、拉伸正面、用头发/衣服遮住脸来假冒背面。严格沿用参考母版的精致国风Q版2.5D手绘武侠风格，干净轮廓、精细衣料。真正透明RGBA背景；单张PNG、竖向约3:4、建议1024×1536或更高分辨率。禁止画第二个人物、场景、地面投影、UI、文字、标签、边框、格子、其他方向或其他动作。每次只输出这一张帧，不要把其余15帧放在同一画布。",
+      "negative_prompt": "拼贴、角色设定表、三视图、四视图、接触表、九宫格、Sprite Sheet、多个姿势出现在同一张图、多个角色、背景场景、UI、按钮、边框、文字、编号、水印、logo、白色假透明棋盘格、实心背景、裁切头顶、裁切鞋底、手脚畸形、换脸、服装变色、额外武器、水平镜像冒充另一方向、正面伪装背面、拉伸现有小头像、过曝光晕、低清模糊",
+      "approval_gate": "This is still a candidate frame. Check all 16 frames and the four views manually before packing/release.",
+      "output_sha256": "9a6738c8ace772a8c5134d07e1c176897b81278f175f078e74fecfba850c2950",
+      "receipt_file": "production/character_frames/NPC002/receipts/NPC002_left_walk3.json"
+    },
+    {
+      "id": "NPC002_right_idle",
+      "character_id": "NPC002",
+      "character_name": "顾老",
+      "direction": "right",
+      "direction_cn": "右侧面",
+      "pose": "idle",
+      "pose_cn": "自然站立",
+      "status": "generated_candidate_pending_human_review",
+      "single_image_only": true,
+      "reference_image": "D:\\nimingjianghu\\assets\\characters\\masters\\NPC002_fullbody.png",
+      "reference_size": [
+        1024,
+        1536
+      ],
+      "style_reference": "assets/home/characters_gallery_ref.webp",
+      "output_file": "qwen_4dir/NPC002/right_idle.png",
+      "target_size": [
+        1024,
+        1536
+      ],
+      "minimum_source_size": [
+        256,
+        384
+      ],
+      "format": "RGBA PNG with real alpha transparency",
+      "prompt": "【只生成一张独立角色帧，不是Sprite表】角色「顾老」，唯一人物身份与服装依据是传入的已人工验收高清母版。不得重设计脸、发型、发饰、服装、腰带、纹样、鞋、武器；不改变主色、身高比例、头身比和配饰位置。视角：右侧面，true right profile, character faces toward screen-right; visible side of face, nose points right。动作：自然站立，neutral idle standing pose, both feet planted, arms relaxed naturally, sword stays in its normal sheath。保持角色全身完整、发顶与鞋底不裁切，居中站在固定脚底锚点，姿势符合自然人体透视。该图必须独立重绘对应角度；禁止镜像正面、拉伸正面、用头发/衣服遮住脸来假冒背面。严格沿用参考母版的精致国风Q版2.5D手绘武侠风格，干净轮廓、精细衣料。真正透明RGBA背景；单张PNG、竖向约3:4、建议1024×1536或更高分辨率。禁止画第二个人物、场景、地面投影、UI、文字、标签、边框、格子、其他方向或其他动作。每次只输出这一张帧，不要把其余15帧放在同一画布。",
+      "negative_prompt": "拼贴、角色设定表、三视图、四视图、接触表、九宫格、Sprite Sheet、多个姿势出现在同一张图、多个角色、背景场景、UI、按钮、边框、文字、编号、水印、logo、白色假透明棋盘格、实心背景、裁切头顶、裁切鞋底、手脚畸形、换脸、服装变色、额外武器、水平镜像冒充另一方向、正面伪装背面、拉伸现有小头像、过曝光晕、低清模糊",
+      "approval_gate": "This is still a candidate frame. Check all 16 frames and the four views manually before packing/release.",
+      "output_sha256": "8b3106d2b23e90567d8ed4b020c8b185768d65af8a55f08f02acbfaa3b4bdc31",
+      "receipt_file": "production/character_frames/NPC002/receipts/NPC002_right_idle.json"
+    },
+    {
+      "id": "NPC002_right_walk1",
+      "character_id": "NPC002",
+      "character_name": "顾老",
+      "direction": "right",
+      "direction_cn": "右侧面",
+      "pose": "walk1",
+      "pose_cn": "迈步一",
+      "status": "generated_candidate_pending_human_review",
+      "single_image_only": true,
+      "reference_image": "D:\\nimingjianghu\\assets\\characters\\masters\\NPC002_fullbody.png",
+      "reference_size": [
+        1024,
+        1536
+      ],
+      "style_reference": "assets/home/characters_gallery_ref.webp",
+      "output_file": "qwen_4dir/NPC002/right_walk1.png",
+      "target_size": [
+        1024,
+        1536
+      ],
+      "minimum_source_size": [
+        256,
+        384
+      ],
+      "format": "RGBA PNG with real alpha transparency",
+      "prompt": "【只生成一张独立角色帧，不是Sprite表】角色「顾老」，唯一人物身份与服装依据是传入的已人工验收高清母版。不得重设计脸、发型、发饰、服装、腰带、纹样、鞋、武器；不改变主色、身高比例、头身比和配饰位置。视角：右侧面，true right profile, character faces toward screen-right; visible side of face, nose points right。动作：迈步一，walking key pose A: left foot steps forward and right foot trails, natural counter-swing of arms。保持角色全身完整、发顶与鞋底不裁切，居中站在固定脚底锚点，姿势符合自然人体透视。该图必须独立重绘对应角度；禁止镜像正面、拉伸正面、用头发/衣服遮住脸来假冒背面。严格沿用参考母版的精致国风Q版2.5D手绘武侠风格，干净轮廓、精细衣料。真正透明RGBA背景；单张PNG、竖向约3:4、建议1024×1536或更高分辨率。禁止画第二个人物、场景、地面投影、UI、文字、标签、边框、格子、其他方向或其他动作。每次只输出这一张帧，不要把其余15帧放在同一画布。",
+      "negative_prompt": "拼贴、角色设定表、三视图、四视图、接触表、九宫格、Sprite Sheet、多个姿势出现在同一张图、多个角色、背景场景、UI、按钮、边框、文字、编号、水印、logo、白色假透明棋盘格、实心背景、裁切头顶、裁切鞋底、手脚畸形、换脸、服装变色、额外武器、水平镜像冒充另一方向、正面伪装背面、拉伸现有小头像、过曝光晕、低清模糊",
+      "approval_gate": "This is still a candidate frame. Check all 16 frames and the four views manually before packing/release.",
+      "output_sha256": "21606330caa1fc41c9467802a3440c70b73412eac73c7f68db1702724edcf75e",
+      "receipt_file": "production/character_frames/NPC002/receipts/NPC002_right_walk1.json"
+    },
+    {
+      "id": "NPC002_right_walk2",
+      "character_id": "NPC002",
+      "character_name": "顾老",
+      "direction": "right",
+      "direction_cn": "右侧面",
+      "pose": "walk2",
+      "pose_cn": "迈步二",
+      "status": "generated_candidate_pending_human_review",
+      "single_image_only": true,
+      "reference_image": "D:\\nimingjianghu\\assets\\characters\\masters\\NPC002_fullbody.png",
+      "reference_size": [
+        1024,
+        1536
+      ],
+      "style_reference": "assets/home/characters_gallery_ref.webp",
+      "output_file": "qwen_4dir/NPC002/right_walk2.png",
+      "target_size": [
+        1024,
+        1536
+      ],
+      "minimum_source_size": [
+        256,
+        384
+      ],
+      "format": "RGBA PNG with real alpha transparency",
+      "prompt": "【只生成一张独立角色帧，不是Sprite表】角色「顾老」，唯一人物身份与服装依据是传入的已人工验收高清母版。不得重设计脸、发型、发饰、服装、腰带、纹样、鞋、武器；不改变主色、身高比例、头身比和配饰位置。视角：右侧面，true right profile, character faces toward screen-right; visible side of face, nose points right。动作：迈步二，walking passing pose B: weight transitions over the front foot, knees and elbows naturally bent, cloth follows motion。保持角色全身完整、发顶与鞋底不裁切，居中站在固定脚底锚点，姿势符合自然人体透视。该图必须独立重绘对应角度；禁止镜像正面、拉伸正面、用头发/衣服遮住脸来假冒背面。严格沿用参考母版的精致国风Q版2.5D手绘武侠风格，干净轮廓、精细衣料。真正透明RGBA背景；单张PNG、竖向约3:4、建议1024×1536或更高分辨率。禁止画第二个人物、场景、地面投影、UI、文字、标签、边框、格子、其他方向或其他动作。每次只输出这一张帧，不要把其余15帧放在同一画布。",
+      "negative_prompt": "拼贴、角色设定表、三视图、四视图、接触表、九宫格、Sprite Sheet、多个姿势出现在同一张图、多个角色、背景场景、UI、按钮、边框、文字、编号、水印、logo、白色假透明棋盘格、实心背景、裁切头顶、裁切鞋底、手脚畸形、换脸、服装变色、额外武器、水平镜像冒充另一方向、正面伪装背面、拉伸现有小头像、过曝光晕、低清模糊",
+      "approval_gate": "This is still a candidate frame. Check all 16 frames and the four views manually before packing/release.",
+      "output_sha256": "62da1ef9ddf3662d98bff45c5a3eae7f2804535b671213519a25bc0e29c99b6a",
+      "receipt_file": "production/character_frames/NPC002/receipts/NPC002_right_walk2.json"
+    },
+    {
+      "id": "NPC002_right_walk3",
+      "character_id": "NPC002",
+      "character_name": "顾老",
+      "direction": "right",
+      "direction_cn": "右侧面",
+      "pose": "walk3",
+      "pose_cn": "迈步三",
+      "status": "generated_candidate_pending_human_review",
+      "single_image_only": true,
+      "reference_image": "D:\\nimingjianghu\\assets\\characters\\masters\\NPC002_fullbody.png",
+      "reference_size": [
+        1024,
+        1536
+      ],
+      "style_reference": "assets/home/characters_gallery_ref.webp",
+      "output_file": "qwen_4dir/NPC002/right_walk3.png",
+      "target_size": [
+        1024,
+        1536
+      ],
+      "minimum_source_size": [
+        256,
+        384
+      ],
+      "format": "RGBA PNG with real alpha transparency",
+      "prompt": "【只生成一张独立角色帧，不是Sprite表】角色「顾老」，唯一人物身份与服装依据是传入的已人工验收高清母版。不得重设计脸、发型、发饰、服装、腰带、纹样、鞋、武器；不改变主色、身高比例、头身比和配饰位置。视角：右侧面，true right profile, character faces toward screen-right; visible side of face, nose points right。动作：迈步三，walking key pose C: right foot steps forward and left foot trails, natural counter-swing of arms。保持角色全身完整、发顶与鞋底不裁切，居中站在固定脚底锚点，姿势符合自然人体透视。该图必须独立重绘对应角度；禁止镜像正面、拉伸正面、用头发/衣服遮住脸来假冒背面。严格沿用参考母版的精致国风Q版2.5D手绘武侠风格，干净轮廓、精细衣料。真正透明RGBA背景；单张PNG、竖向约3:4、建议1024×1536或更高分辨率。禁止画第二个人物、场景、地面投影、UI、文字、标签、边框、格子、其他方向或其他动作。每次只输出这一张帧，不要把其余15帧放在同一画布。",
+      "negative_prompt": "拼贴、角色设定表、三视图、四视图、接触表、九宫格、Sprite Sheet、多个姿势出现在同一张图、多个角色、背景场景、UI、按钮、边框、文字、编号、水印、logo、白色假透明棋盘格、实心背景、裁切头顶、裁切鞋底、手脚畸形、换脸、服装变色、额外武器、水平镜像冒充另一方向、正面伪装背面、拉伸现有小头像、过曝光晕、低清模糊",
+      "approval_gate": "This is still a candidate frame. Check all 16 frames and the four views manually before packing/release.",
+      "output_sha256": "419dbda1c3539ea915472d5186134c8e8556bf7f924043e60c429d4138b89d2b",
+      "receipt_file": "production/character_frames/NPC002/receipts/NPC002_right_walk3.json"
+    },
+    {
+      "id": "NPC002_up_idle",
+      "character_id": "NPC002",
+      "character_name": "顾老",
+      "direction": "up",
+      "direction_cn": "背面",
+      "pose": "idle",
+      "pose_cn": "自然站立",
+      "status": "generated_candidate_pending_human_review",
+      "single_image_only": true,
+      "reference_image": "D:\\nimingjianghu\\assets\\characters\\masters\\NPC002_fullbody.png",
+      "reference_size": [
+        1024,
+        1536
+      ],
+      "style_reference": "assets/home/characters_gallery_ref.webp",
+      "output_file": "qwen_4dir/NPC002/up_idle.png",
+      "target_size": [
+        1024,
+        1536
+      ],
+      "minimum_source_size": [
+        256,
+        384
+      ],
+      "format": "RGBA PNG with real alpha transparency",
+      "prompt": "【只生成一张独立角色帧，不是Sprite表】角色「顾老」，唯一人物身份与服装依据是传入的已人工验收高清母版。不得重设计脸、发型、发饰、服装、腰带、纹样、鞋、武器；不改变主色、身高比例、头身比和配饰位置。视角：背面，true rear view from behind, back of head and back of outfit visible, face not visible。动作：自然站立，neutral idle standing pose, both feet planted, arms relaxed naturally, sword stays in its normal sheath。保持角色全身完整、发顶与鞋底不裁切，居中站在固定脚底锚点，姿势符合自然人体透视。该图必须独立重绘对应角度；禁止镜像正面、拉伸正面、用头发/衣服遮住脸来假冒背面。严格沿用参考母版的精致国风Q版2.5D手绘武侠风格，干净轮廓、精细衣料。真正透明RGBA背景；单张PNG、竖向约3:4、建议1024×1536或更高分辨率。禁止画第二个人物、场景、地面投影、UI、文字、标签、边框、格子、其他方向或其他动作。每次只输出这一张帧，不要把其余15帧放在同一画布。",
+      "negative_prompt": "拼贴、角色设定表、三视图、四视图、接触表、九宫格、Sprite Sheet、多个姿势出现在同一张图、多个角色、背景场景、UI、按钮、边框、文字、编号、水印、logo、白色假透明棋盘格、实心背景、裁切头顶、裁切鞋底、手脚畸形、换脸、服装变色、额外武器、水平镜像冒充另一方向、正面伪装背面、拉伸现有小头像、过曝光晕、低清模糊",
+      "approval_gate": "This is still a candidate frame. Check all 16 frames and the four views manually before packing/release.",
+      "output_sha256": "36959362e0ce72fc50c77962f8a5e18936252023d99f70d927d5c5a3f6de477e",
+      "receipt_file": "production/character_frames/NPC002/receipts/NPC002_up_idle.json"
+    },
+    {
+      "id": "NPC002_up_walk1",
+      "character_id": "NPC002",
+      "character_name": "顾老",
+      "direction": "up",
+      "direction_cn": "背面",
+      "pose": "walk1",
+      "pose_cn": "迈步一",
+      "status": "generated_candidate_pending_human_review",
+      "single_image_only": true,
+      "reference_image": "D:\\nimingjianghu\\assets\\characters\\masters\\NPC002_fullbody.png",
+      "reference_size": [
+        1024,
+        1536
+      ],
+      "style_reference": "assets/home/characters_gallery_ref.webp",
+      "output_file": "qwen_4dir/NPC002/up_walk1.png",
+      "target_size": [
+        1024,
+        1536
+      ],
+      "minimum_source_size": [
+        256,
+        384
+      ],
+      "format": "RGBA PNG with real alpha transparency",
+      "prompt": "【只生成一张独立角色帧，不是Sprite表】角色「顾老」，唯一人物身份与服装依据是传入的已人工验收高清母版。不得重设计脸、发型、发饰、服装、腰带、纹样、鞋、武器；不改变主色、身高比例、头身比和配饰位置。视角：背面，true rear view from behind, back of head and back of outfit visible, face not visible。动作：迈步一，walking key pose A: left foot steps forward and right foot trails, natural counter-swing of arms。保持角色全身完整、发顶与鞋底不裁切，居中站在固定脚底锚点，姿势符合自然人体透视。该图必须独立重绘对应角度；禁止镜像正面、拉伸正面、用头发/衣服遮住脸来假冒背面。严格沿用参考母版的精致国风Q版2.5D手绘武侠风格，干净轮廓、精细衣料。真正透明RGBA背景；单张PNG、竖向约3:4、建议1024×1536或更高分辨率。禁止画第二个人物、场景、地面投影、UI、文字、标签、边框、格子、其他方向或其他动作。每次只输出这一张帧，不要把其余15帧放在同一画布。",
+      "negative_prompt": "拼贴、角色设定表、三视图、四视图、接触表、九宫格、Sprite Sheet、多个姿势出现在同一张图、多个角色、背景场景、UI、按钮、边框、文字、编号、水印、logo、白色假透明棋盘格、实心背景、裁切头顶、裁切鞋底、手脚畸形、换脸、服装变色、额外武器、水平镜像冒充另一方向、正面伪装背面、拉伸现有小头像、过曝光晕、低清模糊",
+      "approval_gate": "This is still a candidate frame. Check all 16 frames and the four views manually before packing/release.",
+      "output_sha256": "197d18c6ffce6f21f6c2065c8bf2f86a381745965ed3e72c6c463f4b91a09bc6",
+      "receipt_file": "production/character_frames/NPC002/receipts/NPC002_up_walk1.json"
+    },
+    {
+      "id": "NPC002_up_walk2",
+      "character_id": "NPC002",
+      "character_name": "顾老",
+      "direction": "up",
+      "direction_cn": "背面",
+      "pose": "walk2",
+      "pose_cn": "迈步二",
+      "status": "generated_candidate_pending_human_review",
+      "single_image_only": true,
+      "reference_image": "D:\\nimingjianghu\\assets\\characters\\masters\\NPC002_fullbody.png",
+      "reference_size": [
+        1024,
+        1536
+      ],
+      "style_reference": "assets/home/characters_gallery_ref.webp",
+      "output_file": "qwen_4dir/NPC002/up_walk2.png",
+      "target_size": [
+        1024,
+        1536
+      ],
+      "minimum_source_size": [
+        256,
+        384
+      ],
+      "format": "RGBA PNG with real alpha transparency",
+      "prompt": "【只生成一张独立角色帧，不是Sprite表】角色「顾老」，唯一人物身份与服装依据是传入的已人工验收高清母版。不得重设计脸、发型、发饰、服装、腰带、纹样、鞋、武器；不改变主色、身高比例、头身比和配饰位置。视角：背面，true rear view from behind, back of head and back of outfit visible, face not visible。动作：迈步二，walking passing pose B: weight transitions over the front foot, knees and elbows naturally bent, cloth follows motion。保持角色全身完整、发顶与鞋底不裁切，居中站在固定脚底锚点，姿势符合自然人体透视。该图必须独立重绘对应角度；禁止镜像正面、拉伸正面、用头发/衣服遮住脸来假冒背面。严格沿用参考母版的精致国风Q版2.5D手绘武侠风格，干净轮廓、精细衣料。真正透明RGBA背景；单张PNG、竖向约3:4、建议1024×1536或更高分辨率。禁止画第二个人物、场景、地面投影、UI、文字、标签、边框、格子、其他方向或其他动作。每次只输出这一张帧，不要把其余15帧放在同一画布。",
+      "negative_prompt": "拼贴、角色设定表、三视图、四视图、接触表、九宫格、Sprite Sheet、多个姿势出现在同一张图、多个角色、背景场景、UI、按钮、边框、文字、编号、水印、logo、白色假透明棋盘格、实心背景、裁切头顶、裁切鞋底、手脚畸形、换脸、服装变色、额外武器、水平镜像冒充另一方向、正面伪装背面、拉伸现有小头像、过曝光晕、低清模糊",
+      "approval_gate": "This is still a candidate frame. Check all 16 frames and the four views manually before packing/release.",
+      "output_sha256": "33b968971dee11d6f881fb943bc8335454c0e518b97d395002f57023b2e44a38",
+      "receipt_file": "production/character_frames/NPC002/receipts/NPC002_up_walk2.json"
+    },
+    {
+      "id": "NPC002_up_walk3",
+      "character_id": "NPC002",
+      "character_name": "顾老",
+      "direction": "up",
+      "direction_cn": "背面",
+      "pose": "walk3",
+      "pose_cn": "迈步三",
+      "status": "generated_candidate_pending_human_review",
+      "single_image_only": true,
+      "reference_image": "D:\\nimingjianghu\\assets\\characters\\masters\\NPC002_fullbody.png",
+      "reference_size": [
+        1024,
+        1536
+      ],
+      "style_reference": "assets/home/characters_gallery_ref.webp",
+      "output_file": "qwen_4dir/NPC002/up_walk3.png",
+      "target_size": [
+        1024,
+        1536
+      ],
+      "minimum_source_size": [
+        256,
+        384
+      ],
+      "format": "RGBA PNG with real alpha transparency",
+      "prompt": "【只生成一张独立角色帧，不是Sprite表】角色「顾老」，唯一人物身份与服装依据是传入的已人工验收高清母版。不得重设计脸、发型、发饰、服装、腰带、纹样、鞋、武器；不改变主色、身高比例、头身比和配饰位置。视角：背面，true rear view from behind, back of head and back of outfit visible, face not visible。动作：迈步三，walking key pose C: right foot steps forward and left foot trails, natural counter-swing of arms。保持角色全身完整、发顶与鞋底不裁切，居中站在固定脚底锚点，姿势符合自然人体透视。该图必须独立重绘对应角度；禁止镜像正面、拉伸正面、用头发/衣服遮住脸来假冒背面。严格沿用参考母版的精致国风Q版2.5D手绘武侠风格，干净轮廓、精细衣料。真正透明RGBA背景；单张PNG、竖向约3:4、建议1024×1536或更高分辨率。禁止画第二个人物、场景、地面投影、UI、文字、标签、边框、格子、其他方向或其他动作。每次只输出这一张帧，不要把其余15帧放在同一画布。",
+      "negative_prompt": "拼贴、角色设定表、三视图、四视图、接触表、九宫格、Sprite Sheet、多个姿势出现在同一张图、多个角色、背景场景、UI、按钮、边框、文字、编号、水印、logo、白色假透明棋盘格、实心背景、裁切头顶、裁切鞋底、手脚畸形、换脸、服装变色、额外武器、水平镜像冒充另一方向、正面伪装背面、拉伸现有小头像、过曝光晕、低清模糊",
+      "approval_gate": "This is still a candidate frame. Check all 16 frames and the four views manually before packing/release.",
+      "output_sha256": "d77a5221f83efb2668c395961e0e6165560bd8ecff67dc6adb5ea12a7aec23e2",
+      "receipt_file": "production/character_frames/NPC002/receipts/NPC002_up_walk3.json"
+    }
+  ],
+  "never_auto_approve": true
+}

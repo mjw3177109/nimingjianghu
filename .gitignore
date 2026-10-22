@@ -1,0 +1,7 @@
+node_modules/
+dist/
+qa/
+*.log
+__pycache__/
+local-tree.json
+assets/tilesets/*/*_atlas_hd64.svg

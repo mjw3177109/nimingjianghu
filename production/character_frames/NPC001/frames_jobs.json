@@ -1,0 +1,540 @@
+{
+  "schema_version": 1,
+  "phase": "P3-H_SPRITE_FRAMES",
+  "character_id": "NPC001",
+  "character_name": "韩掌柜",
+  "reference_master": "D:\\nimingjianghu\\assets\\characters\\masters\\NPC001_fullbody.png",
+  "reference_size": [
+    1024,
+    1536
+  ],
+  "status": "16_generated_candidates_pending_human_review",
+  "single_image_tasks": 16,
+  "directions": [
+    "down",
+    "left",
+    "right",
+    "up"
+  ],
+  "poses": [
+    "idle",
+    "walk1",
+    "walk2",
+    "walk3"
+  ],
+  "tasks": [
+    {
+      "id": "NPC001_down_idle",
+      "character_id": "NPC001",
+      "character_name": "韩掌柜",
+      "direction": "down",
+      "direction_cn": "正面",
+      "pose": "idle",
+      "pose_cn": "自然站立",
+      "status": "generated_candidate_pending_human_review",
+      "single_image_only": true,
+      "reference_image": "D:\\nimingjianghu\\assets\\characters\\masters\\NPC001_fullbody.png",
+      "reference_size": [
+        1024,
+        1536
+      ],
+      "style_reference": "assets/home/characters_gallery_ref.webp",
+      "output_file": "qwen_4dir/NPC001/down_idle.png",
+      "target_size": [
+        1024,
+        1536
+      ],
+      "minimum_source_size": [
+        256,
+        384
+      ],
+      "format": "RGBA PNG with real alpha transparency",
+      "prompt": "【只生成一张独立角色帧，不是Sprite表】角色「韩掌柜」，唯一人物身份与服装依据是传入的已人工验收高清母版。不得重设计脸、发型、发饰、服装、腰带、纹样、鞋、武器；不改变主色、身高比例、头身比和配饰位置。视角：正面，front view facing the camera, both eyes visible, chest and belt read clearly。动作：自然站立，neutral idle standing pose, both feet planted, arms relaxed naturally, sword stays in its normal sheath。保持角色全身完整、发顶与鞋底不裁切，居中站在固定脚底锚点，姿势符合自然人体透视。该图必须独立重绘对应角度；禁止镜像正面、拉伸正面、用头发/衣服遮住脸来假冒背面。严格沿用参考母版的精致国风Q版2.5D手绘武侠风格，干净轮廓、精细衣料。真正透明RGBA背景；单张PNG、竖向约3:4、建议1024×1536或更高分辨率。禁止画第二个人物、场景、地面投影、UI、文字、标签、边框、格子、其他方向或其他动作。每次只输出这一张帧，不要把其余15帧放在同一画布。",
+      "negative_prompt": "拼贴、角色设定表、三视图、四视图、接触表、九宫格、Sprite Sheet、多个姿势出现在同一张图、多个角色、背景场景、UI、按钮、边框、文字、编号、水印、logo、白色假透明棋盘格、实心背景、裁切头顶、裁切鞋底、手脚畸形、换脸、服装变色、额外武器、水平镜像冒充另一方向、正面伪装背面、拉伸现有小头像、过曝光晕、低清模糊",
+      "approval_gate": "This is still a candidate frame. Check all 16 frames and the four views manually before packing/release.",
+      "output_sha256": "7a33abb01f41754f3d464f798149c48ed817970b07d09a232ac586fcb0480892",
+      "receipt_file": "production/character_frames/NPC001/receipts/NPC001_down_idle.json"
+    },
+    {
+      "id": "NPC001_down_walk1",
+      "character_id": "NPC001",
+      "character_name": "韩掌柜",
+      "direction": "down",
+      "direction_cn": "正面",
+      "pose": "walk1",
+      "pose_cn": "迈步一",
+      "status": "generated_candidate_pending_human_review",
+      "single_image_only": true,
+      "reference_image": "D:\\nimingjianghu\\assets\\characters\\masters\\NPC001_fullbody.png",
+      "reference_size": [
+        1024,
+        1536
+      ],
+      "style_reference": "assets/home/characters_gallery_ref.webp",
+      "output_file": "qwen_4dir/NPC001/down_walk1.png",
+      "target_size": [
+        1024,
+        1536
+      ],
+      "minimum_source_size": [
+        256,
+        384
+      ],
+      "format": "RGBA PNG with real alpha transparency",
+      "prompt": "【只生成一张独立角色帧，不是Sprite表】角色「韩掌柜」，唯一人物身份与服装依据是传入的已人工验收高清母版。不得重设计脸、发型、发饰、服装、腰带、纹样、鞋、武器；不改变主色、身高比例、头身比和配饰位置。视角：正面，front view facing the camera, both eyes visible, chest and belt read clearly。动作：迈步一，walking key pose A: left foot steps forward and right foot trails, natural counter-swing of arms。保持角色全身完整、发顶与鞋底不裁切，居中站在固定脚底锚点，姿势符合自然人体透视。该图必须独立重绘对应角度；禁止镜像正面、拉伸正面、用头发/衣服遮住脸来假冒背面。严格沿用参考母版的精致国风Q版2.5D手绘武侠风格，干净轮廓、精细衣料。真正透明RGBA背景；单张PNG、竖向约3:4、建议1024×1536或更高分辨率。禁止画第二个人物、场景、地面投影、UI、文字、标签、边框、格子、其他方向或其他动作。每次只输出这一张帧，不要把其余15帧放在同一画布。",
+      "negative_prompt": "拼贴、角色设定表、三视图、四视图、接触表、九宫格、Sprite Sheet、多个姿势出现在同一张图、多个角色、背景场景、UI、按钮、边框、文字、编号、水印、logo、白色假透明棋盘格、实心背景、裁切头顶、裁切鞋底、手脚畸形、换脸、服装变色、额外武器、水平镜像冒充另一方向、正面伪装背面、拉伸现有小头像、过曝光晕、低清模糊",
+      "approval_gate": "This is still a candidate frame. Check all 16 frames and the four views manually before packing/release.",
+      "output_sha256": "05d599c5e4155b776afc08554a2995bd349d2a75fcad16d5e53563bdb65e05d2",
+      "receipt_file": "production/character_frames/NPC001/receipts/NPC001_down_walk1.json"
+    },
+    {
+      "id": "NPC001_down_walk2",
+      "character_id": "NPC001",
+      "character_name": "韩掌柜",
+      "direction": "down",
+      "direction_cn": "正面",
+      "pose": "walk2",
+      "pose_cn": "迈步二",
+      "status": "generated_candidate_pending_human_review",
+      "single_image_only": true,
+      "reference_image": "D:\\nimingjianghu\\assets\\characters\\masters\\NPC001_fullbody.png",
+      "reference_size": [
+        1024,
+        1536
+      ],
+      "style_reference": "assets/home/characters_gallery_ref.webp",
+      "output_file": "qwen_4dir/NPC001/down_walk2.png",
+      "target_size": [
+        1024,
+        1536
+      ],
+      "minimum_source_size": [
+        256,
+        384
+      ],
+      "format": "RGBA PNG with real alpha transparency",
+      "prompt": "【只生成一张独立角色帧，不是Sprite表】角色「韩掌柜」，唯一人物身份与服装依据是传入的已人工验收高清母版。不得重设计脸、发型、发饰、服装、腰带、纹样、鞋、武器；不改变主色、身高比例、头身比和配饰位置。视角：正面，front view facing the camera, both eyes visible, chest and belt read clearly。动作：迈步二，walking passing pose B: weight transitions over the front foot, knees and elbows naturally bent, cloth follows motion。保持角色全身完整、发顶与鞋底不裁切，居中站在固定脚底锚点，姿势符合自然人体透视。该图必须独立重绘对应角度；禁止镜像正面、拉伸正面、用头发/衣服遮住脸来假冒背面。严格沿用参考母版的精致国风Q版2.5D手绘武侠风格，干净轮廓、精细衣料。真正透明RGBA背景；单张PNG、竖向约3:4、建议1024×1536或更高分辨率。禁止画第二个人物、场景、地面投影、UI、文字、标签、边框、格子、其他方向或其他动作。每次只输出这一张帧，不要把其余15帧放在同一画布。",
+      "negative_prompt": "拼贴、角色设定表、三视图、四视图、接触表、九宫格、Sprite Sheet、多个姿势出现在同一张图、多个角色、背景场景、UI、按钮、边框、文字、编号、水印、logo、白色假透明棋盘格、实心背景、裁切头顶、裁切鞋底、手脚畸形、换脸、服装变色、额外武器、水平镜像冒充另一方向、正面伪装背面、拉伸现有小头像、过曝光晕、低清模糊",
+      "approval_gate": "This is still a candidate frame. Check all 16 frames and the four views manually before packing/release.",
+      "output_sha256": "cb81f347044b509900caad7d20089ecdfa71a10e45a51bda50caef25ee959fc6",
+      "receipt_file": "production/character_frames/NPC001/receipts/NPC001_down_walk2.json"
+    },
+    {
+      "id": "NPC001_down_walk3",
+      "character_id": "NPC001",
+      "character_name": "韩掌柜",
+      "direction": "down",
+      "direction_cn": "正面",
+      "pose": "walk3",
+      "pose_cn": "迈步三",
+      "status": "generated_candidate_pending_human_review",
+      "single_image_only": true,
+      "reference_image": "D:\\nimingjianghu\\assets\\characters\\masters\\NPC001_fullbody.png",
+      "reference_size": [
+        1024,
+        1536
+      ],
+      "style_reference": "assets/home/characters_gallery_ref.webp",
+      "output_file": "qwen_4dir/NPC001/down_walk3.png",
+      "target_size": [
+        1024,
+        1536
+      ],
+      "minimum_source_size": [
+        256,
+        384
+      ],
+      "format": "RGBA PNG with real alpha transparency",
+      "prompt": "【只生成一张独立角色帧，不是Sprite表】角色「韩掌柜」，唯一人物身份与服装依据是传入的已人工验收高清母版。不得重设计脸、发型、发饰、服装、腰带、纹样、鞋、武器；不改变主色、身高比例、头身比和配饰位置。视角：正面，front view facing the camera, both eyes visible, chest and belt read clearly。动作：迈步三，walking key pose C: right foot steps forward and left foot trails, natural counter-swing of arms。保持角色全身完整、发顶与鞋底不裁切，居中站在固定脚底锚点，姿势符合自然人体透视。该图必须独立重绘对应角度；禁止镜像正面、拉伸正面、用头发/衣服遮住脸来假冒背面。严格沿用参考母版的精致国风Q版2.5D手绘武侠风格，干净轮廓、精细衣料。真正透明RGBA背景；单张PNG、竖向约3:4、建议1024×1536或更高分辨率。禁止画第二个人物、场景、地面投影、UI、文字、标签、边框、格子、其他方向或其他动作。每次只输出这一张帧，不要把其余15帧放在同一画布。",
+      "negative_prompt": "拼贴、角色设定表、三视图、四视图、接触表、九宫格、Sprite Sheet、多个姿势出现在同一张图、多个角色、背景场景、UI、按钮、边框、文字、编号、水印、logo、白色假透明棋盘格、实心背景、裁切头顶、裁切鞋底、手脚畸形、换脸、服装变色、额外武器、水平镜像冒充另一方向、正面伪装背面、拉伸现有小头像、过曝光晕、低清模糊",
+      "approval_gate": "This is still a candidate frame. Check all 16 frames and the four views manually before packing/release.",
+      "output_sha256": "5b77119adcaf764f41707042c3948314c7595fde89579e17b176af294a2ee985",
+      "receipt_file": "production/character_frames/NPC001/receipts/NPC001_down_walk3.json"
+    },
+    {
+      "id": "NPC001_left_idle",
+      "character_id": "NPC001",
+      "character_name": "韩掌柜",
+      "direction": "left",
+      "direction_cn": "左侧面",
+      "pose": "idle",
+      "pose_cn": "自然站立",
+      "status": "generated_candidate_pending_human_review",
+      "single_image_only": true,
+      "reference_image": "D:\\nimingjianghu\\assets\\characters\\masters\\NPC001_fullbody.png",
+      "reference_size": [
+        1024,
+        1536
+      ],
+      "style_reference": "assets/home/characters_gallery_ref.webp",
+      "output_file": "qwen_4dir/NPC001/left_idle.png",
+      "target_size": [
+        1024,
+        1536
+      ],
+      "minimum_source_size": [
+        256,
+        384
+      ],
+      "format": "RGBA PNG with real alpha transparency",
+      "prompt": "【只生成一张独立角色帧，不是Sprite表】角色「韩掌柜」，唯一人物身份与服装依据是传入的已人工验收高清母版。不得重设计脸、发型、发饰、服装、腰带、纹样、鞋、武器；不改变主色、身高比例、头身比和配饰位置。视角：左侧面，true left profile, character faces toward screen-left; visible side of face, nose points left。动作：自然站立，neutral idle standing pose, both feet planted, arms relaxed naturally, sword stays in its normal sheath。保持角色全身完整、发顶与鞋底不裁切，居中站在固定脚底锚点，姿势符合自然人体透视。该图必须独立重绘对应角度；禁止镜像正面、拉伸正面、用头发/衣服遮住脸来假冒背面。严格沿用参考母版的精致国风Q版2.5D手绘武侠风格，干净轮廓、精细衣料。真正透明RGBA背景；单张PNG、竖向约3:4、建议1024×1536或更高分辨率。禁止画第二个人物、场景、地面投影、UI、文字、标签、边框、格子、其他方向或其他动作。每次只输出这一张帧，不要把其余15帧放在同一画布。",
+      "negative_prompt": "拼贴、角色设定表、三视图、四视图、接触表、九宫格、Sprite Sheet、多个姿势出现在同一张图、多个角色、背景场景、UI、按钮、边框、文字、编号、水印、logo、白色假透明棋盘格、实心背景、裁切头顶、裁切鞋底、手脚畸形、换脸、服装变色、额外武器、水平镜像冒充另一方向、正面伪装背面、拉伸现有小头像、过曝光晕、低清模糊",
+      "approval_gate": "This is still a candidate frame. Check all 16 frames and the four views manually before packing/release.",
+      "output_sha256": "1b0defe20ee961c162c7628ea5578365868225ddce38f3032f79b058fac6cd3a",
+      "receipt_file": "production/character_frames/NPC001/receipts/NPC001_left_idle.json"
+    },
+    {
+      "id": "NPC001_left_walk1",
+      "character_id": "NPC001",
+      "character_name": "韩掌柜",
+      "direction": "left",
+      "direction_cn": "左侧面",
+      "pose": "walk1",
+      "pose_cn": "迈步一",
+      "status": "generated_candidate_pending_human_review",
+      "single_image_only": true,
+      "reference_image": "D:\\nimingjianghu\\assets\\characters\\masters\\NPC001_fullbody.png",
+      "reference_size": [
+        1024,
+        1536
+      ],
+      "style_reference": "assets/home/characters_gallery_ref.webp",
+      "output_file": "qwen_4dir/NPC001/left_walk1.png",
+      "target_size": [
+        1024,
+        1536
+      ],
+      "minimum_source_size": [
+        256,
+        384
+      ],
+      "format": "RGBA PNG with real alpha transparency",
+      "prompt": "【只生成一张独立角色帧，不是Sprite表】角色「韩掌柜」，唯一人物身份与服装依据是传入的已人工验收高清母版。不得重设计脸、发型、发饰、服装、腰带、纹样、鞋、武器；不改变主色、身高比例、头身比和配饰位置。视角：左侧面，true left profile, character faces toward screen-left; visible side of face, nose points left。动作：迈步一，walking key pose A: left foot steps forward and right foot trails, natural counter-swing of arms。保持角色全身完整、发顶与鞋底不裁切，居中站在固定脚底锚点，姿势符合自然人体透视。该图必须独立重绘对应角度；禁止镜像正面、拉伸正面、用头发/衣服遮住脸来假冒背面。严格沿用参考母版的精致国风Q版2.5D手绘武侠风格，干净轮廓、精细衣料。真正透明RGBA背景；单张PNG、竖向约3:4、建议1024×1536或更高分辨率。禁止画第二个人物、场景、地面投影、UI、文字、标签、边框、格子、其他方向或其他动作。每次只输出这一张帧，不要把其余15帧放在同一画布。",
+      "negative_prompt": "拼贴、角色设定表、三视图、四视图、接触表、九宫格、Sprite Sheet、多个姿势出现在同一张图、多个角色、背景场景、UI、按钮、边框、文字、编号、水印、logo、白色假透明棋盘格、实心背景、裁切头顶、裁切鞋底、手脚畸形、换脸、服装变色、额外武器、水平镜像冒充另一方向、正面伪装背面、拉伸现有小头像、过曝光晕、低清模糊",
+      "approval_gate": "This is still a candidate frame. Check all 16 frames and the four views manually before packing/release.",
+      "output_sha256": "3346c7ec45e92ead45d03a1786a9c3d3e906137684debbf5795af4da094e208e",
+      "receipt_file": "production/character_frames/NPC001/receipts/NPC001_left_walk1.json"
+    },
+    {
+      "id": "NPC001_left_walk2",
+      "character_id": "NPC001",
+      "character_name": "韩掌柜",
+      "direction": "left",
+      "direction_cn": "左侧面",
+      "pose": "walk2",
+      "pose_cn": "迈步二",
+      "status": "generated_candidate_pending_human_review",
+      "single_image_only": true,
+      "reference_image": "D:\\nimingjianghu\\assets\\characters\\masters\\NPC001_fullbody.png",
+      "reference_size": [
+        1024,
+        1536
+      ],
+      "style_reference": "assets/home/characters_gallery_ref.webp",
+      "output_file": "qwen_4dir/NPC001/left_walk2.png",
+      "target_size": [
+        1024,
+        1536
+      ],
+      "minimum_source_size": [
+        256,
+        384
+      ],
+      "format": "RGBA PNG with real alpha transparency",
+      "prompt": "【只生成一张独立角色帧，不是Sprite表】角色「韩掌柜」，唯一人物身份与服装依据是传入的已人工验收高清母版。不得重设计脸、发型、发饰、服装、腰带、纹样、鞋、武器；不改变主色、身高比例、头身比和配饰位置。视角：左侧面，true left profile, character faces toward screen-left; visible side of face, nose points left。动作：迈步二，walking passing pose B: weight transitions over the front foot, knees and elbows naturally bent, cloth follows motion。保持角色全身完整、发顶与鞋底不裁切，居中站在固定脚底锚点，姿势符合自然人体透视。该图必须独立重绘对应角度；禁止镜像正面、拉伸正面、用头发/衣服遮住脸来假冒背面。严格沿用参考母版的精致国风Q版2.5D手绘武侠风格，干净轮廓、精细衣料。真正透明RGBA背景；单张PNG、竖向约3:4、建议1024×1536或更高分辨率。禁止画第二个人物、场景、地面投影、UI、文字、标签、边框、格子、其他方向或其他动作。每次只输出这一张帧，不要把其余15帧放在同一画布。",
+      "negative_prompt": "拼贴、角色设定表、三视图、四视图、接触表、九宫格、Sprite Sheet、多个姿势出现在同一张图、多个角色、背景场景、UI、按钮、边框、文字、编号、水印、logo、白色假透明棋盘格、实心背景、裁切头顶、裁切鞋底、手脚畸形、换脸、服装变色、额外武器、水平镜像冒充另一方向、正面伪装背面、拉伸现有小头像、过曝光晕、低清模糊",
+      "approval_gate": "This is still a candidate frame. Check all 16 frames and the four views manually before packing/release.",
+      "output_sha256": "3401a14450b3d63fd203af3db1820803ee792615bfdfb153a44e6d04f51aa992",
+      "receipt_file": "production/character_frames/NPC001/receipts/NPC001_left_walk2.json"
+    },
+    {
+      "id": "NPC001_left_walk3",
+      "character_id": "NPC001",
+      "character_name": "韩掌柜",
+      "direction": "left",
+      "direction_cn": "左侧面",
+      "pose": "walk3",
+      "pose_cn": "迈步三",
+      "status": "generated_candidate_pending_human_review",
+      "single_image_only": true,
+      "reference_image": "D:\\nimingjianghu\\assets\\characters\\masters\\NPC001_fullbody.png",
+      "reference_size": [
+        1024,
+        1536
+      ],
+      "style_reference": "assets/home/characters_gallery_ref.webp",
+      "output_file": "qwen_4dir/NPC001/left_walk3.png",
+      "target_size": [
+        1024,
+        1536
+      ],
+      "minimum_source_size": [
+        256,
+        384
+      ],
+      "format": "RGBA PNG with real alpha transparency",
+      "prompt": "【只生成一张独立角色帧，不是Sprite表】角色「韩掌柜」，唯一人物身份与服装依据是传入的已人工验收高清母版。不得重设计脸、发型、发饰、服装、腰带、纹样、鞋、武器；不改变主色、身高比例、头身比和配饰位置。视角：左侧面，true left profile, character faces toward screen-left; visible side of face, nose points left。动作：迈步三，walking key pose C: right foot steps forward and left foot trails, natural counter-swing of arms。保持角色全身完整、发顶与鞋底不裁切，居中站在固定脚底锚点，姿势符合自然人体透视。该图必须独立重绘对应角度；禁止镜像正面、拉伸正面、用头发/衣服遮住脸来假冒背面。严格沿用参考母版的精致国风Q版2.5D手绘武侠风格，干净轮廓、精细衣料。真正透明RGBA背景；单张PNG、竖向约3:4、建议1024×1536或更高分辨率。禁止画第二个人物、场景、地面投影、UI、文字、标签、边框、格子、其他方向或其他动作。每次只输出这一张帧，不要把其余15帧放在同一画布。",
+      "negative_prompt": "拼贴、角色设定表、三视图、四视图、接触表、九宫格、Sprite Sheet、多个姿势出现在同一张图、多个角色、背景场景、UI、按钮、边框、文字、编号、水印、logo、白色假透明棋盘格、实心背景、裁切头顶、裁切鞋底、手脚畸形、换脸、服装变色、额外武器、水平镜像冒充另一方向、正面伪装背面、拉伸现有小头像、过曝光晕、低清模糊",
+      "approval_gate": "This is still a candidate frame. Check all 16 frames and the four views manually before packing/release.",
+      "output_sha256": "28447e90a4507168948e4845badeffa30e571394450fc62707dfd602dbf08622",
+      "receipt_file": "production/character_frames/NPC001/receipts/NPC001_left_walk3.json"
+    },
+    {
+      "id": "NPC001_right_idle",
+      "character_id": "NPC001",
+      "character_name": "韩掌柜",
+      "direction": "right",
+      "direction_cn": "右侧面",
+      "pose": "idle",
+      "pose_cn": "自然站立",
+      "status": "generated_candidate_pending_human_review",
+      "single_image_only": true,
+      "reference_image": "D:\\nimingjianghu\\assets\\characters\\masters\\NPC001_fullbody.png",
+      "reference_size": [
+        1024,
+        1536
+      ],
+      "style_reference": "assets/home/characters_gallery_ref.webp",
+      "output_file": "qwen_4dir/NPC001/right_idle.png",
+      "target_size": [
+        1024,
+        1536
+      ],
+      "minimum_source_size": [
+        256,
+        384
+      ],
+      "format": "RGBA PNG with real alpha transparency",
+      "prompt": "【只生成一张独立角色帧，不是Sprite表】角色「韩掌柜」，唯一人物身份与服装依据是传入的已人工验收高清母版。不得重设计脸、发型、发饰、服装、腰带、纹样、鞋、武器；不改变主色、身高比例、头身比和配饰位置。视角：右侧面，true right profile, character faces toward screen-right; visible side of face, nose points right。动作：自然站立，neutral idle standing pose, both feet planted, arms relaxed naturally, sword stays in its normal sheath。保持角色全身完整、发顶与鞋底不裁切，居中站在固定脚底锚点，姿势符合自然人体透视。该图必须独立重绘对应角度；禁止镜像正面、拉伸正面、用头发/衣服遮住脸来假冒背面。严格沿用参考母版的精致国风Q版2.5D手绘武侠风格，干净轮廓、精细衣料。真正透明RGBA背景；单张PNG、竖向约3:4、建议1024×1536或更高分辨率。禁止画第二个人物、场景、地面投影、UI、文字、标签、边框、格子、其他方向或其他动作。每次只输出这一张帧，不要把其余15帧放在同一画布。",
+      "negative_prompt": "拼贴、角色设定表、三视图、四视图、接触表、九宫格、Sprite Sheet、多个姿势出现在同一张图、多个角色、背景场景、UI、按钮、边框、文字、编号、水印、logo、白色假透明棋盘格、实心背景、裁切头顶、裁切鞋底、手脚畸形、换脸、服装变色、额外武器、水平镜像冒充另一方向、正面伪装背面、拉伸现有小头像、过曝光晕、低清模糊",
+      "approval_gate": "This is still a candidate frame. Check all 16 frames and the four views manually before packing/release.",
+      "output_sha256": "0012d8d7e85dbdbdd628ff5ae5a3abd10d3108bd259ef51eb926ea404a5e0047",
+      "receipt_file": "production/character_frames/NPC001/receipts/NPC001_right_idle.json"
+    },
+    {
+      "id": "NPC001_right_walk1",
+      "character_id": "NPC001",
+      "character_name": "韩掌柜",
+      "direction": "right",
+      "direction_cn": "右侧面",
+      "pose": "walk1",
+      "pose_cn": "迈步一",
+      "status": "generated_candidate_pending_human_review",
+      "single_image_only": true,
+      "reference_image": "D:\\nimingjianghu\\assets\\characters\\masters\\NPC001_fullbody.png",
+      "reference_size": [
+        1024,
+        1536
+      ],
+      "style_reference": "assets/home/characters_gallery_ref.webp",
+      "output_file": "qwen_4dir/NPC001/right_walk1.png",
+      "target_size": [
+        1024,
+        1536
+      ],
+      "minimum_source_size": [
+        256,
+        384
+      ],
+      "format": "RGBA PNG with real alpha transparency",
+      "prompt": "【只生成一张独立角色帧，不是Sprite表】角色「韩掌柜」，唯一人物身份与服装依据是传入的已人工验收高清母版。不得重设计脸、发型、发饰、服装、腰带、纹样、鞋、武器；不改变主色、身高比例、头身比和配饰位置。视角：右侧面，true right profile, character faces toward screen-right; visible side of face, nose points right。动作：迈步一，walking key pose A: left foot steps forward and right foot trails, natural counter-swing of arms。保持角色全身完整、发顶与鞋底不裁切，居中站在固定脚底锚点，姿势符合自然人体透视。该图必须独立重绘对应角度；禁止镜像正面、拉伸正面、用头发/衣服遮住脸来假冒背面。严格沿用参考母版的精致国风Q版2.5D手绘武侠风格，干净轮廓、精细衣料。真正透明RGBA背景；单张PNG、竖向约3:4、建议1024×1536或更高分辨率。禁止画第二个人物、场景、地面投影、UI、文字、标签、边框、格子、其他方向或其他动作。每次只输出这一张帧，不要把其余15帧放在同一画布。",
+      "negative_prompt": "拼贴、角色设定表、三视图、四视图、接触表、九宫格、Sprite Sheet、多个姿势出现在同一张图、多个角色、背景场景、UI、按钮、边框、文字、编号、水印、logo、白色假透明棋盘格、实心背景、裁切头顶、裁切鞋底、手脚畸形、换脸、服装变色、额外武器、水平镜像冒充另一方向、正面伪装背面、拉伸现有小头像、过曝光晕、低清模糊",
+      "approval_gate": "This is still a candidate frame. Check all 16 frames and the four views manually before packing/release.",
+      "output_sha256": "b42969fc75458fb5a58caad5b6c65065b9d1972f3063c0db239a83d497260b04",
+      "receipt_file": "production/character_frames/NPC001/receipts/NPC001_right_walk1.json"
+    },
+    {
+      "id": "NPC001_right_walk2",
+      "character_id": "NPC001",
+      "character_name": "韩掌柜",
+      "direction": "right",
+      "direction_cn": "右侧面",
+      "pose": "walk2",
+      "pose_cn": "迈步二",
+      "status": "generated_candidate_pending_human_review",
+      "single_image_only": true,
+      "reference_image": "D:\\nimingjianghu\\assets\\characters\\masters\\NPC001_fullbody.png",
+      "reference_size": [
+        1024,
+        1536
+      ],
+      "style_reference": "assets/home/characters_gallery_ref.webp",
+      "output_file": "qwen_4dir/NPC001/right_walk2.png",
+      "target_size": [
+        1024,
+        1536
+      ],
+      "minimum_source_size": [
+        256,
+        384
+      ],
+      "format": "RGBA PNG with real alpha transparency",
+      "prompt": "【只生成一张独立角色帧，不是Sprite表】角色「韩掌柜」，唯一人物身份与服装依据是传入的已人工验收高清母版。不得重设计脸、发型、发饰、服装、腰带、纹样、鞋、武器；不改变主色、身高比例、头身比和配饰位置。视角：右侧面，true right profile, character faces toward screen-right; visible side of face, nose points right。动作：迈步二，walking passing pose B: weight transitions over the front foot, knees and elbows naturally bent, cloth follows motion。保持角色全身完整、发顶与鞋底不裁切，居中站在固定脚底锚点，姿势符合自然人体透视。该图必须独立重绘对应角度；禁止镜像正面、拉伸正面、用头发/衣服遮住脸来假冒背面。严格沿用参考母版的精致国风Q版2.5D手绘武侠风格，干净轮廓、精细衣料。真正透明RGBA背景；单张PNG、竖向约3:4、建议1024×1536或更高分辨率。禁止画第二个人物、场景、地面投影、UI、文字、标签、边框、格子、其他方向或其他动作。每次只输出这一张帧，不要把其余15帧放在同一画布。",
+      "negative_prompt": "拼贴、角色设定表、三视图、四视图、接触表、九宫格、Sprite Sheet、多个姿势出现在同一张图、多个角色、背景场景、UI、按钮、边框、文字、编号、水印、logo、白色假透明棋盘格、实心背景、裁切头顶、裁切鞋底、手脚畸形、换脸、服装变色、额外武器、水平镜像冒充另一方向、正面伪装背面、拉伸现有小头像、过曝光晕、低清模糊",
+      "approval_gate": "This is still a candidate frame. Check all 16 frames and the four views manually before packing/release.",
+      "output_sha256": "d2951d1fcd9b77e6b72303603fdf726d156e90e62a243f95f05b5cca8568cc2e",
+      "receipt_file": "production/character_frames/NPC001/receipts/NPC001_right_walk2.json"
+    },
+    {
+      "id": "NPC001_right_walk3",
+      "character_id": "NPC001",
+      "character_name": "韩掌柜",
+      "direction": "right",
+      "direction_cn": "右侧面",
+      "pose": "walk3",
+      "pose_cn": "迈步三",
+      "status": "generated_candidate_pending_human_review",
+      "single_image_only": true,
+      "reference_image": "D:\\nimingjianghu\\assets\\characters\\masters\\NPC001_fullbody.png",
+      "reference_size": [
+        1024,
+        1536
+      ],
+      "style_reference": "assets/home/characters_gallery_ref.webp",
+      "output_file": "qwen_4dir/NPC001/right_walk3.png",
+      "target_size": [
+        1024,
+        1536
+      ],
+      "minimum_source_size": [
+        256,
+        384
+      ],
+      "format": "RGBA PNG with real alpha transparency",
+      "prompt": "【只生成一张独立角色帧，不是Sprite表】角色「韩掌柜」，唯一人物身份与服装依据是传入的已人工验收高清母版。不得重设计脸、发型、发饰、服装、腰带、纹样、鞋、武器；不改变主色、身高比例、头身比和配饰位置。视角：右侧面，true right profile, character faces toward screen-right; visible side of face, nose points right。动作：迈步三，walking key pose C: right foot steps forward and left foot trails, natural counter-swing of arms。保持角色全身完整、发顶与鞋底不裁切，居中站在固定脚底锚点，姿势符合自然人体透视。该图必须独立重绘对应角度；禁止镜像正面、拉伸正面、用头发/衣服遮住脸来假冒背面。严格沿用参考母版的精致国风Q版2.5D手绘武侠风格，干净轮廓、精细衣料。真正透明RGBA背景；单张PNG、竖向约3:4、建议1024×1536或更高分辨率。禁止画第二个人物、场景、地面投影、UI、文字、标签、边框、格子、其他方向或其他动作。每次只输出这一张帧，不要把其余15帧放在同一画布。",
+      "negative_prompt": "拼贴、角色设定表、三视图、四视图、接触表、九宫格、Sprite Sheet、多个姿势出现在同一张图、多个角色、背景场景、UI、按钮、边框、文字、编号、水印、logo、白色假透明棋盘格、实心背景、裁切头顶、裁切鞋底、手脚畸形、换脸、服装变色、额外武器、水平镜像冒充另一方向、正面伪装背面、拉伸现有小头像、过曝光晕、低清模糊",
+      "approval_gate": "This is still a candidate frame. Check all 16 frames and the four views manually before packing/release.",
+      "output_sha256": "4148cd2c809e36cb28c7d3c37521e5dbae0f2e8dfd0465ed33d741691d4c841b",
+      "receipt_file": "production/character_frames/NPC001/receipts/NPC001_right_walk3.json"
+    },
+    {
+      "id": "NPC001_up_idle",
+      "character_id": "NPC001",
+      "character_name": "韩掌柜",
+      "direction": "up",
+      "direction_cn": "背面",
+      "pose": "idle",
+      "pose_cn": "自然站立",
+      "status": "generated_candidate_pending_human_review",
+      "single_image_only": true,
+      "reference_image": "D:\\nimingjianghu\\assets\\characters\\masters\\NPC001_fullbody.png",
+      "reference_size": [
+        1024,
+        1536
+      ],
+      "style_reference": "assets/home/characters_gallery_ref.webp",
+      "output_file": "qwen_4dir/NPC001/up_idle.png",
+      "target_size": [
+        1024,
+        1536
+      ],
+      "minimum_source_size": [
+        256,
+        384
+      ],
+      "format": "RGBA PNG with real alpha transparency",
+      "prompt": "【只生成一张独立角色帧，不是Sprite表】角色「韩掌柜」，唯一人物身份与服装依据是传入的已人工验收高清母版。不得重设计脸、发型、发饰、服装、腰带、纹样、鞋、武器；不改变主色、身高比例、头身比和配饰位置。视角：背面，true rear view from behind, back of head and back of outfit visible, face not visible。动作：自然站立，neutral idle standing pose, both feet planted, arms relaxed naturally, sword stays in its normal sheath。保持角色全身完整、发顶与鞋底不裁切，居中站在固定脚底锚点，姿势符合自然人体透视。该图必须独立重绘对应角度；禁止镜像正面、拉伸正面、用头发/衣服遮住脸来假冒背面。严格沿用参考母版的精致国风Q版2.5D手绘武侠风格，干净轮廓、精细衣料。真正透明RGBA背景；单张PNG、竖向约3:4、建议1024×1536或更高分辨率。禁止画第二个人物、场景、地面投影、UI、文字、标签、边框、格子、其他方向或其他动作。每次只输出这一张帧，不要把其余15帧放在同一画布。",
+      "negative_prompt": "拼贴、角色设定表、三视图、四视图、接触表、九宫格、Sprite Sheet、多个姿势出现在同一张图、多个角色、背景场景、UI、按钮、边框、文字、编号、水印、logo、白色假透明棋盘格、实心背景、裁切头顶、裁切鞋底、手脚畸形、换脸、服装变色、额外武器、水平镜像冒充另一方向、正面伪装背面、拉伸现有小头像、过曝光晕、低清模糊",
+      "approval_gate": "This is still a candidate frame. Check all 16 frames and the four views manually before packing/release.",
+      "output_sha256": "d6b62203b3996c5718c25a1968c81c838bbd6eb8960172758727f85c8e4c7080",
+      "receipt_file": "production/character_frames/NPC001/receipts/NPC001_up_idle.json"
+    },
+    {
+      "id": "NPC001_up_walk1",
+      "character_id": "NPC001",
+      "character_name": "韩掌柜",
+      "direction": "up",
+      "direction_cn": "背面",
+      "pose": "walk1",
+      "pose_cn": "迈步一",
+      "status": "generated_candidate_pending_human_review",
+      "single_image_only": true,
+      "reference_image": "D:\\nimingjianghu\\assets\\characters\\masters\\NPC001_fullbody.png",
+      "reference_size": [
+        1024,
+        1536
+      ],
+      "style_reference": "assets/home/characters_gallery_ref.webp",
+      "output_file": "qwen_4dir/NPC001/up_walk1.png",
+      "target_size": [
+        1024,
+        1536
+      ],
+      "minimum_source_size": [
+        256,
+        384
+      ],
+      "format": "RGBA PNG with real alpha transparency",
+      "prompt": "【只生成一张独立角色帧，不是Sprite表】角色「韩掌柜」，唯一人物身份与服装依据是传入的已人工验收高清母版。不得重设计脸、发型、发饰、服装、腰带、纹样、鞋、武器；不改变主色、身高比例、头身比和配饰位置。视角：背面，true rear view from behind, back of head and back of outfit visible, face not visible。动作：迈步一，walking key pose A: left foot steps forward and right foot trails, natural counter-swing of arms。保持角色全身完整、发顶与鞋底不裁切，居中站在固定脚底锚点，姿势符合自然人体透视。该图必须独立重绘对应角度；禁止镜像正面、拉伸正面、用头发/衣服遮住脸来假冒背面。严格沿用参考母版的精致国风Q版2.5D手绘武侠风格，干净轮廓、精细衣料。真正透明RGBA背景；单张PNG、竖向约3:4、建议1024×1536或更高分辨率。禁止画第二个人物、场景、地面投影、UI、文字、标签、边框、格子、其他方向或其他动作。每次只输出这一张帧，不要把其余15帧放在同一画布。",
+      "negative_prompt": "拼贴、角色设定表、三视图、四视图、接触表、九宫格、Sprite Sheet、多个姿势出现在同一张图、多个角色、背景场景、UI、按钮、边框、文字、编号、水印、logo、白色假透明棋盘格、实心背景、裁切头顶、裁切鞋底、手脚畸形、换脸、服装变色、额外武器、水平镜像冒充另一方向、正面伪装背面、拉伸现有小头像、过曝光晕、低清模糊",
+      "approval_gate": "This is still a candidate frame. Check all 16 frames and the four views manually before packing/release.",
+      "output_sha256": "934fecc9c4f72c56da77f340f7dffa28330cc34ae5dd36d06826ff152bd2bb8c",
+      "receipt_file": "production/character_frames/NPC001/receipts/NPC001_up_walk1.json"
+    },
+    {
+      "id": "NPC001_up_walk2",
+      "character_id": "NPC001",
+      "character_name": "韩掌柜",
+      "direction": "up",
+      "direction_cn": "背面",
+      "pose": "walk2",
+      "pose_cn": "迈步二",
+      "status": "generated_candidate_pending_human_review",
+      "single_image_only": true,
+      "reference_image": "D:\\nimingjianghu\\assets\\characters\\masters\\NPC001_fullbody.png",
+      "reference_size": [
+        1024,
+        1536
+      ],
+      "style_reference": "assets/home/characters_gallery_ref.webp",
+      "output_file": "qwen_4dir/NPC001/up_walk2.png",
+      "target_size": [
+        1024,
+        1536
+      ],
+      "minimum_source_size": [
+        256,
+        384
+      ],
+      "format": "RGBA PNG with real alpha transparency",
+      "prompt": "【只生成一张独立角色帧，不是Sprite表】角色「韩掌柜」，唯一人物身份与服装依据是传入的已人工验收高清母版。不得重设计脸、发型、发饰、服装、腰带、纹样、鞋、武器；不改变主色、身高比例、头身比和配饰位置。视角：背面，true rear view from behind, back of head and back of outfit visible, face not visible。动作：迈步二，walking passing pose B: weight transitions over the front foot, knees and elbows naturally bent, cloth follows motion。保持角色全身完整、发顶与鞋底不裁切，居中站在固定脚底锚点，姿势符合自然人体透视。该图必须独立重绘对应角度；禁止镜像正面、拉伸正面、用头发/衣服遮住脸来假冒背面。严格沿用参考母版的精致国风Q版2.5D手绘武侠风格，干净轮廓、精细衣料。真正透明RGBA背景；单张PNG、竖向约3:4、建议1024×1536或更高分辨率。禁止画第二个人物、场景、地面投影、UI、文字、标签、边框、格子、其他方向或其他动作。每次只输出这一张帧，不要把其余15帧放在同一画布。",
+      "negative_prompt": "拼贴、角色设定表、三视图、四视图、接触表、九宫格、Sprite Sheet、多个姿势出现在同一张图、多个角色、背景场景、UI、按钮、边框、文字、编号、水印、logo、白色假透明棋盘格、实心背景、裁切头顶、裁切鞋底、手脚畸形、换脸、服装变色、额外武器、水平镜像冒充另一方向、正面伪装背面、拉伸现有小头像、过曝光晕、低清模糊",
+      "approval_gate": "This is still a candidate frame. Check all 16 frames and the four views manually before packing/release.",
+      "output_sha256": "28454bb131411205cbd99d272a488d18c77746b3e4a1674b8611ce339a3fbaf8",
+      "receipt_file": "production/character_frames/NPC001/receipts/NPC001_up_walk2.json"
+    },
+    {
+      "id": "NPC001_up_walk3",
+      "character_id": "NPC001",
+      "character_name": "韩掌柜",
+      "direction": "up",
+      "direction_cn": "背面",
+      "pose": "walk3",
+      "pose_cn": "迈步三",
+      "status": "generated_candidate_pending_human_review",
+      "single_image_only": true,
+      "reference_image": "D:\\nimingjianghu\\assets\\characters\\masters\\NPC001_fullbody.png",
+      "reference_size": [
+        1024,
+        1536
+      ],
+      "style_reference": "assets/home/characters_gallery_ref.webp",
+      "output_file": "qwen_4dir/NPC001/up_walk3.png",
+      "target_size": [
+        1024,
+        1536
+      ],
+      "minimum_source_size": [
+        256,
+        384
+      ],
+      "format": "RGBA PNG with real alpha transparency",
+      "prompt": "【只生成一张独立角色帧，不是Sprite表】角色「韩掌柜」，唯一人物身份与服装依据是传入的已人工验收高清母版。不得重设计脸、发型、发饰、服装、腰带、纹样、鞋、武器；不改变主色、身高比例、头身比和配饰位置。视角：背面，true rear view from behind, back of head and back of outfit visible, face not visible。动作：迈步三，walking key pose C: right foot steps forward and left foot trails, natural counter-swing of arms。保持角色全身完整、发顶与鞋底不裁切，居中站在固定脚底锚点，姿势符合自然人体透视。该图必须独立重绘对应角度；禁止镜像正面、拉伸正面、用头发/衣服遮住脸来假冒背面。严格沿用参考母版的精致国风Q版2.5D手绘武侠风格，干净轮廓、精细衣料。真正透明RGBA背景；单张PNG、竖向约3:4、建议1024×1536或更高分辨率。禁止画第二个人物、场景、地面投影、UI、文字、标签、边框、格子、其他方向或其他动作。每次只输出这一张帧，不要把其余15帧放在同一画布。",
+      "negative_prompt": "拼贴、角色设定表、三视图、四视图、接触表、九宫格、Sprite Sheet、多个姿势出现在同一张图、多个角色、背景场景、UI、按钮、边框、文字、编号、水印、logo、白色假透明棋盘格、实心背景、裁切头顶、裁切鞋底、手脚畸形、换脸、服装变色、额外武器、水平镜像冒充另一方向、正面伪装背面、拉伸现有小头像、过曝光晕、低清模糊",
+      "approval_gate": "This is still a candidate frame. Check all 16 frames and the four views manually before packing/release.",
+      "output_sha256": "628a5986228ded8bf941107b401961fe0cdf7b97f539ac3054101ff59373cc11",
+      "receipt_file": "production/character_frames/NPC001/receipts/NPC001_up_walk3.json"
+    }
+  ],
+  "never_auto_approve": true
+}
