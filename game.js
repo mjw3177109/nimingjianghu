@@ -35,17 +35,17 @@ function townCamera(){const map=currentTilemap(),player=visualPlayer(),px=(playe
 function canvasPoint(e){const r=canvas.getBoundingClientRect();return {x:(e.clientX-r.left)/r.width*640,y:(e.clientY-r.top)/r.height*360}}
 function townTileFromScreen(sx,sy){const c=townCamera();return {x:Math.floor((sx+c.x)/32),y:Math.floor((sy+c.y)/32)}}
 // Click the visible body rather than the invisible 32px grid cell.
-// All characters share the same 54x72 render anchor; player is excluded.
+// Use the current rendered PNG frame and its real alpha; player is excluded.
 function pickActorAtScreen(sx,sy){
  const cam=townCamera(),scene=world.maps[state.map];
  const actors=[
-  ...(scene.npcs||[]).map(a=>({x:a.x,y:a.y,type:'npc',id:a.id})),
-  ...(state.banditAlive?(scene.enemies||[]):[]).map(a=>({x:a.x,y:a.y,type:'enemy'}))
+  ...(scene.npcs||[]).map(a=>({...a,type:'npc'})),
+  ...(state.banditAlive?(scene.enemies||[]):[]).map(a=>({...a,type:'enemy'}))
  ];
  return actors.filter(a=>{
   const centerX=(a.x+.5)*32-cam.x,feetY=(a.y+1)*32-cam.y;
-  const rise=feetY-sy;
-  return rise>=5&&rise<=69&&Math.abs(sx-centerX)<=(rise>46?17:22);
+  const key=a.type==='enemy'?'bandit':npcSpriteKey(a);
+  return actorSpriteHit(key,defaultActorFacing(key),centerX,feetY,sx,sy);
  }).sort((a,b)=>b.y-a.y)[0]||null;
 }
 
@@ -114,6 +114,33 @@ function drawActorSprite(key,feetX,feetY,facing,moving=false){
   }else{ctx.fillStyle='#dfc9ad';ctx.fillRect(feetX-10,feetY-57,20,55)}
  }
  ctx.restore();
+}
+const actorHitMasks=new WeakMap();
+function npcSpriteKey(npc){return npc.icon==='shop'?'innkeeper':npc.icon==='heal'?'healer':'oldman'}
+function defaultActorFacing(key){return key==='healer'||key==='bandit'?'left':'down'}
+function actorSpriteHit(key,facing,feetX,feetY,sx,sy){
+ const sheet=animatedSheets[key];
+ const hasSheet=sheet&&sheet.complete&&sheet.naturalWidth>=384&&sheet.naturalHeight>=512&&sheet.naturalWidth%4===0&&sheet.naturalHeight%4===0;
+ const image=hasSheet?sheet:imgs[key];
+ if(!image||!image.complete||!image.naturalWidth)return sx>=feetX-10&&sx<feetX+10&&sy>=feetY-57&&sy<feetY-2;
+ const {width,height}=hasSheet?{width:54,height:72}:spriteDrawSize(key,image);
+ const x=Math.floor((sx-Math.round(feetX-width/2))*2),y=Math.floor((sy-Math.round(feetY-height+1))*2);
+ if(x<0||y<0||x>=width*2||y>=height*2)return false;
+ const row=hasSheet?(faceOrder[facing]??0):0,signature=width+'x'+height+':'+row;
+ let frames=actorHitMasks.get(image);if(!frames){frames=new Map();actorHitMasks.set(image,frames)}
+ if(!frames.has(signature)){
+  try{
+   const c=document.createElement('canvas');c.width=width*2;c.height=height*2;
+   const g=c.getContext('2d',{willReadFrequently:true});g.imageSmoothingEnabled=true;
+   if(hasSheet){const fw=image.naturalWidth/4,fh=image.naturalHeight/4;g.drawImage(image,0,row*fh,fw,fh,0,0,c.width,c.height)}
+   else g.drawImage(image,0,0,c.width,c.height);
+   frames.set(signature,g.getImageData(0,0,c.width,c.height).data);
+  }catch(error){console.warn('人物像素命中读取失败',error);frames.set(signature,null)}
+ }
+ const pixels=frames.get(signature);
+ // Same-origin PNGs use exact rendered alpha. Keep a loading/error fallback playable.
+ if(!pixels){const rise=feetY-sy;return rise>=5&&rise<=69&&Math.abs(sx-feetX)<=(rise>46?17:22)}
+ return pixels[(y*width*2+x)*4+3]>16;
 }
 function posEq(a,b){return a.x===b.x&&a.y===b.y}
 function inBounds(x,y){const m=currentTilemap();return x>=0&&y>=0&&x<m.width&&y<m.height}
@@ -226,7 +253,7 @@ function drawTileTown(){
  // Painter's algorithm: every actor, railing, canopy and front structure has
  // a world-space foot depth. Do not paint every foreground object over every actor.
  const actors=[];
- for(const npc of world.maps[state.map].npcs||[])actors.push({x:npc.x,y:npc.y,sprite:npc.icon==='shop'?'innkeeper':npc.icon==='heal'?'healer':'oldman',name:npc.name,id:npc.id});
+ for(const npc of world.maps[state.map].npcs||[])actors.push({x:npc.x,y:npc.y,sprite:npcSpriteKey(npc),name:npc.name,id:npc.id});
  if(state.map==='road'&&state.banditAlive)for(const enemy of world.maps.road.enemies||[])actors.push({x:enemy.x,y:enemy.y,sprite:'bandit',name:enemy.name+' ⚔'});
  const showPos=visualPlayer();actors.push({x:showPos.x,y:showPos.y,sprite:'player',name:'',facing:state.facing||'down',moving:!!motion&&motion.progress<1});
  const drawQueue=[];
@@ -234,7 +261,7 @@ function drawTileTown(){
   const px=(actor.x+.5)*32-cam.x,py=(actor.y+1)*32-cam.y;
   if(px<-45||px>685||py<-70||py>430)return;
   ctx.fillStyle='#16272988';ctx.beginPath();ctx.ellipse(px,py-3,13,4,0,0,Math.PI*2);ctx.fill();
-  const facing=actor.facing||(actor.sprite==='healer'?'left':actor.sprite==='bandit'?'left':'down');
+  const facing=actor.facing||defaultActorFacing(actor.sprite);
   drawActorSprite(actor.sprite,px,py,facing,actor.moving||false);
  }});
  // Back bridge rail is behind walkers; front rail is ahead of walkers on

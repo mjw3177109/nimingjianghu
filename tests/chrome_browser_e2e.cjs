@@ -107,6 +107,21 @@ async function main(){
   await page.mouse.click(transparentCorner.x,transparentCorner.y);await delay(350);
   assert.deepEqual((await state()).pos,beforeCorner,'Transparent sprite corner must not start NPC travel');
   assert.equal((await state()).route,0);assert(!(await page.locator('#dialogue').isVisible()));
+  // This real transparent source pixel lies INSIDE the former head polygon.
+  // Rejecting only the outer rectangle cannot prevent this false interaction.
+  const transparentBody=await page.evaluate(async()=>{
+   const image=new Image();image.src='assets/sprites/innkeeper.png';await image.decode();
+   const c=document.createElement('canvas');c.width=42;c.height=72;
+   const g=c.getContext('2d');g.drawImage(image,0,0,42,72);
+   const cam=window.NMFinal.debugCamera(),r=document.getElementById('game').getBoundingClientRect();
+   return {alpha:g.getImageData(5,5,1,1).data[3],
+    x:r.left+((8.5*32-16-cam.x)/640)*r.width,y:r.top+((11*32-66-cam.y)/360)*r.height};
+  });
+  assert.equal(transparentBody.alpha,0,'Inner-body regression must use a real transparent pixel');
+  await page.mouse.click(transparentBody.x,transparentBody.y);await delay(350);
+  assert.equal((await state()).route,0,'Transparent pixel inside the old head polygon must not target an NPC');
+  assert.deepEqual((await state()).pos,beforeCorner,'Transparent inner head pixel must not start NPC travel');
+  assert(!(await page.locator('#dialogue').isVisible()));
   // The visible right edge of the innkeeper's torso is in the adjacent
   // tile (x=9). A tile-only hitbox used to mistake this click for walking.
   const actorEdge=await page.evaluate(()=>{
@@ -144,9 +159,22 @@ async function main(){
   await walkTo(36,12);await clickTile(39,12);
   await page.waitForFunction(()=>window.NMFinal.debugState().map==='road',{timeout:12000});
   await walkTo(15,10);
-  await clickTile(17,10);await delay(250);
+  const banditPixels=await page.evaluate(async()=>{
+   const image=new Image();image.src='assets/sprites/bandit.png';await image.decode();
+   const scale=Math.min(72/image.naturalHeight,76/image.naturalWidth),w=Math.round(image.naturalWidth*scale),h=Math.round(image.naturalHeight*scale);
+   const c=document.createElement('canvas');c.width=w*2;c.height=h*2;
+   const g=c.getContext('2d');g.drawImage(image,0,0,c.width,c.height);
+   const cam=window.NMFinal.debugCamera(),r=document.getElementById('game').getBoundingClientRect();
+   const screen=(x,y)=>({x:r.left+((x-cam.x)/640)*r.width,y:r.top+((y-cam.y)/360)*r.height});
+   return {groundAlpha:g.getImageData(Math.floor((w/2-32)*2),(h-2)*2,1,1).data[3],
+    bodyAlpha:g.getImageData(w,(h-41)*2,1,1).data[3],
+    ground:screen(17.5*32,11*32-1),body:screen(18.5*32,11*32-40)};
+  });
+  assert.equal(banditPixels.groundAlpha,0,'Reserved-floor click must avoid the painted wide weapon');
+  await page.mouse.click(banditPixels.ground.x,banditPixels.ground.y);await delay(250);
   assert.deepEqual((await state()).pos,{x:15,y:10},'Wide bandit sprite must not overlap player');
-  await clickTile(18,10);
+  assert(banditPixels.bodyAlpha>16,'Battle click must hit the actual painted bandit body');
+  await page.mouse.click(banditPixels.body.x,banditPixels.body.y);
   await page.locator('#battle').waitFor({state:'visible',timeout:10000});
   await capture('road-battle');
   const combatPos=(await state()).pos;await page.keyboard.press('ArrowLeft');assert.deepEqual((await state()).pos,combatPos,'Combat must reject movement');

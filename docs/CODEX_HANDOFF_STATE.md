@@ -2,7 +2,27 @@
 
 更新时间：2026-10-23（Asia/Shanghai）。
 
-## 最新工作：用户批准全身母版，进入112帧生产（优先读取）
+## 最新周期：v1.0.11 角色PNG透明像素命中（优先读取）
+
+- 已核对基线GitHub HEAD、本地HEAD及Vercel均为 `f6ff627bf854a8bd2c99e359ea7a8a3076cf1c19`，Preview READY `dpl_CgFwoS1YqAJdAZpHG3f4U7KqLk9R`。上一轮PR CI #148 `39824144777`已completed/success。
+- 实际复现：韩掌柜原PNG缩放42×72后(5,5)的真实alpha=0，处于旧头部几何轮廓内；点击后主角从(10,11)移动到(8,11)。失败证据 `qa/1.0.11-before.log`、`qa/1.0.11-before/failure.json`/failure.png。
+- 浏览器新增按图像/朝向缓存的2倍画布RGBA命中掩码，沿用实际渲染PNG、待机帧行、尺寸及脚底锚点，Alpha>16才命中，与Pygame既有阈值一致。NPC图像键和默认朝向由绘制/拾取共用函数选择；未加载时按实际占位矩形，读像素失败时保留可玩的轮廓回退并记录一次警告。前景结构和其他人物的遮挡优先级仍可后续单独检查。
+- 新增单元契约覆盖透明内点、实体像素、微弱Alpha、脚下地面、缓存读回次数、HD图集正确idle/左向行；主流程VM图像夹具补齐高度和透明顶缘，真实像素另由Chromium原PNG验证，不把模拟图当美术证据。
+- 真实Chromium扩展原轮廓内透明点回归；山贼测试改为实际透明的保留脚印地面与真实实体躯干分别点击，避免把可见刀身误当不可交互的地面。真实本地正反两条首章均PASS，包含旧透明角、内透明像素、正常躯干、最后一步交互、碰撞、战斗、结尾和读档；报告 `qa/1.0.11-local/manual-first/report.json`、`qa/1.0.11-local/trace-first/report.json`，无JS异常/失败请求。
+- npm test/build通过；Python24项全通过无跳过。日志 `qa/1.0.11-unit.log`、`qa/1.0.11-build.log`、`qa/1.0.11-python.log`。package=1.0.11，index缓存标记统一更新。
+- 本轮只改game.js、回归测试、版本/缓存、README和本状态，正式美术审批、112帧候选、游戏Sprite绑定均未改。仍等待用户对方向/步态的真实审核，不发布Production。
+- 下一步：提交真实修复到指定GitHub分支，核实新SHA Preview，执行线上正反首章；完成后补记最终SHA与报告，不用基线部署冒充新版本。
+
+## 最新交付：112张独立动作帧候选完成，待人工审核（优先读取）
+
+- 最终发布SHA：`f6ff627bf854a8bd2c99e359ea7a8a3076cf1c19`。本地HEAD、GitHub指定分支均一致，代码树 `1b01e44bf7dde706fd92ca89fb91c4c4b2de9357`。保留Gitee origin。方向帧主提交是e3da8d0；测试修复两次Git直连失败后，经GitHub接口发布，完整代码树与本地9000db完全一致，原9000db保留在 `codex/local-1.0.10-9000db`，本地同步没有重置文件。
+- 最终Preview：READY `dpl_CgFwoS1YqAJdAZpHG3f4U7KqLk9R`，SHA与上项一致，target=null（Preview）。URL：`https://nimingjianghu-9vegm54ah-bobos-projects-e9f8bfba.vercel.app/`，审核页同站 `/art-review.html`。未发布Production。
+- 最终线上真实Chromium：七人112张原生PNG均经页面同源fetch下载、PNG头/尺寸与SHA256逐张核对PASS；正反两条首章均PASS，到quest=5并刷新继续，全部无JS异常/失败请求。报告 `qa/1.0.10-final/art-review/report.json`、`qa/1.0.10-final/manual-first/report.json`、`qa/1.0.10-final/trace-first/report.json`；日志 `qa/1.0.10-final-*.log`。
+- npm test/build均通过；带Pillow的Python24项通过无跳过。最终push CI #147 `39824136480` completed/success，`https://github.com/mjw3177109/nimingjianghu/actions/runs/39824136480`；PR CI #148 `39824144777`最近读取仍in_progress，不能提前称成功。
+- `qa/release.json`、`qa/1.0.10-release.json`已保存最终SHA/部署/测试证据，并实际校验报告URL和SHA。此顶部发布完成后的事实为本地续接补记，尚未为状态文字单独造提交；工作区仅本状态文件有补记。
+- 用户已批准七张全身母版，不要重复催审母版。本轮112张方向动作帧、七套图集和头像仍未获人工批准，运行Sprite绑定未改，发布门禁正确阻断。用户下一次应审核本轮方向/步态；只有收到对应真实审批后，才按P3-G release要求记录新证据并接入运行版，不虚构六项人工审核字段。
+- 源PNG：`qwen_4dir/<ID>/`（全部已在GitHub与Preview保留）；实际生成提示词/母版SHA/输出SHA：`production/character_frames/<ID>/receipts/`；审核说明 `docs/ART_FRAME_CANDIDATES_2026-10-23.md`。本轮使用内置imagegen逐张生成，未用镜像/变形代替独立转向图。
+- 后续：先复核#148结果；等待动作帧人工审核期间可按原始优先级继续真实玩法、遮挡、屏幕命中轮廓/存档边界问题。Pygame窗口仍未实际打开验收，不把Python24项通过称为全平台最终验收。
 
 - e3da8d0已推送并核对GitHub HEAD；Vercel同SHA Preview READY `dpl_5nSEXVnJdM4g9PceKoFnAGwYDku1`，`https://nimingjianghu-ojkybqys1-bobos-projects-e9f8bfba.vercel.app/`。CI pull_request #146 `39822395041`已success，push #145仍需最终核对。
 - 线上审核页可打开，但Playwright的Node APIRequest下载元数据发生ETIMEDOUT；已改为Chromium页面内同源fetch，并直接在浏览器读取PNG头/尺寸、计算SHA256。新核验在本地112张全通过，日志 `qa/1.0.10-local-master-review-browserfetch.log`。线上新路径核验仍在运行，不能在结束前标为成功。测试新增独立ART_REVIEW_OUTPUT目录以隔离证据。
